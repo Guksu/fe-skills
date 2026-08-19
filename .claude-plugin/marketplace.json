@@ -1,0 +1,22 @@
+{
+  "name": "fe-skills",
+  "owner": {
+    "name": "Guksu",
+    "url": "https://github.com/Guksu"
+  },
+  "metadata": {
+    "description": "프론트엔드 애니메이션/UI/UX 구현 스킬 모음 — 각 스킬은 사용 방법·예시 코드·라이브 데모를 갖춘다",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "fe-skills",
+      "source": "./plugin",
+      "description": "프론트엔드 애니메이션/UI/UX 구현 스킬 모음. 데모: https://guksu.github.io/fe-skills/",
+      "version": "0.1.0",
+      "author": { "name": "Guksu" },
+      "homepage": "https://github.com/Guksu/fe-skills",
+      "keywords": ["frontend", "animation", "ui", "ux", "css", "react"]
+    }
+  ]
+}
