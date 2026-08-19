@@ -20,6 +20,8 @@
 - **데모 앱** — `demo/`(Vite+React+TS, npm workspace 루트 호이스팅). `@skills` alias로 plugin/skills/*/assets/를 직접 import(복사본 0). 해시 라우팅 + 데모 레지스트리(`demo/src/demos/index.ts`). GitHub Pages 배포 워크플로(`.github/workflows/deploy-demo.yml`, main 푸시 시).
 - **게이트 통과** — ① 빌드·린트·테스트(Vitest 10/10, TDD로 Presence·ScrollReveal 로직 선테스트) ② 스킬 구조 검증(name-디렉토리 일치·링크 유효·description 176~184자) ③ 브라우저 실동작(진입/퇴장 중간 프레임·스태거·once=false 재감춤 스크린샷 확인, 콘솔 에러 0) ④ fe-craft 모션 리뷰 — 발견 4건 수정: reduced-motion 특이도 버그(미디어 쿼리가 변형 선택자에 짐), reduced-motion에서 페이드까지 죽던 것을 "이동만 제거"로 완화, 스태거 120→80ms, fx-fade 용도 안내 추가.
 
+- **(추가) 바닐라 코어 + React 래퍼 재구성** — 초기 구현이 React 전용이라 순수 JS에서 못 쓴다는 사용자 지적으로 2층 구조로 교정(설계 문답 5라운드로 기록). 프레임워크 무관 코어 `createPresence.ts`·`revealOnScroll.ts`(의존성 0, DOM API로 data 속성 구동)를 TDD(코어 테스트 12건 선작성)로 추가하고, React 래퍼(Presence.tsx·useScrollReveal.ts)가 코어를 사용하도록 리팩토링(기존 React 테스트 10건 무수정 통과 = 외부 동작 불변). SKILL.md를 React/순수 JS 2트랙으로 갱신, JS 프로젝트 복사 시 타입 제거 안내 추가. 총 테스트 22건.
+
 ## 3. 주의사항
 
 - **원격 브랜치 삭제 미완** — `claude/frontend-animation-skills-repo-ysw79q`(이전 웹 세션 작업물) 삭제는 사용자 전담: `git push origin --delete claude/frontend-animation-skills-repo-ysw79q`
@@ -27,3 +29,4 @@
 - **GitHub Pages 설정 필요** — 저장소 Settings → Pages → Source를 "GitHub Actions"로 한 번 설정해야 첫 배포가 된다.
 - **validateHarness warn 4건은 의도됨** — 풀 티어 템플릿(retro·loop-spec·digest·report) 부재. 라이트 티어 설계라 정상.
 - 데모 배포 전 점검은 `fe-predeploy` 스킬로 실행한다(아직 미실행 — 첫 Pages 배포 전 권장).
+- **파일명 대소문자 함정** — 코어 파일을 `presence.ts`로 지으면 macOS 대소문자 무시 파일시스템에서 `Presence.tsx`와 충돌해 import가 엉뚱한 파일로 해석된다. 코어는 함수명 그대로(`createPresence.ts`) 짓는다 — 이후 스킬도 동일 규칙.
