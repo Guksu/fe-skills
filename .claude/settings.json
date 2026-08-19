@@ -1,0 +1,45 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/blockGitMutation.mjs\""
+          },
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/blockSecretAccess.mjs\""
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/branchGuard.mjs\""
+          }
+        ]
+      }
+    ]
+  },
+  "permissions": {
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./**/credentials*)",
+      "Read(./**/*.pem)",
+      "Read(./**/secrets/**)"
+    ],
+    "allow": [
+      "Bash(npm test:*)",
+      "Bash(npm run build:*)",
+      "Bash(npm run lint:*)",
+      "Bash(npm run dev:*)",
+      "Bash(npx vitest:*)",
+      "Bash(npx tsc:*)"
+    ]
+  }
+}
