@@ -174,3 +174,61 @@ button:hover {
     border-bottom: 1px solid var(--border);
   }
 }
+
+/* --- 데모 공통: 옵션 컨트롤 패널 --- */
+.controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem 1.5rem;
+  padding: 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.controls label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+}
+
+.controls label > span {
+  color: var(--text-dim);
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.controls code {
+  color: var(--accent);
+  font-size: 0.75rem;
+}
+
+.controls output {
+  font-variant-numeric: tabular-nums;
+  font-size: 0.85rem;
+}
+
+.controls input[type='range'] {
+  accent-color: var(--accent);
+  width: 100%;
+}
+
+.controls select {
+  font: inherit;
+  font-size: 0.85rem;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.4rem 0.5rem;
+  max-width: 100%;
+}
+
+.controls-note {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+}

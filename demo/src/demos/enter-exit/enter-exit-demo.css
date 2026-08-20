@@ -1,3 +1,9 @@
+.playground {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
 .demo-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -10,17 +16,19 @@
   gap: 1rem;
 }
 
-.demo-cell-wide {
-  grid-column: 1 / -1;
-}
-
+/* 높이를 고정해 카드가 나타나고 사라져도 주변 레이아웃이 흔들리지 않는다 */
 .stage {
-  min-height: 120px;
+  height: 160px;
   display: grid;
   place-items: center;
   border: 1px dashed var(--border);
   border-radius: 12px;
   padding: 1rem;
+  overflow: hidden;
+}
+
+.stage-toast {
+  height: 120px;
 }
 
 .demo-card {
@@ -38,6 +46,12 @@
   font-size: 0.8rem;
   color: var(--text-dim);
   font-family: monospace;
+}
+
+.demo-card em {
+  font-style: normal;
+  font-size: 0.75rem;
+  color: var(--text-dim);
 }
 
 .demo-toast {

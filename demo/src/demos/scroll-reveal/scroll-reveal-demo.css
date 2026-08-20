@@ -5,6 +5,12 @@
   padding-bottom: 40vh;
 }
 
+.reveal-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
 .reveal-toolbar {
   display: flex;
   align-items: center;
