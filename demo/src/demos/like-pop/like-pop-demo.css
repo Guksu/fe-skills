@@ -1,0 +1,58 @@
+.post-card {
+  max-width: 420px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.post-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.75rem 1rem;
+}
+
+.post-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--accent-soft);
+}
+
+.post-image {
+  aspect-ratio: 1;
+  display: grid;
+  place-content: center;
+  gap: 0.5rem;
+  text-align: center;
+  background: linear-gradient(135deg, #2a2f45, #40222e 60%, #173042);
+  cursor: pointer;
+}
+
+.post-image span {
+  font-size: 4rem;
+}
+
+.post-image p {
+  margin: 0;
+  color: var(--text-dim);
+}
+
+.post-footer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem 0.9rem;
+}
+
+.post-footer .like-btn {
+  font-size: 1.05rem;
+}
+
+.post-caption {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
