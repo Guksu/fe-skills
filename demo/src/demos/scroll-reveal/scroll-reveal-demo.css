@@ -1,0 +1,41 @@
+.reveal-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding-bottom: 40vh;
+}
+
+.reveal-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.reveal-toolbar p {
+  color: var(--text-dim);
+}
+
+.reveal-spacer {
+  display: grid;
+  place-items: center;
+  min-height: 60vh;
+  color: var(--text-dim);
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+}
+
+.reveal-card {
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.reveal-card-repeat {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
