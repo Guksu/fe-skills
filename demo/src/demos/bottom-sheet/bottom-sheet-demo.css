@@ -1,0 +1,58 @@
+.sheet-demo-stage {
+  min-height: 200px;
+  display: grid;
+  place-content: center;
+  gap: 1rem;
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+  text-align: center;
+}
+
+.sheet-demo-result {
+  margin: 0;
+  color: var(--text-dim);
+}
+
+/* 데모는 다크 테마라 시트 배경을 표면색으로 덮어쓴다 — --sheet-bg 커스터마이즈 예시 */
+.demo-sheet {
+  --sheet-bg: #1d2129;
+  color: var(--text);
+  padding-bottom: env(safe-area-inset-bottom, 16px);
+}
+
+.sheet-menu {
+  list-style: none;
+  margin: 0;
+  padding: 0.5rem 0.75rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.sheet-menu button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  background: none;
+  border: none;
+  padding: 0.85rem 0.75rem;
+  border-radius: 10px;
+  text-align: left;
+}
+
+.sheet-menu button:hover {
+  background: var(--accent-soft);
+  border: none;
+}
+
+.sheet-menu-emoji {
+  font-size: 1.4rem;
+}
+
+.sheet-menu strong {
+  display: block;
+}
+
+.sheet-menu small {
+  color: var(--text-dim);
+}

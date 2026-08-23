@@ -1,0 +1,23 @@
+.banner-slide {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 1.75rem 1.5rem;
+  min-height: 150px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: linear-gradient(135deg, var(--surface), var(--accent-soft));
+}
+
+.banner-emoji {
+  font-size: 2rem;
+}
+
+.banner-slide p {
+  margin: 0;
+  color: var(--text-dim);
+}
+
+.carousel-dots {
+  color: var(--accent);
+}

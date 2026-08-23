@@ -1,0 +1,32 @@
+.feed-frame {
+  height: 380px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  /* 데모: 마우스 드래그 당김 중 텍스트 선택 방지 */
+  user-select: none;
+}
+
+.feed-list {
+  list-style: none;
+  margin: 0;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.feed-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg);
+}
+
+.feed-item span {
+  color: var(--text-dim);
+  font-size: 0.8rem;
+}

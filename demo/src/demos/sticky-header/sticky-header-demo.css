@@ -1,0 +1,43 @@
+/* 데모는 페이지 전체 대신 스크롤 프레임 안에서 보여준다 */
+.header-demo-frame {
+  height: 420px;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.header-demo-bar {
+  height: 52px;
+  padding: 0 1.25rem;
+  font-weight: 700;
+  --header-bg: rgba(23, 26, 33, 0.88);
+}
+
+.header-demo-hero {
+  padding: 2.5rem 1.25rem 1.5rem;
+}
+
+.header-demo-title {
+  margin: 0 0 0.4rem;
+  font-size: 1.8rem;
+}
+
+.header-demo-hero p {
+  margin: 0;
+  color: var(--text-dim);
+}
+
+.header-demo-section {
+  padding: 1.25rem;
+  border-top: 1px solid var(--border);
+}
+
+.header-demo-section h3 {
+  margin: 0 0 0.4rem;
+}
+
+.header-demo-section p {
+  margin: 0;
+  color: var(--text-dim);
+}

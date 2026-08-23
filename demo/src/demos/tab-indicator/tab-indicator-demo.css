@@ -1,0 +1,43 @@
+.tab-demo {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.demo-tab-bar {
+  border-bottom: 1px solid var(--border);
+  color: var(--accent); /* 인디케이터 기본색(currentColor)이 이 색을 따른다 */
+}
+
+.demo-tab {
+  background: none;
+  border: none;
+  border-radius: 0;
+  padding: 0.9rem 1.1rem;
+  color: var(--text-dim);
+  transition: color 150ms ease;
+}
+
+.demo-tab:hover {
+  background: none;
+  border: none;
+  color: var(--text);
+}
+
+.demo-tab[aria-selected='true'] {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.tab-panel {
+  padding: 2rem 1.5rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.tab-panel p {
+  margin: 0;
+  color: var(--text-dim);
+}
