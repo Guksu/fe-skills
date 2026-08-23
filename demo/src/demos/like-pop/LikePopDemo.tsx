@@ -44,7 +44,7 @@ export const LikePopDemo = () => {
         </label>
         <p className="controls-note">
           사진을 빠르게 두 번 클릭(더블탭)하면 탭 지점에 하트가 터집니다 — 더블탭은 항상 좋아요
-          설정이고, 취소는 버튼으로만 됩니다(인스타그램 관례).
+          설정이고, 취소는 버튼으로만 됩니다.
         </p>
       </section>
 
