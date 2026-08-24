@@ -71,15 +71,36 @@ button:hover {
 .sidebar nav {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.9rem;
   margin-top: 1rem;
+  overflow-y: auto;
+}
+
+.nav-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.nav-group-title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--text-dim);
+  padding: 0 0.75rem 0.3rem;
+}
+
+.nav-emoji {
+  margin-right: 0.45rem;
+  font-size: 0.85rem;
 }
 
 .sidebar nav a {
   color: var(--text-dim);
   text-decoration: none;
-  padding: 0.5rem 0.75rem;
+  padding: 0.4rem 0.75rem;
   border-radius: 8px;
+  font-size: 0.9rem;
   transition: background 150ms ease, color 150ms ease;
 }
 
@@ -134,33 +155,136 @@ button:hover {
   margin-top: 0;
 }
 
+.home-intro {
+  color: var(--text-dim);
+  max-width: 60ch;
+}
+
+.home-search {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1.25rem 0 0.5rem;
+}
+
+.home-search input {
+  flex: 1;
+  max-width: 420px;
+  font: inherit;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.6rem 0.9rem;
+}
+
+.home-search input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.home-search-count {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+}
+
+.home-group h2 {
+  font-size: 0.95rem;
+  color: var(--text-dim);
+  margin: 1.75rem 0 0.75rem;
+}
+
 .demo-list {
   list-style: none;
   padding: 0;
-  display: flex;
-  flex-direction: column;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 0.75rem;
 }
 
 .demo-list a {
   display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  padding: 1rem 1.25rem;
+  gap: 0.8rem;
+  align-items: flex-start;
+  height: 100%;
+  padding: 1rem 1.1rem;
   border: 1px solid var(--border);
   border-radius: 12px;
+  background: var(--surface);
   color: var(--text);
   text-decoration: none;
-  transition: border-color 150ms ease;
+  transition: border-color 150ms ease, translate 150ms ease;
 }
 
 .demo-list a:hover {
   border-color: var(--accent);
+  translate: 0 -2px;
 }
 
-.demo-list span {
+.demo-card-emoji {
+  font-size: 1.4rem;
+  line-height: 1.2;
+}
+
+.demo-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.demo-card-body span {
   color: var(--text-dim);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
+}
+
+.home-empty {
+  color: var(--text-dim);
+  margin-top: 2rem;
+}
+
+/* --- 데모 페이지 하단: 사용 예시 --- */
+.usage {
+  margin-top: 2.5rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.usage-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.8rem 1.1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.usage-head h2 {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.usage-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.usage-actions a {
+  color: var(--accent);
+  font-size: 0.85rem;
+  text-decoration: none;
+}
+
+.usage-code {
+  margin: 0;
+  padding: 1.1rem 1.25rem;
+  overflow-x: auto;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: var(--text);
 }
 
 @media (max-width: 720px) {
@@ -231,4 +355,16 @@ button:hover {
   margin: 0;
   font-size: 0.8rem;
   color: var(--text-dim);
+}
+
+.controls-inline {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.controls-inline input[type='checkbox'] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent);
 }
