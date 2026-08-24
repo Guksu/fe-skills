@@ -11,7 +11,10 @@ const SLIDES = [
 ]
 
 export const CarouselDemo = () => {
-  const { trackRef, activeIndex, goTo } = useCarousel()
+  const [autoplay, setAutoplay] = useState(false)
+  const { trackRef, activeIndex, goTo, autoplayOn, toggleAutoplay } = useCarousel({
+    autoplayMs: autoplay ? 2500 : undefined,
+  })
   const [slideWidth, setSlideWidth] = useState(70)
 
   return (
@@ -31,9 +34,23 @@ export const CarouselDemo = () => {
           />
           <output>{slideWidth}%</output>
         </label>
+        <label>
+          <span>
+            자동재생 <code>autoplayMs</code>
+          </span>
+          <span className="controls-inline">
+            <input type="checkbox" checked={autoplay} onChange={(e) => setAutoplay(e.target.checked)} />
+            {autoplay && (
+              <button type="button" onClick={toggleAutoplay}>
+                {autoplayOn ? '⏸ 일시정지' : '▶ 재생'}
+              </button>
+            )}
+          </span>
+        </label>
         <p className="controls-note">
           트랙을 드래그(스와이프)하거나 도트를 눌러보세요 — 스냅·감속은 전부 CSS scroll-snap이
-          처리합니다. 폭을 100% 미만으로 두면 다음 슬라이드가 살짝 보입니다.
+          처리합니다. 자동재생은 호버·키보드 포커스 중엔 멈추고, 일시정지 버튼은 접근성
+          필수입니다(WCAG 2.2.2).
         </p>
       </section>
 

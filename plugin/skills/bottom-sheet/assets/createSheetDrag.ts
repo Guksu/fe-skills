@@ -16,6 +16,11 @@ type CreateSheetDragOptions = {
   dismissThresholdPx?: number
   /** 놓는 순간 속도가 이 이상이면 거리와 무관하게 닫힘 (px/ms, 기본 0.5) */
   dismissVelocity?: number
+  /** 스냅 위치들(px, 0=전체 열림·클수록 낮게 열림). 지정하면 놓을 때 가까운 스냅으로 정착하고,
+   *  마지막 스냅 아래로 던지거나 임계를 넘기면 닫힌다. 0을 반드시 포함하라 */
+  snapOffsetsPx?: number[]
+  /** 스냅 정착 시 — 현재 오프셋(px)을 알려준다 */
+  onSnap?: (offsetPx: number) => void
 }
 
 export const createSheetDrag = ({
@@ -24,6 +29,8 @@ export const createSheetDrag = ({
   onDismiss,
   dismissThresholdPx = 120,
   dismissVelocity = 0.5,
+  snapOffsetsPx,
+  onSnap,
 }: CreateSheetDragOptions) => {
   let dragging = false
   let startY = 0
@@ -31,6 +38,9 @@ export const createSheetDrag = ({
   let lastY = 0
   let lastTime = 0
   let velocity = 0
+  let baseOffset = 0 // 드래그 시작 시점의 스냅 오프셋 — 현재 inline transform에서 읽는다
+
+  const snaps = snapOffsetsPx ? [...snapOffsetsPx].sort((a, b) => a - b) : null
 
   // 드래그 중 시트 안 텍스트가 끌려 선택되는 부작용을 막는다
   const preventSelection = (event: Event) => event.preventDefault()
@@ -43,6 +53,7 @@ export const createSheetDrag = ({
     lastTime = Date.now()
     velocity = 0
     deltaY = 0
+    baseOffset = Number(/translateY\((-?\d+(?:\.\d+)?)px\)/.exec(sheet.style.transform)?.[1] ?? 0)
     sheet.style.transition = 'none'
     document.addEventListener('selectstart', preventSelection)
     // 포인터가 요소 밖으로 나가도 move/up을 계속 받는다 (jsdom 등 미지원 환경 가드)
@@ -57,7 +68,10 @@ export const createSheetDrag = ({
     if (now > lastTime) velocity = (event.clientY - lastY) / (now - lastTime)
     lastY = event.clientY
     lastTime = now
-    deltaY = Math.max(0, event.clientY - startY) // 위로는 끌려 올라가지 않는다
+    // 스냅 모드에서는 현재 오프셋 기준 상대 이동(위로 끌어 더 열 수 있다), 아니면 아래로만
+    deltaY = snaps
+      ? Math.max(0, baseOffset + (event.clientY - startY))
+      : Math.max(0, event.clientY - startY)
     sheet.style.transform = `translateY(${deltaY}px)`
   }
 
@@ -66,6 +80,12 @@ export const createSheetDrag = ({
     dragging = false
     document.removeEventListener('selectstart', preventSelection)
     sheet.style.transition = ''
+
+    if (snaps) {
+      settleToSnap()
+      return
+    }
+
     const shouldDismiss = deltaY >= dismissThresholdPx || velocity >= dismissVelocity
     if (shouldDismiss) {
       onDismiss()
@@ -77,6 +97,50 @@ export const createSheetDrag = ({
       return
     }
     sheet.style.transform = '' // 스냅백 — CSS transition이 제자리로 되돌린다
+  }
+
+  /** 놓은 위치·속도로 정착할 스냅을 고른다. 마지막 스냅 밖은 닫힘이다 */
+  const settleToSnap = () => {
+    const list = snaps!
+    const lowest = list[list.length - 1]
+    const flingDown = velocity >= dismissVelocity
+    const nudgeDown = velocity >= 0.3
+    const nudgeUp = velocity <= -0.3
+
+    const dismissByDistance = deltaY >= lowest + dismissThresholdPx
+    const dismissByFling = flingDown && baseOffset >= lowest
+    if (dismissByDistance || dismissByFling) {
+      onDismiss()
+      requestAnimationFrame(() => {
+        sheet.style.transform = ''
+      })
+      return
+    }
+
+    let target: number
+    if (nudgeDown) {
+      // 아래로 던짐 — 현재 위치보다 낮은(값이 큰) 첫 스냅, 없으면 닫힘
+      const below = list.find((snap) => snap > deltaY)
+      if (below === undefined) {
+        onDismiss()
+        requestAnimationFrame(() => {
+          sheet.style.transform = ''
+        })
+        return
+      }
+      target = below
+    } else if (nudgeUp) {
+      // 위로 던짐 — 현재 위치보다 높은(값이 작은) 마지막 스냅
+      const above = [...list].reverse().find((snap) => snap < deltaY)
+      target = above ?? list[0]
+    } else {
+      target = list.reduce((nearest, snap) =>
+        Math.abs(snap - deltaY) < Math.abs(nearest - deltaY) ? snap : nearest,
+      )
+    }
+
+    sheet.style.transform = `translateY(${target}px)`
+    onSnap?.(target)
   }
 
   handle.addEventListener('pointerdown', onPointerDown)
