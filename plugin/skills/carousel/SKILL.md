@@ -16,8 +16,9 @@ description: 스와이프 스냅 캐러셀(배너·카드 슬라이더)과 도�
 | 파일 | 층 | 복사 대상 |
 |------|-----|----------|
 | `assets/carouselCore.ts` | 코어 — 활성 추적·이동 | 모든 프로젝트 |
+| `assets/createCarouselAutoplay.ts` | 자동재생 확장(선택 — 정지 조건 내장) | 자동재생 쓸 때만 |
 | `assets/carousel.css` | 트랙·스냅·도트 정의 | 모든 프로젝트 |
-| `assets/useCarousel.ts` | React 훅 | React 프로젝트만 |
+| `assets/useCarousel.ts` | React 훅 (autoplayMs 옵션 포함) | React 프로젝트만 |
 
 TS가 아닌 프로젝트에 복사할 때는 타입 표기를 벗겨 .js로 저장한다.
 
@@ -81,7 +82,7 @@ dots.forEach((dot, index) => dot.addEventListener('click', () => scrollToSlide({
 
 ## 주의사항
 
-- **자동재생은 포함하지 않았다** — 넣으려면 사용자 상호작용·hover 시 정지와 일시정지 버튼이 접근성 필수 조건이다(WCAG 2.2.2). 필요 시 별도 확장.
+- **자동재생은 접근성 조건과 한 몸이다** — `createCarouselAutoplay`(React는 `useCarousel({ autoplayMs })`)는 호버·키보드 포커스 시 정지, reduced-motion 시 미재생을 내장한다. 단 **일시정지 버튼은 호출부 책임**이다 — `toggleAutoplay`/`autoplayOn`으로 반드시 노출하라(WCAG 2.2.2).
 - **reduced-motion 대응 내장** — 도트 클릭 이동이 부드러운 스크롤 대신 즉시 점프한다(코어의 matchMedia 판정). 스와이프 자체는 사용자가 만든 모션이라 제한하지 않는다.
 - **트랙에 CSS `scroll-behavior: smooth`를 걸지 마라** — 크롬에서 프로그램적 scrollTo가 무시되는 문제가 있다. 부드러운 이동은 코어가 scrollTo 옵션으로 처리한다.
 - `.carousel-track`의 `position: relative`는 슬라이드 offsetLeft의 좌표 기준이다 — 제거하면 도트 이동이 엉뚱한 위치로 간다.
