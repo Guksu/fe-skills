@@ -8,6 +8,9 @@ type BottomSheetProps = {
   children: ReactNode
   /** 이만큼 끌어내리면 닫힘 (기본 120px) */
   dismissThresholdPx?: number
+  /** 스냅 위치들(px, 0=전체 열림). 지정하면 마지막 스냅(가장 낮게 열림)에서 시작하고,
+   *  드래그로 스냅 사이를 오가며, 마지막 스냅 아래로 끌면 닫힌다. 0을 포함하라 */
+  snapOffsetsPx?: number[]
   className?: string
 }
 
@@ -15,7 +18,7 @@ type BottomSheetProps = {
  * createSheetDrag 코어의 React 래퍼 — 백드롭·Esc·드래그 세 경로로 닫힌다.
  * 시트는 언마운트하지 않고 data-open으로 여닫아 닫힘 애니메이션을 CSS에 맡긴다.
  */
-export const BottomSheet = ({ open, onClose, children, dismissThresholdPx, className }: BottomSheetProps) => {
+export const BottomSheet = ({ open, onClose, children, dismissThresholdPx, snapOffsetsPx, className }: BottomSheetProps) => {
   const sheetRef = useRef<HTMLElement | null>(null)
   // 최신 콜백을 ref로 들고 있어 인라인 함수를 넘겨도 리스너가 재등록되지 않는다
   const onCloseRef = useRef(onClose)
@@ -53,9 +56,25 @@ export const BottomSheet = ({ open, onClose, children, dismissThresholdPx, class
         sheet,
         onDismiss: () => onCloseRef.current(),
         dismissThresholdPx,
+        snapOffsetsPx,
       })
     },
-    [dismissThresholdPx],
+    [dismissThresholdPx, snapOffsetsPx],
+  )
+
+  useEffect(
+    function openAtInitialSnap() {
+      const sheet = sheetRef.current
+      if (!sheet || !snapOffsetsPx?.length) return
+      if (!open) {
+        sheet.style.transform = '' // 인라인을 걷어야 CSS의 translateY(100%)로 닫힌다
+        return
+      }
+      // 마지막(가장 낮게 열리는) 스냅에서 시작. rAF 없이 즉시 설정해도
+      // data-open 전환과 같은 커밋이라 닫힘 위치(100%)에서 스냅 위치로 transition된다
+      sheet.style.transform = `translateY(${Math.max(...snapOffsetsPx)}px)`
+    },
+    [open, snapOffsetsPx],
   )
 
   return (
