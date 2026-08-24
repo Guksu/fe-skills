@@ -5,16 +5,23 @@ description: fe-skills 저장소에 새 애니메이션/UI/UX 스킬을 추가�
 
 # add-skill — 스킬 추가 파이프라인
 
-이 저장소의 유일한 반복 작업이다: 애니메이션/UI/UX 패턴 하나를 **에이전트가 읽고 구현할 수 있는 스킬 문서**와 **사람이 눈으로 확인하는 데모**로 만든다. 작업 전 `docs/harness-rules.md`를 읽는다. 설계 단일 출처는 `docs/design/2026-08-19-fe-skills.md`다.
+이 저장소의 반복 작업이다. 작업 전 `docs/harness-rules.md`를 읽는다. 설계 단일 출처는 `docs/design/2026-08-19-fe-skills.md`다. 플러그인이 2개이므로 먼저 어느 쪽인지 판별한다:
+
+- **UI 스킬**(`plugins/ui/skills/`) — 애니메이션/UI/UX 구현 패턴. 아래 전체 절차(문서→데모→게이트 4종) 적용.
+- **시스템 스킬**(`plugins/system/skills/`) — 설계 결정 가이드(문서+문답). 데모·브라우저 게이트 없음: SKILL.md(문답 절차와 추천 종합 방법) + references/(케이스별 트레이드오프 문서)를 쓰고, 게이트는 구조 검증(`node scripts/validateSkills.mjs`)과 트리거 검증(should/should-NOT 쿼리)만 적용한다. 문서는 "어떤 경우 이 설계가 좋고, 어떤 단점이 있는지"의 트레이드오프 중심으로 쓴다.
 
 ## 불변 구조 — 왜 이 모양인가
 
 ```
-plugin/skills/{skill-name}/
+plugins/ui/skills/{skill-name}/          # UI 스킬
 ├─ SKILL.md          # 정본: 언제 쓰는가·사용 방법·핵심 패턴
 ├─ references/       # 상세(변형·엣지 케이스·접근성) — 필요할 때만 로드
 └─ assets/           # 예시 컴포넌트 코드 (정본의 일부, 실행 가능한 파일)
-demo/src/demos/{skill-name}/  # assets/를 import해 렌더링하는 데모 페이지
+demo/src/demos/{skill-name}/             # assets/를 import해 렌더링하는 데모 페이지
+
+plugins/system/skills/{skill-name}/      # 시스템 스킬 (데모 없음)
+├─ SKILL.md          # 문답 절차(무엇을 묻고 어떻게 종합 추천하는가)
+└─ references/       # 케이스별 설계 트레이드오프 문서
 ```
 
 - **assets/의 코드가 유일한 구현본이다.** 데모는 그 파일을 import만 한다 — 복사본을 만들면 한쪽만 고치는 순간 문서가 거짓말이 된다.
@@ -25,11 +32,11 @@ demo/src/demos/{skill-name}/  # assets/를 import해 렌더링하는 데모 페�
 ### 0. 착수 확인
 
 - 브랜치 확인(`branch` 스킬) — 작업은 `feat/{skill-name}`에서.
-- `plugin/skills/`에 같은/유사 스킬이 이미 있는지 확인 — 있으면 신규가 아니라 확장이다.
+- `plugins/ui/skills/`에 같은/유사 스킬이 이미 있는지 확인 — 있으면 신규가 아니라 확장이다.
 
 ### 1. 스킬 문서 (정본 먼저)
 
-1. `plugin/skills/{skill-name}/SKILL.md` 작성:
+1. `plugins/ui/skills/{skill-name}/SKILL.md` 작성:
    - frontmatter `name`(디렉토리명과 일치)·`description` — description은 트리거 조건이다: 무엇을 하는 스킬인지 + 사용자가 실제로 쓸 표현("페이드 인 넣어줘" 등) + 후속 키워드(수정/다시). ~350자.
    - 본문: **언제 이 패턴을 쓰는가 → 사용 방법(설치·적용 단계) → 사용 예시(최소 코드) → 커스터마이즈 포인트(duration·easing 등) → 주의사항(접근성·성능)**. 명령형, ≤500줄.
 2. `assets/`에 예시 컴포넌트 작성. 기술 기준: **CSS 우선** — CSS transition/animation으로 되는 것은 CSS로, 어려운 것(제스처·레이아웃 전이)만 라이브러리를 쓰고 SKILL.md에 "왜 이 기술인가" 한 줄을 명시한다.

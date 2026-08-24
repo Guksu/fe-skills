@@ -1,0 +1,6 @@
+{
+  "name": "fe-ui",
+  "description": "프론트엔드 애니메이션/UI/UX 구현 스킬 모음 — 바닐라 코어 + React 래퍼. 데모: https://guksu.github.io/fe-skills/",
+  "version": "0.2.0",
+  "author": { "name": "Guksu" }
+}

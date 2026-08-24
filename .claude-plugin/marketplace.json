@@ -5,18 +5,27 @@
     "url": "https://github.com/Guksu"
   },
   "metadata": {
-    "description": "프론트엔드 애니메이션/UI/UX 구현 스킬 모음 — 각 스킬은 사용 방법·예시 코드·라이브 데모를 갖춘다",
-    "version": "0.1.0"
+    "description": "프론트엔드 스킬 모음 — UI/애니메이션(fe-ui)과 시스템 설계(fe-system)",
+    "version": "0.2.0"
   },
   "plugins": [
     {
-      "name": "fe-skills",
-      "source": "./plugin",
-      "description": "프론트엔드 애니메이션/UI/UX 구현 스킬 모음. 데모: https://guksu.github.io/fe-skills/",
-      "version": "0.1.0",
+      "name": "fe-ui",
+      "source": "./plugins/ui",
+      "description": "프론트엔드 애니메이션/UI/UX 구현 스킬 — 각 스킬은 사용 방법·예시 코드·라이브 데모를 갖춘다. 데모: https://guksu.github.io/fe-skills/",
+      "version": "0.2.0",
       "author": { "name": "Guksu" },
       "homepage": "https://github.com/Guksu/fe-skills",
       "keywords": ["frontend", "animation", "ui", "ux", "css", "react"]
+    },
+    {
+      "name": "fe-system",
+      "source": "./plugins/system",
+      "description": "프론트엔드 시스템 설계 스킬 — 상태 위치·데이터 페칭 등 설계 결정을 케이스별 트레이드오프 문서와 문답으로 추천한다",
+      "version": "0.1.0",
+      "author": { "name": "Guksu" },
+      "homepage": "https://github.com/Guksu/fe-skills",
+      "keywords": ["frontend", "architecture", "state", "design"]
     }
   ]
 }

@@ -19,7 +19,7 @@ import { ZoomLightboxDemo } from './zoom-lightbox/ZoomLightboxDemo'
 export type DemoCategory = '등장과 전환' | '로딩과 진행' | '피드백' | '내비게이션' | '제스처'
 
 export type DemoEntry = {
-  /** URL 해시 조각 (#/{slug}) — plugin/skills/{slug}와 일치시킨다 */
+  /** URL 해시 조각 (#/{slug}) — plugins/ui/skills/{slug}와 일치시킨다 */
   slug: string
   title: string
   description: string

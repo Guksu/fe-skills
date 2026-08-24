@@ -54,7 +54,7 @@ const DemoPage = ({ demo }: { demo: DemoEntry }) => (
         <span aria-hidden="true">{demo.emoji}</span> {demo.title}
       </h1>
       <p>{demo.description}</p>
-      <code>plugin/skills/{demo.slug}/</code>
+      <code>plugins/ui/skills/{demo.slug}/</code>
     </header>
     <demo.Component />
     <UsageBlock demo={demo} />
@@ -91,7 +91,7 @@ const UsageBlock = ({ demo }: { demo: DemoEntry }) => {
             {copied ? '복사됨 ✓' : '코드 복사'}
           </button>
           <a
-            href={`https://github.com/Guksu/fe-skills/blob/main/plugin/skills/${demo.slug}/SKILL.md`}
+            href={`https://github.com/Guksu/fe-skills/blob/main/plugins/ui/skills/${demo.slug}/SKILL.md`}
             target="_blank"
             rel="noreferrer"
           >

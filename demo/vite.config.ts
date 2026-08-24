@@ -9,8 +9,8 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      // 정본(plugin/skills)의 예시 컴포넌트를 데모가 직접 import한다 — 복사본 금지 원칙
-      '@skills': fileURLToPath(new URL('../plugin/skills', import.meta.url)),
+      // 정본(plugins/ui/skills)의 예시 컴포넌트를 데모가 직접 import한다 — 복사본 금지 원칙
+      '@skills': fileURLToPath(new URL('../plugins/ui/skills', import.meta.url)),
     },
   },
   server: {
