@@ -8,10 +8,18 @@ import { flyToTarget } from './flyToTarget'
 export const useCartFly = <T extends HTMLElement = HTMLElement>() => {
   const targetRef = useRef<T | null>(null)
 
-  const flyFrom = ({ source, onArrive }: { source: HTMLElement; onArrive?: () => void }) => {
+  const flyFrom = ({
+    source,
+    onArrive,
+    arc,
+  }: {
+    source: HTMLElement
+    onArrive?: () => void
+    arc?: 'horizontal-first' | 'vertical-first'
+  }) => {
     const target = targetRef.current
     if (!target) return
-    flyToTarget({ source, target, onArrive })
+    flyToTarget({ source, target, onArrive, arc })
   }
 
   return { targetRef, flyFrom }

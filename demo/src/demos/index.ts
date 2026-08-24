@@ -222,6 +222,7 @@ const { targetRef, flyFrom } = useCartFly()
 <button ref={targetRef}>🛒 {count}</button>
 <button onClick={() => flyFrom({
   source: thumbnailEl,
+  arc: 'horizontal-first', // 'vertical-first'면 r자 궤적
   onArrive: () => setCount((prev) => prev + 1),
 })}>담기</button>`,
     Component: CartFlyDemo,
