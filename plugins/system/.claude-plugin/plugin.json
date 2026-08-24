@@ -1,0 +1,6 @@
+{
+  "name": "fe-system",
+  "description": "프론트엔드 시스템 설계 스킬 모음 — 케이스별 설계 트레이드오프 문서와 문답 기반 추천",
+  "version": "0.1.0",
+  "author": { "name": "Guksu" }
+}

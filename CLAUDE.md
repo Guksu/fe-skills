@@ -1,10 +1,10 @@
 # fe-skills
 
-프론트엔드 애니메이션/UI/UX 스킬 저장소 — Claude Code 플러그인(마켓플레이스)으로 배포되고, 데모 사이트(Vite+React, GitHub Pages)로 사람이 눈으로 확인한다.
+프론트엔드 스킬 저장소 — 마켓플레이스 하나에 플러그인 2개: **fe-ui**(애니메이션/UI/UX 구현, 데모 사이트로 육안 확인)와 **fe-system**(시스템 설계 — 케이스별 트레이드오프 문서+문답 추천). 데모(Vite+React, GitHub Pages)는 UI 스킬만 노출한다.
 
 - 설계 단일 출처: `docs/design/2026-08-19-fe-skills.md`
 - 작업 규칙: `docs/harness-rules.md` (작업 전 읽기)
-- 정본 원칙: 스킬 문서(`plugin/skills/*/SKILL.md` + `assets/`)가 정본, 데모는 assets/를 import만 한다(복사 금지)
+- 정본 원칙: 스킬 문서(`plugins/{ui,system}/skills/*/SKILL.md` + assets/references)가 정본, 데모는 UI assets/를 import만 한다(복사 금지)
 
 ## 하네스: 스킬 추가 파이프라인
 
@@ -20,3 +20,4 @@
 | 2026-08-19 | 초기 구성 (라이트 티어: add-skill 스킬 + 훅 3종 + PR 옵트인) | 전체 | - |
 | 2026-08-20 | 커밋·PR 자동 실행 금지 명시 (사용자 육안 확인 후 직접) | CLAUDE.md | 사용자 지시 — 시각 결과물은 육안 확인이 커밋 게이트 |
 | 2026-08-24 | 검증자 게이트(Stop 훅) 상시 등록 — build·lint·test·스킬 구조 4종 | settings.json·hooks·scripts/ | 사용자 승인 루프(docs/loops/goals-verification.md), 턴 종료마다 기계 강제 |
+| 2026-08-24 | 플러그인 2개 분리 — plugins/ui(fe-ui)·plugins/system(fe-system), 시스템 스킬은 문서+문답(데모·브라우저 게이트 제외) | 전체 구조·add-skill·validateSkills | 사용자 결정 — UI 외 시스템 설계 스킬 추가(설계 문답 7) |

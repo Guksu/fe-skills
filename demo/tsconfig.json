@@ -14,8 +14,8 @@
     "noEmit": true,
     "types": ["vitest/globals", "@testing-library/jest-dom"],
     "paths": {
-      "@skills/*": ["../plugin/skills/*"]
+      "@skills/*": ["../plugins/ui/skills/*"]
     }
   },
-  "include": ["src", "vite.config.ts", "../plugin/skills/**/assets/**/*"]
+  "include": ["src", "vite.config.ts", "../plugins/ui/skills/**/assets/**/*"]
 }
