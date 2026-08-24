@@ -39,6 +39,30 @@ describe('flyToTarget — 고스트가 출발지에서 목적지로 날아간다
     expect(inner.style.transform).toContain('translateY')
   })
 
+  it("기본 궤적(j자)은 가로 linear·세로 ease-in, arc: 'vertical-first'(r자)는 이징이 서로 바뀐다", () => {
+    flyToTarget({ source, target })
+    const jGhost = document.querySelector('.fly-ghost') as HTMLElement
+    const jInner = jGhost.firstElementChild as HTMLElement
+    expect(jGhost.style.transition).toContain('linear')
+    expect(jInner.style.transition).toContain('cubic-bezier(0.55, 0, 1, 0.45)')
+    jGhost.remove()
+
+    flyToTarget({ source, target, arc: 'vertical-first' })
+    const rGhost = document.querySelector('.fly-ghost') as HTMLElement
+    const rInner = rGhost.firstElementChild as HTMLElement
+    expect(rGhost.style.transition).toContain('cubic-bezier(0.55, 0, 1, 0.45)')
+    expect(rInner.style.transition).toContain('transform 600ms linear')
+  })
+
+  it('안쪽 요소는 display: block이다 — 인라인 요소(span 등) 복제 시 transform이 무시되어 직선 비행이 되는 것을 막는다', () => {
+    const inlineSource = withRect({ el: document.createElement('span'), top: 300, left: 100 })
+    document.body.appendChild(inlineSource)
+    flyToTarget({ source: inlineSource, target })
+    const inner = document.querySelector('.fly-ghost')!.firstElementChild as HTMLElement
+    expect(inner.style.display).toBe('block')
+    inlineSource.remove()
+  })
+
   it('안쪽(세로) 전환이 끝나면 고스트가 제거되고 onArrive가 불린다', () => {
     flyToTarget({ source, target, onArrive: () => (arrived += 1) })
     vi.advanceTimersByTime(50)
