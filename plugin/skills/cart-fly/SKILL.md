@@ -71,6 +71,7 @@ document.querySelectorAll('.product-card .add').forEach((button) => {
 | 대상 | 방법 |
 |------|------|
 | 비행 시간 | `durationMs` (기본 600ms — 화면 대각선 거리 기준. 짧은 거리는 400ms대가 무난) |
+| 궤적 방향 | `arc` — `'horizontal-first'`(기본): 옆으로 갔다가 끝에서 상승(j자) / `'vertical-first'`: 먼저 떠올랐다가 옆으로(r자). 축 이징을 서로 바꿔 만든다 |
 | 카운트 증가 시점 | `onArrive` — 도착 순간에 증가시켜야 인과가 보인다(누르자마자 증가시키면 비행이 무의미해진다) |
 | 고스트 모양 | `source`에 무엇을 주느냐가 곧 모양 — 카드 전체 대신 썸네일 요소를 주면 가볍다 |
 

@@ -9,9 +9,12 @@ const PRODUCTS = [
   { name: '수제 어묵탕', emoji: '🍢', price: 6000 },
 ]
 
+type Arc = 'horizontal-first' | 'vertical-first'
+
 export const CartFlyDemo = () => {
   const [count, setCount] = useState(0)
   const [bumpKey, setBumpKey] = useState(0)
+  const [arc, setArc] = useState<Arc>('horizontal-first')
   const { targetRef, flyFrom } = useCartFly<HTMLButtonElement>()
   const cardRefs = useRef<Record<string, HTMLElement | null>>({})
 
@@ -20,6 +23,7 @@ export const CartFlyDemo = () => {
     if (!source) return
     flyFrom({
       source,
+      arc,
       onArrive: () => {
         setCount((prev) => prev + 1)
         setBumpKey((prev) => prev + 1) // key 교체로 뱃지 팝을 재트리거
@@ -29,10 +33,20 @@ export const CartFlyDemo = () => {
 
   return (
     <div className="playground">
-      <section className="controls" aria-label="안내">
+      <section className="controls" aria-label="옵션">
+        <label>
+          <span>
+            궤적 방향 <code>arc</code>
+          </span>
+          <select value={arc} onChange={(e) => setArc(e.target.value as Arc)}>
+            <option value="horizontal-first">j자 — 옆으로 갔다가 끝에서 상승 (기본)</option>
+            <option value="vertical-first">r자 — 먼저 떠올랐다가 옆으로</option>
+          </select>
+        </label>
         <p className="controls-note">
-          담기를 누르면 썸네일 고스트가 장바구니로 포물선을 그리며 날아갑니다 — 가로는 등속,
-          세로는 가속이라 곡선이 됩니다. 카운트는 도착 순간에 올라갑니다.
+          담기를 누르면 썸네일 고스트가 장바구니로 곡선을 그리며 날아갑니다 — 한 축은 등속, 다른
+          축은 가속이라 곡선이 되고, 어느 축이 가속이냐가 j자/r자를 가릅니다. 카운트는 도착 순간에
+          올라갑니다.
         </p>
       </section>
 
