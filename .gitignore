@@ -4,3 +4,4 @@ demo/dist/
 .DS_Store
 .claude/settings.local.json
 *.tsbuildinfo
+.claude/hooks/verifierGate.state.json

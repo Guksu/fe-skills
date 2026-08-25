@@ -42,7 +42,11 @@ https://guksu.github.io/fe-skills/
 
 ## 스킬 목록 — fe-system
 
-문서+문답 기반 설계 스킬 (준비 중 — 첫 스킬 추가 예정)
+문서+문답 기반 설계 스킬 — 신호를 읽어 판정하고(읽을 수 없으면 문답), 트레이드오프와 함께 설계 틀을 제시합니다.
+
+| 스킬 | 설명 |
+|------|------|
+| [list-filter-detail](plugins/system/skills/list-filter-detail/SKILL.md) | 목록+필터+상세 설계 판정 — 상태 위치(URL 단일 진실)·데이터 페칭 5분기·목록 넘김·상세 진입·복귀 복원 |
 
 ## 구조
 
