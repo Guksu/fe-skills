@@ -21,3 +21,4 @@
 | 2026-08-20 | 커밋·PR 자동 실행 금지 명시 (사용자 육안 확인 후 직접) | CLAUDE.md | 사용자 지시 — 시각 결과물은 육안 확인이 커밋 게이트 |
 | 2026-08-24 | 검증자 게이트(Stop 훅) 상시 등록 — build·lint·test·스킬 구조 4종 | settings.json·hooks·scripts/ | 사용자 승인 루프(docs/loops/goals-verification.md), 턴 종료마다 기계 강제 |
 | 2026-08-24 | 플러그인 2개 분리 — plugins/ui(fe-ui)·plugins/system(fe-system), 시스템 스킬은 문서+문답(데모·브라우저 게이트 제외) | 전체 구조·add-skill·validateSkills | 사용자 결정 — UI 외 시스템 설계 스킬 추가(설계 문답 7) |
+| 2026-08-25 | 검증자 게이트 maxTokens 400000→20000000 상향 | verifierGate.config.json | 사용자 승인 — 게이트가 세션 누적 transcript 기준으로 판정하므로 루프 1회분 예산이면 장기 세션에서 매 턴 안전장치 발동(08-25 세션 강제 종료 원인) |

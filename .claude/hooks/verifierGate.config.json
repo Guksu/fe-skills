@@ -6,6 +6,6 @@
     { "name": "skills-structure", "command": "node scripts/validateSkills.mjs" }
   ],
   "maxIterations": 10,
-  "maxTokens": 400000,
+  "maxTokens": 20000000,
   "stuckAfter": 3
 }
