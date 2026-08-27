@@ -1,0 +1,15 @@
+.tooltip-stage {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.25rem;
+  padding: 5rem 2rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+/* 사이트 공통 버튼의 align-self가 앵커 래퍼 안에서 어긋나지 않게 */
+.tooltip-stage .tooltip-anchor button {
+  align-self: auto;
+}

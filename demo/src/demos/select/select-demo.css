@@ -1,0 +1,36 @@
+.select-stage {
+  /* 스킬 CSS 변수를 사이트 다크 테마에 맞춘다 */
+  --select-bg: var(--surface);
+  --select-border: var(--border);
+  --select-highlight: var(--accent-soft);
+  --select-accent: var(--accent);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 1.5rem;
+  padding: 2rem 1.5rem 14rem; /* 패널이 펼쳐질 공간 */
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.select-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.select-field-label {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+
+.select-result {
+  flex-basis: 100%;
+  margin: 0;
+  color: var(--text-dim);
+}
+
+.select-stage .select-placeholder {
+  color: var(--text-dim);
+}

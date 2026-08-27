@@ -1,0 +1,23 @@
+.field-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  max-width: 420px;
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  /* 스킬 CSS 변수를 사이트 다크 테마에 맞춘다 */
+  --field-border: var(--border);
+  --field-accent: var(--accent);
+  --field-label-color: var(--text-dim);
+}
+
+.field-stage-title {
+  margin: 0 0 0.25rem;
+  font-size: 1.05rem;
+}
+
+.field-stage .field-input {
+  color: var(--text);
+}
