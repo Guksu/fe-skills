@@ -47,6 +47,7 @@ https://guksu.github.io/fe-skills/
 | 스킬 | 설명 |
 |------|------|
 | [list-filter-detail](plugins/system/skills/list-filter-detail/SKILL.md) | 목록+필터+상세 설계 판정 — 상태 위치(URL 단일 진실)·데이터 페칭 5분기·목록 넘김·상세 진입·복귀 복원 |
+| [infinite-feed](plugins/system/skills/infinite-feed/SKILL.md) | 무한 피드 설계 판정 — 커서 페이지네이션(불투명 토큰)·렌더 윈도우 3단·복귀 복원·새 글 병합·페칭 트리거 |
 
 ## 구조
 
