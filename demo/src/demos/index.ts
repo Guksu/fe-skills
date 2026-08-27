@@ -15,8 +15,14 @@ import { PullToRefreshDemo } from './pull-to-refresh/PullToRefreshDemo'
 import { PressFeedbackDemo } from './press-feedback/PressFeedbackDemo'
 import { ToastStackDemo } from './toast-stack/ToastStackDemo'
 import { ZoomLightboxDemo } from './zoom-lightbox/ZoomLightboxDemo'
+import { HamburgerMenuDemo } from './hamburger-menu/HamburgerMenuDemo'
+import { TooltipDemo } from './tooltip/TooltipDemo'
+import { SelectDemo } from './select/SelectDemo'
+import { AccordionDemo } from './accordion/AccordionDemo'
+import { SwitchDemo } from './switch/SwitchDemo'
+import { FloatingLabelDemo } from './floating-label/FloatingLabelDemo'
 
-export type DemoCategory = '등장과 전환' | '로딩과 진행' | '피드백' | '내비게이션' | '제스처'
+export type DemoCategory = '등장과 전환' | '로딩과 진행' | '피드백' | '내비게이션' | '제스처' | '컨트롤'
 
 export type DemoEntry = {
   /** URL 해시 조각 (#/{slug}) — plugins/ui/skills/{slug}와 일치시킨다 */
@@ -30,7 +36,7 @@ export type DemoEntry = {
   Component: ComponentType
 }
 
-export const CATEGORIES: DemoCategory[] = ['등장과 전환', '로딩과 진행', '피드백', '내비게이션', '제스처']
+export const CATEGORIES: DemoCategory[] = ['등장과 전환', '로딩과 진행', '피드백', '내비게이션', '제스처', '컨트롤']
 
 /** 데모 목록의 단일 출처 — 스킬 추가 시 여기에만 등록하면 목록·라우팅·카탈로그에 반영된다 */
 export const demos: DemoEntry[] = [
@@ -290,5 +296,83 @@ const { trackRef, activeIndex, goTo } = useCarousel()
   <ul>…피드 항목…</ul>
 </PullToRefresh>`,
     Component: PullToRefreshDemo,
+  },
+  {
+    slug: 'hamburger-menu',
+    title: '햄버거 메뉴',
+    description: '≡가 X로 모핑하는 버튼 + 옆에서 밀려 나오는 드로어',
+    emoji: '🍔',
+    category: '내비게이션',
+    usage: `import { HamburgerButton, Drawer } from './HamburgerMenu'
+
+<HamburgerButton open={open} onToggle={() => setOpen(!open)} label="메뉴 열기" />
+<Drawer open={open} onClose={() => setOpen(false)}>
+  <nav>…메뉴 링크…</nav>
+</Drawer>`,
+    Component: HamburgerMenuDemo,
+  },
+  {
+    slug: 'tooltip',
+    title: '툴팁',
+    description: '호버는 지연 후·포커스는 즉시 떠오르는 말풍선 — 4방향 배치',
+    emoji: '💬',
+    category: '피드백',
+    usage: `import { Tooltip } from './Tooltip'
+
+<Tooltip label="장바구니에 담기" place="bottom">
+  <button type="button" aria-label="담기">🛒</button>
+</Tooltip>`,
+    Component: TooltipDemo,
+  },
+  {
+    slug: 'select',
+    title: '커스텀 셀렉트',
+    description: '패널이 드롭되는 셀렉트 — 키보드 내비게이션·ARIA 콤보박스 내장',
+    emoji: '🔽',
+    category: '컨트롤',
+    usage: `import { Select } from './Select'
+
+<Select
+  options={[{ value: 'somyeon', label: '소면' }]}
+  value={value}
+  onChange={setValue}
+  placeholder="면 종류 선택"
+/>`,
+    Component: SelectDemo,
+  },
+  {
+    slug: 'accordion',
+    title: '아코디언',
+    description: 'JS 측정 없는 높이 애니메이션 — grid-template-rows 0fr↔1fr',
+    emoji: '🪗',
+    category: '컨트롤',
+    usage: `import { Accordion } from './Accordion'
+
+<Accordion
+  items={[{ id: 'takeout', title: '포장 되나요?', content: '네, 가능합니다.' }]}
+/>`,
+    Component: AccordionDemo,
+  },
+  {
+    slug: 'switch',
+    title: '토글 스위치',
+    description: '썸 슬라이드 + 누름 스퀴시 — 네이티브 체크박스 기반이라 접근성 공짜',
+    emoji: '🎚️',
+    category: '컨트롤',
+    usage: `import { Switch } from './Switch'
+
+<Switch checked={extra} onChange={setExtra} label="곱빼기 (+1,000원)" />`,
+    Component: SwitchDemo,
+  },
+  {
+    slug: 'floating-label',
+    title: '플로팅 라벨 입력',
+    description: '라벨이 플레이스홀더 자리에서 떠오르는 입력 — 판정은 CSS만으로',
+    emoji: '🏷️',
+    category: '컨트롤',
+    usage: `import { TextField } from './TextField'
+
+<TextField label="예약자 이름" value={name} onChange={(e) => setName(e.target.value)} />`,
+    Component: FloatingLabelDemo,
   },
 ]
