@@ -1,0 +1,70 @@
+/* swipe-to-delete — 행을 왼쪽으로 밀어 삭제 버튼을 드러내고, 삭제되면 높이가 접히며 사라진다.
+ * 커스터마이즈: --swipe-action-width, --swipe-duration, --swipe-action-bg, --swipe-bg.
+ * 기본값은 --_ 내부 변수의 폴백으로 둔다 — 요소 자신에 선언하면 조상 설정이 상속되지 못한다.
+ * 드래그 중 위치는 코어가 인라인 transform으로 쓰고, 놓은 뒤 정착 이동은 여기의 transition이 담당한다. */
+
+.swipe-item {
+  --_action-w: var(--swipe-action-width, 88px);
+  --_duration: var(--swipe-duration, 260ms);
+  --_ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  position: relative;
+  overflow: hidden;
+  /* 삭제 후 접힘 — height는 JS가 측정해 인라인으로 준다(auto→0은 전이되지 않는다) */
+  transition:
+    height var(--_duration) var(--_ease-out),
+    opacity var(--_duration) ease;
+}
+
+.swipe-content {
+  position: relative;
+  background: var(--swipe-bg, #fff);
+  touch-action: pan-y; /* 세로 스크롤은 브라우저에, 가로는 코어에 */
+  user-select: none;
+  -webkit-user-select: none;
+  /* 놓은 뒤 정착(열림/닫힘/끝까지 밀림) — 드래그 중엔 코어가 none으로 끈다 */
+  transition: transform var(--_duration) var(--_ease-out);
+}
+
+/* 액션 영역은 내용의 오른쪽 바깥에 붙어 내용과 함께 움직인다 — 행 아래에 색을 깔지 않으므로
+ * 행 높이가 소수(px)일 때 경계 틈으로 색이 비치는 문제가 없다. 폭은 끝까지 밀려도 남지 않게 넉넉히 */
+.swipe-actions {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 100%;
+  display: flex;
+  width: 100%;
+  background: var(--swipe-action-bg, #dc2626);
+}
+
+.swipe-action {
+  flex: none;
+  width: var(--_action-w);
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  background: transparent;
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer; /* 닫혀 있는 동안은 .swipe-content가 위를 덮어 눌리지 않는다 */
+}
+
+.swipe-action:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: -4px;
+}
+
+/* 삭제 확정 — 내용은 이미 왼쪽으로 빠졌고(액션 색이 행을 채운 상태), 행 높이가 접힌다 */
+.swipe-item[data-state='deleting'] {
+  height: 0 !important;
+  opacity: 0;
+}
+
+/* 모션 민감 사용자: 드래그 추적은 그대로(손가락을 따르는 건 모션이 아니라 조작), 정착·접힘은 즉시 */
+@media (prefers-reduced-motion: reduce) {
+  .swipe-item,
+  .swipe-content {
+    transition: none;
+  }
+}
