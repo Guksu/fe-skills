@@ -1,0 +1,31 @@
+.check-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  --check-border: #4b5563;
+}
+
+.check-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.check-group legend {
+  padding: 0 0.4rem;
+  color: var(--text-dim);
+  font-size: 0.9rem;
+}
+
+.check-result {
+  margin: 0;
+  color: var(--text-dim);
+}

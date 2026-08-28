@@ -21,6 +21,10 @@ import { SelectDemo } from './select/SelectDemo'
 import { AccordionDemo } from './accordion/AccordionDemo'
 import { SwitchDemo } from './switch/SwitchDemo'
 import { FloatingLabelDemo } from './floating-label/FloatingLabelDemo'
+import { ModalDialogDemo } from './modal-dialog/ModalDialogDemo'
+import { CheckboxRadioDemo } from './checkbox-radio/CheckboxRadioDemo'
+import { FormShakeErrorDemo } from './form-shake-error/FormShakeErrorDemo'
+import { SwipeToDeleteDemo } from './swipe-to-delete/SwipeToDeleteDemo'
 
 export type DemoCategory = '등장과 전환' | '로딩과 진행' | '피드백' | '내비게이션' | '제스처' | '컨트롤'
 
@@ -374,5 +378,64 @@ const { trackRef, activeIndex, goTo } = useCarousel()
 
 <TextField label="예약자 이름" value={name} onChange={(e) => setName(e.target.value)} />`,
     Component: FloatingLabelDemo,
+  },
+  {
+    slug: 'modal-dialog',
+    title: '모달 다이얼로그',
+    description: '백드롭 페이드 + 패널 스케일 진입 — 네이티브 dialog라 포커스 트랩·Esc 공짜',
+    emoji: '🪟',
+    category: '등장과 전환',
+    usage: `import { Modal } from './Modal'
+
+<Modal open={open} onClose={() => setOpen(false)} labelledBy="cancel-title">
+  <h2 id="cancel-title">주문을 취소할까요?</h2>
+  <button type="button" onClick={() => setOpen(false)}>돌아가기</button>
+</Modal>`,
+    Component: ModalDialogDemo,
+  },
+  {
+    slug: 'checkbox-radio',
+    title: '체크박스 · 라디오',
+    description: '체크마크가 획으로 그려지고 라디오 도트가 튀어 맺힘 — 네이티브 input 기반',
+    emoji: '☑️',
+    category: '컨트롤',
+    usage: `import { Checkbox } from './Checkbox'
+import { Radio } from './Radio'
+
+<Radio name="noodle" value="somyeon" checked={noodle === 'somyeon'} onChange={() => setNoodle('somyeon')} label="소면" />
+<Checkbox checked={agree} onChange={(e) => setAgree(e.target.checked)} label="주문 안내에 동의합니다" />`,
+    Component: CheckboxRadioDemo,
+  },
+  {
+    slug: 'form-shake-error',
+    title: '폼 에러 흔들림',
+    description: '틀린 입력을 좌우로 흔들고 에러 메시지가 밀려 올라옴 — 재시작 보장',
+    emoji: '🚫',
+    category: '피드백',
+    usage: `import { useShake, FieldError } from './ShakeField'
+
+const field = useShake<HTMLInputElement>()
+// 제출 실패 시: setError('…'); field.shake(); field.ref.current?.focus()
+
+<input ref={field.ref} aria-invalid={Boolean(error)} aria-describedby="phone-error" />
+<FieldError id="phone-error" message={error} />`,
+    Component: FormShakeErrorDemo,
+  },
+  {
+    slug: 'swipe-to-delete',
+    title: '밀어서 삭제',
+    description: '왼쪽으로 밀면 삭제 버튼, 끝까지 밀면 바로 삭제 — 행 높이가 접히며 사라짐',
+    emoji: '🗑️',
+    category: '제스처',
+    usage: `import { SwipeToDelete } from './SwipeToDelete'
+
+{items.map((item) => (
+  <li key={item.id}>
+    <SwipeToDelete onDelete={() => remove(item.id)}>
+      <div className="cart-row">{item.name}</div>
+    </SwipeToDelete>
+  </li>
+))}`,
+    Component: SwipeToDeleteDemo,
   },
 ]
