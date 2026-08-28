@@ -1,0 +1,48 @@
+.pinch-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 420px;
+}
+
+/* 카드에 overflow:hidden·transform을 두지 않는다 — 확대된 사진이 카드 밖으로 넘쳐 보여야 한다 */
+.pinch-post {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.9rem 0;
+  border-top: 1px solid var(--border);
+}
+
+.pinch-post-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.pinch-post-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
+}
+
+.pinch-photo {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 4 / 5;
+  border-radius: 12px; /* 둥근 모서리는 사진 자신에 */
+  font-size: 4rem;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.pinch-post-caption {
+  margin: 0;
+  color: var(--text-dim);
+}
+
+.pinch-status {
+  margin: 1rem 0 0;
+  color: var(--text-dim);
+}

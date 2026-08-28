@@ -25,6 +25,7 @@ import { ModalDialogDemo } from './modal-dialog/ModalDialogDemo'
 import { CheckboxRadioDemo } from './checkbox-radio/CheckboxRadioDemo'
 import { FormShakeErrorDemo } from './form-shake-error/FormShakeErrorDemo'
 import { SwipeToDeleteDemo } from './swipe-to-delete/SwipeToDeleteDemo'
+import { PinchZoomDemo } from './pinch-zoom/PinchZoomDemo'
 
 export type DemoCategory = '등장과 전환' | '로딩과 진행' | '피드백' | '내비게이션' | '제스처' | '컨트롤'
 
@@ -437,5 +438,18 @@ const field = useShake<HTMLInputElement>()
   </li>
 ))}`,
     Component: SwipeToDeleteDemo,
+  },
+  {
+    slug: 'pinch-zoom',
+    title: '피드 핀치줌',
+    description: '두 손가락으로 벌리면 그 자리에서 커지고 놓으면 제자리로 — 인스타 피드 관례',
+    emoji: '🤏',
+    category: '제스처',
+    usage: `import { PinchZoom } from './PinchZoom'
+
+<PinchZoom maxScale={4}>
+  <img src={post.image} alt={post.alt} draggable={false} />
+</PinchZoom>`,
+    Component: PinchZoomDemo,
   },
 ]
