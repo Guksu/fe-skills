@@ -2,9 +2,9 @@
 
 | 항목 | 내용 |
 |------|------|
-| 최종 갱신 | 2026-08-27 |
+| 최종 갱신 | 2026-08-29 |
 | 작성 | Claude Code |
-| 상태 | 진행 중 |
+| 상태 | 진행 중 — 2026-08-29 구조 재편으로 목표 변경 |
 | 관련 경로 | `plugins/system/skills/list-filter-detail/`, `.claude/hooks/verifierGate.config.json`, `docs/worklog/2026-08-25-system-list-filter-detail.md` |
 
 ## 1. 목표
@@ -28,10 +28,12 @@ fe-system(시스템 설계 플러그인)의 첫 케이스 스킬 `list-filter-de
 
 ## 4. 다음 단계
 
-1. `plugins/system/skills/infinite-feed/SKILL.md`와 references 3종을 사용자가 육안 확인.
-2. 확인 후 **명시 지시를 받아** 커밋·PR — Skill 도구로 `guksu-harness:pr` 호출(베이스 main). 커밋 대상: plugins/system/skills/infinite-feed/ + README.md + 워크로그 + 이 인계 문서.
-3. 이후 다음 케이스: 다단계 폼(장바구니→주문) — **동료 모드**로(면접관 모드 금지, 사용자 교정 2026-08-27).
+**2026-08-29 구조 재편으로 이 문서의 이전 목표(케이스별 판정 스킬 축적)는 폐기됐다.** 판정표 방식이 넓은 케이스에서 무너져, 사용자와 문답 4라운드를 거쳐 fe-system을 **문답 진행 스킬 1종(`design`)**으로 재편했다 — 경위·산출물은 `docs/worklog/2026-08-29-system-design-skill.md`.
+
+1. `plugins/system/skills/design/`(SKILL.md + core-questions + cases 3종 + topics 7종)을 사용자가 육안 확인.
+2. 확인 후 **명시 지시를 받아** 커밋·PR — `guksu-harness:pr`(베이스 main). 브랜치 `feat/system-design-skill`. 대상: `plugins/system/` + `README.md` + 워크로그 + 이 문서.
+3. 다음 세션: `design` 스킬을 **실제 프로젝트에서 1회 사용**해 문답 흐름·결정 기록 산출을 검증하고, 그 결과로 케이스 파일 형식을 다듬는다(사용자 결정 Q13-C — 검증 전에는 케이스 파일을 더 늘리지 않는다).
 
 ## 5. 미해결 질문
 
-- 없음 (다음 케이스는 다단계 폼으로 잠정 — 착수 시 사용자 확인)
+- 케이스 파일을 앞으로 어느 단위로 늘릴지(화면 유형별 vs 도메인별)는 `design` 실사용 검증 후 결정.
