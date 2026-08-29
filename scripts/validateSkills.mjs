@@ -6,9 +6,13 @@
  *  - description 존재·길이(80~400자)
  *  - 본문이 참조하는 assets/·references/ 경로 실재
  *  - 데모 레지스트리(demo/src/demos/index.ts)에 slug 등록
+ *  - 공유 코어 복사본 동기: 첫 줄에 `@shared-core {파일} origin: {스킬}` 헤더가 있는 assets 파일은 원본과 내용이 같아야 한다
  */
 import { readFileSync, readdirSync, existsSync, statSync } from 'node:fs'
 import { join } from 'node:path'
+import { createHash } from 'node:crypto'
+
+const hash = (text) => createHash('sha256').update(text).digest('hex')
 
 const root = new URL('..', import.meta.url).pathname
 const registry = readFileSync(join(root, 'demo/src/demos/index.ts'), 'utf8')
@@ -44,6 +48,25 @@ for (const { dir: skillsDir, requiresDemo } of plugins) {
       if (!existsSync(join(dir, ref))) errors.push(`${name}: 참조 파일 없음 — ${ref}`)
     }
     if (requiresDemo && !registry.includes(`slug: '${name}'`)) errors.push(`${name}: 데모 레지스트리에 미등록`)
+
+    // 공유 코어 복사본 — 원본(origin 스킬의 같은 파일명)과 해시가 다르면 드리프트
+    const assetsDir = join(dir, 'assets')
+    if (!existsSync(assetsDir)) continue
+    for (const file of readdirSync(assetsDir)) {
+      const text = readFileSync(join(assetsDir, file), 'utf8')
+      const header = text.split('\n')[0].match(/@shared-core\s+(\S+)\s+origin:\s+([\w-]+)/)
+      if (!header) continue
+      const [, sharedFile, origin] = header
+      if (origin === name) continue
+      const originPath = join(skillsDir, origin, 'assets', sharedFile)
+      if (!existsSync(originPath)) {
+        errors.push(`${name}: 공유 코어 원본 없음 — ${origin}/assets/${sharedFile}`)
+        continue
+      }
+      if (hash(text) !== hash(readFileSync(originPath, 'utf8'))) {
+        errors.push(`${name}: assets/${file}이 원본 ${origin}/assets/${sharedFile}과 다름 — 원본을 다시 복사하라`)
+      }
+    }
   }
 }
 
