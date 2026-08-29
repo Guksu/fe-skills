@@ -65,60 +65,60 @@ plugins/ui/skills/bottom-sheet/
 
 | 스킬 | slug | 설명 | |
 |---|---|---|---|
-| 🎭 [진입/퇴장 애니메이션](plugins/ui/skills/enter-exit/SKILL.md) | `enter-exit` | 모달·토스트처럼 나타나고 사라지는 요소의 전환 — 퇴장까지 CSS로 | [데모](https://guksu.github.io/fe-skills/#/enter-exit) |
-| 📜 [스크롤 리빌](plugins/ui/skills/scroll-reveal/SKILL.md) | `scroll-reveal` | 스크롤로 뷰포트에 들어올 때 콘텐츠를 순차 공개 | [데모](https://guksu.github.io/fe-skills/#/scroll-reveal) |
-| 📌 [스티키 헤더 전환](plugins/ui/skills/sticky-header/SKILL.md) | `sticky-header` | 큰 제목이 밀려 나가면 고정 바에 컴팩트 제목이 나타남 | [데모](https://guksu.github.io/fe-skills/#/sticky-header) |
-| 🔀 [리스트 재배치 (FLIP)](plugins/ui/skills/flip-list/SKILL.md) | `flip-list` | 정렬·재배치 시 항목이 순간이동 대신 미끄러져 이동 | [데모](https://guksu.github.io/fe-skills/#/flip-list) |
-| 🔍 [확대 전환 라이트박스](plugins/ui/skills/zoom-lightbox/SKILL.md) | `zoom-lightbox` | 썸네일이 화면 중앙으로 커지는 공유 요소 전환 | [데모](https://guksu.github.io/fe-skills/#/zoom-lightbox) |
-| 🪟 [모달 다이얼로그](plugins/ui/skills/modal-dialog/SKILL.md) | `modal-dialog` | 백드롭 페이드 + 패널 스케일 진입 — 네이티브 `<dialog>`라 포커스 트랩·Esc 공짜 | [데모](https://guksu.github.io/fe-skills/#/modal-dialog) |
-| 🪀 [스프링 물리 모션](plugins/ui/skills/spring-physics/SKILL.md) | `spring-physics` | duration 대신 강성·감쇠로 — 던진 속도를 이어받고 목표가 바뀌어도 끊기지 않음 | [데모](https://guksu.github.io/fe-skills/#/spring-physics) |
+| [진입/퇴장 애니메이션](plugins/ui/skills/enter-exit/SKILL.md) | `enter-exit` | 모달·토스트처럼 나타나고 사라지는 요소의 전환 — 퇴장까지 CSS로 | [데모](https://guksu.github.io/fe-skills/#/enter-exit) |
+| [스크롤 리빌](plugins/ui/skills/scroll-reveal/SKILL.md) | `scroll-reveal` | 스크롤로 뷰포트에 들어올 때 콘텐츠를 순차 공개 | [데모](https://guksu.github.io/fe-skills/#/scroll-reveal) |
+| [스티키 헤더 전환](plugins/ui/skills/sticky-header/SKILL.md) | `sticky-header` | 큰 제목이 밀려 나가면 고정 바에 컴팩트 제목이 나타남 | [데모](https://guksu.github.io/fe-skills/#/sticky-header) |
+| [리스트 재배치 (FLIP)](plugins/ui/skills/flip-list/SKILL.md) | `flip-list` | 정렬·재배치 시 항목이 순간이동 대신 미끄러져 이동 | [데모](https://guksu.github.io/fe-skills/#/flip-list) |
+| [확대 전환 라이트박스](plugins/ui/skills/zoom-lightbox/SKILL.md) | `zoom-lightbox` | 썸네일이 화면 중앙으로 커지는 공유 요소 전환 | [데모](https://guksu.github.io/fe-skills/#/zoom-lightbox) |
+| [모달 다이얼로그](plugins/ui/skills/modal-dialog/SKILL.md) | `modal-dialog` | 백드롭 페이드 + 패널 스케일 진입 — 네이티브 `<dialog>`라 포커스 트랩·Esc 공짜 | [데모](https://guksu.github.io/fe-skills/#/modal-dialog) |
+| [스프링 물리 모션](plugins/ui/skills/spring-physics/SKILL.md) | `spring-physics` | duration 대신 강성·감쇠로 — 던진 속도를 이어받고 목표가 바뀌어도 끊기지 않음 | [데모](https://guksu.github.io/fe-skills/#/spring-physics) |
 
 ### 로딩과 진행
 
 | 스킬 | slug | 설명 | |
 |---|---|---|---|
-| 💀 [스켈레톤 시머](plugins/ui/skills/skeleton/SKILL.md) | `skeleton` | 로딩 중 콘텐츠 자리를 잡아주는 뼈대 + 반짝임 (CSS-only) | [데모](https://guksu.github.io/fe-skills/#/skeleton) |
-| 🔢 [숫자 카운트업](plugins/ui/skills/count-up/SKILL.md) | `count-up` | 잔액·포인트가 목표값까지 굴러 올라가는 연출 | [데모](https://guksu.github.io/fe-skills/#/count-up) |
+| [스켈레톤 시머](plugins/ui/skills/skeleton/SKILL.md) | `skeleton` | 로딩 중 콘텐츠 자리를 잡아주는 뼈대 + 반짝임 (CSS-only) | [데모](https://guksu.github.io/fe-skills/#/skeleton) |
+| [숫자 카운트업](plugins/ui/skills/count-up/SKILL.md) | `count-up` | 잔액·포인트가 목표값까지 굴러 올라가는 연출 | [데모](https://guksu.github.io/fe-skills/#/count-up) |
 | ⏯️ [스토리 프로그레스](plugins/ui/skills/story-progress/SKILL.md) | `story-progress` | 자동 재생 진행바 — 길게 눌러 멈춤, 탭으로 이동 | [데모](https://guksu.github.io/fe-skills/#/story-progress) |
 
 ### 피드백
 
 | 스킬 | slug | 설명 | |
 |---|---|---|---|
-| 👆 [프레스 피드백](plugins/ui/skills/press-feedback/SKILL.md) | `press-feedback` | 눌리는 순간 움츠렸다 스프링처럼 복귀 (CSS-only) | [데모](https://guksu.github.io/fe-skills/#/press-feedback) |
-| 🍞 [토스트 스택](plugins/ui/skills/toast-stack/SKILL.md) | `toast-stack` | 알림이 쌓이고 각자 시간이 되면 사라짐 | [데모](https://guksu.github.io/fe-skills/#/toast-stack) |
-| ❤️ [좋아요 팝 + 더블탭 버스트](plugins/ui/skills/like-pop/SKILL.md) | `like-pop` | 하트 토글 팝과 더블탭 하트 버스트 | [데모](https://guksu.github.io/fe-skills/#/like-pop) |
-| 🛒 [카트 플라이](plugins/ui/skills/cart-fly/SKILL.md) | `cart-fly` | 담기를 누르면 상품이 장바구니로 포물선을 그리며 날아감 | [데모](https://guksu.github.io/fe-skills/#/cart-fly) |
-| 💬 [툴팁](plugins/ui/skills/tooltip/SKILL.md) | `tooltip` | 호버는 지연 후·포커스는 즉시 — 4방향 배치 | [데모](https://guksu.github.io/fe-skills/#/tooltip) |
-| 🚫 [폼 에러 흔들림](plugins/ui/skills/form-shake-error/SKILL.md) | `form-shake-error` | 틀린 입력을 흔들고 에러 메시지가 밀려 올라옴 — 연타해도 재시작 보장 | [데모](https://guksu.github.io/fe-skills/#/form-shake-error) |
+| [프레스 피드백](plugins/ui/skills/press-feedback/SKILL.md) | `press-feedback` | 눌리는 순간 움츠렸다 스프링처럼 복귀 (CSS-only) | [데모](https://guksu.github.io/fe-skills/#/press-feedback) |
+| [토스트 스택](plugins/ui/skills/toast-stack/SKILL.md) | `toast-stack` | 알림이 쌓이고 각자 시간이 되면 사라짐 | [데모](https://guksu.github.io/fe-skills/#/toast-stack) |
+| [좋아요 팝 + 더블탭 버스트](plugins/ui/skills/like-pop/SKILL.md) | `like-pop` | 하트 토글 팝과 더블탭 하트 버스트 | [데모](https://guksu.github.io/fe-skills/#/like-pop) |
+| [카트 플라이](plugins/ui/skills/cart-fly/SKILL.md) | `cart-fly` | 담기를 누르면 상품이 장바구니로 포물선을 그리며 날아감 | [데모](https://guksu.github.io/fe-skills/#/cart-fly) |
+| [툴팁](plugins/ui/skills/tooltip/SKILL.md) | `tooltip` | 호버는 지연 후·포커스는 즉시 — 4방향 배치 | [데모](https://guksu.github.io/fe-skills/#/tooltip) |
+| [폼 에러 흔들림](plugins/ui/skills/form-shake-error/SKILL.md) | `form-shake-error` | 틀린 입력을 흔들고 에러 메시지가 밀려 올라옴 — 연타해도 재시작 보장 | [데모](https://guksu.github.io/fe-skills/#/form-shake-error) |
 
 ### 내비게이션
 
 | 스킬 | slug | 설명 | |
 |---|---|---|---|
-| 🗂️ [탭 인디케이터 슬라이드](plugins/ui/skills/tab-indicator/SKILL.md) | `tab-indicator` | 활성 탭 밑줄이 미끄러져 이동 | [데모](https://guksu.github.io/fe-skills/#/tab-indicator) |
-| 🎠 [스냅 캐러셀](plugins/ui/skills/carousel/SKILL.md) | `carousel` | 스와이프 스냅 배너·카드 슬라이더 (CSS scroll-snap) | [데모](https://guksu.github.io/fe-skills/#/carousel) |
-| 🍔 [햄버거 메뉴](plugins/ui/skills/hamburger-menu/SKILL.md) | `hamburger-menu` | ≡가 X로 모핑하는 버튼 + 옆에서 밀려 나오는 드로어 | [데모](https://guksu.github.io/fe-skills/#/hamburger-menu) |
+| [탭 인디케이터 슬라이드](plugins/ui/skills/tab-indicator/SKILL.md) | `tab-indicator` | 활성 탭 밑줄이 미끄러져 이동 | [데모](https://guksu.github.io/fe-skills/#/tab-indicator) |
+| [스냅 캐러셀](plugins/ui/skills/carousel/SKILL.md) | `carousel` | 스와이프 스냅 배너·카드 슬라이더 (CSS scroll-snap) | [데모](https://guksu.github.io/fe-skills/#/carousel) |
+| [햄버거 메뉴](plugins/ui/skills/hamburger-menu/SKILL.md) | `hamburger-menu` | ≡가 X로 모핑하는 버튼 + 옆에서 밀려 나오는 드로어 | [데모](https://guksu.github.io/fe-skills/#/hamburger-menu) |
 
 ### 제스처
 
 | 스킬 | slug | 설명 | |
 |---|---|---|---|
-| 📋 [바텀시트](plugins/ui/skills/bottom-sheet/SKILL.md) | `bottom-sheet` | 아래에서 올라오는 시트 — 드래그로 끌어내려 닫기, 스냅 포인트 | [데모](https://guksu.github.io/fe-skills/#/bottom-sheet) |
-| 🔄 [당겨서 새로고침](plugins/ui/skills/pull-to-refresh/SKILL.md) | `pull-to-refresh` | 최상단에서 끌어내려 갱신 — 고무줄 저항과 스피너 | [데모](https://guksu.github.io/fe-skills/#/pull-to-refresh) |
-| 🗑️ [밀어서 삭제](plugins/ui/skills/swipe-to-delete/SKILL.md) | `swipe-to-delete` | 왼쪽으로 밀면 삭제 버튼, 끝까지 밀면 바로 삭제 — 행이 접히며 사라짐 | [데모](https://guksu.github.io/fe-skills/#/swipe-to-delete) |
-| 🤏 [피드 핀치줌](plugins/ui/skills/pinch-zoom/SKILL.md) | `pinch-zoom` | 두 손가락으로 벌리면 그 자리에서 커지고 놓으면 제자리로 — 인스타그램 피드 관례 | [데모](https://guksu.github.io/fe-skills/#/pinch-zoom) |
-| 🖼️ [끌어내려 닫는 뷰어](plugins/ui/skills/swipe-dismiss-viewer/SKILL.md) | `swipe-dismiss-viewer` | 이미지를 끌면 작아지며 뒤가 비치고, 놓으면 썸네일 자리로 스프링 복귀 — iOS 사진 관례 | [데모](https://guksu.github.io/fe-skills/#/swipe-dismiss-viewer) |
+| [바텀시트](plugins/ui/skills/bottom-sheet/SKILL.md) | `bottom-sheet` | 아래에서 올라오는 시트 — 드래그로 끌어내려 닫기, 스냅 포인트 | [데모](https://guksu.github.io/fe-skills/#/bottom-sheet) |
+| [당겨서 새로고침](plugins/ui/skills/pull-to-refresh/SKILL.md) | `pull-to-refresh` | 최상단에서 끌어내려 갱신 — 고무줄 저항과 스피너 | [데모](https://guksu.github.io/fe-skills/#/pull-to-refresh) |
+| [밀어서 삭제](plugins/ui/skills/swipe-to-delete/SKILL.md) | `swipe-to-delete` | 왼쪽으로 밀면 삭제 버튼, 끝까지 밀면 바로 삭제 — 행이 접히며 사라짐 | [데모](https://guksu.github.io/fe-skills/#/swipe-to-delete) |
+| [피드 핀치줌](plugins/ui/skills/pinch-zoom/SKILL.md) | `pinch-zoom` | 두 손가락으로 벌리면 그 자리에서 커지고 놓으면 제자리로 — 인스타그램 피드 관례 | [데모](https://guksu.github.io/fe-skills/#/pinch-zoom) |
+| [끌어내려 닫는 뷰어](plugins/ui/skills/swipe-dismiss-viewer/SKILL.md) | `swipe-dismiss-viewer` | 이미지를 끌면 작아지며 뒤가 비치고, 놓으면 썸네일 자리로 스프링 복귀 — iOS 사진 관례 | [데모](https://guksu.github.io/fe-skills/#/swipe-dismiss-viewer) |
 
 ### 컨트롤
 
 | 스킬 | slug | 설명 | |
 |---|---|---|---|
-| 🔽 [커스텀 셀렉트](plugins/ui/skills/select/SKILL.md) | `select` | 패널이 드롭되는 셀렉트 — 키보드 내비게이션·ARIA 콤보박스 내장 | [데모](https://guksu.github.io/fe-skills/#/select) |
-| 🪗 [아코디언](plugins/ui/skills/accordion/SKILL.md) | `accordion` | JS 측정 없는 높이 애니메이션 — `grid-template-rows 0fr↔1fr` | [데모](https://guksu.github.io/fe-skills/#/accordion) |
-| 🎚️ [토글 스위치](plugins/ui/skills/switch/SKILL.md) | `switch` | 썸 슬라이드 + 누름 스퀴시 — 네이티브 체크박스 기반이라 접근성 공짜 | [데모](https://guksu.github.io/fe-skills/#/switch) |
-| 🏷️ [플로팅 라벨 입력](plugins/ui/skills/floating-label/SKILL.md) | `floating-label` | 라벨이 플레이스홀더 자리에서 떠오르는 입력 — 판정은 CSS만으로 | [데모](https://guksu.github.io/fe-skills/#/floating-label) |
-| ☑️ [체크박스 · 라디오](plugins/ui/skills/checkbox-radio/SKILL.md) | `checkbox-radio` | 체크마크가 획으로 그려지고 라디오 도트가 튀어 맺힘 — 네이티브 input 기반 | [데모](https://guksu.github.io/fe-skills/#/checkbox-radio) |
+| [커스텀 셀렉트](plugins/ui/skills/select/SKILL.md) | `select` | 패널이 드롭되는 셀렉트 — 키보드 내비게이션·ARIA 콤보박스 내장 | [데모](https://guksu.github.io/fe-skills/#/select) |
+| [아코디언](plugins/ui/skills/accordion/SKILL.md) | `accordion` | JS 측정 없는 높이 애니메이션 — `grid-template-rows 0fr↔1fr` | [데모](https://guksu.github.io/fe-skills/#/accordion) |
+| [토글 스위치](plugins/ui/skills/switch/SKILL.md) | `switch` | 썸 슬라이드 + 누름 스퀴시 — 네이티브 체크박스 기반이라 접근성 공짜 | [데모](https://guksu.github.io/fe-skills/#/switch) |
+| [플로팅 라벨 입력](plugins/ui/skills/floating-label/SKILL.md) | `floating-label` | 라벨이 플레이스홀더 자리에서 떠오르는 입력 — 판정은 CSS만으로 | [데모](https://guksu.github.io/fe-skills/#/floating-label) |
+| [체크박스 · 라디오](plugins/ui/skills/checkbox-radio/SKILL.md) | `checkbox-radio` | 체크마크가 획으로 그려지고 라디오 도트가 튀어 맺힘 — 네이티브 input 기반 | [데모](https://guksu.github.io/fe-skills/#/checkbox-radio) |
 
 ## 설계 스킬 — fe-system
 
