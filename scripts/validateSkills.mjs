@@ -7,6 +7,7 @@
  *  - 본문이 참조하는 assets/·references/ 경로 실재
  *  - 데모 레지스트리(demo/src/demos/index.ts)에 slug 등록
  *  - 공유 코어 복사본 동기: 첫 줄에 `@shared-core {파일} origin: {스킬}` 헤더가 있는 assets 파일은 원본과 내용이 같아야 한다
+ *  - README 배지 숫자(fe-ui/fe-system 스킬 수, 테스트 수)가 실제와 일치
  */
 import { readFileSync, readdirSync, existsSync, statSync } from 'node:fs'
 import { join } from 'node:path'
@@ -17,6 +18,7 @@ const hash = (text) => createHash('sha256').update(text).digest('hex')
 const root = new URL('..', import.meta.url).pathname
 const registry = readFileSync(join(root, 'demo/src/demos/index.ts'), 'utf8')
 const errors = []
+const skillCounts = {}
 
 // UI 스킬은 데모 레지스트리 등록까지, 시스템 스킬(문서+문답)은 구조만 검사한다
 const plugins = [
@@ -29,6 +31,7 @@ for (const { dir: skillsDir, requiresDemo } of plugins) {
   for (const name of readdirSync(skillsDir).sort()) {
     const dir = join(skillsDir, name)
     if (!statSync(dir).isDirectory()) continue
+    skillCounts[skillsDir] = (skillCounts[skillsDir] ?? 0) + 1
     const skillPath = join(dir, 'SKILL.md')
     if (!existsSync(skillPath)) {
       errors.push(`${name}: SKILL.md 없음`)
@@ -69,6 +72,21 @@ for (const { dir: skillsDir, requiresDemo } of plugins) {
     }
   }
 }
+
+// README 배지 — 숫자가 실제와 어긋나면 문서가 거짓말을 한다. 테스트 수는 vitest가 남긴 마지막 결과 없이도 셀 수 있게 it( 호출 수로 센다
+const readme = readFileSync(join(root, 'README.md'), 'utf8')
+const badge = (label) => Number(readme.match(new RegExp(`${label}-(\\d+)%20`))?.[1] ?? NaN)
+const expectBadge = ({ label, actual }) => {
+  const shown = badge(label)
+  if (shown !== actual) errors.push(`README 배지 ${label}: ${shown}로 표기, 실제 ${actual} — README 배지를 갱신하라`)
+}
+expectBadge({ label: 'fe--ui', actual: skillCounts[join(root, 'plugins/ui/skills')] ?? 0 })
+expectBadge({ label: 'fe--system', actual: skillCounts[join(root, 'plugins/system/skills')] ?? 0 })
+const testsDir = join(root, 'demo/src/tests')
+const testCount = readdirSync(testsDir)
+  .filter((file) => /\.test\.tsx?$/.test(file))
+  .reduce((sum, file) => sum + (readFileSync(join(testsDir, file), 'utf8').match(/^\s*it\(/gm) ?? []).length, 0)
+expectBadge({ label: 'tests', actual: testCount })
 
 if (errors.length > 0) {
   console.error(`스킬 구조 검증 실패 ${errors.length}건:`)
