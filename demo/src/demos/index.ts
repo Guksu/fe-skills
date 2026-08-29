@@ -26,6 +26,8 @@ import { CheckboxRadioDemo } from './checkbox-radio/CheckboxRadioDemo'
 import { FormShakeErrorDemo } from './form-shake-error/FormShakeErrorDemo'
 import { SwipeToDeleteDemo } from './swipe-to-delete/SwipeToDeleteDemo'
 import { PinchZoomDemo } from './pinch-zoom/PinchZoomDemo'
+import { SpringPhysicsDemo } from './spring-physics/SpringPhysicsDemo'
+import { SwipeDismissViewerDemo } from './swipe-dismiss-viewer/SwipeDismissViewerDemo'
 
 export type DemoCategory = '등장과 전환' | '로딩과 진행' | '피드백' | '내비게이션' | '제스처' | '컨트롤'
 
@@ -451,5 +453,37 @@ const field = useShake<HTMLInputElement>()
   <img src={post.image} alt={post.alt} draggable={false} />
 </PinchZoom>`,
     Component: PinchZoomDemo,
+  },
+  {
+    slug: 'spring-physics',
+    title: '스프링 물리 모션',
+    description: 'duration 대신 강성·감쇠로 — 던진 속도를 이어받고 도중에 목표가 바뀌어도 끊기지 않음',
+    emoji: '🪀',
+    category: '등장과 전환',
+    usage: `import { useSpring } from './useSpring'
+
+const x = useSpring({ onUpdate: (v) => { el.current.style.transform = \`translateX(\${v}px)\` } })
+
+// 드래그 중: x.set(x.get() + e.movementX)
+// 놓는 순간: x.to(0, velocityPxPerSec)`,
+    Component: SpringPhysicsDemo,
+  },
+  {
+    slug: 'swipe-dismiss-viewer',
+    title: '끌어내려 닫는 뷰어',
+    description: '이미지를 끌면 작아지며 뒤가 비치고, 놓으면 썸네일 자리로 스프링 복귀 — iOS 사진·인스타 관례',
+    emoji: '🖼️',
+    category: '제스처',
+    usage: `import { SwipeDismissViewer } from './SwipeDismissViewer'
+
+{open && (
+  <SwipeDismissViewer
+    src={open.src}
+    alt={open.alt}
+    returnTo={{ current: thumbs.current[open.id] }}
+    onClose={() => setOpenId(null)}
+  />
+)}`,
+    Component: SwipeDismissViewerDemo,
   },
 ]

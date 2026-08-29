@@ -1,0 +1,86 @@
+.spring-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.spring-track {
+  position: relative;
+  height: 64px;
+  border-radius: 999px;
+  background: var(--bg);
+}
+
+.spring-track::before {
+  content: '';
+  position: absolute;
+  left: 32px;
+  top: 50%;
+  width: 2px;
+  height: 24px;
+  transform: translate(-50%, -50%);
+  background: var(--border);
+}
+
+.spring-ball {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--accent);
+  font-size: 1.5rem;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  will-change: transform;
+}
+
+.spring-ball:active {
+  cursor: grabbing;
+}
+
+.spring-ball:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.spring-ball-ghost {
+  background: #475569;
+  cursor: default;
+}
+
+.spring-presets {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.spring-linear {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.spring-pop {
+  transform: scale(1);
+}
+
+.spring-pop[data-popped='true'] {
+  transform: scale(1.15);
+}
+
+.spring-linear-code {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  word-break: break-all;
+}
