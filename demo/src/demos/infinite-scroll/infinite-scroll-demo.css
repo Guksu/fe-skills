@@ -1,0 +1,75 @@
+.is-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.is-stage-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.is-stage-title {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.is-stage-count {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* 데모용 스크롤 상자 — 실제 프로젝트에서는 보통 페이지 자체가 스크롤된다 */
+.is-box {
+  height: 420px;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg);
+  padding: 0 1rem;
+}
+
+.is-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.is-review {
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.is-review-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.is-stars {
+  color: #f5c518;
+  letter-spacing: 1px;
+}
+
+.is-stars-off {
+  color: var(--border);
+}
+
+.is-review-text {
+  margin: 0.35rem 0 0;
+  color: var(--text-dim);
+  font-size: 0.9rem;
+}
+
+.is-reset {
+  align-self: flex-start;
+  font-size: 0.9rem;
+}

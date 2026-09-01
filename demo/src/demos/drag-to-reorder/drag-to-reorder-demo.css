@@ -1,0 +1,72 @@
+.dr-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.dr-stage-title {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.dr-stage-hint {
+  margin: 0;
+  color: var(--text-dim);
+  font-size: 0.85rem;
+}
+
+.dr-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* 코어가 항목 간 간격을 이 값으로 잰다 */
+  margin: 0.5rem 0;
+}
+
+.dr-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg);
+}
+
+/* 데모 전역 button 스타일이 손잡이에 묻지 않게 되돌린다 — 스킬 assets는 건드리지 않는다 */
+.dr-stage .dr-handle,
+.dr-stage .dr-handle:hover {
+  align-self: center;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  font-size: 1.1rem;
+}
+
+.dr-rank {
+  width: 1.5rem;
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+
+.dr-name {
+  flex: 1;
+}
+
+.dr-price {
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+}
+
+.dr-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  color: var(--text-dim);
+  font-size: 0.9rem;
+}

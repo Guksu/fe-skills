@@ -1,0 +1,170 @@
+.pt-stage {
+  display: flex;
+  justify-content: center;
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.pt-phone {
+  display: flex;
+  flex-direction: column;
+  width: min(360px, 100%);
+  height: 520px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: var(--bg);
+  overflow: hidden;
+}
+
+.pt-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.pt-title {
+  flex: 1;
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+.pt-stage .pt-back {
+  padding: 0.25rem 0.5rem;
+  border: none;
+  background: transparent;
+  color: var(--accent);
+  font-size: 0.85rem;
+}
+
+.pt-back-placeholder,
+.pt-depth {
+  width: 3.5rem;
+  color: var(--text-dim);
+  font-size: 0.75rem;
+  text-align: right;
+}
+
+.pt-scroll {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.pt-view {
+  min-height: 100%;
+  padding: 0.5rem 0;
+}
+
+.pt-list,
+.pt-reviews {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.pt-stage .pt-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  text-align: left;
+}
+
+.pt-stage .pt-row:hover {
+  background: var(--accent-soft);
+}
+
+.pt-row-emoji {
+  font-size: 1.5rem;
+}
+
+.pt-row-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 0.15rem;
+}
+
+.pt-row-desc {
+  color: var(--text-dim);
+  font-size: 0.78rem;
+}
+
+.pt-row-price {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.pt-filler {
+  padding: 2rem 1rem;
+  color: var(--text-dim);
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+.pt-detail {
+  padding: 1rem;
+  text-align: center;
+}
+
+.pt-detail-hero {
+  font-size: 4rem;
+  line-height: 1.4;
+}
+
+.pt-detail-name {
+  margin: 0.5rem 0 0.25rem;
+}
+
+.pt-detail-price {
+  margin: 0;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.pt-detail-desc {
+  margin: 0.75rem 0 1.25rem;
+  color: var(--text-dim);
+  font-size: 0.9rem;
+}
+
+.pt-stage .pt-more {
+  border: 1px solid var(--border);
+  background: transparent;
+  font-size: 0.85rem;
+}
+
+.pt-reviews li {
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 0.9rem;
+}
+
+.pt-tabbar {
+  display: flex;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.pt-tab {
+  flex: 1;
+  padding: 0.75rem 0;
+  color: var(--text-dim);
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+.pt-tab-active {
+  color: var(--accent);
+  font-weight: 600;
+}
