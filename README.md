@@ -5,13 +5,13 @@
 **AI 에이전트에게 주는 프론트엔드 설명서 모음** — 애니메이션·UI 구현 패턴과 시스템 설계 문답을, AI가 읽고 바로 적용할 수 있는 형태로 정리했습니다.
 
 [![Deploy demo](https://github.com/Guksu/fe-skills/actions/workflows/deploy-demo.yml/badge.svg)](https://github.com/Guksu/fe-skills/actions/workflows/deploy-demo.yml)
-![UI skills](https://img.shields.io/badge/fe--ui-33%20skills-6ea8fe)
+![UI skills](https://img.shields.io/badge/fe--ui-37%20skills-6ea8fe)
 ![System skills](https://img.shields.io/badge/fe--system-1%20skill-a78bfa)
 ![Dependencies](https://img.shields.io/badge/runtime%20deps-0-34c759)
-![Tests](https://img.shields.io/badge/tests-245%20passing-34c759)
+![Tests](https://img.shields.io/badge/tests-305%20passing-34c759)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
-[**라이브 데모**](https://guksu.github.io/fe-skills/) · [설치](#설치) · [UI 스킬 목록](#ui-스킬-29종--fe-ui) · [설계 스킬](#설계-스킬--fe-system) · [기여하기](#기여하기) · [라이선스](#라이선스)
+[**라이브 데모**](https://guksu.github.io/fe-skills/) · [설치](#설치) · [UI 스킬 목록](#ui-스킬-37종--fe-ui) · [설계 스킬](#설계-스킬--fe-system) · [기여하기](#기여하기) · [라이선스](#라이선스)
 
 </div>
 
@@ -72,7 +72,7 @@ plugins/ui/skills/bottom-sheet/
 
 여러 스킬이 같은 로직을 쓰는 경우(예: 용수철 움직임), 각 스킬 폴더에 복사본을 넣어뒀습니다 — 스킬 하나만 설치해도 그것만으로 완결되게 하려고요. 복사본이 원본과 달라지지 않도록 저장소 검사 스크립트가 두 파일을 대조합니다.
 
-## UI 스킬 29종 — fe-ui
+## UI 스킬 37종 — fe-ui
 
 이름을 누르면 설명서, 오른쪽 데모를 누르면 실제로 움직이는 화면을 볼 수 있습니다.
 
@@ -87,6 +87,7 @@ plugins/ui/skills/bottom-sheet/
 | [확대 전환 라이트박스](plugins/ui/skills/zoom-lightbox/SKILL.md) | `zoom-lightbox` | 썸네일을 누르면 그 자리에서 화면 중앙으로 커지며 열림 | [데모](https://guksu.github.io/fe-skills/#/zoom-lightbox) |
 | [모달 다이얼로그](plugins/ui/skills/modal-dialog/SKILL.md) | `modal-dialog` | 배경이 어두워지며 창이 열림 — 브라우저 기본 `<dialog>`를 써서 Esc 닫기·포커스 가두기가 공짜 | [데모](https://guksu.github.io/fe-skills/#/modal-dialog) |
 | [스프링 물리 모션](plugins/ui/skills/spring-physics/SKILL.md) | `spring-physics` | "0.3초 동안" 대신 **용수철처럼** 움직이기 — 손가락으로 던진 속도를 그대로 이어받음 | [데모](https://guksu.github.io/fe-skills/#/spring-physics) |
+| [다크모드 전환](plugins/ui/skills/theme-toggle/SKILL.md) | `theme-toggle` | 누른 지점에서 원이 퍼지며 테마가 덮임 — 선택은 저장되고, 안 고르면 기기 설정을 따라감 | [데모](https://guksu.github.io/fe-skills/#/theme-toggle) |
 
 ### 기다리는 동안
 
@@ -97,6 +98,7 @@ plugins/ui/skills/bottom-sheet/
 | [스토리 프로그레스](plugins/ui/skills/story-progress/SKILL.md) | `story-progress` | 인스타 스토리식 진행 바 — 길게 누르면 멈추고, 탭하면 다음으로 | [데모](https://guksu.github.io/fe-skills/#/story-progress) |
 | [로딩 버튼](plugins/ui/skills/loading-button/SKILL.md) | `loading-button` | 제출 버튼이 "전송 중 → 완료"로 모습을 바꿈 — 연타해도 요청은 한 번만 나감 | [데모](https://guksu.github.io/fe-skills/#/loading-button) |
 | [무한 스크롤](plugins/ui/skills/infinite-scroll/SKILL.md) | `infinite-scroll` | 목록 끝에 닿기 전에 다음 페이지를 미리 불러옴 — 같은 페이지를 두 번 붙이지 않음 | [데모](https://guksu.github.io/fe-skills/#/infinite-scroll) |
+| [가상 스크롤](plugins/ui/skills/virtual-list/SKILL.md) | `virtual-list` | 항목이 5만 개여도 화면에 보이는 20여 개만 그림 — 스크롤이 끊기지 않음 | [데모](https://guksu.github.io/fe-skills/#/virtual-list) |
 
 ### 누르면 반응하기
 
@@ -138,6 +140,8 @@ plugins/ui/skills/bottom-sheet/
 | [토글 스위치](plugins/ui/skills/switch/SKILL.md) | `switch` | 켜고 끄는 스위치 — 기본 체크박스 위에 얹어 접근성 유지 | [데모](https://guksu.github.io/fe-skills/#/switch) |
 | [플로팅 라벨 입력](plugins/ui/skills/floating-label/SKILL.md) | `floating-label` | 입력을 시작하면 안내 문구가 위로 떠올라 라벨이 됨 | [데모](https://guksu.github.io/fe-skills/#/floating-label) |
 | [체크박스 · 라디오](plugins/ui/skills/checkbox-radio/SKILL.md) | `checkbox-radio` | 체크 표시가 그려지듯 나타나고 라디오 점이 톡 맺힘 | [데모](https://guksu.github.io/fe-skills/#/checkbox-radio) |
+| [인증번호 입력](plugins/ui/skills/otp-input/SKILL.md) | `otp-input` | 치면 다음 칸으로, 지우면 앞 칸으로 — 복사한 6자리는 칸마다 하나씩 나뉨 | [데모](https://guksu.github.io/fe-skills/#/otp-input) |
+| [검색어 자동완성](plugins/ui/skills/search-suggest/SKILL.md) | `search-suggest` | 입력이 멈춘 뒤 한 번만 요청 — 늦게 온 옛 응답이 최신 목록을 덮지 않음 | [데모](https://guksu.github.io/fe-skills/#/search-suggest) |
 
 ## 설계 스킬 — fe-system
 

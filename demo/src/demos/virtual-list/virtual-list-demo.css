@@ -1,0 +1,86 @@
+.vl-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.vl-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.vl-title {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.vl-counters {
+  display: flex;
+  gap: 1.5rem;
+  margin: 0;
+  color: var(--text-dim);
+  font-size: 0.9rem;
+}
+
+.vl-counters div {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.vl-counters dt,
+.vl-counters dd {
+  margin: 0;
+}
+
+.vl-counter-strong {
+  color: var(--text);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.vl-viewport {
+  --virtual-height: 420px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg);
+}
+
+.vl-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.vl-no {
+  width: 4.5rem;
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.vl-menu {
+  flex: 1;
+}
+
+.vl-price {
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+}
+
+.vl-footer {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.vl-stage .vl-footer button {
+  font-size: 0.9rem;
+}
