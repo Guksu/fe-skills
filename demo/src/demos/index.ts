@@ -28,6 +28,10 @@ import { SwipeToDeleteDemo } from './swipe-to-delete/SwipeToDeleteDemo'
 import { PinchZoomDemo } from './pinch-zoom/PinchZoomDemo'
 import { SpringPhysicsDemo } from './spring-physics/SpringPhysicsDemo'
 import { SwipeDismissViewerDemo } from './swipe-dismiss-viewer/SwipeDismissViewerDemo'
+import { OtpInputDemo } from './otp-input/OtpInputDemo'
+import { ThemeToggleDemo } from './theme-toggle/ThemeToggleDemo'
+import { SearchSuggestDemo } from './search-suggest/SearchSuggestDemo'
+import { VirtualListDemo } from './virtual-list/VirtualListDemo'
 
 export type DemoCategory = '등장과 전환' | '로딩과 진행' | '피드백' | '내비게이션' | '제스처' | '컨트롤'
 
@@ -181,6 +185,28 @@ const story = useStoryProgress({ count: scenes.length, durationMs: 4000 })
   <section>{scenes[story.index]}</section>
 </div>`,
     Component: StoryProgressDemo,
+  },
+  {
+    slug: 'virtual-list',
+    title: '가상 스크롤',
+    description: '항목이 5만 개여도 화면에 보이는 20여 개만 그림 — DOM 수는 그대로',
+    emoji: '🪟',
+    category: '로딩과 진행',
+    usage: `import { useVirtualList } from './useVirtualList'
+
+const ITEM_HEIGHT = 56
+const list = useVirtualList({ itemCount: orders.length, itemHeight: ITEM_HEIGHT })
+
+<div ref={list.containerRef} className="virtual-viewport">
+  <div className="virtual-sizer" style={{ height: list.range.totalHeight }}>
+    <div className="virtual-window" style={{ transform: \`translateY(\${list.range.offsetY}px)\` }}>
+      {list.indexes.map((i) => (
+        <div key={orders[i].id} className="virtual-item">{orders[i].name}</div>
+      ))}
+    </div>
+  </div>
+</div>`,
+    Component: VirtualListDemo,
   },
   {
     slug: 'press-feedback',
@@ -410,6 +436,55 @@ import { Radio } from './Radio'
     Component: CheckboxRadioDemo,
   },
   {
+    slug: 'otp-input',
+    title: '인증번호 입력',
+    description: '치면 다음 칸으로, 지우면 앞 칸으로 — 복사한 6자리는 칸마다 하나씩 나뉨',
+    emoji: '🔢',
+    category: '컨트롤',
+    usage: `import { OtpInput, type OtpHandle } from './OtpInput'
+
+const otp = useRef<OtpHandle>(null)
+
+<OtpInput
+  ref={otp}
+  onComplete={async (code) => {
+    if (await confirmCode(code)) return goNext()
+    otp.current?.shake()
+    otp.current?.clear()
+  }}
+/>`,
+    Component: OtpInputDemo,
+  },
+  {
+    slug: 'search-suggest',
+    title: '검색어 자동완성',
+    description: '입력이 멈춘 뒤 한 번만 요청 — 늦게 온 옛 응답이 최신 목록을 덮지 않음',
+    emoji: '🔎',
+    category: '컨트롤',
+    usage: `import { useSearchSuggest } from './useSearchSuggest'
+
+const search = useSearchSuggest({
+  fetchSuggestions: ({ query, signal }) =>
+    fetch(\`/api/menus?q=\${query}\`, { signal }).then((res) => res.json()),
+  toText: (menu) => menu.name,
+  onSelect: (menu) => goToMenu(menu.id),
+})
+
+<div className="suggest-root">
+  <input {...search.inputProps} className="suggest-input" />
+  {search.isOpen && (
+    <ul {...search.listProps} className="suggest-panel">
+      {search.items.map((menu, i) => (
+        <li key={menu.id} {...search.getOptionProps(i)} className="suggest-option">
+          {menu.name}
+        </li>
+      ))}
+    </ul>
+  )}
+</div>`,
+    Component: SearchSuggestDemo,
+  },
+  {
     slug: 'form-shake-error',
     title: '폼 에러 흔들림',
     description: '틀린 입력을 좌우로 흔들고 에러 메시지가 밀려 올라옴 — 재시작 보장',
@@ -467,6 +542,27 @@ const x = useSpring({ onUpdate: (v) => { el.current.style.transform = \`translat
 // 드래그 중: x.set(x.get() + e.movementX)
 // 놓는 순간: x.to(0, velocityPxPerSec)`,
     Component: SpringPhysicsDemo,
+  },
+  {
+    slug: 'theme-toggle',
+    title: '다크모드 전환',
+    description: '누른 지점에서 원이 퍼지며 테마가 덮임 — 선택 기억·기기 설정 따라가기',
+    emoji: '🌗',
+    category: '등장과 전환',
+    usage: `import { ThemeToggle } from './ThemeToggle'
+
+<header>
+  <h1>성수동 손칼국수</h1>
+  <ThemeToggle />
+</header>
+
+/* 색은 프로젝트가 정의한다 */
+:root[data-theme='dark'] {
+  --bg: #0f1115;
+  --text: #e8eaf0;
+  color-scheme: dark;
+}`,
+    Component: ThemeToggleDemo,
   },
   {
     slug: 'swipe-dismiss-viewer',
