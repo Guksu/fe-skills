@@ -1,0 +1,58 @@
+.lb-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 1.75rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.lb-stage-title {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.lb-stage-price {
+  margin: 0;
+  color: var(--text-dim);
+}
+
+.lb-actions {
+  position: relative; /* .loading-button-live(absolute)의 기준 */
+  margin: 0.5rem 0;
+}
+
+/* 데모 전역 button:hover(배경 교체)가 버튼의 상태 색을 덮지 않게 되돌린다 — 스킬 assets는 건드리지 않는다.
+ * 진행·완료·실패 색은 스킬 쪽 규칙이 이미 더 강하므로 idle일 때만 되돌리면 된다 */
+.lb-stage .loading-button[data-status='idle']:hover,
+.lb-stage .loading-button[data-status='loading']:hover {
+  background: #2563eb;
+}
+
+.lb-counters {
+  display: flex;
+  gap: 2rem;
+  margin: 0;
+  color: var(--text-dim);
+}
+
+.lb-counters div {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.lb-counters dt,
+.lb-counters dd {
+  margin: 0;
+}
+
+.lb-counter-strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.lb-reset {
+  font-size: 0.9rem;
+}
