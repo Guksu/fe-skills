@@ -369,6 +369,11 @@ button:hover {
   gap: 0.6rem;
 }
 
+/* label에 붙었을 때는 .controls label의 세로 배치를 이겨야 한다 — 체크박스와 문구는 한 줄이다 */
+.controls label.controls-inline {
+  flex-direction: row;
+}
+
 .controls-inline input[type='checkbox'] {
   width: 18px;
   height: 18px;

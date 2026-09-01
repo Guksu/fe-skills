@@ -5,10 +5,10 @@
 **AI 에이전트에게 주는 프론트엔드 설명서 모음** — 애니메이션·UI 구현 패턴과 시스템 설계 문답을, AI가 읽고 바로 적용할 수 있는 형태로 정리했습니다.
 
 [![Deploy demo](https://github.com/Guksu/fe-skills/actions/workflows/deploy-demo.yml/badge.svg)](https://github.com/Guksu/fe-skills/actions/workflows/deploy-demo.yml)
-![UI skills](https://img.shields.io/badge/fe--ui-29%20skills-6ea8fe)
+![UI skills](https://img.shields.io/badge/fe--ui-33%20skills-6ea8fe)
 ![System skills](https://img.shields.io/badge/fe--system-1%20skill-a78bfa)
 ![Dependencies](https://img.shields.io/badge/runtime%20deps-0-34c759)
-![Tests](https://img.shields.io/badge/tests-202%20passing-34c759)
+![Tests](https://img.shields.io/badge/tests-245%20passing-34c759)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 [**라이브 데모**](https://guksu.github.io/fe-skills/) · [설치](#설치) · [UI 스킬 목록](#ui-스킬-29종--fe-ui) · [설계 스킬](#설계-스킬--fe-system) · [기여하기](#기여하기) · [라이선스](#라이선스)
@@ -95,6 +95,8 @@ plugins/ui/skills/bottom-sheet/
 | [스켈레톤 시머](plugins/ui/skills/skeleton/SKILL.md) | `skeleton` | 로딩 중 회색 뼈대와 반짝임으로 자리를 잡아둠 — 데이터가 오면 화면이 덜컹이지 않음 | [데모](https://guksu.github.io/fe-skills/#/skeleton) |
 | [숫자 카운트업](plugins/ui/skills/count-up/SKILL.md) | `count-up` | 잔액·포인트 숫자가 목표값까지 굴러 올라감 | [데모](https://guksu.github.io/fe-skills/#/count-up) |
 | [스토리 프로그레스](plugins/ui/skills/story-progress/SKILL.md) | `story-progress` | 인스타 스토리식 진행 바 — 길게 누르면 멈추고, 탭하면 다음으로 | [데모](https://guksu.github.io/fe-skills/#/story-progress) |
+| [로딩 버튼](plugins/ui/skills/loading-button/SKILL.md) | `loading-button` | 제출 버튼이 "전송 중 → 완료"로 모습을 바꿈 — 연타해도 요청은 한 번만 나감 | [데모](https://guksu.github.io/fe-skills/#/loading-button) |
+| [무한 스크롤](plugins/ui/skills/infinite-scroll/SKILL.md) | `infinite-scroll` | 목록 끝에 닿기 전에 다음 페이지를 미리 불러옴 — 같은 페이지를 두 번 붙이지 않음 | [데모](https://guksu.github.io/fe-skills/#/infinite-scroll) |
 
 ### 누르면 반응하기
 
@@ -114,6 +116,7 @@ plugins/ui/skills/bottom-sheet/
 | [탭 인디케이터 슬라이드](plugins/ui/skills/tab-indicator/SKILL.md) | `tab-indicator` | 선택한 탭의 밑줄이 미끄러져 이동 | [데모](https://guksu.github.io/fe-skills/#/tab-indicator) |
 | [스냅 캐러셀](plugins/ui/skills/carousel/SKILL.md) | `carousel` | 옆으로 밀면 한 장씩 딱 맞춰 멈추는 배너·카드 슬라이더 | [데모](https://guksu.github.io/fe-skills/#/carousel) |
 | [햄버거 메뉴](plugins/ui/skills/hamburger-menu/SKILL.md) | `hamburger-menu` | ≡ 버튼이 X로 변하고 메뉴가 옆에서 밀려 나옴 | [데모](https://guksu.github.io/fe-skills/#/hamburger-menu) |
+| [화면 전환](plugins/ui/skills/page-transition/SKILL.md) | `page-transition` | 목록에서 상세로 들어가면 새 화면이 오른쪽에서 덮고, 뒤로 가면 반대로 — 헤더·탭바는 제자리 | [데모](https://guksu.github.io/fe-skills/#/page-transition) |
 
 ### 손가락 제스처 (모바일)
 
@@ -124,6 +127,7 @@ plugins/ui/skills/bottom-sheet/
 | [밀어서 삭제](plugins/ui/skills/swipe-to-delete/SKILL.md) | `swipe-to-delete` | 왼쪽으로 밀면 삭제 버튼이 나오고, 끝까지 밀면 바로 삭제 | [데모](https://guksu.github.io/fe-skills/#/swipe-to-delete) |
 | [피드 핀치줌](plugins/ui/skills/pinch-zoom/SKILL.md) | `pinch-zoom` | 두 손가락으로 벌리면 그 자리에서 확대, 놓으면 제자리 — 인스타그램 방식 | [데모](https://guksu.github.io/fe-skills/#/pinch-zoom) |
 | [끌어내려 닫는 뷰어](plugins/ui/skills/swipe-dismiss-viewer/SKILL.md) | `swipe-dismiss-viewer` | 사진을 아래로 끌면 작아지며 뒤 화면이 비치고, 놓으면 원래 자리로 — iOS 사진 앱 방식 | [데모](https://guksu.github.io/fe-skills/#/swipe-dismiss-viewer) |
+| [끌어서 순서 바꾸기](plugins/ui/skills/drag-to-reorder/SKILL.md) | `drag-to-reorder` | 손잡이를 끌면 항목이 떠오르고 지나친 항목이 자리를 비켜 줌 — 방향키로도 이동 | [데모](https://guksu.github.io/fe-skills/#/drag-to-reorder) |
 
 ### 입력 요소
 

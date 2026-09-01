@@ -28,6 +28,10 @@ import { SwipeToDeleteDemo } from './swipe-to-delete/SwipeToDeleteDemo'
 import { PinchZoomDemo } from './pinch-zoom/PinchZoomDemo'
 import { SpringPhysicsDemo } from './spring-physics/SpringPhysicsDemo'
 import { SwipeDismissViewerDemo } from './swipe-dismiss-viewer/SwipeDismissViewerDemo'
+import { LoadingButtonDemo } from './loading-button/LoadingButtonDemo'
+import { InfiniteScrollDemo } from './infinite-scroll/InfiniteScrollDemo'
+import { DragToReorderDemo } from './drag-to-reorder/DragToReorderDemo'
+import { PageTransitionDemo } from './page-transition/PageTransitionDemo'
 
 export type DemoCategory = '등장과 전환' | '로딩과 진행' | '피드백' | '내비게이션' | '제스처' | '컨트롤'
 
@@ -183,6 +187,43 @@ const story = useStoryProgress({ count: scenes.length, durationMs: 4000 })
     Component: StoryProgressDemo,
   },
   {
+    slug: 'loading-button',
+    title: '로딩 버튼',
+    description: '제출 버튼이 스스로 진행 상태를 보여줌 — 연타해도 요청은 한 번만',
+    emoji: '⏳',
+    category: '로딩과 진행',
+    usage: `import { LoadingButton } from './LoadingButton'
+
+<LoadingButton
+  onAction={() => placeOrder({ menu: 'myeolchi' })}
+  loadingLabel="주문 중"
+  successLabel="주문 완료"
+>
+  주문하기
+</LoadingButton>`,
+    Component: LoadingButtonDemo,
+  },
+  {
+    slug: 'infinite-scroll',
+    title: '무한 스크롤',
+    description: '목록 끝에 닿기 전에 다음 페이지를 미리 불러옴 — 중복 호출·실패 폭주 차단',
+    emoji: '♾️',
+    category: '로딩과 진행',
+    usage: `import { useInfiniteScroll } from './useInfiniteScroll'
+
+const feed = useInfiniteScroll({
+  hasMore,
+  loadMore: async () => {
+    const page = await fetchMenus({ cursor })
+    setItems((prev) => [...prev, ...page.items])
+    setCursor(page.nextCursor)
+  },
+})
+
+<div ref={feed.sentinelRef} className="infinite-sentinel" aria-hidden="true" />`,
+    Component: InfiniteScrollDemo,
+  },
+  {
     slug: 'press-feedback',
     title: '프레스 피드백',
     description: '버튼이 눌리는 순간 움츠렸다 스프링처럼 복귀 (CSS-only)',
@@ -317,6 +358,26 @@ const { trackRef, activeIndex, goTo } = useCarousel()
   <nav>…메뉴 링크…</nav>
 </Drawer>`,
     Component: HamburgerMenuDemo,
+  },
+  {
+    slug: 'page-transition',
+    title: '화면 전환',
+    description: '들어갈 때는 오른쪽에서 덮고 뒤로 갈 때는 반대로 — 헤더·탭바는 제자리, 스크롤은 복원',
+    emoji: '📱',
+    category: '내비게이션',
+    usage: `import { usePageStack } from './usePageStack'
+
+const stack = usePageStack({ initial: { name: 'list' } })
+
+<header>{stack.canGoBack && <button onClick={stack.back}>← 뒤로</button>}</header>
+
+{/* 이 영역만 전환된다 — 헤더는 제자리를 지킨다 */}
+<main data-page-view>
+  {stack.current.name === 'list'
+    ? <MenuList onSelect={(id) => stack.push({ name: 'detail', id })} />
+    : <MenuDetail id={stack.current.id} />}
+</main>`,
+    Component: PageTransitionDemo,
   },
   {
     slug: 'tooltip',
@@ -485,5 +546,25 @@ const x = useSpring({ onUpdate: (v) => { el.current.style.transform = \`translat
   />
 )}`,
     Component: SwipeDismissViewerDemo,
+  },
+  {
+    slug: 'drag-to-reorder',
+    title: '끌어서 순서 바꾸기',
+    description: '손잡이를 끌면 항목이 떠오르고 지나친 항목이 자리를 비켜 줌 — 방향키로도 이동',
+    emoji: '🧲',
+    category: '제스처',
+    usage: `import { useDragReorder } from './useDragReorder'
+
+const reorder = useDragReorder({ onReorder: move })
+
+<ul ref={reorder.containerRef} className="reorder-list">
+  {todos.map((todo) => (
+    <li key={todo.id} data-reorder-id={todo.id} className="reorder-item">
+      <button {...reorder.getHandleProps({ label: todo.text })}>⠿</button>
+      <span>{todo.text}</span>
+    </li>
+  ))}
+</ul>`,
+    Component: DragToReorderDemo,
   },
 ]
