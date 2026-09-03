@@ -1,0 +1,78 @@
+.qs-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.qs-title {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.qs-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.qs-row {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg);
+}
+
+.qs-emoji {
+  font-size: 1.4rem;
+}
+
+.qs-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 0.15rem;
+}
+
+.qs-unit {
+  color: var(--text-dim);
+  font-size: 0.8rem;
+}
+
+.qs-sum {
+  width: 5.5rem;
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+/* 데모 전역 button 스타일이 스테퍼 버튼에 묻지 않게 되돌린다 — 스킬 assets는 건드리지 않는다 */
+.qs-stage .qty-button,
+.qs-stage .qty-button:hover {
+  align-self: auto;
+  border: none;
+  border-radius: 0;
+}
+
+.qs-empty {
+  padding: 2rem;
+  color: var(--text-dim);
+  text-align: center;
+}
+
+.qs-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  color: var(--text-dim);
+}

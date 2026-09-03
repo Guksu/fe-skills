@@ -1,0 +1,46 @@
+.fu-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.fu-title {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.fu-message {
+  margin: 0;
+  padding: 0.7rem 0.9rem;
+  border-radius: 10px;
+  background: rgb(248 113 113 / 0.12);
+  color: #f87171;
+  font-size: 0.88rem;
+  white-space: pre-line;
+}
+
+/* 데모 전역 button 스타일이 지우기 버튼에 묻지 않게 되돌린다 — 스킬 assets는 건드리지 않는다 */
+.fu-stage .upload-remove,
+.fu-stage .upload-remove:hover {
+  align-self: center;
+  border: none;
+  border-radius: 50%;
+}
+
+.fu-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  color: var(--text-dim);
+  font-size: 0.9rem;
+}
+
+.fu-stage .fu-footer button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}

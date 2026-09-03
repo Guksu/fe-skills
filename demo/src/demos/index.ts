@@ -36,6 +36,10 @@ import { OtpInputDemo } from './otp-input/OtpInputDemo'
 import { ThemeToggleDemo } from './theme-toggle/ThemeToggleDemo'
 import { SearchSuggestDemo } from './search-suggest/SearchSuggestDemo'
 import { VirtualListDemo } from './virtual-list/VirtualListDemo'
+import { DropdownMenuDemo } from './dropdown-menu/DropdownMenuDemo'
+import { RangeSliderDemo } from './range-slider/RangeSliderDemo'
+import { QuantityStepperDemo } from './quantity-stepper/QuantityStepperDemo'
+import { FileUploadDemo } from './file-upload/FileUploadDemo'
 
 export type DemoCategory = '등장과 전환' | '로딩과 진행' | '피드백' | '내비게이션' | '제스처' | '컨트롤'
 
@@ -406,6 +410,24 @@ const stack = usePageStack({ initial: { name: 'list' } })
     Component: PageTransitionDemo,
   },
   {
+    slug: 'dropdown-menu',
+    title: '드롭다운 메뉴',
+    description: '⋯ 버튼의 액션 메뉴 — 아래가 좁으면 위로 뒤집히고, 방향키·첫 글자로 이동',
+    emoji: '⋯',
+    category: '내비게이션',
+    usage: `import { DropdownMenu } from './DropdownMenu'
+
+<DropdownMenu
+  label="주문 관리"
+  align="end"
+  items={[
+    { id: 'receipt', label: '영수증 보기', onSelect: openReceipt },
+    { id: 'cancel', label: '주문 취소', onSelect: cancel, danger: true },
+  ]}
+/>`,
+    Component: DropdownMenuDemo,
+  },
+  {
     slug: 'tooltip',
     title: '툴팁',
     description: '호버는 지연 후·포커스는 즉시 떠오르는 말풍선 — 4방향 배치',
@@ -544,6 +566,65 @@ const search = useSearchSuggest({
   )}
 </div>`,
     Component: SearchSuggestDemo,
+  },
+  {
+    slug: 'range-slider',
+    title: '범위 슬라이더',
+    description: '두 손잡이로 가격대를 고름 — 서로를 지나치지 않고, 겹쳐도 잡힘',
+    emoji: '🎚️',
+    category: '컨트롤',
+    usage: `import { RangeSlider } from './RangeSlider'
+
+const [price, setPrice] = useState({ lower: 8000, upper: 20000 })
+
+<RangeSlider
+  min={0}
+  max={50000}
+  step={1000}
+  value={price}
+  onChange={setPrice}
+  minDistance={1000}
+  label={{ lower: '최저 가격', upper: '최고 가격' }}
+  format={(v) => \`\${v.toLocaleString('ko-KR')}원\`}
+/>`,
+    Component: RangeSliderDemo,
+  },
+  {
+    slug: 'quantity-stepper',
+    title: '수량 스테퍼',
+    description: '− / + 로 수량 조절 — 누르고 있으면 점점 빨라지고, 1에서 −는 삭제로',
+    emoji: '🔢',
+    category: '컨트롤',
+    usage: `import { QuantityStepper } from './QuantityStepper'
+
+<QuantityStepper
+  value={item.count}
+  onChange={(count) => updateCount({ id: item.id, count })}
+  min={1}
+  max={20}
+  label={\`\${item.name} 수량\`}
+  onBelowMin={() => removeFromCart(item.id)}
+/>`,
+    Component: QuantityStepperDemo,
+  },
+  {
+    slug: 'file-upload',
+    title: '파일 업로드',
+    description: '끌어다 놓으면 테두리가 살아나고 미리보기·진행률이 붙음 — 거절엔 이유가 따라옴',
+    emoji: '📎',
+    category: '컨트롤',
+    usage: `import { FileDropZone } from './FileDropZone'
+
+<FileDropZone
+  files={files}
+  onAdd={startUpload}
+  onRemove={(id) => setFiles((prev) => prev.filter((f) => f.id !== id))}
+  onReject={(rejections) => setMessage(describe(rejections))}
+  accept="image/*"
+  maxSizeBytes={5 * 1024 * 1024}
+  maxFiles={5}
+/>`,
+    Component: FileUploadDemo,
   },
   {
     slug: 'form-shake-error',
