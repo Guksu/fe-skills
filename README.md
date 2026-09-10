@@ -5,13 +5,13 @@
 **AI 에이전트에게 주는 프론트엔드 설명서 모음** — 애니메이션·UI 구현 패턴과 시스템 설계 문답을, AI가 읽고 바로 적용할 수 있는 형태로 정리했습니다.
 
 [![Deploy demo](https://github.com/Guksu/fe-skills/actions/workflows/deploy-demo.yml/badge.svg)](https://github.com/Guksu/fe-skills/actions/workflows/deploy-demo.yml)
-![UI skills](https://img.shields.io/badge/fe--ui-37%20skills-6ea8fe)
+![UI skills](https://img.shields.io/badge/fe--ui-41%20skills-6ea8fe)
 ![System skills](https://img.shields.io/badge/fe--system-1%20skill-a78bfa)
 ![Dependencies](https://img.shields.io/badge/runtime%20deps-0-34c759)
-![Tests](https://img.shields.io/badge/tests-305%20passing-34c759)
+![Tests](https://img.shields.io/badge/tests-371%20passing-34c759)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
-[**라이브 데모**](https://guksu.github.io/fe-skills/) · [설치](#설치) · [UI 스킬 목록](#ui-스킬-37종--fe-ui) · [설계 스킬](#설계-스킬--fe-system) · [기여하기](#기여하기) · [라이선스](#라이선스)
+[**라이브 데모**](https://guksu.github.io/fe-skills/) · [설치](#설치) · [UI 스킬 목록](#ui-스킬-41종--fe-ui) · [설계 스킬](#설계-스킬--fe-system) · [기여하기](#기여하기) · [라이선스](#라이선스)
 
 </div>
 
@@ -72,7 +72,7 @@ plugins/ui/skills/bottom-sheet/
 
 여러 스킬이 같은 로직을 쓰는 경우(예: 용수철 움직임), 각 스킬 폴더에 복사본을 넣어뒀습니다 — 스킬 하나만 설치해도 그것만으로 완결되게 하려고요. 복사본이 원본과 달라지지 않도록 저장소 검사 스크립트가 두 파일을 대조합니다.
 
-## UI 스킬 37종 — fe-ui
+## UI 스킬 41종 — fe-ui
 
 이름을 누르면 설명서, 오른쪽 데모를 누르면 실제로 움직이는 화면을 볼 수 있습니다.
 
@@ -119,6 +119,7 @@ plugins/ui/skills/bottom-sheet/
 | [스냅 캐러셀](plugins/ui/skills/carousel/SKILL.md) | `carousel` | 옆으로 밀면 한 장씩 딱 맞춰 멈추는 배너·카드 슬라이더 | [데모](https://guksu.github.io/fe-skills/#/carousel) |
 | [햄버거 메뉴](plugins/ui/skills/hamburger-menu/SKILL.md) | `hamburger-menu` | ≡ 버튼이 X로 변하고 메뉴가 옆에서 밀려 나옴 | [데모](https://guksu.github.io/fe-skills/#/hamburger-menu) |
 | [화면 전환](plugins/ui/skills/page-transition/SKILL.md) | `page-transition` | 목록에서 상세로 들어가면 새 화면이 오른쪽에서 덮고, 뒤로 가면 반대로 — 헤더·탭바는 제자리 | [데모](https://guksu.github.io/fe-skills/#/page-transition) |
+| [드롭다운 메뉴](plugins/ui/skills/dropdown-menu/SKILL.md) | `dropdown-menu` | ⋯ 버튼의 액션 메뉴 — 아래가 좁으면 위로 뒤집히고, 방향키·첫 글자로 이동 | [데모](https://guksu.github.io/fe-skills/#/dropdown-menu) |
 
 ### 손가락 제스처 (모바일)
 
@@ -142,6 +143,9 @@ plugins/ui/skills/bottom-sheet/
 | [체크박스 · 라디오](plugins/ui/skills/checkbox-radio/SKILL.md) | `checkbox-radio` | 체크 표시가 그려지듯 나타나고 라디오 점이 톡 맺힘 | [데모](https://guksu.github.io/fe-skills/#/checkbox-radio) |
 | [인증번호 입력](plugins/ui/skills/otp-input/SKILL.md) | `otp-input` | 치면 다음 칸으로, 지우면 앞 칸으로 — 복사한 6자리는 칸마다 하나씩 나뉨 | [데모](https://guksu.github.io/fe-skills/#/otp-input) |
 | [검색어 자동완성](plugins/ui/skills/search-suggest/SKILL.md) | `search-suggest` | 입력이 멈춘 뒤 한 번만 요청 — 늦게 온 옛 응답이 최신 목록을 덮지 않음 | [데모](https://guksu.github.io/fe-skills/#/search-suggest) |
+| [범위 슬라이더](plugins/ui/skills/range-slider/SKILL.md) | `range-slider` | 두 손잡이로 가격대를 고름 — 서로를 지나치지 않고, 겹쳐 있어도 잡힘 | [데모](https://guksu.github.io/fe-skills/#/range-slider) |
+| [수량 스테퍼](plugins/ui/skills/quantity-stepper/SKILL.md) | `quantity-stepper` | − / + 로 수량 조절 — 누르고 있으면 점점 빨라지고, 1에서 −는 삭제로 | [데모](https://guksu.github.io/fe-skills/#/quantity-stepper) |
+| [파일 업로드](plugins/ui/skills/file-upload/SKILL.md) | `file-upload` | 끌어다 놓으면 테두리가 살아나고 미리보기·진행률이 붙음 — 거절엔 이유가 따라옴 | [데모](https://guksu.github.io/fe-skills/#/file-upload) |
 
 ## 설계 스킬 — fe-system
 

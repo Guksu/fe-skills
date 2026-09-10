@@ -1,0 +1,83 @@
+.dm-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.dm-title {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.dm-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.dm-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.85rem 1rem;
+}
+
+.dm-row + .dm-row {
+  border-top: 1px solid var(--border);
+}
+
+.dm-row-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 0.15rem;
+}
+
+.dm-row-date {
+  color: var(--text-dim);
+  font-size: 0.8rem;
+}
+
+.dm-row-price {
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+}
+
+/* 데모 전역 button 스타일이 트리거·항목에 묻지 않게 되돌린다 — 스킬 assets는 건드리지 않는다 */
+.dm-stage .menu-trigger,
+.dm-stage .menu-trigger:hover {
+  align-self: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text-dim);
+  line-height: 1;
+}
+
+.dm-stage .menu-trigger:hover {
+  background: var(--accent-soft);
+  color: var(--text);
+}
+
+.dm-stage .menu-item,
+.dm-stage .menu-item:hover {
+  border: none;
+  font-size: 0.9rem;
+}
+
+.dm-result {
+  margin: 0;
+  color: var(--text-dim);
+  font-size: 0.9rem;
+}
