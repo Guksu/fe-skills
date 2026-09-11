@@ -2,7 +2,9 @@
 
 # fe-skills
 
-**AI 에이전트에게 주는 프론트엔드 설명서 모음** — 애니메이션·UI 구현 패턴과 시스템 설계 문답을, AI가 읽고 바로 적용할 수 있는 형태로 정리했습니다.
+**AI 에이전트를 위한 프론트엔드 스킬 모음**
+
+애니메이션·UI 구현 패턴과 시스템 설계 가이드를 문서와 코드로 제공합니다.
 
 [![Deploy demo](https://github.com/Guksu/fe-skills/actions/workflows/deploy-demo.yml/badge.svg)](https://github.com/Guksu/fe-skills/actions/workflows/deploy-demo.yml)
 ![UI skills](https://img.shields.io/badge/fe--ui-41%20skills-6ea8fe)
@@ -11,66 +13,45 @@
 ![Tests](https://img.shields.io/badge/tests-371%20passing-34c759)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
-[**라이브 데모**](https://guksu.github.io/fe-skills/) · [설치](#설치) · [UI 스킬 목록](#ui-스킬-41종--fe-ui) · [설계 스킬](#설계-스킬--fe-system) · [기여하기](#기여하기) · [라이선스](#라이선스)
+[**라이브 데모**](https://guksu.github.io/fe-skills/) · [설치](#설치) · [UI 스킬](#ui-스킬-41종--fe-ui) · [설계 스킬](#설계-스킬--fe-system) · [개발](#개발) · [기여하기](#기여하기)
 
 </div>
 
----
+## 소개
 
-## 이게 뭔가요
+fe-skills는 AI가 구현 전에 읽고 적용하는 설명서입니다. 패턴별 사용 시점, 구현 이유, 코드, 변경 가능한 옵션과 주의사항을 한곳에 정리했습니다.
 
-AI에게 "바텀시트 만들어줘"라고 하면 **매번 다른 코드가 나옵니다.** 어떤 날은 손가락으로 끌어내려 닫는 동작이 빠지고, 어떤 날은 닫힐 때 애니메이션이 없고, 어떤 날은 "애니메이션 줄이기" 설정을 켠 사용자를 무시합니다. 사람이 매번 지적해야 하죠.
+| 플러그인 | 용도 | 구성 |
+|---|---|---|
+| **fe-ui** | 애니메이션·UI·제스처 구현 | 스킬 41종, 구현 코드, 라이브 데모 |
+| **fe-system** | 구현 전 구조와 설계 결정 | `design` 스킬, 화면 유형별 질문과 선택 기준 |
 
-fe-skills는 **그 판단을 미리 문서로 고정해둔 것**입니다. "이 패턴은 언제 쓰는지, 왜 이 방식인지, 어디를 바꿔도 되고 무엇을 조심해야 하는지, 그리고 복사해 쓸 코드"까지 한 세트로 들어 있습니다. AI가 코드를 짜기 전에 이 문서를 읽으므로 결과가 일정해집니다.
-
-<details>
-<summary><b>용어 세 개만 먼저</b></summary>
-
-- **스킬(skill)** — AI가 읽는 설명서 한 편. 폴더 하나에 문서 + 코드가 들어 있습니다.
-- **플러그인(plugin)** — 스킬을 묶은 꾸러미. 이 저장소에는 두 개가 있습니다: `fe-ui`(화면 구현), `fe-system`(설계).
-- **마켓플레이스(marketplace)** — 플러그인을 설치할 수 있게 등록해둔 곳. 이 저장소 자체가 마켓플레이스입니다.
-
-</details>
-
-이 저장소가 지키는 원칙 네 가지:
-
-- **CSS로 되는 건 CSS로, 외부 라이브러리는 쓰지 않습니다.** 설치하면 늘어나는 용량이 0입니다. 손가락 제스처나 물리 움직임처럼 CSS로 안 되는 것만 순수 TypeScript로 직접 만들었습니다.
-- **코드가 2층입니다.** 아래층은 프레임워크와 무관한 순수 로직(`.ts`), 위층은 얇은 React 껍데기. Vue나 Svelte를 쓴다면 아래층만 가져가면 됩니다.
-- **접근성은 옵션이 아닙니다.** 모든 UI 스킬이 "애니메이션 줄이기" 설정을 존중하고, 체크박스·다이얼로그 같은 것은 브라우저 기본 요소 위에 얹어 만듭니다 — 키보드 조작과 스크린 리더가 저절로 동작합니다.
-- **눈으로 확인한 것만 올라갑니다.** 빌드·테스트·구조 검사·브라우저 실동작·모션 리뷰를 통과해야 등록됩니다. 데모 사이트는 문서 속 코드를 그대로 불러다 쓰므로, 데모에서 보이는 동작이 곧 여러분이 받는 코드입니다.
+- **CSS 우선:** CSS로 가능한 동작은 CSS로 구현합니다. 제스처·물리 모션은 별도 런타임 라이브러리 없이 TypeScript로 처리합니다.
+- **로직과 React 분리:** 프레임워크에 독립적인 로직과 React 컴포넌트를 분리합니다. Vue·Svelte에서는 로직을 가져와 연결할 수 있습니다.
+- **접근성 고려:** 동작 줄이기 설정을 반영하고, 기본 HTML 요소를 활용해 키보드·스크린 리더 사용을 지원합니다.
+- **원본과 데모 연결:** 데모는 스킬의 구현 코드를 직접 불러옵니다. UI 스킬은 빌드·테스트·구조 검사·브라우저 동작·모션 리뷰로 검증합니다.
 
 ## 설치
 
-Claude Code에서 아래 세 줄을 입력하면 끝입니다.
+Claude Code에서 마켓플레이스를 등록한 뒤 필요한 플러그인을 설치합니다.
 
-```
+```text
 /plugin marketplace add Guksu/fe-skills
-/plugin install fe-ui@fe-skills        # 화면 구현 — 애니메이션·UI
-/plugin install fe-system@fe-skills    # 설계 — 코드 짜기 전 구조 잡기
+/plugin install fe-ui@fe-skills
+/plugin install fe-system@fe-skills
 ```
 
-설치 후에는 **평소처럼 말하면 됩니다.** 어떤 스킬을 쓸지는 AI가 알아서 고릅니다.
+> **스킬**은 AI가 읽는 설명서 한 편, **플러그인**은 스킬 묶음입니다. 이 저장소는 두 플러그인을 제공하는 **마켓플레이스**입니다.
 
-```
-"바텀시트로 메뉴 옵션 고르게 해줘"          → bottom-sheet 스킬로 구현
-"피드 사진 핀치줌 되게 해줘"                → pinch-zoom 스킬로 구현
-"상품 목록 + 필터 + 상세 화면 만들려고 해"   → design 스킬로 설계 문답 후 구현
-```
+### 사용 예시
 
-## 스킬 하나에 뭐가 들어 있나
+설치 후에는 원하는 작업을 평소처럼 요청하면 됩니다. AI가 요청에 맞는 스킬을 선택합니다.
 
-```
-plugins/ui/skills/bottom-sheet/
-├─ SKILL.md                 언제 쓰나 · 왜 이 방식인가 · 사용법 · 바꿔도 되는 것 · 주의사항
-└─ assets/
-   ├─ createSheetDrag.ts    끌어내리는 동작 로직 (React 없이도 동작)
-   ├─ bottom-sheet.css      움직임과 상태 정의
-   └─ BottomSheet.tsx       React용 껍데기
-```
-
-`assets/` 안의 파일은 예시가 아니라 **그대로 쓰는 실제 코드**입니다. 프로젝트에 복사해 넣으면 됩니다(TypeScript를 안 쓴다면 타입만 지우면 동작합니다).
-
-여러 스킬이 같은 로직을 쓰는 경우(예: 용수철 움직임), 각 스킬 폴더에 복사본을 넣어뒀습니다 — 스킬 하나만 설치해도 그것만으로 완결되게 하려고요. 복사본이 원본과 달라지지 않도록 저장소 검사 스크립트가 두 파일을 대조합니다.
+| 요청 | 적용 스킬 |
+|---|---|
+| “바텀시트로 메뉴 옵션을 고르게 해줘” | `bottom-sheet` |
+| “피드 사진을 핀치줌할 수 있게 해줘” | `pinch-zoom` |
+| “상품 목록 + 필터 + 상세 화면을 만들려고 해” | `design`으로 설계 문답 후 구현 |
 
 ## UI 스킬 41종 — fe-ui
 
@@ -78,150 +59,175 @@ plugins/ui/skills/bottom-sheet/
 
 ### 나타나고 사라지기
 
-| 스킬 | 이름(slug) | 무엇을 하나 | |
-|---|---|---|---|
-| [진입/퇴장 애니메이션](plugins/ui/skills/enter-exit/SKILL.md) | `enter-exit` | 나타날 때뿐 아니라 **사라질 때도** 부드럽게 — 보통 빼먹는 퇴장 처리까지 CSS로 | [데모](https://guksu.github.io/fe-skills/#/enter-exit) |
-| [스크롤 리빌](plugins/ui/skills/scroll-reveal/SKILL.md) | `scroll-reveal` | 스크롤을 내리면 콘텐츠가 차례로 나타남 | [데모](https://guksu.github.io/fe-skills/#/scroll-reveal) |
-| [스티키 헤더 전환](plugins/ui/skills/sticky-header/SKILL.md) | `sticky-header` | 큰 제목이 위로 사라지면 상단 고정 바에 작은 제목이 대신 등장 | [데모](https://guksu.github.io/fe-skills/#/sticky-header) |
-| [리스트 재배치](plugins/ui/skills/flip-list/SKILL.md) | `flip-list` | 목록 순서가 바뀔 때 항목이 순간이동하지 않고 미끄러져 이동 | [데모](https://guksu.github.io/fe-skills/#/flip-list) |
-| [확대 전환 라이트박스](plugins/ui/skills/zoom-lightbox/SKILL.md) | `zoom-lightbox` | 썸네일을 누르면 그 자리에서 화면 중앙으로 커지며 열림 | [데모](https://guksu.github.io/fe-skills/#/zoom-lightbox) |
-| [모달 다이얼로그](plugins/ui/skills/modal-dialog/SKILL.md) | `modal-dialog` | 배경이 어두워지며 창이 열림 — 브라우저 기본 `<dialog>`를 써서 Esc 닫기·포커스 가두기가 공짜 | [데모](https://guksu.github.io/fe-skills/#/modal-dialog) |
-| [스프링 물리 모션](plugins/ui/skills/spring-physics/SKILL.md) | `spring-physics` | "0.3초 동안" 대신 **용수철처럼** 움직이기 — 손가락으로 던진 속도를 그대로 이어받음 | [데모](https://guksu.github.io/fe-skills/#/spring-physics) |
-| [다크모드 전환](plugins/ui/skills/theme-toggle/SKILL.md) | `theme-toggle` | 누른 지점에서 원이 퍼지며 테마가 덮임 — 선택은 저장되고, 안 고르면 기기 설정을 따라감 | [데모](https://guksu.github.io/fe-skills/#/theme-toggle) |
+| 스킬 | 주요 동작 | 데모 |
+|---|---|---|
+| [진입/퇴장 애니메이션](plugins/ui/skills/enter-exit/SKILL.md) | 요소가 나타나고 사라질 때 CSS 애니메이션 적용 | [데모](https://guksu.github.io/fe-skills/#/enter-exit) |
+| [스크롤 리빌](plugins/ui/skills/scroll-reveal/SKILL.md) | 스크롤 위치에 따라 콘텐츠가 차례로 등장 | [데모](https://guksu.github.io/fe-skills/#/scroll-reveal) |
+| [스티키 헤더 전환](plugins/ui/skills/sticky-header/SKILL.md) | 큰 제목이 사라지면 고정 헤더에 작은 제목 표시 | [데모](https://guksu.github.io/fe-skills/#/sticky-header) |
+| [리스트 재배치](plugins/ui/skills/flip-list/SKILL.md) | 목록 순서가 바뀔 때 항목이 부드럽게 이동 | [데모](https://guksu.github.io/fe-skills/#/flip-list) |
+| [확대 전환 라이트박스](plugins/ui/skills/zoom-lightbox/SKILL.md) | 썸네일 위치에서 화면 중앙으로 확대하며 열기 | [데모](https://guksu.github.io/fe-skills/#/zoom-lightbox) |
+| [모달 다이얼로그](plugins/ui/skills/modal-dialog/SKILL.md) | 기본 `<dialog>` 기반으로 열기·닫기, Esc 키와 포커스 처리 | [데모](https://guksu.github.io/fe-skills/#/modal-dialog) |
+| [스프링 물리 모션](plugins/ui/skills/spring-physics/SKILL.md) | 드래그 속도를 이어받아 용수철처럼 움직이는 모션 | [데모](https://guksu.github.io/fe-skills/#/spring-physics) |
+| [다크모드 전환](plugins/ui/skills/theme-toggle/SKILL.md) | 누른 위치에서 원형으로 테마 전환, 선택 저장 및 기기 설정 반영 | [데모](https://guksu.github.io/fe-skills/#/theme-toggle) |
 
 ### 기다리는 동안
 
-| 스킬 | 이름(slug) | 무엇을 하나 | |
-|---|---|---|---|
-| [스켈레톤 시머](plugins/ui/skills/skeleton/SKILL.md) | `skeleton` | 로딩 중 회색 뼈대와 반짝임으로 자리를 잡아둠 — 데이터가 오면 화면이 덜컹이지 않음 | [데모](https://guksu.github.io/fe-skills/#/skeleton) |
-| [숫자 카운트업](plugins/ui/skills/count-up/SKILL.md) | `count-up` | 잔액·포인트 숫자가 목표값까지 굴러 올라감 | [데모](https://guksu.github.io/fe-skills/#/count-up) |
-| [스토리 프로그레스](plugins/ui/skills/story-progress/SKILL.md) | `story-progress` | 인스타 스토리식 진행 바 — 길게 누르면 멈추고, 탭하면 다음으로 | [데모](https://guksu.github.io/fe-skills/#/story-progress) |
-| [로딩 버튼](plugins/ui/skills/loading-button/SKILL.md) | `loading-button` | 제출 버튼이 "전송 중 → 완료"로 모습을 바꿈 — 연타해도 요청은 한 번만 나감 | [데모](https://guksu.github.io/fe-skills/#/loading-button) |
-| [무한 스크롤](plugins/ui/skills/infinite-scroll/SKILL.md) | `infinite-scroll` | 목록 끝에 닿기 전에 다음 페이지를 미리 불러옴 — 같은 페이지를 두 번 붙이지 않음 | [데모](https://guksu.github.io/fe-skills/#/infinite-scroll) |
-| [가상 스크롤](plugins/ui/skills/virtual-list/SKILL.md) | `virtual-list` | 항목이 5만 개여도 화면에 보이는 20여 개만 그림 — 스크롤이 끊기지 않음 | [데모](https://guksu.github.io/fe-skills/#/virtual-list) |
+| 스킬 | 주요 동작 | 데모 |
+|---|---|---|
+| [스켈레톤 시머](plugins/ui/skills/skeleton/SKILL.md) | 로딩 중 콘텐츠 자리를 채우는 뼈대와 반짝임 효과 | [데모](https://guksu.github.io/fe-skills/#/skeleton) |
+| [숫자 카운트업](plugins/ui/skills/count-up/SKILL.md) | 잔액·포인트 등의 숫자를 목표값까지 점진적으로 변경 | [데모](https://guksu.github.io/fe-skills/#/count-up) |
+| [스토리 프로그레스](plugins/ui/skills/story-progress/SKILL.md) | 스토리 진행 표시, 길게 눌러 일시 정지, 탭으로 이동 | [데모](https://guksu.github.io/fe-skills/#/story-progress) |
+| [로딩 버튼](plugins/ui/skills/loading-button/SKILL.md) | 전송 중·완료 상태를 표시하고 중복 제출 방지 | [데모](https://guksu.github.io/fe-skills/#/loading-button) |
+| [무한 스크롤](plugins/ui/skills/infinite-scroll/SKILL.md) | 목록 끝에 도달하기 전에 다음 페이지를 불러오고 중복 추가 방지 | [데모](https://guksu.github.io/fe-skills/#/infinite-scroll) |
+| [가상 스크롤](plugins/ui/skills/virtual-list/SKILL.md) | 화면에 보이는 항목 중심으로 렌더링해 긴 목록 처리 | [데모](https://guksu.github.io/fe-skills/#/virtual-list) |
 
 ### 누르면 반응하기
 
-| 스킬 | 이름(slug) | 무엇을 하나 | |
-|---|---|---|---|
-| [프레스 피드백](plugins/ui/skills/press-feedback/SKILL.md) | `press-feedback` | 누르는 순간 살짝 눌렸다가 튕기듯 돌아옴 | [데모](https://guksu.github.io/fe-skills/#/press-feedback) |
-| [토스트 스택](plugins/ui/skills/toast-stack/SKILL.md) | `toast-stack` | 알림이 여러 개 쌓이고 각자 시간이 되면 사라짐 | [데모](https://guksu.github.io/fe-skills/#/toast-stack) |
-| [좋아요 팝](plugins/ui/skills/like-pop/SKILL.md) | `like-pop` | 하트를 누르면 톡 튀고, 사진을 두 번 탭하면 하트가 퍼짐 | [데모](https://guksu.github.io/fe-skills/#/like-pop) |
-| [카트 플라이](plugins/ui/skills/cart-fly/SKILL.md) | `cart-fly` | 담기를 누르면 상품이 장바구니 아이콘으로 포물선을 그리며 날아감 | [데모](https://guksu.github.io/fe-skills/#/cart-fly) |
-| [툴팁](plugins/ui/skills/tooltip/SKILL.md) | `tooltip` | 마우스는 잠깐 기다렸다가, 키보드 포커스는 즉시 — 공간에 맞춰 4방향 배치 | [데모](https://guksu.github.io/fe-skills/#/tooltip) |
-| [폼 에러 흔들림](plugins/ui/skills/form-shake-error/SKILL.md) | `form-shake-error` | 잘못 입력한 칸이 좌우로 흔들리고 에러 문구가 올라옴 — 연타해도 처음부터 다시 흔들림 | [데모](https://guksu.github.io/fe-skills/#/form-shake-error) |
+| 스킬 | 주요 동작 | 데모 |
+|---|---|---|
+| [프레스 피드백](plugins/ui/skills/press-feedback/SKILL.md) | 누르는 순간 축소되고 손을 떼면 복원되는 효과 | [데모](https://guksu.github.io/fe-skills/#/press-feedback) |
+| [토스트 스택](plugins/ui/skills/toast-stack/SKILL.md) | 여러 알림을 쌓고 각각의 표시 시간이 지나면 닫기 | [데모](https://guksu.github.io/fe-skills/#/toast-stack) |
+| [좋아요 팝](plugins/ui/skills/like-pop/SKILL.md) | 하트 클릭·사진 더블 탭에 반응하는 팝 효과 | [데모](https://guksu.github.io/fe-skills/#/like-pop) |
+| [카트 플라이](plugins/ui/skills/cart-fly/SKILL.md) | 상품이 장바구니 아이콘으로 날아가는 효과 | [데모](https://guksu.github.io/fe-skills/#/cart-fly) |
+| [툴팁](plugins/ui/skills/tooltip/SKILL.md) | 마우스·키보드 입력에 맞춰 표시하고 여유 공간에 따라 배치 | [데모](https://guksu.github.io/fe-skills/#/tooltip) |
+| [폼 에러 흔들림](plugins/ui/skills/form-shake-error/SKILL.md) | 입력 오류가 있는 필드를 흔들고 오류 메시지 표시 | [데모](https://guksu.github.io/fe-skills/#/form-shake-error) |
 
 ### 화면 이동
 
-| 스킬 | 이름(slug) | 무엇을 하나 | |
-|---|---|---|---|
-| [탭 인디케이터 슬라이드](plugins/ui/skills/tab-indicator/SKILL.md) | `tab-indicator` | 선택한 탭의 밑줄이 미끄러져 이동 | [데모](https://guksu.github.io/fe-skills/#/tab-indicator) |
-| [스냅 캐러셀](plugins/ui/skills/carousel/SKILL.md) | `carousel` | 옆으로 밀면 한 장씩 딱 맞춰 멈추는 배너·카드 슬라이더 | [데모](https://guksu.github.io/fe-skills/#/carousel) |
-| [햄버거 메뉴](plugins/ui/skills/hamburger-menu/SKILL.md) | `hamburger-menu` | ≡ 버튼이 X로 변하고 메뉴가 옆에서 밀려 나옴 | [데모](https://guksu.github.io/fe-skills/#/hamburger-menu) |
-| [화면 전환](plugins/ui/skills/page-transition/SKILL.md) | `page-transition` | 목록에서 상세로 들어가면 새 화면이 오른쪽에서 덮고, 뒤로 가면 반대로 — 헤더·탭바는 제자리 | [데모](https://guksu.github.io/fe-skills/#/page-transition) |
-| [드롭다운 메뉴](plugins/ui/skills/dropdown-menu/SKILL.md) | `dropdown-menu` | ⋯ 버튼의 액션 메뉴 — 아래가 좁으면 위로 뒤집히고, 방향키·첫 글자로 이동 | [데모](https://guksu.github.io/fe-skills/#/dropdown-menu) |
+| 스킬 | 주요 동작 | 데모 |
+|---|---|---|
+| [탭 인디케이터 슬라이드](plugins/ui/skills/tab-indicator/SKILL.md) | 선택한 탭으로 밑줄이 부드럽게 이동 | [데모](https://guksu.github.io/fe-skills/#/tab-indicator) |
+| [스냅 캐러셀](plugins/ui/skills/carousel/SKILL.md) | 옆으로 밀면 카드 단위로 정렬되는 슬라이더 | [데모](https://guksu.github.io/fe-skills/#/carousel) |
+| [햄버거 메뉴](plugins/ui/skills/hamburger-menu/SKILL.md) | 메뉴 아이콘을 닫기 아이콘으로 바꾸고 패널 표시 | [데모](https://guksu.github.io/fe-skills/#/hamburger-menu) |
+| [화면 전환](plugins/ui/skills/page-transition/SKILL.md) | 헤더·탭바를 유지하며 이동 방향에 맞춰 화면 전환 | [데모](https://guksu.github.io/fe-skills/#/page-transition) |
+| [드롭다운 메뉴](plugins/ui/skills/dropdown-menu/SKILL.md) | 공간에 맞춰 위치를 바꾸고 방향키·첫 글자로 이동하는 액션 메뉴 | [데모](https://guksu.github.io/fe-skills/#/dropdown-menu) |
 
 ### 손가락 제스처 (모바일)
 
-| 스킬 | 이름(slug) | 무엇을 하나 | |
-|---|---|---|---|
-| [바텀시트](plugins/ui/skills/bottom-sheet/SKILL.md) | `bottom-sheet` | 아래에서 올라오는 시트 — 끌어내려 닫고, 중간 높이에 걸림 | [데모](https://guksu.github.io/fe-skills/#/bottom-sheet) |
-| [당겨서 새로고침](plugins/ui/skills/pull-to-refresh/SKILL.md) | `pull-to-refresh` | 맨 위에서 아래로 당기면 새로고침 — 고무줄처럼 저항이 걸림 | [데모](https://guksu.github.io/fe-skills/#/pull-to-refresh) |
-| [밀어서 삭제](plugins/ui/skills/swipe-to-delete/SKILL.md) | `swipe-to-delete` | 왼쪽으로 밀면 삭제 버튼이 나오고, 끝까지 밀면 바로 삭제 | [데모](https://guksu.github.io/fe-skills/#/swipe-to-delete) |
-| [피드 핀치줌](plugins/ui/skills/pinch-zoom/SKILL.md) | `pinch-zoom` | 두 손가락으로 벌리면 그 자리에서 확대, 놓으면 제자리 — 인스타그램 방식 | [데모](https://guksu.github.io/fe-skills/#/pinch-zoom) |
-| [끌어내려 닫는 뷰어](plugins/ui/skills/swipe-dismiss-viewer/SKILL.md) | `swipe-dismiss-viewer` | 사진을 아래로 끌면 작아지며 뒤 화면이 비치고, 놓으면 원래 자리로 — iOS 사진 앱 방식 | [데모](https://guksu.github.io/fe-skills/#/swipe-dismiss-viewer) |
-| [끌어서 순서 바꾸기](plugins/ui/skills/drag-to-reorder/SKILL.md) | `drag-to-reorder` | 손잡이를 끌면 항목이 떠오르고 지나친 항목이 자리를 비켜 줌 — 방향키로도 이동 | [데모](https://guksu.github.io/fe-skills/#/drag-to-reorder) |
+| 스킬 | 주요 동작 | 데모 |
+|---|---|---|
+| [바텀시트](plugins/ui/skills/bottom-sheet/SKILL.md) | 아래에서 시트를 열고 드래그로 높이 조절·닫기 | [데모](https://guksu.github.io/fe-skills/#/bottom-sheet) |
+| [당겨서 새로고침](plugins/ui/skills/pull-to-refresh/SKILL.md) | 목록 상단을 당기면 저항감과 함께 새로고침 | [데모](https://guksu.github.io/fe-skills/#/pull-to-refresh) |
+| [밀어서 삭제](plugins/ui/skills/swipe-to-delete/SKILL.md) | 옆으로 밀어 삭제 버튼 표시, 끝까지 밀어 삭제 | [데모](https://guksu.github.io/fe-skills/#/swipe-to-delete) |
+| [피드 핀치줌](plugins/ui/skills/pinch-zoom/SKILL.md) | 두 손가락으로 사진을 확대하고 놓으면 복원 | [데모](https://guksu.github.io/fe-skills/#/pinch-zoom) |
+| [끌어내려 닫는 뷰어](plugins/ui/skills/swipe-dismiss-viewer/SKILL.md) | 사진을 아래로 끌어 축소하며 닫고 원래 위치로 복귀 | [데모](https://guksu.github.io/fe-skills/#/swipe-dismiss-viewer) |
+| [끌어서 순서 바꾸기](plugins/ui/skills/drag-to-reorder/SKILL.md) | 드래그 또는 방향키로 목록 순서 변경 | [데모](https://guksu.github.io/fe-skills/#/drag-to-reorder) |
 
 ### 입력 요소
 
-| 스킬 | 이름(slug) | 무엇을 하나 | |
-|---|---|---|---|
-| [커스텀 셀렉트](plugins/ui/skills/select/SKILL.md) | `select` | 직접 만든 드롭다운 — 키보드 조작과 스크린 리더 대응이 들어 있음 | [데모](https://guksu.github.io/fe-skills/#/select) |
-| [아코디언](plugins/ui/skills/accordion/SKILL.md) | `accordion` | 접었다 펴는 영역 — 높이를 JS로 재지 않고 CSS만으로 부드럽게 | [데모](https://guksu.github.io/fe-skills/#/accordion) |
-| [토글 스위치](plugins/ui/skills/switch/SKILL.md) | `switch` | 켜고 끄는 스위치 — 기본 체크박스 위에 얹어 접근성 유지 | [데모](https://guksu.github.io/fe-skills/#/switch) |
-| [플로팅 라벨 입력](plugins/ui/skills/floating-label/SKILL.md) | `floating-label` | 입력을 시작하면 안내 문구가 위로 떠올라 라벨이 됨 | [데모](https://guksu.github.io/fe-skills/#/floating-label) |
-| [체크박스 · 라디오](plugins/ui/skills/checkbox-radio/SKILL.md) | `checkbox-radio` | 체크 표시가 그려지듯 나타나고 라디오 점이 톡 맺힘 | [데모](https://guksu.github.io/fe-skills/#/checkbox-radio) |
-| [인증번호 입력](plugins/ui/skills/otp-input/SKILL.md) | `otp-input` | 치면 다음 칸으로, 지우면 앞 칸으로 — 복사한 6자리는 칸마다 하나씩 나뉨 | [데모](https://guksu.github.io/fe-skills/#/otp-input) |
-| [검색어 자동완성](plugins/ui/skills/search-suggest/SKILL.md) | `search-suggest` | 입력이 멈춘 뒤 한 번만 요청 — 늦게 온 옛 응답이 최신 목록을 덮지 않음 | [데모](https://guksu.github.io/fe-skills/#/search-suggest) |
-| [범위 슬라이더](plugins/ui/skills/range-slider/SKILL.md) | `range-slider` | 두 손잡이로 가격대를 고름 — 서로를 지나치지 않고, 겹쳐 있어도 잡힘 | [데모](https://guksu.github.io/fe-skills/#/range-slider) |
-| [수량 스테퍼](plugins/ui/skills/quantity-stepper/SKILL.md) | `quantity-stepper` | − / + 로 수량 조절 — 누르고 있으면 점점 빨라지고, 1에서 −는 삭제로 | [데모](https://guksu.github.io/fe-skills/#/quantity-stepper) |
-| [파일 업로드](plugins/ui/skills/file-upload/SKILL.md) | `file-upload` | 끌어다 놓으면 테두리가 살아나고 미리보기·진행률이 붙음 — 거절엔 이유가 따라옴 | [데모](https://guksu.github.io/fe-skills/#/file-upload) |
+| 스킬 | 주요 동작 | 데모 |
+|---|---|---|
+| [커스텀 셀렉트](plugins/ui/skills/select/SKILL.md) | 키보드 조작과 스크린 리더를 지원하는 드롭다운 | [데모](https://guksu.github.io/fe-skills/#/select) |
+| [아코디언](plugins/ui/skills/accordion/SKILL.md) | CSS로 높이를 전환하며 콘텐츠 펼치기·접기 | [데모](https://guksu.github.io/fe-skills/#/accordion) |
+| [토글 스위치](plugins/ui/skills/switch/SKILL.md) | 기본 체크박스를 활용한 켜기·끄기 스위치 | [데모](https://guksu.github.io/fe-skills/#/switch) |
+| [플로팅 라벨 입력](plugins/ui/skills/floating-label/SKILL.md) | 입력 상태에 따라 안내 문구를 상단 라벨로 전환 | [데모](https://guksu.github.io/fe-skills/#/floating-label) |
+| [체크박스 · 라디오](plugins/ui/skills/checkbox-radio/SKILL.md) | 선택 상태에 맞춰 체크 표시와 라디오 점에 모션 적용 | [데모](https://guksu.github.io/fe-skills/#/checkbox-radio) |
+| [인증번호 입력](plugins/ui/skills/otp-input/SKILL.md) | 입력·삭제 시 칸 이동, 인증번호 붙여넣기 지원 | [데모](https://guksu.github.io/fe-skills/#/otp-input) |
+| [검색어 자동완성](plugins/ui/skills/search-suggest/SKILL.md) | 입력이 멈추면 검색하고 이전 응답이 최신 결과를 덮지 않도록 처리 | [데모](https://guksu.github.io/fe-skills/#/search-suggest) |
+| [범위 슬라이더](plugins/ui/skills/range-slider/SKILL.md) | 두 손잡이로 최솟값·최댓값을 조절하는 범위 입력 | [데모](https://guksu.github.io/fe-skills/#/range-slider) |
+| [수량 스테퍼](plugins/ui/skills/quantity-stepper/SKILL.md) | 버튼으로 수량 조절, 길게 눌러 가속, 최솟값에서 삭제 전환 | [데모](https://guksu.github.io/fe-skills/#/quantity-stepper) |
+| [파일 업로드](plugins/ui/skills/file-upload/SKILL.md) | 파일 드롭, 미리보기·진행률 표시, 거절 사유 안내 | [데모](https://guksu.github.io/fe-skills/#/file-upload) |
+
 
 ## 설계 스킬 — fe-system
 
-UI 스킬이 "어떻게 보이게 할까"라면, 설계 스킬은 **"코드를 짜기 전에 무엇을 정해야 하나"**를 다룹니다.
+[`design`](plugins/system/skills/design/SKILL.md)은 구현 전에 결정할 사항을 정리합니다. 필터를 URL에 저장할지, 상세 화면에서 돌아왔을 때 스크롤을 복원할지, 데이터를 언제 가져올지 등을 함께 결정합니다.
 
-예를 들어 상품 목록 화면 하나에도 이런 결정이 숨어 있습니다. 필터를 주소창(URL)에 넣을 것인가(넣으면 링크 공유·새로고침에 살아남습니다), 상세 페이지에 갔다 돌아왔을 때 스크롤 위치를 되살릴 것인가, 데이터를 서버에서 미리 그려 보낼 것인가. **이걸 안 정하고 짜면 나중에 "뒤로가기가 이상해요"가 됩니다.**
+### 진행 방식
 
-### 어떻게 동작하나
+1. **기존 코드 조사:** 프레임워크, 라우터, API 등 코드에서 확인할 수 있는 사실을 먼저 파악합니다.
+2. **설계 문답:** 남은 질문을 묶어 제시하고, 각 선택의 추천안과 장단점을 설명합니다.
+3. **결정 기록:** 프로젝트의 `docs/design/`에 결정, 근거, 감수할 단점과 재검토 조건을 남깁니다.
 
-`design` 스킬은 답을 정해주지 않고 **같이 정합니다.** 순서는 셋입니다.
-
-1. **알아낼 수 있는 건 AI가 직접 찾습니다.** 어떤 프레임워크를 쓰는지, 라우터가 뭔지, 기존 API가 어떻게 생겼는지는 코드를 뒤져서 파악하고 "이렇게 파악했다"고 확인만 받습니다. 이런 걸 사용자에게 묻지 않습니다.
-2. **남은 것만 묶어서 묻습니다.** 지금 답할 수 있는 질문을 한 번에 모아서 내고, **질문마다 추천안과 그 선택의 대가를 붙입니다.** 하나씩 물어보며 핑퐁하지 않습니다.
-3. **결과를 파일로 남깁니다.** 여러분 프로젝트의 `docs/design/`에 "무엇을 왜 그렇게 정했고, 무엇을 포기했고, 어떤 상황이 되면 이 결정을 다시 봐야 하는지"를 기록합니다.
-
-질문은 세 가지 강도로 나뉩니다.
-
-| 강도 | 뜻 | 예 |
-|---|---|---|
-| **확정형** | 정답이 정해져 있어 묻지 않고 못박음 | 피드 목록은 커서 방식 페이지네이션, 카드번호는 어디에도 저장 금지 |
-| **추천형** | 상황에 따라 갈리므로 추천안을 붙여 물어봄 | 입력값을 브라우저에 둘지 서버에 둘지 |
-| **필수 확인형** | 틀리면 손해가 커서 추측 금지, 반드시 물어봄 | 결제사 정책, 개인정보 보관 요건 |
-
-| 스킬 | 하는 일 |
+| 질문 유형 | 처리 방식 |
 |---|---|
-| [design](plugins/system/skills/design/SKILL.md) | 설계 문답 진행 — 사실 조사 → 추천안을 붙인 라운드 문답 → 결정 기록 남기기 |
+| **확정형** | 정해진 원칙을 질문 없이 적용 |
+| **추천형** | 상황에 맞는 추천안과 장단점을 제시하고 선택 확인 |
+| **필수 확인형** | 결제사 정책·개인정보 보관 요건 등은 추측하지 않고 확인 |
 
-### 어떤 화면을 다루나
+### 화면 유형별 가이드
 
-스킬 안에 화면 유형별 질문 목록이 들어 있습니다. **목록에 없는 화면이어도 공통 질문으로 진행**하므로 "이건 못 한다"고 거절하지 않습니다.
+목록에 없는 화면도 공통 질문을 바탕으로 설계할 수 있습니다.
 
-| 참고 문서 | 다루는 것 |
+| 가이드 | 주요 결정 사항 |
 |---|---|
-| [공통 질문](plugins/system/skills/design/references/core-questions.md) | 모든 화면에 해당하는 8가지 — 요구사항, 데이터 성격, 실행 환경, 상태를 어디 둘까, 데이터를 언제 가져올까, 새로고침·뒤로가기에서 뭐가 살아야 할까, 실패하면 어떻게 될까, 무엇을 포기할까 |
-| [목록 + 필터 + 상세](plugins/system/skills/design/references/cases/list-and-detail.md) | 상품 목록·검색 결과 — 필터를 URL에 두기, 데이터 가져오는 방식 고르기, 페이지네이션 vs 무한스크롤, 돌아왔을 때 스크롤 복원 |
-| [무한 피드](plugins/system/skills/design/references/cases/feed.md) | 타임라인·추천 피드 — 커서 페이지네이션, 화면 밖 항목 처리, 복귀 복원, 새 글이 끼어들 때, 다음 페이지 부르는 시점 |
-| [퍼널 폼](plugins/system/skills/design/references/cases/funnel-form.md) | 여러 단계로 나뉜 입력(주문·회원가입·온보딩·설문) — 도메인 4갈래, 입력값 보관 위치, 단계별 URL, 검사 시점, 이어서 하기, 중복 제출 막기 |
+| [공통 질문](plugins/system/skills/design/references/core-questions.md) | 요구사항, 데이터, 실행 환경, 상태 관리, 데이터 로딩, 복원, 실패 대응, 장단점 |
+| [목록 + 필터 + 상세](plugins/system/skills/design/references/cases/list-and-detail.md) | URL 필터, 데이터 로딩, 페이지네이션·무한 스크롤, 스크롤 복원 |
+| [무한 피드](plugins/system/skills/design/references/cases/feed.md) | 커서 페이지네이션, 화면 밖 항목 처리, 복귀 복원, 새 글 삽입, 추가 로딩 시점 |
+| [퍼널 폼](plugins/system/skills/design/references/cases/funnel-form.md) | 여러 단계 입력의 값 보관, 단계별 URL, 검증 시점, 이어서 작성, 중복 제출 방지 |
 
-각 결정의 "왜 그런가"는 [`references/topics/`](plugins/system/skills/design/references/topics/)에 따로 정리돼 있습니다.
+선택의 근거는 [`references/topics/`](plugins/system/skills/design/references/topics/)에서 확인할 수 있습니다.
+
+## 스킬 구성
+
+UI 스킬은 설명서와 실제 구현 코드를 함께 제공합니다.
+
+```text
+plugins/ui/skills/bottom-sheet/
+├─ SKILL.md                 사용 시점 · 구현 이유 · 사용법 · 옵션 · 주의사항
+└─ assets/
+   ├─ createSheetDrag.ts    프레임워크에 독립적인 드래그 로직
+   ├─ bottom-sheet.css      움직임과 상태 정의
+   └─ BottomSheet.tsx       React 컴포넌트
+```
+
+`assets/`의 코드를 프로젝트에 복사해 사용할 수 있습니다. 공유 로직도 각 스킬에 포함하므로 스킬 단위로 가져올 수 있습니다. 저장소 검사 스크립트가 공유 파일과 원본의 일치 여부를 확인합니다.
+
+시스템 설계 스킬은 구현 코드 대신 `SKILL.md`와 `references/`의 질문·근거 문서로 구성됩니다.
 
 ## 저장소 구조
 
-```
+```text
 fe-skills/
-├─ .claude-plugin/marketplace.json   플러그인 2개를 등록해둔 파일
+├─ .claude-plugin/marketplace.json   플러그인 등록 정보
 ├─ plugins/
-│  ├─ ui/skills/{스킬}/              fe-ui 원본 — SKILL.md + assets/(로직·CSS·React)
-│  └─ system/skills/design/          fe-system 원본 — SKILL.md(문답 규칙) + references/(질문·근거)
-├─ demo/                             데모 사이트 (Vite + React) — 원본 코드를 그대로 불러 씀
-├─ scripts/validateSkills.mjs        스킬 구조 검사 스크립트
-└─ docs/                             설계 문서 · 계획 · 작업 기록 · 작업 규칙
+│  ├─ ui/skills/{스킬}/             UI 스킬 원본 문서와 코드
+│  └─ system/skills/design/         설계 문답 규칙과 참고 문서
+├─ demo/                            Vite + React 데모 사이트
+├─ scripts/validateSkills.mjs        스킬 구조·배지 검사
+└─ docs/                            설계 · 계획 · 작업 기록 · 규칙
 ```
 
 ## 개발
 
+### 데모 실행
+
 ```bash
 npm install
-npm run dev      # 데모 서버 (localhost:5173/fe-skills/) — 휴대폰에서 보려면 npm run dev -- --host
-npm test         # 테스트 (vitest + jsdom)
-npm run lint
-npm run build    # 배포용 빌드 — main에 올라가면 GitHub Pages로 자동 배포
-node scripts/validateSkills.mjs   # 스킬 구조 검사
+npm run dev
 ```
+
+브라우저에서 [로컬 데모](http://localhost:5173/fe-skills/)를 엽니다. 같은 네트워크의 휴대폰에서 확인하려면 `npm run dev -- --host`로 실행합니다.
+
+### 검증
+
+| 명령어 | 확인 항목 |
+|---|---|
+| `npm test` | Vitest + jsdom 테스트 |
+| `npm run lint` | 코드 린트 |
+| `npm run build` | 배포용 빌드 |
+| `node scripts/validateSkills.mjs` | 스킬 구조, 공유 코드 일치 여부, README 배지 숫자 |
+
+`main`에 변경이 올라가면 GitHub Pages로 데모가 자동 배포됩니다.
 
 ## 기여하기
 
-스킬을 추가하는 순서는 정해져 있습니다. **원본이 먼저, 데모는 원본을 불러다 쓰기만 합니다**(복사 금지).
+**스킬 문서와 코드가 원본입니다.** 데모는 `assets/`를 직접 불러오며, 코드를 복사하지 않습니다.
 
-1. `plugins/ui/skills/{이름}/SKILL.md` — 맨 위 `name`은 폴더명과 같게, `description`에는 **사용자가 실제로 쓸 법한 표현**을 넣습니다(AI가 이걸 보고 스킬을 고릅니다). 본문 순서: 언제 쓰나 → 왜 이 방식인가 → 사용법(React / 순수 JS) → 바꿔도 되는 것 → 주의사항.
-2. `assets/` — CSS로 되는 건 CSS로. 로직(상태 전환·제스처·물리)은 프레임워크 없이 동작하게 분리하고 테스트를 먼저 씁니다. "애니메이션 줄이기" 설정 대응은 필수입니다.
-3. `demo/src/demos/{이름}/` — `@skills/{이름}/assets/...`를 불러와 화면을 만들고 `demo/src/demos/index.ts`에 등록합니다.
-4. 검사 4종을 통과시킵니다: `npm run build && npm run lint && npm test` → `node scripts/validateSkills.mjs` → 브라우저에서 직접 동작 확인 → 움직임 리뷰(속도·감속 곡선·접근성 설정).
+### UI 스킬 추가
 
-자세한 규칙은 [`docs/harness-rules.md`](docs/harness-rules.md)와 [`docs/design/2026-08-19-fe-skills.md`](docs/design/2026-08-19-fe-skills.md)에 있습니다. 앞으로 추가할 스킬 목록은 [`docs/plans/`](docs/plans/)에서 볼 수 있습니다.
+1. **설명서 작성:** `plugins/ui/skills/{이름}/SKILL.md`를 만듭니다. `name`은 폴더명과 맞추고, `description`에는 사용자가 요청할 법한 표현을 넣습니다. 본문은 사용 시점 → 구현 이유 → 사용법(React / 순수 JS) → 옵션 → 주의사항 순서로 작성합니다.
+2. **구현 코드 추가:** `assets/`에 CSS와 프레임워크 독립 로직을 작성합니다. 로직은 테스트부터 작성하고, 동작 줄이기 설정을 반영합니다.
+3. **데모 등록:** `demo/src/demos/{이름}/`에서 `@skills/{이름}/assets/...`를 불러오고, `demo/src/demos/index.ts`에 등록합니다.
+4. **검증:** 빌드·린트·테스트·구조 검사를 실행합니다. 브라우저에서 동작을 확인하고 모션의 속도·감속·접근성 설정을 검토합니다.
 
-맨 위 배지의 스킬 수·테스트 수는 검사 스크립트가 실제 값과 대조합니다 — 스킬을 추가했으면 README 숫자도 같이 고쳐야 통과합니다.
+스킬이나 테스트 수가 바뀌면 README 배지도 갱신해야 구조 검사를 통과합니다. 시스템 설계 스킬은 문서와 참고 자료를 검증하며, 데모·브라우저 검사는 적용하지 않습니다.
+
+### 관련 문서
+
+- [작업 규칙](docs/harness-rules.md)
+- [저장소 설계](docs/design/2026-08-19-fe-skills.md)
+- [추가 예정 스킬과 작업 계획](docs/plans/)
 
 ## 라이선스
 
