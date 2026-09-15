@@ -1,0 +1,157 @@
+/* 데모 무대 — 유리는 뒤에 무언가 있어야 보이므로, 알록달록한 배경(그라디언트 + 색 덩어리)을 스크롤 컨테이너 안에 깐다 */
+.glass-stage {
+  height: 560px;
+  overflow-y: auto;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  color: #fff;
+  background: linear-gradient(160deg, #1d2b64 0%, #5b3a8f 45%, #c2443b 100%);
+}
+
+.glass-scene {
+  position: relative;
+  padding: 24px 20px 40px;
+  overflow: hidden; /* 색 덩어리가 무대 밖으로 나가지 않게 */
+}
+
+.glass-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(4px);
+  pointer-events: none;
+}
+
+.glass-blob-a {
+  width: 260px;
+  height: 260px;
+  top: -40px;
+  left: -60px;
+  background: #ffb347;
+}
+
+.glass-blob-b {
+  width: 220px;
+  height: 220px;
+  top: 300px;
+  right: -40px;
+  background: #4de1c1;
+}
+
+.glass-blob-c {
+  width: 180px;
+  height: 180px;
+  top: 640px;
+  left: 30%;
+  background: #ff6b9d;
+}
+
+.glass-brand {
+  font-size: 1.05rem;
+}
+
+.glass-links {
+  display: flex;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.glass-links a {
+  color: inherit;
+  text-decoration: none;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.glass-links a[aria-current='page'] {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.glass-cards {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.glass-cards h3,
+.glass-cta h3,
+.glass-modal h3 {
+  margin: 0 0 6px;
+  font-size: 1.05rem;
+}
+
+.glass-cards p,
+.glass-cta p,
+.glass-modal p {
+  margin: 0 0 12px;
+  font-size: 0.9rem;
+  opacity: 0.85;
+}
+
+.glass-card-emoji {
+  display: block;
+  font-size: 1.75rem;
+  margin-bottom: 8px;
+}
+
+.glass-card-price {
+  font-size: 0.95rem;
+}
+
+/* 상단 바 밑으로 지나가는 메뉴 타일 — 흐림이 무엇을 뭉개는지 눈으로 확인하는 용도 */
+.glass-tiles {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 12px;
+  margin: 28px 0;
+}
+
+.glass-tile {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  border-radius: 12px;
+  font-size: 1.6rem;
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.glass-cta {
+  position: relative;
+}
+
+.glass-cta button,
+.glass-modal-actions button {
+  color: inherit;
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.glass-modal-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.glass-tone-picker {
+  display: flex;
+  gap: 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin: 0;
+}
+
+.glass-tone-picker legend {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+}
+
+.glass-tone-picker label {
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+}

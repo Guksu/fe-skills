@@ -40,8 +40,9 @@ import { DropdownMenuDemo } from './dropdown-menu/DropdownMenuDemo'
 import { RangeSliderDemo } from './range-slider/RangeSliderDemo'
 import { QuantityStepperDemo } from './quantity-stepper/QuantityStepperDemo'
 import { FileUploadDemo } from './file-upload/FileUploadDemo'
+import { GlassSurfaceDemo } from './glass-surface/GlassSurfaceDemo'
 
-export type DemoCategory = '등장과 전환' | '로딩과 진행' | '피드백' | '내비게이션' | '제스처' | '컨트롤'
+export type DemoCategory = '등장과 전환' | '로딩과 진행' | '피드백' | '내비게이션' | '제스처' | '컨트롤' | '표면과 스타일'
 
 export type DemoEntry = {
   /** URL 해시 조각 (#/{slug}) — plugins/ui/skills/{slug}와 일치시킨다 */
@@ -55,7 +56,7 @@ export type DemoEntry = {
   Component: ComponentType
 }
 
-export const CATEGORIES: DemoCategory[] = ['등장과 전환', '로딩과 진행', '피드백', '내비게이션', '제스처', '컨트롤']
+export const CATEGORIES: DemoCategory[] = ['등장과 전환', '로딩과 진행', '피드백', '내비게이션', '제스처', '컨트롤', '표면과 스타일']
 
 /** 데모 목록의 단일 출처 — 스킬 추가 시 여기에만 등록하면 목록·라우팅·카탈로그에 반영된다 */
 export const demos: DemoEntry[] = [
@@ -743,5 +744,23 @@ const reorder = useDragReorder({ onReorder: move })
   ))}
 </ul>`,
     Component: DragToReorderDemo,
+  },
+  {
+    slug: 'glass-surface',
+    title: '유리판 (글라스모피즘)',
+    description: '뒤 배경이 흐릿하게 비치는 반투명 유리 카드·GNB·모달 — 흐림을 못 쓰면 불투명 판으로 자동 전환',
+    emoji: '🪟',
+    category: '표면과 스타일',
+    usage: `import { Glass } from './Glass'
+
+<Glass as="header" variant="nav" tone="dark">국수집</Glass>
+
+<Glass as="article" variant="card" interactive>
+  <h3>잔치국수</h3>
+  <p>멸치 육수에 소면 · 7,000원</p>
+</Glass>
+
+<dialog className="glass glass-modal">…</dialog>`,
+    Component: GlassSurfaceDemo,
   },
 ]
