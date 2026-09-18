@@ -1,6 +1,6 @@
 ---
 name: add-skill
-description: fe-skills 저장소에 새 애니메이션/UI/UX 스킬을 추가하는 파이프라인(문서 작성→데모 구현→게이트 검증). "스킬 추가해줘/만들어줘", "{애니메이션} 스킬로 등록해줘", 기존 스킬의 "수정/보완/데모 다시/재검증/리뷰 다시" 요청 시 반드시 이 스킬을 사용할 것. 스킬 내용 단순 질문은 직접 응답 가능.
+description: fe-skills 저장소에 애니메이션·UI·UX 스킬을 추가하거나 기존 스킬을 수정·재검증하는 파이프라인(선택 평가 → 문서 → 데모 → 게이트). "스킬 추가해줘/만들어줘, {패턴} 스킬로 등록해줘, 데모 다시, 재검증, 리뷰 다시" 요청에 쓴다. 스킬 내용에 대한 단순 질문에는 쓰지 않는다.
 ---
 
 # add-skill — 스킬 추가 파이프라인
@@ -34,10 +34,11 @@ plugins/system/skills/{skill-name}/      # 시스템 스킬 (데모 없음)
 - 브랜치 확인(`branch` 스킬) — 작업은 `feat/{skill-name}`에서.
 - `plugins/ui/skills/`에 같은/유사 스킬이 이미 있는지 확인 — 있으면 신규가 아니라 확장이다.
 
-### 1. 스킬 문서 (정본 먼저)
+### 1. 선택 평가 → 스킬 문서 (정본 먼저)
 
+0. `evals/selection/{skill-name}.json`을 **먼저** 쓴다(Red): `should` — 이 스킬이 골라져야 하는 요청 3개 이상(구어체 1개·영어 표현 1개 포함), `shouldNot` — 이웃 스킬의 요청 3개 이상(골라지면 안 됨). `node scripts/evalSelection.mjs {skill-name}`이 실패하는 것을 확인한 뒤 description을 쓴다(Green).
 1. `plugins/ui/skills/{skill-name}/SKILL.md` 작성:
-   - frontmatter `name`(디렉토리명과 일치)·`description` — description은 트리거 조건이다: 무엇을 하는 스킬인지 + 사용자가 실제로 쓸 표현("페이드 인 넣어줘" 등) + 후속 키워드(수정/다시). ~350자.
+   - frontmatter `name`(디렉토리명과 일치)·`description` — 3인칭으로 "무엇을 하는가 + 언제 쓰는가"만. 80~300자(150~250자 권장). 사용자가 실제로 쓸 표현을 따옴표로 나열하고 핵심 영어 용어를 한 번 넣는다. 구현 방식 요약·에이전트 명령문("반드시 이 스킬을 사용할 것") 금지 — 에이전트가 본문을 읽지 않고 description만 보고 행동할 수 있다.
    - 본문: **언제 이 패턴을 쓰는가 → 사용 방법(설치·적용 단계) → 사용 예시(최소 코드) → 커스터마이즈 포인트(duration·easing 등) → 주의사항(접근성·성능)**. 명령형, ≤500줄.
 2. `assets/`에 예시 컴포넌트 작성. 기술 기준: **CSS 우선** — CSS transition/animation으로 되는 것은 CSS로, 어려운 것(제스처·레이아웃 전이)만 라이브러리를 쓰고 SKILL.md에 "왜 이 기술인가" 한 줄을 명시한다.
 3. 접근성은 선택이 아니다: `prefers-reduced-motion` 대응을 모든 스킬에 포함한다.
@@ -56,7 +57,7 @@ plugins/system/skills/{skill-name}/      # 시스템 스킬 (데모 없음)
 | # | 게이트 | 명령/방법 |
 |---|--------|----------|
 | 1 | 빌드·린트·테스트 | `npm run build && npm run lint && npm test` (demo/) |
-| 2 | 스킬 구조 | frontmatter name-디렉토리 일치, references/assets 링크 유효, description ~350자 |
+| 2 | 스킬 구조·선택 평가 | `npm run validate` — frontmatter name-디렉토리 일치, references/assets 링크 유효, description 80~300자·3인칭, 선택 평가 should/shouldNot 통과 |
 | 3 | 브라우저 실동작 | 데모 페이지를 브라우저로 열어 스크린샷/녹화로 실제 동작 확인 |
 | 4 | 모션 리뷰 | `fe-craft` 스킬로 이징·타이밍·reduced-motion 리뷰, 지적 반영 |
 

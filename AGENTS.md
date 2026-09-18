@@ -43,6 +43,8 @@ npm run build                     # tsc -b && vite build
 npm run lint                      # eslint (demo/ 기준)
 npm test                          # vitest run (jsdom)
 node scripts/validateSkills.mjs   # 스킬 구조 검사 — 실패하면 exit 1
+node scripts/evalSelection.mjs    # 스킬 선택 평가 — 요청 문장에 맞는 스킬이 골라지는지 검사
+npm run validate                  # 위 두 검사를 한 번에
 ```
 
 알려진 제약: `npm run lint`는 `plugins/**/assets`를 실제로 검사하지 않는다(ESLint flat config가 `demo/` 밖 파일을 무시). assets 코드는 `npm run build`의 타입 검사와 테스트로 검증된다.
@@ -67,22 +69,25 @@ node scripts/validateSkills.mjs   # 스킬 구조 검사 — 실패하면 exit 1
 
 스킬 추가·수정·재검증 요청은 `.agents/skills/add-skill/SKILL.md`의 파이프라인을 따른다(문서 → 데모 → 게이트). 요약:
 
-1. `plugins/ui/skills/{스킬}/SKILL.md` — frontmatter `name`(= 폴더명)·`description`(80~400자, 트리거 조건: 무엇을 하는 스킬 + 사용자가 실제로 쓸 표현 + 수정 요청 키워드). 본문: 언제 쓰는가 → 기술 선택(왜 이 기술인가) → 파일 표 → 사용 방법(React / 순수 JS) → 커스터마이즈 → 주의사항.
-2. `assets/` — 코어 + React 래퍼 + CSS. 접근성 포함.
-3. `demo/src/demos/{스킬}/` 데모 페이지 + `demo/src/demos/index.ts` 등록. 테스트는 `demo/src/tests/`.
-4. README 표 한 행 + 배지 숫자(fe-ui 스킬 수, tests 수) 갱신 — 검사 스크립트가 실제 수와 비교한다.
-5. 워크로그.
+1. `evals/selection/{스킬}.json` — **문서보다 먼저** 쓴다(Red). 이 스킬이 골라져야 하는 요청 3개 이상(`should`: 구어체·영어 표현 포함)과 골라지면 안 되는 이웃 요청 3개 이상(`shouldNot`: 비슷한 다른 스킬의 요청). `node scripts/evalSelection.mjs {스킬}`로 확인한다.
+2. `plugins/ui/skills/{스킬}/SKILL.md` — frontmatter `name`(= 폴더명)·`description`. **description 규칙:** 3인칭으로 "무엇을 하는가 + 언제 쓰는가"만 적는다. 80~300자, 150~250자 권장. 사용자가 실제로 쓸 표현을 따옴표로 나열하고 핵심 영어 용어를 한 번 넣는다. 구현 방식 요약과 에이전트 명령문("반드시 이 스킬을 사용할 것")은 넣지 않는다 — 에이전트가 본문을 읽지 않고 description만 보고 행동할 수 있다. 본문: 언제 쓰는가 → 기술 선택(왜 이 기술인가) → 파일 표 → 사용 방법(React / 순수 JS) → 커스터마이즈 → 주의사항.
+3. `assets/` — 코어 + React 래퍼 + CSS. 접근성 포함.
+4. `demo/src/demos/{스킬}/` 데모 페이지 + `demo/src/demos/index.ts` 등록. 테스트는 `demo/src/tests/`.
+5. README 표 한 행 + 배지 숫자(fe-ui 스킬 수, tests 수) 갱신 — 검사 스크립트가 실제 수와 비교한다.
+6. 워크로그.
 
 ### 완료 게이트 — 전부 통과해야 완료
 
 | # | 게이트 | 방법 |
 |---|---|---|
 | 1 | 빌드·린트·테스트 | `npm run build && npm run lint && npm test` |
-| 2 | 스킬 구조 | `node scripts/validateSkills.mjs` |
+| 2 | 스킬 구조·선택 평가 | `npm run validate` (`validateSkills.mjs` + `evalSelection.mjs`) |
 | 3 | 브라우저 실동작 | 데모 페이지를 실제 브라우저로 열어 동작·계산된 스타일·스크린샷으로 확인 (UI 스킬만) |
 | 4 | 모션 리뷰 | 이징·타이밍·reduced-motion 검토. 지적 사항 반영 (UI 스킬만) |
 
-게이트가 실패하면 고친 뒤 그 게이트부터 다시 돌린다. 시스템 설계 스킬은 2번(구조)과 트리거 검증(should/should-NOT 쿼리)만 적용한다.
+게이트가 실패하면 고친 뒤 그 게이트부터 다시 돌린다. 시스템 설계 스킬은 2번(구조·선택 평가)만 적용한다.
+
+선택 평가는 LLM을 부르지 않는다. description과 요청 문장의 단어 겹침(IDF 가중)으로 순위를 매기는 대리 지표라, 실제 모델의 선택과 다를 수 있다. 잡아내는 것은 두 가지다: 트리거 표현이 description에 없는 경우, 두 스킬의 description이 구별되지 않는 경우.
 
 ## 도구별 차이
 

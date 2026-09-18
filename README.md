@@ -47,11 +47,17 @@ fe-skills는 AI가 구현 전에 읽고 적용하는 설명서입니다. 패턴�
 
 ### Codex · Cursor · Gemini CLI · GitHub Copilot 등
 
-프로젝트 루트에서 한 줄로 설치합니다. 스킬 폴더가 `.agents/skills/`에 복사됩니다.
+프로젝트 루트에서 한 줄로 설치합니다. 두 방법 중 하나를 고르세요.
 
 ```bash
+# 방법 1 — skills CLI (설치된 에이전트를 자동으로 찾아 각 스킬 폴더에 넣음)
+npx skills add Guksu/fe-skills
+
+# 방법 2 — 이 저장소의 설치 스크립트 (.agents/skills/에 복사, git만 필요)
 curl -fsSL https://raw.githubusercontent.com/Guksu/fe-skills/main/scripts/install-skills.sh | sh
 ```
+
+skills CLI로 특정 스킬만 고르려면 `npx skills add Guksu/fe-skills --skill bottom-sheet`처럼 씁니다.
 
 | 원하는 것 | 명령 |
 |---|---|
@@ -263,6 +269,8 @@ npm run dev
 | `npm run lint` | 코드 린트 |
 | `npm run build` | 배포용 빌드 |
 | `node scripts/validateSkills.mjs` | 스킬 구조, 공유 코드 일치 여부, README 배지 숫자 |
+| `node scripts/evalSelection.mjs` | 스킬 선택 평가 — `evals/selection/*.json`의 요청 문장에 맞는 스킬이 골라지는지 |
+| `npm run validate` | 위 두 검사를 한 번에 |
 
 `main`에 변경이 올라가면 GitHub Pages로 데모가 자동 배포됩니다.
 
@@ -274,10 +282,11 @@ npm run dev
 
 ### UI 스킬 추가
 
-1. **설명서 작성:** `plugins/ui/skills/{이름}/SKILL.md`를 만듭니다. `name`은 폴더명과 맞추고, `description`에는 사용자가 요청할 법한 표현을 넣습니다. 본문은 사용 시점 → 구현 이유 → 사용법(React / 순수 JS) → 옵션 → 주의사항 순서로 작성합니다.
-2. **구현 코드 추가:** `assets/`에 CSS와 프레임워크 독립 로직을 작성합니다. 로직은 테스트부터 작성하고, 동작 줄이기 설정을 반영합니다.
-3. **데모 등록:** `demo/src/demos/{이름}/`에서 `@skills/{이름}/assets/...`를 불러오고, `demo/src/demos/index.ts`에 등록합니다.
-4. **검증:** 빌드·린트·테스트·구조 검사를 실행합니다. 브라우저에서 동작을 확인하고 모션의 속도·감속·접근성 설정을 검토합니다.
+1. **선택 평가 작성:** `evals/selection/{이름}.json`에 이 스킬이 골라져야 하는 요청 3개와 골라지면 안 되는 이웃 요청 3개를 먼저 적습니다.
+2. **설명서 작성:** `plugins/ui/skills/{이름}/SKILL.md`를 만듭니다. `name`은 폴더명과 맞추고, `description`은 3인칭으로 무엇을 하고 언제 쓰는지만 적습니다(80~300자). 본문은 사용 시점 → 구현 이유 → 사용법(React / 순수 JS) → 옵션 → 주의사항 순서로 작성합니다.
+3. **구현 코드 추가:** `assets/`에 CSS와 프레임워크 독립 로직을 작성합니다. 로직은 테스트부터 작성하고, 동작 줄이기 설정을 반영합니다.
+4. **데모 등록:** `demo/src/demos/{이름}/`에서 `@skills/{이름}/assets/...`를 불러오고, `demo/src/demos/index.ts`에 등록합니다.
+5. **검증:** 빌드·린트·테스트·구조 검사·선택 평가(`npm run validate`)를 실행합니다. 브라우저에서 동작을 확인하고 모션의 속도·감속·접근성 설정을 검토합니다.
 
 스킬이나 테스트 수가 바뀌면 README 배지도 갱신해야 구조 검사를 통과합니다. 시스템 설계 스킬은 문서와 참고 자료를 검증하며, 데모·브라우저 검사는 적용하지 않습니다.
 

@@ -3,7 +3,7 @@
  * 스킬 구조 검증 게이트 — plugin/skills 전체를 검사한다.
  * 실패 시 exit 1 (검증자 게이트의 종료 코드 판정용).
  *  - SKILL.md 존재, frontmatter name = 디렉토리명
- *  - description 존재·길이(80~400자)
+ *  - description 존재·길이(80~300자)·3인칭(에이전트 명령문 금지)
  *  - 본문이 참조하는 assets/·references/ 경로 실재
  *  - 데모 레지스트리(demo/src/demos/index.ts)에 slug 등록
  *  - 공유 코어 복사본 동기: 첫 줄에 `@shared-core {파일} origin: {스킬}` 헤더가 있는 assets 파일은 원본과 내용이 같아야 한다
@@ -47,7 +47,8 @@ for (const { dir: skillsDir, requiresDemo } of plugins) {
     const fmName = fm[1].match(/^name:\s*(\S+)/m)?.[1]
     if (fmName !== name) errors.push(`${name}: frontmatter name(${fmName})이 디렉토리명과 다름`)
     const desc = fm[1].match(/^description:\s*(.+)$/m)?.[1] ?? ''
-    if (desc.length < 80 || desc.length > 400) errors.push(`${name}: description 길이 ${desc.length}자 (80~400자 필요)`)
+    if (desc.length < 80 || desc.length > 300) errors.push(`${name}: description 길이 ${desc.length}자 (80~300자 필요)`)
+    if (/반드시 이 스킬을 사용할 것|이 스킬을 사용/.test(desc)) errors.push(`${name}: description에 에이전트 명령문("이 스킬을 사용할 것")이 있음 — 3인칭으로 무엇을·언제만 적는다`)
     for (const [, ref] of md.matchAll(/`((?:assets|references)\/[\w./-]+)`/g)) {
       if (!existsSync(join(dir, ref))) errors.push(`${name}: 참조 파일 없음 — ${ref}`)
     }

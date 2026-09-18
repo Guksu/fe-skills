@@ -3,7 +3,8 @@
     { "name": "build", "command": "npm run build" },
     { "name": "lint", "command": "npm run lint" },
     { "name": "test", "command": "npm test" },
-    { "name": "skills-structure", "command": "node scripts/validateSkills.mjs" }
+    { "name": "skills-structure", "command": "node scripts/validateSkills.mjs" },
+    { "name": "skills-selection", "command": "node scripts/evalSelection.mjs" }
   ],
   "maxIterations": 10,
   "maxTokens": 20000000,
