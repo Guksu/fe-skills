@@ -6,6 +6,7 @@
     "dev": "npm run dev -w demo",
     "build": "npm run build -w demo",
     "lint": "npm run lint -w demo",
-    "test": "npm run test -w demo"
+    "test": "npm run test -w demo",
+    "validate": "node scripts/validateSkills.mjs && node scripts/evalSelection.mjs"
   }
 }
