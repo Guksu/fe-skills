@@ -49,8 +49,10 @@ import { ProgressRingDemo } from './progress-ring/ProgressRingDemo'
 import { CardStackDemo } from './card-stack/CardStackDemo'
 import { StretchyHeaderDemo } from './stretchy-header/StretchyHeaderDemo'
 import { EdgeSwipeBackDemo } from './edge-swipe-back/EdgeSwipeBackDemo'
+import { MotionPrinciplesDemo } from './motion-principles/MotionPrinciplesDemo'
+import { MotionAuditDemo } from './motion-audit/MotionAuditDemo'
 
-export type DemoCategory = '등장과 전환' | '로딩과 진행' | '피드백' | '내비게이션' | '제스처' | '컨트롤' | '표면과 스타일'
+export type DemoCategory = '등장과 전환' | '로딩과 진행' | '피드백' | '내비게이션' | '제스처' | '컨트롤' | '표면과 스타일' | '원칙과 검토'
 
 export type DemoEntry = {
   /** URL 해시 조각 (#/{slug}) — plugins/ui/skills/{slug}와 일치시킨다 */
@@ -64,7 +66,7 @@ export type DemoEntry = {
   Component: ComponentType
 }
 
-export const CATEGORIES: DemoCategory[] = ['등장과 전환', '로딩과 진행', '피드백', '내비게이션', '제스처', '컨트롤', '표면과 스타일']
+export const CATEGORIES: DemoCategory[] = ['등장과 전환', '로딩과 진행', '피드백', '내비게이션', '제스처', '컨트롤', '표면과 스타일', '원칙과 검토']
 
 /** 데모 목록의 단일 출처 — 스킬 추가 시 여기에만 등록하면 목록·라우팅·카탈로그에 반영된다 */
 export const demos: DemoEntry[] = [
@@ -932,5 +934,44 @@ const { containerRef, screenRef, underlayRef, dimRef } = useEdgeSwipeBack({
   <div ref={screenRef} className="edge-swipe-screen">{current}</div>
 </div>`,
     Component: EdgeSwipeBackDemo,
+  },
+  {
+    slug: 'motion-principles',
+    title: '모션 원칙과 토큰',
+    description: '앱 전체의 시간·이징·스태거·reduced-motion 기준을 토큰 한 벌로 — 이징을 나란히 비교하고 시간 단계를 골라 본다',
+    emoji: '📐',
+    category: '원칙과 검토',
+    usage: `/* motion-tokens.css를 전역에서 불러온 뒤, 스킬들의 공개 변수를 토큰에 연결 */
+:root {
+  --sheet-duration: var(--motion-duration-slow);
+  --toast-duration: var(--motion-duration-base);
+  --tooltip-duration: var(--motion-duration-fast);
+  --fx-ease: var(--motion-ease-out);
+}
+
+.card {
+  transition: transform var(--motion-duration-base) var(--motion-ease-out);
+}
+.card[data-state='exiting'] {
+  transition-duration: calc(var(--motion-duration-base) * var(--motion-exit-ratio));
+}`,
+    Component: MotionPrinciplesDemo,
+  },
+  {
+    slug: 'motion-audit',
+    title: '모션 검사',
+    description: 'CSS·JS를 훑어 레이아웃 속성 애니메이션·reduced-motion 누락·시간 범위 밖 같은 문제를 file:line으로 찾고 고치는 법을 알려줌',
+    emoji: '🔍',
+    category: '원칙과 검토',
+    usage: `# 폴더 전체 검사 — error가 있으면 exit 1
+node tools/motion-audit/audit.mjs src/
+
+# 프로그램에서
+import { auditMotion, formatFindings } from './auditMotion'
+const findings = auditMotion([{ file: 'menu.css', text: cssSource }])
+console.log(formatFindings(findings))
+// menu.css:41 [error] layout-animation — height를 transition — 매 프레임 레이아웃이 돈다
+//     → 높이 변화는 grid-template-rows: 0fr→1fr (accordion 스킬) 또는 transform: scaleY`,
+    Component: MotionAuditDemo,
   },
 ]

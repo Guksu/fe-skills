@@ -1,0 +1,104 @@
+.ma-sample-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+}
+
+.ma-sample-title {
+  color: var(--text-dim);
+}
+
+.ma-samples {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.controls input[type='text'] {
+  font: inherit;
+  font-size: 0.85rem;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.4rem 0.5rem;
+}
+
+.ma-stage {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1rem;
+}
+
+.ma-input {
+  min-height: 420px;
+  padding: 1rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  resize: vertical;
+  tab-size: 2;
+}
+
+.ma-result {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.ma-summary {
+  font-weight: 700;
+}
+
+.ma-summary[data-clean='true'] {
+  color: #34c759;
+}
+
+.ma-findings {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.ma-finding {
+  padding: 0.6rem 0.8rem;
+  border-radius: 8px;
+  background: var(--bg);
+  border-left: 3px solid #f59e0b;
+}
+
+.ma-finding[data-severity='error'] {
+  border-left-color: #ef4444;
+}
+
+.ma-finding code {
+  font-size: 0.75rem;
+  color: var(--accent);
+}
+
+.ma-rule {
+  margin-left: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+}
+
+.ma-finding p {
+  margin: 0.25rem 0 0;
+  font-size: 0.85rem;
+}
+
+.ma-fix {
+  color: var(--text-dim);
+}

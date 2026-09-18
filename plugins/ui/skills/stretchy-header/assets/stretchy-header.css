@@ -46,7 +46,7 @@
   object-fit: cover;
   /* 위 가장자리 고정 — scale이 아래로만 커진다(stretchCore의 전제) */
   transform-origin: top center;
-  will-change: transform;
+  will-change: transform; /* motion-audit-ignore: will-change-global — 스크롤마다 프레임 단위로 움직이는 이미지 */
   /* 기본은 전환 없음: 스크롤·드래그 프레임에 바로 붙어야 한다 */
   transition: none;
 }

@@ -29,7 +29,7 @@
   z-index: 3;
   background: var(--edge-screen-bg, #fff);
   box-shadow: -8px 0 24px rgba(0, 0, 0, 0.2);
-  will-change: transform;
+  will-change: transform; /* motion-audit-ignore: will-change-global — 화면이 가장자리 드래그로 계속 끌리는 요소 */
 }
 
 /* 이전 화면 — 맨 아래. 정지 상태에서 --edge-shift만큼 왼쪽에 물러나 있다(코어의 진행도 0과 같은 값) */

@@ -45,4 +45,8 @@
   .ptr-content {
     transition-duration: 0.01ms;
   }
+  /* 새로고침 중임은 알려야 하므로 스피너를 끄지 않고 느리게만 돌린다 */
+  .ptr-container[data-refreshing='true'] .ptr-indicator {
+    animation-duration: 2s;
+  }
 }

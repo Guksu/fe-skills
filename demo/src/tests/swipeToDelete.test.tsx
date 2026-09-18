@@ -18,13 +18,13 @@ describe('SwipeToDelete — 버튼 삭제 → 접힘 → onDelete', () => {
     expect(item).toHaveAttribute('data-state', 'deleting')
     expect(onDelete).not.toHaveBeenCalled()
     act(() => {
-      item.dispatchEvent(new Event('transitionend')) // propertyName 없음 — height가 아니면 무시
+      item.dispatchEvent(new Event('transitionend')) // propertyName 없음 — grid-template-rows가 아니면 무시
     })
     expect(onDelete).not.toHaveBeenCalled()
     act(() => {
       // jsdom에는 TransitionEvent가 없다 — propertyName만 얹은 일반 이벤트로 대신한다
       const heightEnd = new Event('transitionend')
-      Object.defineProperty(heightEnd, 'propertyName', { value: 'height' })
+      Object.defineProperty(heightEnd, 'propertyName', { value: 'grid-template-rows' })
       item.dispatchEvent(heightEnd)
     })
     expect(onDelete).toHaveBeenCalledTimes(1)

@@ -75,6 +75,7 @@
     0 1px 3px rgba(15, 23, 42, 0.18),
     0 0 0 0.5px rgba(15, 23, 42, 0.04);
   transform-origin: left;
+  /* motion-audit-ignore: layout-animation — thumb는 absolute라 width 전이가 자기 자신만 레이아웃한다(위 주석) */
   transition:
     transform var(--_duration) var(--_ease-out),
     width var(--_duration) var(--_ease-out);

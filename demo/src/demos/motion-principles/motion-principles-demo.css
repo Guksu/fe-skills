@@ -1,0 +1,117 @@
+.mp-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.mp-compare {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.mp-lane {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.mp-curve {
+  width: 120px;
+  height: 120px;
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+
+.mp-curve line {
+  stroke: var(--border);
+  stroke-width: 1.5;
+}
+
+.mp-track {
+  position: relative;
+  height: 72px;
+  border-radius: 12px;
+  background: var(--bg);
+}
+
+.mp-card {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: var(--accent-soft);
+  border: 1px solid var(--accent);
+  font-size: 1.5rem;
+  /* 데모의 핵심 — 같은 시간, 다른 이징. 토큰은 --motion-* 이지만 비교를 위해 카드마다 --demo-ease를 따로 준다 */
+  transition: transform var(--demo-duration) var(--demo-ease);
+}
+
+.mp-card[data-moved='true'] {
+  transform: translateX(calc(100% + 160px));
+}
+
+/* 돌아올 때(퇴장에 해당)는 3/4 시간 */
+.mp-card[data-moved='false'] {
+  transition-duration: var(--demo-exit);
+}
+
+.mp-ease-value {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+}
+
+.mp-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.mp-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 0.5rem;
+}
+
+.mp-item {
+  padding: 0.6rem 0.8rem;
+  border-radius: 8px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  animation: mp-item-in var(--motion-duration-base) var(--motion-ease-out) both;
+  animation-delay: var(--delay, 0ms);
+}
+
+@keyframes mp-item-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mp-card {
+    transition-duration: 1ms;
+  }
+  .mp-item {
+    animation: mp-item-fade var(--motion-duration-base) linear both;
+    animation-delay: 0ms;
+  }
+  @keyframes mp-item-fade {
+    from {
+      opacity: 0;
+    }
+  }
+}

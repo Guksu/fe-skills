@@ -30,7 +30,6 @@
   transform-origin: 50% 0;
   /* 드로어 커브 — 빠르게 나와서 부드럽게 정착한다. transform만 전환(레이아웃 속성 금지) */
   transition: transform var(--_duration) cubic-bezier(0.32, 0.72, 0, 1);
-  will-change: transform;
   /* 그림자는 위쪽으로 — 앞 카드가 뒤 카드 윗가장자리에 얹힌 깊이감 */
   box-shadow:
     0 -1px 0 rgba(255, 255, 255, 0.08),
