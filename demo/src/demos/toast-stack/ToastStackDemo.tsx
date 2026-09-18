@@ -10,9 +10,12 @@ const MESSAGES = [
   '링크를 복사했습니다 🔗',
 ]
 
+type Position = 'bottom' | 'top'
+
 export const ToastStackDemo = () => {
   const [durationMs, setDurationMs] = useState(3500)
-  const { toast } = useToastStack({ durationMs })
+  const [position, setPosition] = useState<Position>('bottom')
+  const { toast } = useToastStack({ durationMs, position })
   const nextRef = useRef(0)
 
   const fire = () => {
@@ -37,9 +40,20 @@ export const ToastStackDemo = () => {
           />
           <output>{(durationMs / 1000).toFixed(1)}s</output>
         </label>
+        <fieldset className="toast-position-picker">
+          <legend>
+            위치 <code>position</code>
+          </legend>
+          <label>
+            <input type="radio" name="toast-position" checked={position === 'bottom'} onChange={() => setPosition('bottom')} /> 하단 (위로 쌓임)
+          </label>
+          <label>
+            <input type="radio" name="toast-position" checked={position === 'top'} onChange={() => setPosition('top')} /> 상단 배너 (아래로 쌓임)
+          </label>
+        </fieldset>
         <p className="controls-note">
-          연타해 보세요 — 새 토스트가 기존 것을 밀어 올리며 쌓이고(최대 3개), 각자 시간이 되면
-          사라집니다. 화면 하단 중앙을 보세요.
+          연타해 보세요 — 새 토스트가 기존 것을 밀어내며 쌓이고(최대 3개), 각자 시간이 되면 사라집니다. 하단은 최신이
+          아래에 오고 위로 쌓이며, 상단 배너는 iOS 푸시처럼 위에서 내려와 최신이 맨 위에 옵니다.
         </p>
       </section>
 

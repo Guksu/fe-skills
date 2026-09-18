@@ -7,3 +7,23 @@
   border: 1px dashed var(--border);
   border-radius: 12px;
 }
+
+.toast-position-picker {
+  display: flex;
+  gap: 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin: 0;
+}
+
+.toast-position-picker legend {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+}
+
+.toast-position-picker label {
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+}

@@ -1,0 +1,71 @@
+/* 폰 프레임 — 데모는 페이지 전체 대신 600px 스크롤 컨테이너 안에서 보여준다 */
+.stretchy-demo-frame {
+  height: 600px;
+  max-width: 400px;
+  margin: 0 auto;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: var(--surface);
+  --stretch-bg: var(--surface);
+  /* 마우스 드래그로 당기는 동안 텍스트가 끌려 선택되지 않게 */
+  user-select: none;
+}
+
+/* 사진 대용 — 그라디언트 위에 큰 이모지. 늘어날 때 무늬가 커지는 것이 보이도록 방사형 하이라이트를 둔다 */
+.stretchy-demo-image {
+  display: grid;
+  place-items: center;
+  font-size: 7rem;
+  line-height: 1;
+  background:
+    radial-gradient(circle at 30% 25%, rgba(255, 255, 255, 0.28), transparent 45%),
+    linear-gradient(160deg, #f0a35a 0%, #d9633a 55%, #7a2e1f 100%);
+}
+
+.stretchy-demo-title {
+  margin: 0;
+  font-size: 1.6rem;
+  line-height: 1.2;
+}
+
+.stretchy-demo-subtitle {
+  margin: 0.3rem 0 0;
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
+
+.stretchy-demo-menu {
+  /* 헤더 이미지 위에 확실히 올라온다 — 패럴랙스 클립이 헤더 바닥에서 끝나므로 겹칠 일은 없지만 배경은 불투명하게 */
+  position: relative;
+  list-style: none;
+  margin: 0;
+  padding: 0.5rem 0 1rem;
+  background: var(--surface);
+}
+
+.stretchy-demo-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.9rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.stretchy-demo-item div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.stretchy-demo-item span {
+  color: var(--text-dim);
+  font-size: 0.8rem;
+}
+
+.stretchy-demo-item em {
+  font-style: normal;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent);
+  white-space: nowrap;
+}

@@ -41,6 +41,14 @@ import { RangeSliderDemo } from './range-slider/RangeSliderDemo'
 import { QuantityStepperDemo } from './quantity-stepper/QuantityStepperDemo'
 import { FileUploadDemo } from './file-upload/FileUploadDemo'
 import { GlassSurfaceDemo } from './glass-surface/GlassSurfaceDemo'
+import { SegmentedControlDemo } from './segmented-control/SegmentedControlDemo'
+import { WheelPickerDemo } from './wheel-picker/WheelPickerDemo'
+import { LongPressMenuDemo } from './long-press-menu/LongPressMenuDemo'
+import { CardExpandDemo } from './card-expand/CardExpandDemo'
+import { ProgressRingDemo } from './progress-ring/ProgressRingDemo'
+import { CardStackDemo } from './card-stack/CardStackDemo'
+import { StretchyHeaderDemo } from './stretchy-header/StretchyHeaderDemo'
+import { EdgeSwipeBackDemo } from './edge-swipe-back/EdgeSwipeBackDemo'
 
 export type DemoCategory = '등장과 전환' | '로딩과 진행' | '피드백' | '내비게이션' | '제스처' | '컨트롤' | '표면과 스타일'
 
@@ -762,5 +770,167 @@ const reorder = useDragReorder({ onReorder: move })
 
 <dialog className="glass glass-modal">…</dialog>`,
     Component: GlassSurfaceDemo,
+  },
+  {
+    slug: 'segmented-control',
+    title: '세그먼트 컨트롤',
+    description: '선택 칸 뒤로 알약 배경이 미끄러지는 iOS 세그먼트 — 네이티브 라디오 그룹이라 방향키·스크린 리더 공짜',
+    emoji: '🎛️',
+    category: '컨트롤',
+    usage: `import { SegmentedControl } from './SegmentedControl'
+
+const ORDERS = [
+  { value: 'dine-in', label: '매장' },
+  { value: 'takeout', label: '포장' },
+]
+
+const [order, setOrder] = useState('dine-in')
+
+<SegmentedControl name="order" label="주문 방식" options={ORDERS} value={order} onChange={setOrder} />`,
+    Component: SegmentedControlDemo,
+  },
+  {
+    slug: 'wheel-picker',
+    title: '휠 피커',
+    description: 'iOS 드럼처럼 굴려서 고르는 원통형 선택기 — 가운데 스냅·3D 기울기·페이드, 클릭·키보드 병행',
+    emoji: '🎡',
+    category: '컨트롤',
+    usage: `import { useState } from 'react'
+import { WheelPicker } from './WheelPicker'
+
+const HOURS = Array.from({ length: 11 }, (_, i) => ({ value: String(11 + i), label: \`\${11 + i}시\` }))
+
+const ReservationHour = () => {
+  const [hour, setHour] = useState('18')
+  return <WheelPicker aria-label="시" options={HOURS} value={hour} onChange={setHour} visibleCount={5} />
+}`,
+    Component: WheelPickerDemo,
+  },
+  {
+    slug: 'long-press-menu',
+    title: '길게 눌러 메뉴',
+    description: '길게 누르면 항목이 떠오르고 뒤가 흐려지며 옆에 메뉴 — 데스크톱은 우클릭, iOS 홈 화면 관례',
+    emoji: '👆',
+    category: '제스처',
+    usage: `import { LongPressMenu } from './LongPressMenu'
+
+<LongPressMenu
+  label={\`\${item.name} 동작\`}
+  items={[
+    { label: '장바구니 담기', onSelect: () => addToCart(item) },
+    { label: '즐겨찾기', onSelect: () => favorite(item) },
+    { label: '숨기기', onSelect: () => hide(item), destructive: true },
+  ]}
+>
+  <article className="menu-card">{item.name}</article>
+</LongPressMenu>`,
+    Component: LongPressMenuDemo,
+  },
+  {
+    slug: 'card-expand',
+    title: '카드 확장',
+    description: '누른 카드가 제자리에서 자라나 상세 화면이 되고, 닫으면 그 자리로 줄어든다 — 그림·제목은 따로 이어져 움직인다',
+    emoji: '🃏',
+    category: '등장과 전환',
+    usage: `import { useCardExpand } from './useCardExpand'
+
+const { expandedId, expand, collapse } = useCardExpand({ containerRef, detailRef })
+
+<div ref={containerRef} className="card-expand-container">
+  <ul inert={expandedId !== null}>
+    <button data-card-id={pick.id} onClick={(e) => expand({ id: pick.id, card: e.currentTarget })}>
+      <span data-card-expand-part="media">{pick.emoji}</span>
+      <span data-card-expand-part="title">{pick.title}</span>
+    </button>
+  </ul>
+  {current && (
+    <article ref={detailRef} className="card-expand-detail" role="dialog">
+      <button className="card-expand-close" onClick={collapse}>×</button>
+      <div data-card-expand-part="media">{current.emoji}</div>
+      <h2 data-card-expand-part="title">{current.title}</h2>
+    </article>
+  )}
+</div>`,
+    Component: CardExpandDemo,
+  },
+  {
+    slug: 'progress-ring',
+    title: '원형 진행 링',
+    description: '애플워치 활동 링처럼 원이 채워지는 진행 표시 — 값이 바뀌면 CSS transition으로 따라가고 3중 링·무한 로딩 지원',
+    emoji: '⭕',
+    category: '로딩과 진행',
+    usage: `import { ProgressRing } from './ProgressRing'
+import { ActivityRings } from './ActivityRings'
+
+<ProgressRing value={percent} max={100} size={140} label="주문 준비 진행률">
+  <strong>{Math.round(percent)}%</strong>
+</ProgressRing>
+
+<ActivityRings
+  size={180}
+  rings={[
+    { value: 96, max: 120, color: '#ff6b6b', label: '판매 그릇 수' },
+    { value: 130, max: 200, color: '#ffd166', label: '만두 빚기' },
+  ]}
+/>`,
+    Component: ProgressRingDemo,
+  },
+  {
+    slug: 'card-stack',
+    title: '카드 묶음',
+    description: '애플 지갑식 카드 스택 — 겹침에서 펼치고, 하나를 고르면 맨 위로 올라오고 나머지는 아래로 내려가 겹친다',
+    emoji: '🗂️',
+    category: '등장과 전환',
+    usage: `import { CardStack } from './CardStack'
+
+const CARDS = [
+  { id: 'points', render: () => <div className="wallet-card points">적립 카드</div> },
+  { id: 'coupon', render: () => <div className="wallet-card coupon">손만두 1인분 무료</div> },
+  { id: 'prepaid', render: () => <div className="wallet-card prepaid">선불 카드 32,000원</div> },
+]
+
+<CardStack cards={CARDS} cardHeight={180} peekPx={56} fanGapPx={72} label="국수집 멤버십 카드" />`,
+    Component: CardStackDemo,
+  },
+  {
+    slug: 'stretchy-header',
+    title: '늘어나는 이미지 헤더',
+    description: '위로 스크롤하면 이미지가 느리게 밀리며 어두워지고, 맨 위에서 당기면 늘어났다 돌아옴',
+    emoji: '🖼️',
+    category: '등장과 전환',
+    usage: `import { useStretchyHeader } from './useStretchyHeader'
+
+const { containerRef, imageRef } = useStretchyHeader({ headerHeight: 240 })
+
+<div ref={containerRef} className="stretchy-container">
+  <div className="stretchy-header">
+    <div className="stretchy-header-clip">
+      <img ref={imageRef} className="stretchy-header-image" src="/shop.jpg" alt="" />
+    </div>
+    <div className="stretchy-header-overlay"><h1>성수동 손칼국수</h1></div>
+  </div>
+  <main>…본문…</main>
+</div>`,
+    Component: StretchyHeaderDemo,
+  },
+  {
+    slug: 'edge-swipe-back',
+    title: '가장자리 스와이프 뒤로가기',
+    description: '왼쪽 가장자리를 끌면 현재 화면이 손가락을 따라 밀리고 이전 화면이 따라 나온다 — 놓으면 거리·속도로 판정해 스프링으로 가거나 되돌아온다',
+    emoji: '👈',
+    category: '제스처',
+    usage: `import { useEdgeSwipeBack } from './useEdgeSwipeBack'
+
+const { containerRef, screenRef, underlayRef, dimRef } = useEdgeSwipeBack({
+  canGoBack: stack.length > 1,
+  onBack: () => setStack((prev) => prev.slice(0, -1)), // 훅이 flushSync로 감싼다
+})
+
+<div ref={containerRef} className="edge-swipe">
+  <div ref={underlayRef} className="edge-swipe-underlay" aria-hidden="true">{previous}</div>
+  <div ref={dimRef} className="edge-swipe-dim" aria-hidden="true" />
+  <div ref={screenRef} className="edge-swipe-screen">{current}</div>
+</div>`,
+    Component: EdgeSwipeBackDemo,
   },
 ]

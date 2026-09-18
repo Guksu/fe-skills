@@ -7,13 +7,13 @@
 애니메이션·UI 구현 패턴과 시스템 설계 가이드를 문서와 코드로 제공합니다.
 
 [![Deploy demo](https://github.com/Guksu/fe-skills/actions/workflows/deploy-demo.yml/badge.svg)](https://github.com/Guksu/fe-skills/actions/workflows/deploy-demo.yml)
-![UI skills](https://img.shields.io/badge/fe--ui-42%20skills-6ea8fe)
+![UI skills](https://img.shields.io/badge/fe--ui-50%20skills-6ea8fe)
 ![System skills](https://img.shields.io/badge/fe--system-1%20skill-a78bfa)
 ![Dependencies](https://img.shields.io/badge/runtime%20deps-0-34c759)
-![Tests](https://img.shields.io/badge/tests-375%20passing-34c759)
+![Tests](https://img.shields.io/badge/tests-474%20passing-34c759)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
-[**라이브 데모**](https://guksu.github.io/fe-skills/) · [설치](#설치) · [UI 스킬](#ui-스킬-42종--fe-ui) · [설계 스킬](#설계-스킬--fe-system) · [개발](#개발) · [기여하기](#기여하기)
+[**라이브 데모**](https://guksu.github.io/fe-skills/) · [설치](#설치) · [UI 스킬](#ui-스킬-50종--fe-ui) · [설계 스킬](#설계-스킬--fe-system) · [개발](#개발) · [기여하기](#기여하기)
 
 </div>
 
@@ -23,7 +23,7 @@ fe-skills는 AI가 구현 전에 읽고 적용하는 설명서입니다. 패턴�
 
 | 플러그인 | 용도 | 구성 |
 |---|---|---|
-| **fe-ui** | 애니메이션·UI·제스처 구현 | 스킬 42종, 구현 코드, 라이브 데모 |
+| **fe-ui** | 애니메이션·UI·제스처 구현 | 스킬 50종, 구현 코드, 라이브 데모 |
 | **fe-system** | 구현 전 구조와 설계 결정 | `design` 스킬, 화면 유형별 질문과 선택 기준 |
 
 - **CSS 우선:** CSS로 가능한 동작은 CSS로 구현합니다. 제스처·물리 모션은 별도 런타임 라이브러리 없이 TypeScript로 처리합니다.
@@ -53,7 +53,7 @@ Claude Code에서 마켓플레이스를 등록한 뒤 필요한 플러그인을 
 | “피드 사진을 핀치줌할 수 있게 해줘” | `pinch-zoom` |
 | “상품 목록 + 필터 + 상세 화면을 만들려고 해” | `design`으로 설계 문답 후 구현 |
 
-## UI 스킬 42종 — fe-ui
+## UI 스킬 50종 — fe-ui
 
 이름을 누르면 설명서, 오른쪽 데모를 누르면 실제로 움직이는 화면을 볼 수 있습니다.
 
@@ -69,6 +69,9 @@ Claude Code에서 마켓플레이스를 등록한 뒤 필요한 플러그인을 
 | [모달 다이얼로그](plugins/ui/skills/modal-dialog/SKILL.md) | 기본 `<dialog>` 기반으로 열기·닫기, Esc 키와 포커스 처리 | [데모](https://guksu.github.io/fe-skills/#/modal-dialog) |
 | [스프링 물리 모션](plugins/ui/skills/spring-physics/SKILL.md) | 드래그 속도를 이어받아 용수철처럼 움직이는 모션 | [데모](https://guksu.github.io/fe-skills/#/spring-physics) |
 | [다크모드 전환](plugins/ui/skills/theme-toggle/SKILL.md) | 누른 위치에서 원형으로 테마 전환, 선택 저장 및 기기 설정 반영 | [데모](https://guksu.github.io/fe-skills/#/theme-toggle) |
+| [늘어나는 이미지 헤더](plugins/ui/skills/stretchy-header/SKILL.md) | 큰 이미지 헤더가 스크롤엔 느리게 밀리며 어두워지고, 맨 위에서 당기면 늘어났다 돌아옴 | [데모](https://guksu.github.io/fe-skills/#/stretchy-header) |
+| [카드 확장](plugins/ui/skills/card-expand/SKILL.md) | 누른 카드가 제자리에서 자라나 상세 화면이 되고 닫으면 그 자리로 줄어드는 공유 요소 전환 | [데모](https://guksu.github.io/fe-skills/#/card-expand) |
+| [카드 묶음](plugins/ui/skills/card-stack/SKILL.md) | 겹친 카드가 누르면 세로로 펼쳐지고, 고른 카드가 맨 위로 올라오며 나머지는 아래로 겹침 | [데모](https://guksu.github.io/fe-skills/#/card-stack) |
 
 ### 기다리는 동안
 
@@ -80,13 +83,14 @@ Claude Code에서 마켓플레이스를 등록한 뒤 필요한 플러그인을 
 | [로딩 버튼](plugins/ui/skills/loading-button/SKILL.md) | 전송 중·완료 상태를 표시하고 중복 제출 방지 | [데모](https://guksu.github.io/fe-skills/#/loading-button) |
 | [무한 스크롤](plugins/ui/skills/infinite-scroll/SKILL.md) | 목록 끝에 도달하기 전에 다음 페이지를 불러오고 중복 추가 방지 | [데모](https://guksu.github.io/fe-skills/#/infinite-scroll) |
 | [가상 스크롤](plugins/ui/skills/virtual-list/SKILL.md) | 화면에 보이는 항목 중심으로 렌더링해 긴 목록 처리 | [데모](https://guksu.github.io/fe-skills/#/virtual-list) |
+| [원형 진행 링](plugins/ui/skills/progress-ring/SKILL.md) | SVG 원이 값에 따라 채워지는 진행 표시, 3중 링 겹치기·목표 초과 표시·무한 로딩 | [데모](https://guksu.github.io/fe-skills/#/progress-ring) |
 
 ### 누르면 반응하기
 
 | 스킬 | 주요 동작 | 데모 |
 |---|---|---|
 | [프레스 피드백](plugins/ui/skills/press-feedback/SKILL.md) | 누르는 순간 축소되고 손을 떼면 복원되는 효과 | [데모](https://guksu.github.io/fe-skills/#/press-feedback) |
-| [토스트 스택](plugins/ui/skills/toast-stack/SKILL.md) | 여러 알림을 쌓고 각각의 표시 시간이 지나면 닫기 | [데모](https://guksu.github.io/fe-skills/#/toast-stack) |
+| [토스트 스택](plugins/ui/skills/toast-stack/SKILL.md) | 하단 또는 상단 배너 위치에 여러 알림을 쌓고 각각의 표시 시간이 지나면 닫기 | [데모](https://guksu.github.io/fe-skills/#/toast-stack) |
 | [좋아요 팝](plugins/ui/skills/like-pop/SKILL.md) | 하트 클릭·사진 더블 탭에 반응하는 팝 효과 | [데모](https://guksu.github.io/fe-skills/#/like-pop) |
 | [카트 플라이](plugins/ui/skills/cart-fly/SKILL.md) | 상품이 장바구니 아이콘으로 날아가는 효과 | [데모](https://guksu.github.io/fe-skills/#/cart-fly) |
 | [툴팁](plugins/ui/skills/tooltip/SKILL.md) | 마우스·키보드 입력에 맞춰 표시하고 여유 공간에 따라 배치 | [데모](https://guksu.github.io/fe-skills/#/tooltip) |
@@ -108,10 +112,12 @@ Claude Code에서 마켓플레이스를 등록한 뒤 필요한 플러그인을 
 |---|---|---|
 | [바텀시트](plugins/ui/skills/bottom-sheet/SKILL.md) | 아래에서 시트를 열고 드래그로 높이 조절·닫기 | [데모](https://guksu.github.io/fe-skills/#/bottom-sheet) |
 | [당겨서 새로고침](plugins/ui/skills/pull-to-refresh/SKILL.md) | 목록 상단을 당기면 저항감과 함께 새로고침 | [데모](https://guksu.github.io/fe-skills/#/pull-to-refresh) |
-| [밀어서 삭제](plugins/ui/skills/swipe-to-delete/SKILL.md) | 옆으로 밀어 삭제 버튼 표시, 끝까지 밀어 삭제 | [데모](https://guksu.github.io/fe-skills/#/swipe-to-delete) |
+| [밀어서 삭제](plugins/ui/skills/swipe-to-delete/SKILL.md) | 옆으로 밀어 액션 버튼(단일 삭제 또는 보관·나중에·삭제 여러 개) 표시, 끝까지 밀면 마지막 액션 실행 | [데모](https://guksu.github.io/fe-skills/#/swipe-to-delete) |
 | [피드 핀치줌](plugins/ui/skills/pinch-zoom/SKILL.md) | 두 손가락으로 사진을 확대하고 놓으면 복원 | [데모](https://guksu.github.io/fe-skills/#/pinch-zoom) |
 | [끌어내려 닫는 뷰어](plugins/ui/skills/swipe-dismiss-viewer/SKILL.md) | 사진을 아래로 끌어 축소하며 닫고 원래 위치로 복귀 | [데모](https://guksu.github.io/fe-skills/#/swipe-dismiss-viewer) |
 | [끌어서 순서 바꾸기](plugins/ui/skills/drag-to-reorder/SKILL.md) | 드래그 또는 방향키로 목록 순서 변경 | [데모](https://guksu.github.io/fe-skills/#/drag-to-reorder) |
+| [길게 눌러 메뉴](plugins/ui/skills/long-press-menu/SKILL.md) | 길게 누르거나 우클릭하면 항목이 떠오르고 뒤가 흐려지며 옆에 액션 메뉴 표시 | [데모](https://guksu.github.io/fe-skills/#/long-press-menu) |
+| [가장자리 스와이프 뒤로가기](plugins/ui/skills/edge-swipe-back/SKILL.md) | 왼쪽 가장자리를 끌면 이전 화면이 따라 나오고, 놓으면 거리·속도로 돌아갈지 판정 | [데모](https://guksu.github.io/fe-skills/#/edge-swipe-back) |
 
 ### 입력 요소
 
@@ -123,6 +129,8 @@ Claude Code에서 마켓플레이스를 등록한 뒤 필요한 플러그인을 
 | [플로팅 라벨 입력](plugins/ui/skills/floating-label/SKILL.md) | 입력 상태에 따라 안내 문구를 상단 라벨로 전환 | [데모](https://guksu.github.io/fe-skills/#/floating-label) |
 | [체크박스 · 라디오](plugins/ui/skills/checkbox-radio/SKILL.md) | 선택 상태에 맞춰 체크 표시와 라디오 점에 모션 적용 | [데모](https://guksu.github.io/fe-skills/#/checkbox-radio) |
 | [인증번호 입력](plugins/ui/skills/otp-input/SKILL.md) | 입력·삭제 시 칸 이동, 인증번호 붙여넣기 지원 | [데모](https://guksu.github.io/fe-skills/#/otp-input) |
+| [세그먼트 컨트롤](plugins/ui/skills/segmented-control/SKILL.md) | 선택 칸 뒤로 알약 배경이 미끄러져 이동, 네이티브 라디오 그룹 기반 | [데모](https://guksu.github.io/fe-skills/#/segmented-control) |
+| [휠 피커](plugins/ui/skills/wheel-picker/SKILL.md) | 위아래로 굴려 가운데 칸에 스냅되는 드럼 피커, 3D 기울기·클릭·키보드 병행 | [데모](https://guksu.github.io/fe-skills/#/wheel-picker) |
 | [검색어 자동완성](plugins/ui/skills/search-suggest/SKILL.md) | 입력이 멈추면 검색하고 이전 응답이 최신 결과를 덮지 않도록 처리 | [데모](https://guksu.github.io/fe-skills/#/search-suggest) |
 | [범위 슬라이더](plugins/ui/skills/range-slider/SKILL.md) | 두 손잡이로 최솟값·최댓값을 조절하는 범위 입력 | [데모](https://guksu.github.io/fe-skills/#/range-slider) |
 | [수량 스테퍼](plugins/ui/skills/quantity-stepper/SKILL.md) | 버튼으로 수량 조절, 길게 눌러 가속, 최솟값에서 삭제 전환 | [데모](https://guksu.github.io/fe-skills/#/quantity-stepper) |

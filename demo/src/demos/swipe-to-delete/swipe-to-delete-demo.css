@@ -26,13 +26,51 @@
   border-top: 1px solid var(--border);
 }
 
-/* 데모 전역 button 스타일이 액션 버튼에 묻지 않게 되돌린다 — 스킬 assets는 건드리지 않는다 */
+/* 데모 전역 button 스타일이 액션 버튼에 묻지 않게 되돌린다 — 스킬 assets는 건드리지 않는다.
+ * 배경은 스킬 CSS가 tone별로 --_bg에 모아 두므로 그 변수로 되돌린다 */
 .swipe-stage .swipe-action,
 .swipe-stage .swipe-action:hover {
   align-self: stretch;
   border: none;
   border-radius: 0;
-  background: transparent;
+  background: var(--_bg);
+}
+
+.swipe-stage .swipe-action:hover {
+  filter: brightness(1.08);
+}
+
+.swipe-stage-title small {
+  margin-left: 0.5rem;
+  font-weight: 400;
+  color: var(--text-dim);
+}
+
+.order-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.8rem 1rem;
+}
+
+.order-row-title {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.order-row-meta {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+
+.order-row-badge {
+  margin-left: 0.4rem;
+  padding: 0.05rem 0.45rem;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 0.75rem;
 }
 
 .cart-row {
