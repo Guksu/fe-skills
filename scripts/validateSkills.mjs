@@ -7,7 +7,7 @@
  *  - 본문이 참조하는 assets/·references/ 경로 실재
  *  - 데모 레지스트리(demo/src/demos/index.ts)에 slug 등록
  *  - 공유 코어 복사본 동기: 첫 줄에 `@shared-core {파일} origin: {스킬}` 헤더가 있는 assets 파일은 원본과 내용이 같아야 한다
- *  - README 배지 숫자(fe-ui/fe-system 스킬 수, 테스트 수)가 실제와 일치
+ *  - README.md·README.en.md 배지 숫자(fe-ui/fe-system 스킬 수, 테스트 수)가 실제와 일치
  *  - 공통 지침 파일: AGENTS.md 존재, CLAUDE.md가 @AGENTS.md를 가져옴, .agents/skills/add-skill이 있고 .claude/skills/add-skill이 같은 곳을 가리킴
  */
 import { readFileSync, readdirSync, existsSync, statSync } from 'node:fs'
@@ -76,11 +76,13 @@ for (const { dir: skillsDir, requiresDemo } of plugins) {
 }
 
 // README 배지 — 숫자가 실제와 어긋나면 문서가 거짓말을 한다. 테스트 수는 vitest가 남긴 마지막 결과 없이도 셀 수 있게 it( 호출 수로 센다
-const readme = readFileSync(join(root, 'README.md'), 'utf8')
-const badge = (label) => Number(readme.match(new RegExp(`${label}-(\\d+)%20`))?.[1] ?? NaN)
+// 영어판(README.en.md)이 있으면 같은 숫자여야 한다 — 두 문서가 다른 숫자를 말하면 하나는 거짓말이다
+const readmes = ['README.md', 'README.en.md'].filter((name) => existsSync(join(root, name))).map((name) => ({ name, text: readFileSync(join(root, name), 'utf8') }))
 const expectBadge = ({ label, actual }) => {
-  const shown = badge(label)
-  if (shown !== actual) errors.push(`README 배지 ${label}: ${shown}로 표기, 실제 ${actual} — README 배지를 갱신하라`)
+  for (const { name, text } of readmes) {
+    const shown = Number(text.match(new RegExp(`${label}-(\\d+)%20`))?.[1] ?? NaN)
+    if (shown !== actual) errors.push(`${name} 배지 ${label}: ${shown}로 표기, 실제 ${actual} — 배지를 갱신하라`)
+  }
 }
 expectBadge({ label: 'fe--ui', actual: skillCounts[join(root, 'plugins/ui/skills')] ?? 0 })
 expectBadge({ label: 'fe--system', actual: skillCounts[join(root, 'plugins/system/skills')] ?? 0 })
