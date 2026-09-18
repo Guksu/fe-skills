@@ -12,7 +12,7 @@ Animation and UI implementation patterns plus system design guides, as documents
 ![UI skills](https://img.shields.io/badge/fe--ui-52%20skills-6ea8fe)
 ![System skills](https://img.shields.io/badge/fe--system-1%20skill-a78bfa)
 ![Dependencies](https://img.shields.io/badge/runtime%20deps-0-34c759)
-![Tests](https://img.shields.io/badge/tests-493%20passing-34c759)
+![Tests](https://img.shields.io/badge/tests-498%20passing-34c759)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 [**Live demo**](https://guksu.github.io/fe-skills/) · [Installation](#installation) · [UI skills](#ui-skills-52--fe-ui) · [Design skill](#design-skill--fe-system) · [Development](#development) · [Contributing](#contributing)

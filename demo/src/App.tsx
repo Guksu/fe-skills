@@ -1,10 +1,17 @@
 import { useEffect, useState } from 'react'
 import { CATEGORIES, demos, type DemoEntry } from './demos'
+import { CATEGORY_LABEL, STRINGS, useLang, type Lang } from './i18n'
 
 const slugFromHash = () => window.location.hash.replace(/^#\/?/, '')
 
+/** 언어에 맞는 제목·설명 — 데모 안의 콘텐츠는 각 데모가 가지므로 여기서는 목록 정보만 바꾼다 */
+const titleOf = ({ demo, lang }: { demo: DemoEntry; lang: Lang }) => (lang === 'en' ? demo.titleEn : demo.title)
+const descriptionOf = ({ demo, lang }: { demo: DemoEntry; lang: Lang }) => (lang === 'en' ? demo.descriptionEn : demo.description)
+
 export const App = () => {
   const [slug, setSlug] = useState(slugFromHash)
+  const { lang, toggle } = useLang()
+  const t = STRINGS[lang]
 
   useEffect(function syncSlugWithHash() {
     const onHashChange = () => setSlug(slugFromHash())
@@ -17,20 +24,25 @@ export const App = () => {
   return (
     <div className="layout">
       <aside className="sidebar">
-        <a className="brand" href="#/">
-          fe-skills
-        </a>
-        <p className="tagline">프론트엔드 애니메이션/UI/UX 스킬 데모</p>
+        <div className="brand-row">
+          <a className="brand" href="#/">
+            fe-skills
+          </a>
+          <button type="button" className="lang-toggle" onClick={toggle} aria-label={t.langToggleLabel} lang={lang === 'ko' ? 'en' : 'ko'}>
+            {t.langToggle}
+          </button>
+        </div>
+        <p className="tagline">{t.tagline}</p>
         <nav>
           {CATEGORIES.map((category) => (
             <div key={category} className="nav-group">
-              <span className="nav-group-title">{category}</span>
+              <span className="nav-group-title">{CATEGORY_LABEL[lang][category]}</span>
               {demos
                 .filter((demo) => demo.category === category)
                 .map((demo) => (
                   <a key={demo.slug} href={`#/${demo.slug}`} data-active={demo.slug === slug ? 'true' : 'false'}>
                     <span className="nav-emoji">{demo.emoji}</span>
-                    {demo.title}
+                    {titleOf({ demo, lang })}
                   </a>
                 ))}
             </div>
@@ -42,27 +54,35 @@ export const App = () => {
           </a>
         </footer>
       </aside>
-      <main className="content">{active ? <DemoPage demo={active} /> : <Home />}</main>
+      <main className="content">{active ? <DemoPage demo={active} lang={lang} /> : <Home lang={lang} />}</main>
     </div>
   )
 }
 
-const DemoPage = ({ demo }: { demo: DemoEntry }) => (
-  <>
-    <header className="demo-header">
-      <h1>
-        <span aria-hidden="true">{demo.emoji}</span> {demo.title}
-      </h1>
-      <p>{demo.description}</p>
-      <code>plugins/ui/skills/{demo.slug}/</code>
-    </header>
-    <demo.Component />
-    <UsageBlock demo={demo} />
-  </>
-)
+const DemoPage = ({ demo, lang }: { demo: DemoEntry; lang: Lang }) => {
+  const t = STRINGS[lang]
+  return (
+    <>
+      <header className="demo-header">
+        <h1>
+          <span aria-hidden="true">{demo.emoji}</span> {titleOf({ demo, lang })}
+        </h1>
+        <p>{descriptionOf({ demo, lang })}</p>
+        <code>plugins/ui/skills/{demo.slug}/</code>
+        {lang === 'en' && <p className="demo-lang-note">{t.demoNote}</p>}
+      </header>
+      {/* 데모 내부는 한국어 콘텐츠 — 스크린 리더가 언어를 바꿔 읽도록 lang을 명시한다 */}
+      <div lang="ko">
+        <demo.Component />
+      </div>
+      <UsageBlock demo={demo} lang={lang} />
+    </>
+  )
+}
 
-const UsageBlock = ({ demo }: { demo: DemoEntry }) => {
+const UsageBlock = ({ demo, lang }: { demo: DemoEntry; lang: Lang }) => {
   const [copied, setCopied] = useState(false)
+  const t = STRINGS[lang]
 
   useEffect(
     function resetCopiedBadge() {
@@ -83,19 +103,19 @@ const UsageBlock = ({ demo }: { demo: DemoEntry }) => {
   }
 
   return (
-    <section className="usage" aria-label="사용 예시">
+    <section className="usage" aria-label={t.usage}>
       <div className="usage-head">
-        <h2>사용 예시</h2>
+        <h2>{t.usage}</h2>
         <div className="usage-actions">
           <button type="button" onClick={copy}>
-            {copied ? '복사됨 ✓' : '코드 복사'}
+            {copied ? t.copied : t.copy}
           </button>
           <a
             href={`https://github.com/Guksu/fe-skills/blob/main/plugins/ui/skills/${demo.slug}/SKILL.md`}
             target="_blank"
             rel="noreferrer"
           >
-            스킬 문서 →
+            {t.skillDoc}
           </a>
         </div>
       </div>
@@ -106,42 +126,37 @@ const UsageBlock = ({ demo }: { demo: DemoEntry }) => {
   )
 }
 
-const Home = () => {
+const Home = ({ lang }: { lang: Lang }) => {
   const [query, setQuery] = useState('')
+  const t = STRINGS[lang]
   const keyword = query.trim().toLowerCase()
+  // 검색은 두 언어를 모두 뒤진다 — 영어 화면에서 한국어 이름을 기억하는 사람도, 그 반대도 찾을 수 있게
   const matches = (demo: DemoEntry) =>
     keyword === '' ||
-    [demo.title, demo.description, demo.slug].some((text) => text.toLowerCase().includes(keyword))
+    [demo.title, demo.description, demo.titleEn, demo.descriptionEn, demo.slug].some((text) => text.toLowerCase().includes(keyword))
 
   const visible = demos.filter(matches)
 
   return (
     <section className="home">
       <h1>fe-skills</h1>
-      <p className="home-intro">
-        에이전트가 애니메이션/UI/UX를 구현할 때 참조하는 스킬 저장소입니다. 스킬 {demos.length}종 —
-        전부 바닐라 코어 + React 래퍼, 의존성 0, reduced-motion 대응.
-      </p>
+      <p className="home-intro">{t.homeIntro(demos.length)}</p>
       <div className="home-search">
         <input
           type="search"
-          placeholder="스킬 검색 — 이름·설명·slug"
+          placeholder={t.searchPlaceholder}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          aria-label="스킬 검색"
+          aria-label={t.searchLabel}
         />
-        {keyword && (
-          <span className="home-search-count">
-            {visible.length}개 일치
-          </span>
-        )}
+        {keyword && <span className="home-search-count">{t.matches(visible.length)}</span>}
       </div>
       {CATEGORIES.map((category) => {
         const group = visible.filter((demo) => demo.category === category)
         if (group.length === 0) return null
         return (
           <div key={category} className="home-group">
-            <h2>{category}</h2>
+            <h2>{CATEGORY_LABEL[lang][category]}</h2>
             <ul className="demo-list">
               {group.map((demo) => (
                 <li key={demo.slug}>
@@ -150,8 +165,8 @@ const Home = () => {
                       {demo.emoji}
                     </span>
                     <span className="demo-card-body">
-                      <strong>{demo.title}</strong>
-                      <span>{demo.description}</span>
+                      <strong>{titleOf({ demo, lang })}</strong>
+                      <span>{descriptionOf({ demo, lang })}</span>
                     </span>
                   </a>
                 </li>
@@ -160,7 +175,7 @@ const Home = () => {
           </div>
         )
       })}
-      {visible.length === 0 && <p className="home-empty">"{query}"에 맞는 스킬이 없습니다.</p>}
+      {visible.length === 0 && <p className="home-empty">{t.noMatch(query)}</p>}
     </section>
   )
 }
