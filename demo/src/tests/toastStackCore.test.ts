@@ -70,3 +70,43 @@ describe('createToastStack — 토스트 쌓기·자동 소멸·재배치', () =
     expect(document.querySelector('.toast-region')).toBeNull()
   })
 })
+
+describe('createToastStack — position: top (상단 배너)', () => {
+  const originalOffsetHeight = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'offsetHeight')
+  const created: Array<ReturnType<typeof createToastStack>> = []
+
+  beforeEach(() => {
+    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout', 'requestAnimationFrame', 'cancelAnimationFrame'] })
+    Object.defineProperty(HTMLElement.prototype, 'offsetHeight', { value: 40, configurable: true })
+  })
+  afterEach(() => {
+    created.splice(0).forEach((stack) => stack.destroy())
+    if (originalOffsetHeight) Object.defineProperty(HTMLElement.prototype, 'offsetHeight', originalOffsetHeight)
+    vi.useRealTimers()
+  })
+
+  const make = (options: Parameters<typeof createToastStack>[0]) => {
+    const stack = createToastStack(options)
+    created.push(stack)
+    return stack
+  }
+
+  it('position이 top이면 영역에 data-position="top"이 붙고, 기본(bottom)은 top이 아니다', () => {
+    make({ position: 'top' })
+    expect(document.querySelector('.toast-region')).toHaveAttribute('data-position', 'top')
+    created.splice(0).forEach((stack) => stack.destroy())
+    make({})
+    expect(document.querySelector('.toast-region')).not.toHaveAttribute('data-position', 'top')
+  })
+
+  it('top이면 최신이 위(0)에 오고 오래된 것이 아래로(+) 밀린다 — 부호가 반전된다', () => {
+    const stack = make({ position: 'top', gapPx: 10 })
+    stack.show('첫 번째')
+    stack.show('두 번째')
+    stack.show('세 번째')
+    const [first, second, third] = [...document.querySelectorAll('.toast-item')] as HTMLElement[]
+    expect(first.style.transform).toBe('translateY(100px)') // (40+10)*2
+    expect(second.style.transform).toBe('translateY(50px)')
+    expect(third.style.transform).toBe('translateY(0px)')
+  })
+})

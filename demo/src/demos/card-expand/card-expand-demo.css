@@ -1,0 +1,180 @@
+.ce-stage {
+  display: flex;
+  justify-content: center;
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.ce-phone {
+  display: flex;
+  flex-direction: column;
+  width: min(360px, 100%);
+  height: 560px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: var(--bg);
+  overflow: hidden;
+}
+
+.ce-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 1rem 1.25rem 0.75rem;
+}
+
+.ce-eyebrow {
+  color: var(--text-dim);
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.ce-heading {
+  font-size: 1.35rem;
+}
+
+/* 컨테이너 = 상세가 채울 영역. 스크롤은 안쪽 목록이 한다 */
+.ce-container {
+  flex: 1;
+  min-height: 0;
+  --card-expand-bg: var(--bg);
+}
+
+.ce-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  height: 100%;
+  margin: 0;
+  padding: 0.25rem 1rem 1.25rem;
+  overflow-y: auto;
+  list-style: none;
+}
+
+/* 카드 — 그림 상자 + 제목/부제. 모서리 값은 --card-expand-radius(루트)와 같아야 전환 중 모서리가 이어진다 */
+.ce-stage .ce-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--surface);
+  overflow: hidden;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 160ms ease;
+}
+
+.ce-stage .ce-card:active {
+  transform: scale(0.98);
+}
+
+.ce-stage .ce-card:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.ce-card-media,
+.ce-detail-media {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  background: var(--_tone, var(--accent-soft));
+}
+
+.ce-card-media {
+  height: 120px;
+  font-size: 3.2rem;
+}
+
+.ce-card-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.75rem 1rem 0.9rem;
+}
+
+.ce-card-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.ce-card-subtitle {
+  color: var(--text-dim);
+  font-size: 0.82rem;
+}
+
+/* 그림 상자 색 — 카드와 상세가 같은 톤을 써야 전환 중 배경이 튀지 않는다 */
+[data-tone='warm'] {
+  --_tone: linear-gradient(135deg, #f7d9a8, #f2b56b);
+}
+
+[data-tone='hot'] {
+  --_tone: linear-gradient(135deg, #f9b4a8, #ef6f5a);
+}
+
+[data-tone='cool'] {
+  --_tone: linear-gradient(135deg, #cfe3f6, #8fb9df);
+}
+
+[data-tone='green'] {
+  --_tone: linear-gradient(135deg, #d5ecc9, #93c98a);
+}
+
+/* 상세 */
+.ce-detail-media {
+  height: 220px;
+  font-size: 6rem;
+}
+
+.ce-detail-content {
+  padding: 1rem 1.25rem 1.5rem;
+}
+
+.ce-detail-title {
+  margin: 0 0 0.35rem;
+  font-size: 1.5rem;
+}
+
+.ce-detail-subtitle {
+  margin: 0 0 0.9rem;
+  color: var(--text-dim);
+  font-size: 0.9rem;
+}
+
+.ce-detail-story {
+  margin: 0 0 1.25rem;
+  font-size: 0.92rem;
+  line-height: 1.65;
+}
+
+.ce-detail-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.ce-detail-price {
+  color: var(--accent);
+  font-size: 1.1rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.ce-stage .ce-order {
+  padding: 0.65rem 1.4rem;
+  border: none;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #0b1020;
+  font-weight: 700;
+}
+
+.ce-unsupported {
+  color: #f2b56b;
+}

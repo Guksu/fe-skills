@@ -1,0 +1,93 @@
+/* 데모 무대 — 지갑 앱의 한 화면처럼 좁은 세로 컬럼. 카드 색은 여기서 정한다(코어 CSS는 모양·이동만 안다) */
+.wallet-stage {
+  max-width: 380px;
+  margin: 0 auto;
+  padding: 20px 16px 24px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: var(--surface);
+}
+
+.wallet-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 16px;
+}
+
+.wallet-header strong {
+  font-size: 1.05rem;
+}
+
+.wallet-status {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+}
+
+/* 버튼(카드) 안을 꽉 채우는 시각 카드 — 배경 그라디언트는 data-theme별로 */
+.wallet-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 0 18px 16px;
+  border-radius: inherit;
+  color: #fff;
+  box-sizing: border-box;
+}
+
+/* 제목 줄은 겹침 높이(--stack-peek) 안에 들어가야 접힌 상태에서도 카드 종류가 읽힌다 */
+.wallet-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--stack-peek, 56px);
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+  opacity: 0.9;
+}
+
+.wallet-card-emoji {
+  font-size: 1.4rem;
+}
+
+.wallet-card-title {
+  font-size: 1.15rem;
+  line-height: 1.25;
+}
+
+.wallet-card-body {
+  margin-top: auto;
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.wallet-card-footer {
+  margin-top: 4px;
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+.wallet-card[data-theme='points'] {
+  background: linear-gradient(135deg, #1f7a5a 0%, #0f4d3a 100%);
+}
+
+.wallet-card[data-theme='coupon'] {
+  background: linear-gradient(135deg, #e8683a 0%, #b23a2b 100%);
+}
+
+.wallet-card[data-theme='prepaid'] {
+  background: linear-gradient(135deg, #3d6ee0 0%, #5b3a8f 100%);
+}
+
+.wallet-card[data-theme='regular'] {
+  background: linear-gradient(135deg, #c9a24a 0%, #3a2c14 100%);
+}
+
+.controls kbd {
+  padding: 1px 6px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 0.85em;
+}

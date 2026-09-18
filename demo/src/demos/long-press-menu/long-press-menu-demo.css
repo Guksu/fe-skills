@@ -1,0 +1,88 @@
+/* 데모 무대 — 흐림이 무엇을 뭉개는지 보이도록 알록달록한 배경 위에 카드 격자를 깐다.
+ * 무대에 transform·filter를 두지 않는다: 백드롭이 position: fixed라 조상 transform이 있으면 화면 전체를 못 덮는다. */
+.lpm-stage {
+  position: relative;
+  padding: 24px 20px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background:
+    radial-gradient(circle at 15% 20%, rgba(255, 179, 71, 0.35), transparent 40%),
+    radial-gradient(circle at 85% 80%, rgba(77, 225, 193, 0.3), transparent 45%),
+    var(--surface);
+  /* 어두운 데모 테마에 맞춘 메뉴 색 — 스킬 기본은 흰 메뉴다 */
+  --lpm-menu-bg: rgb(30 33 42 / 0.94);
+  --lpm-menu-color: var(--text);
+  --lpm-menu-active-bg: var(--accent-soft);
+  --lpm-focus: var(--accent);
+}
+
+.lpm-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 14px;
+}
+
+.lpm-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 16px 14px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.lpm-card h3 {
+  margin: 6px 0 0;
+  font-size: 1rem;
+}
+
+.lpm-card p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+}
+
+.lpm-card strong {
+  margin-top: 6px;
+  font-size: 0.9rem;
+  color: var(--accent);
+}
+
+.lpm-card-emoji {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.lpm-card-star {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 0.9rem;
+}
+
+.lpm-empty {
+  margin: 0;
+  text-align: center;
+  color: var(--text-dim);
+}
+
+.lpm-status {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.lpm-status p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-dim);
+}
+
+.lpm-status strong {
+  color: var(--text);
+}

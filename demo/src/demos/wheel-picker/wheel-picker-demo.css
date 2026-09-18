@@ -1,0 +1,81 @@
+/* 데모 무대 — 예약 시트 한 장. 휠 세 개(시·분·인원)를 나란히 놓고 결과 문장을 아래에 읽어 준다 */
+.wheel-demo-stage {
+  --wheel-highlight-bg: var(--accent-soft);
+  --wheel-active-color: var(--accent);
+  --wheel-focus-ring: var(--accent);
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 20px 20px 24px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+  color: var(--text);
+}
+
+.wheel-demo-title {
+  margin: 0 0 12px;
+  font-weight: 600;
+}
+
+.wheel-demo-row {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 8px;
+  padding: 8px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.wheel-demo-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.wheel-demo-label {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  text-align: center;
+}
+
+.wheel-demo-col .wheel {
+  font-size: 1.05rem;
+}
+
+.wheel-demo-col .wheel-item:not([data-center]) {
+  color: var(--text-dim);
+}
+
+.wheel-demo-result {
+  margin: 16px 0 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-dim);
+}
+
+.wheel-demo-result strong {
+  color: var(--text);
+}
+
+.wheel-demo-presets {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.wheel-demo-presets button {
+  font: inherit;
+  font-size: 0.8rem;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.wheel-demo-presets button:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
