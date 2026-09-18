@@ -8,6 +8,7 @@
  *  - 데모 레지스트리(demo/src/demos/index.ts)에 slug 등록
  *  - 공유 코어 복사본 동기: 첫 줄에 `@shared-core {파일} origin: {스킬}` 헤더가 있는 assets 파일은 원본과 내용이 같아야 한다
  *  - README 배지 숫자(fe-ui/fe-system 스킬 수, 테스트 수)가 실제와 일치
+ *  - 공통 지침 파일: AGENTS.md 존재, CLAUDE.md가 @AGENTS.md를 가져옴, .agents/skills/add-skill이 있고 .claude/skills/add-skill이 같은 곳을 가리킴
  */
 import { readFileSync, readdirSync, existsSync, statSync } from 'node:fs'
 import { join } from 'node:path'
@@ -87,6 +88,19 @@ const testCount = readdirSync(testsDir)
   .filter((file) => /\.test\.tsx?$/.test(file))
   .reduce((sum, file) => sum + (readFileSync(join(testsDir, file), 'utf8').match(/^\s*it\(/gm) ?? []).length, 0)
 expectBadge({ label: 'tests', actual: testCount })
+
+// 공통 지침 — 다른 에이전트(Codex·Cursor·Gemini CLI·Copilot)와 Claude가 같은 규칙·같은 add-skill 절차를 읽어야 한다.
+// 링크가 끊기거나 CLAUDE.md가 가져오기를 빼먹으면 한쪽만 다른 규칙을 보게 되므로 기계적으로 검사한다
+const agentsPath = join(root, 'AGENTS.md')
+if (!existsSync(agentsPath)) errors.push('AGENTS.md 없음 — 공통 작업 지침의 단일 출처다')
+const claudeMd = existsSync(join(root, 'CLAUDE.md')) ? readFileSync(join(root, 'CLAUDE.md'), 'utf8') : ''
+if (!/^@AGENTS\.md\s*$/m.test(claudeMd)) errors.push('CLAUDE.md가 @AGENTS.md를 가져오지 않음 — 첫 줄에 @AGENTS.md')
+const addSkillShared = join(root, '.agents/skills/add-skill/SKILL.md')
+if (!existsSync(addSkillShared)) errors.push('.agents/skills/add-skill/SKILL.md 없음 — 스킬 추가 절차는 .agents/에 둔다')
+const addSkillClaude = join(root, '.claude/skills/add-skill/SKILL.md')
+if (!existsSync(addSkillClaude) || (existsSync(addSkillShared) && hash(readFileSync(addSkillClaude, 'utf8')) !== hash(readFileSync(addSkillShared, 'utf8')))) {
+  errors.push('.claude/skills/add-skill이 .agents/skills/add-skill과 다름 — 심볼릭 링크(ln -s ../../.agents/skills/add-skill)여야 한다')
+}
 
 if (errors.length > 0) {
   console.error(`스킬 구조 검증 실패 ${errors.length}건:`)

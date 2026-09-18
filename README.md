@@ -33,7 +33,11 @@ fe-skills는 AI가 구현 전에 읽고 적용하는 설명서입니다. 패턴�
 
 ## 설치
 
-Claude Code에서 마켓플레이스를 등록한 뒤 필요한 플러그인을 설치합니다.
+스킬 문서는 열린 표준(Agent Skills) 형식입니다. 에이전트가 읽는 폴더에 스킬 폴더를 복사하면 어느 도구에서든 쓸 수 있습니다.
+
+### Claude Code
+
+마켓플레이스를 등록한 뒤 필요한 플러그인을 설치합니다.
 
 ```text
 /plugin marketplace add Guksu/fe-skills
@@ -41,11 +45,45 @@ Claude Code에서 마켓플레이스를 등록한 뒤 필요한 플러그인을 
 /plugin install fe-system@fe-skills
 ```
 
-> **스킬**은 AI가 읽는 설명서 한 편, **플러그인**은 스킬 묶음입니다. 이 저장소는 두 플러그인을 제공하는 **마켓플레이스**입니다.
+### Codex · Cursor · Gemini CLI · GitHub Copilot 등
+
+프로젝트 루트에서 한 줄로 설치합니다. 스킬 폴더가 `.agents/skills/`에 복사됩니다.
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Guksu/fe-skills/main/scripts/install-skills.sh | sh
+```
+
+| 원하는 것 | 명령 |
+|---|---|
+| UI 스킬만 | `curl -fsSL …/install-skills.sh \| sh -s -- ui` |
+| 설계 스킬만 | `… \| sh -s -- system` |
+| 다른 폴더에 설치 | `… \| sh -s -- --dest .cursor/skills` |
+| 내 컴퓨터 전체에서 쓰기 | `… \| sh -s -- --dest ~/.agents/skills` |
+| 업데이트 | 같은 명령을 다시 실행 (같은 이름 폴더만 교체) |
+
+스크립트 없이 직접 복사해도 됩니다.
+
+```bash
+git clone --depth 1 https://github.com/Guksu/fe-skills.git
+mkdir -p .agents/skills
+cp -R fe-skills/plugins/ui/skills/* fe-skills/plugins/system/skills/* .agents/skills/
+```
+
+| 도구 | 프로젝트 스킬 폴더 | 개인 전역 폴더 |
+|---|---|---|
+| Codex | `.agents/skills/` | `~/.agents/skills/` |
+| Cursor | `.agents/skills/` 또는 `.cursor/skills/` | `~/.agents/skills/` 또는 `~/.cursor/skills/` |
+| Gemini CLI | `.agents/skills/` 또는 `.gemini/skills/` | `~/.agents/skills/` 또는 `~/.gemini/skills/` |
+| GitHub Copilot | `.agents/skills/`, `.github/skills/` 또는 `.claude/skills/` | `~/.agents/skills/` 또는 `~/.copilot/skills/` |
+| Claude Code | `.claude/skills/` (또는 위 마켓플레이스) | `~/.claude/skills/` |
+
+경로는 2026년 9월 기준 각 도구의 문서를 따랐습니다. 도구가 바뀌면 그 도구의 문서를 확인하세요.
+
+> **스킬**은 AI가 읽는 설명서 한 편, **플러그인**은 스킬 묶음입니다. 이 저장소는 두 플러그인을 제공하며, Claude Code에서는 **마켓플레이스**로도 설치할 수 있습니다.
 
 ### 사용 예시
 
-설치 후에는 원하는 작업을 평소처럼 요청하면 됩니다. AI가 요청에 맞는 스킬을 선택합니다.
+설치 후에는 원하는 작업을 평소처럼 요청하면 됩니다. 에이전트가 요청에 맞는 스킬을 선택합니다.
 
 | 요청 | 적용 스킬 |
 |---|---|
@@ -185,12 +223,16 @@ plugins/ui/skills/bottom-sheet/
 
 ```text
 fe-skills/
-├─ .claude-plugin/marketplace.json   플러그인 등록 정보
+├─ AGENTS.md                        모든 코딩 에이전트를 위한 작업 지침 (단일 출처)
+├─ CLAUDE.md                        Claude Code 전용 보충 (AGENTS.md를 가져옴)
+├─ .agents/skills/add-skill/        스킬 추가 절차 (에이전트가 자동 발견)
+├─ .claude-plugin/marketplace.json   Claude Code 플러그인 등록 정보
 ├─ plugins/
 │  ├─ ui/skills/{스킬}/             UI 스킬 원본 문서와 코드
 │  └─ system/skills/design/         설계 문답 규칙과 참고 문서
 ├─ demo/                            Vite + React 데모 사이트
 ├─ scripts/validateSkills.mjs        스킬 구조·배지 검사
+├─ scripts/install-skills.sh         다른 프로젝트에 스킬 복사 설치
 └─ docs/                            설계 · 계획 · 작업 기록 · 규칙
 ```
 
@@ -220,6 +262,8 @@ npm run dev
 
 **스킬 문서와 코드가 원본입니다.** 데모는 `assets/`를 직접 불러오며, 코드를 복사하지 않습니다.
 
+코딩 에이전트로 작업한다면 [`AGENTS.md`](AGENTS.md)가 공통 지침입니다. Claude Code·Codex·Cursor·Gemini CLI·Copilot 모두 같은 규칙과 같은 스킬 추가 절차(`.agents/skills/add-skill/`)를 읽습니다.
+
 ### UI 스킬 추가
 
 1. **설명서 작성:** `plugins/ui/skills/{이름}/SKILL.md`를 만듭니다. `name`은 폴더명과 맞추고, `description`에는 사용자가 요청할 법한 표현을 넣습니다. 본문은 사용 시점 → 구현 이유 → 사용법(React / 순수 JS) → 옵션 → 주의사항 순서로 작성합니다.
@@ -231,6 +275,7 @@ npm run dev
 
 ### 관련 문서
 
+- [에이전트 작업 지침](AGENTS.md)
 - [작업 규칙](docs/harness-rules.md)
 - [저장소 설계](docs/design/2026-08-19-fe-skills.md)
 - [추가 예정 스킬과 작업 계획](docs/plans/)
