@@ -14,14 +14,18 @@
   --_tone-default: var(--swipe-action-default-bg, #6b7280);
   position: relative;
   overflow: hidden;
-  /* 삭제 후 접힘 — height는 JS가 측정해 인라인으로 준다(auto→0은 전이되지 않는다) */
+  /* 삭제 후 접힘 — 행을 1행 grid로 두고 grid-template-rows를 1fr→0fr로 전이한다(accordion과 같은 기법).
+   * height를 재서 인라인으로 주는 방식은 매 프레임 레이아웃을 돌리고 JS 측정이 필요했다 — motion-audit이 잡아내 바꿨다 */
+  display: grid;
+  grid-template-rows: 1fr;
   transition:
-    height var(--_duration) var(--_ease-out),
+    grid-template-rows var(--_duration) var(--_ease-out),
     opacity var(--_duration) ease;
 }
 
 .swipe-content {
   position: relative;
+  min-height: 0; /* 0fr로 접힐 때 내용의 최소 높이가 행을 버티지 않게 */
   background: var(--swipe-bg, #fff);
   touch-action: pan-y; /* 세로 스크롤은 브라우저에, 가로는 코어에 */
   user-select: none;
@@ -87,9 +91,9 @@
   outline-offset: -4px;
 }
 
-/* 삭제 확정 — 내용은 이미 왼쪽으로 빠졌고(액션 색이 행을 채운 상태), 행 높이가 접힌다 */
+/* 삭제 확정 — 내용은 이미 왼쪽으로 빠졌고(액션 색이 행을 채운 상태), 행이 0fr로 접힌다 */
 .swipe-item[data-state='deleting'] {
-  height: 0 !important;
+  grid-template-rows: 0fr;
   opacity: 0;
 }
 

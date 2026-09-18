@@ -51,3 +51,9 @@
   scale: 1.25;
 }
 
+/* 모션 민감 사용자: 도트 강조 전이를 즉시로. 스냅 스크롤 자체는 사용자의 손짓이라 그대로 둔다 */
+@media (prefers-reduced-motion: reduce) {
+  .carousel-dot {
+    transition: none;
+  }
+}

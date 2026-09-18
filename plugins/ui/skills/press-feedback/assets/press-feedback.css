@@ -7,7 +7,7 @@
   transition:
     transform var(--press-release, 220ms) cubic-bezier(0.22, 1, 0.36, 1),
     filter var(--press-release, 220ms) ease;
-  will-change: transform;
+  will-change: transform; /* motion-audit-ignore: will-change-global — 눌림 즉시 반응해야 해 레이어를 미리 둔다(작은 요소) */
 }
 
 .pressable:active {

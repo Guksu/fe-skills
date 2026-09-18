@@ -88,10 +88,8 @@ const swipe = createSwipeDelete({
   content: item.querySelector('.swipe-content'),
   onOpenChange: (open) => (item.dataset.open = String(open)),
   onSwipeOut: () => {
-    item.style.height = `${item.offsetHeight}px`
-    void item.offsetHeight
-    item.dataset.state = 'deleting'
-    item.addEventListener('transitionend', () => item.remove(), { once: true })
+    item.dataset.state = 'deleting' // CSS가 grid-template-rows 1fr→0fr로 접는다
+    item.addEventListener('transitionend', (e) => e.propertyName === 'grid-template-rows' && item.remove())
   },
 })
 item.querySelector('.swipe-action').addEventListener('click', swipe.swipeOut)

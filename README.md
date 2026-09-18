@@ -7,13 +7,13 @@
 애니메이션·UI 구현 패턴과 시스템 설계 가이드를 문서와 코드로 제공합니다.
 
 [![Deploy demo](https://github.com/Guksu/fe-skills/actions/workflows/deploy-demo.yml/badge.svg)](https://github.com/Guksu/fe-skills/actions/workflows/deploy-demo.yml)
-![UI skills](https://img.shields.io/badge/fe--ui-50%20skills-6ea8fe)
+![UI skills](https://img.shields.io/badge/fe--ui-52%20skills-6ea8fe)
 ![System skills](https://img.shields.io/badge/fe--system-1%20skill-a78bfa)
 ![Dependencies](https://img.shields.io/badge/runtime%20deps-0-34c759)
-![Tests](https://img.shields.io/badge/tests-474%20passing-34c759)
+![Tests](https://img.shields.io/badge/tests-493%20passing-34c759)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
-[**라이브 데모**](https://guksu.github.io/fe-skills/) · [설치](#설치) · [UI 스킬](#ui-스킬-50종--fe-ui) · [설계 스킬](#설계-스킬--fe-system) · [개발](#개발) · [기여하기](#기여하기)
+[**라이브 데모**](https://guksu.github.io/fe-skills/) · [설치](#설치) · [UI 스킬](#ui-스킬-52종--fe-ui) · [설계 스킬](#설계-스킬--fe-system) · [개발](#개발) · [기여하기](#기여하기)
 
 </div>
 
@@ -23,7 +23,7 @@ fe-skills는 AI가 구현 전에 읽고 적용하는 설명서입니다. 패턴�
 
 | 플러그인 | 용도 | 구성 |
 |---|---|---|
-| **fe-ui** | 애니메이션·UI·제스처 구현 | 스킬 50종, 구현 코드, 라이브 데모 |
+| **fe-ui** | 애니메이션·UI·제스처 구현 | 스킬 52종, 구현 코드, 라이브 데모 |
 | **fe-system** | 구현 전 구조와 설계 결정 | `design` 스킬, 화면 유형별 질문과 선택 기준 |
 
 - **CSS 우선:** CSS로 가능한 동작은 CSS로 구현합니다. 제스처·물리 모션은 별도 런타임 라이브러리 없이 TypeScript로 처리합니다.
@@ -97,7 +97,7 @@ cp -R fe-skills/plugins/ui/skills/* fe-skills/plugins/system/skills/* .agents/sk
 | “피드 사진을 핀치줌할 수 있게 해줘” | `pinch-zoom` |
 | “상품 목록 + 필터 + 상세 화면을 만들려고 해” | `design`으로 설계 문답 후 구현 |
 
-## UI 스킬 50종 — fe-ui
+## UI 스킬 52종 — fe-ui
 
 이름을 누르면 설명서, 오른쪽 데모를 누르면 실제로 움직이는 화면을 볼 수 있습니다.
 
@@ -185,6 +185,13 @@ cp -R fe-skills/plugins/ui/skills/* fe-skills/plugins/system/skills/* .agents/sk
 | 스킬 | 주요 동작 | 데모 |
 |---|---|---|
 | [유리판 (글라스모피즘)](plugins/ui/skills/glass-surface/SKILL.md) | 뒤 배경이 흐릿하게 비치는 반투명 카드·GNB·모달, 흐림 미지원 시 불투명 판으로 전환 | [데모](https://guksu.github.io/fe-skills/#/glass-surface) |
+
+### 원칙과 검토
+
+| 스킬 | 주요 동작 | 데모 |
+|---|---|---|
+| [모션 원칙과 토큰](plugins/ui/skills/motion-principles/SKILL.md) | 시간 5단계·이징 5종·스태거·reduced-motion을 토큰 한 벌로 정하고, 움직임 종류별로 어느 값을 쓸지 정한 원칙 | [데모](https://guksu.github.io/fe-skills/#/motion-principles) |
+| [모션 검사](plugins/ui/skills/motion-audit/SKILL.md) | CSS·JS를 훑어 레이아웃 속성 애니메이션·reduced-motion 누락·시간 범위 밖 등을 `file:line`으로 찾고 고치는 스킬을 안내 | [데모](https://guksu.github.io/fe-skills/#/motion-audit) |
 
 
 ## 설계 스킬 — fe-system

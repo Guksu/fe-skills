@@ -77,9 +77,7 @@ export const SwipeToDelete = ({
   const collapse = () => {
     const item = itemRef.current
     if (!item) return
-    // auto→0은 전이되지 않는다 — 현재 높이를 인라인으로 고정한 뒤 다음 프레임에 접는다
-    item.style.height = `${item.offsetHeight}px`
-    void item.offsetHeight
+    // 접힘은 CSS가 grid-template-rows 1fr→0fr로 전이한다 — 높이를 재서 인라인으로 줄 필요가 없다
     setDeleting(true)
 
     let done = false
@@ -89,7 +87,7 @@ export const SwipeToDelete = ({
       finishRef.current()
     }
     item.addEventListener('transitionend', (event) => {
-      if (event.propertyName === 'height') finish()
+      if (event.propertyName === 'grid-template-rows') finish()
     })
     window.setTimeout(finish, COLLAPSE_FALLBACK_MS)
   }
