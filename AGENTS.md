@@ -73,7 +73,7 @@ npm run validate                  # 위 두 검사를 한 번에
 2. `plugins/ui/skills/{스킬}/SKILL.md` — frontmatter `name`(= 폴더명)·`description`. **description 규칙:** 3인칭으로 "무엇을 하는가 + 언제 쓰는가"만 적는다. 80~300자, 150~250자 권장. 사용자가 실제로 쓸 표현을 따옴표로 나열하고 핵심 영어 용어를 한 번 넣는다. 구현 방식 요약과 에이전트 명령문("반드시 이 스킬을 사용할 것")은 넣지 않는다 — 에이전트가 본문을 읽지 않고 description만 보고 행동할 수 있다. 본문: 언제 쓰는가 → 기술 선택(왜 이 기술인가) → 파일 표 → 사용 방법(React / 순수 JS) → 커스터마이즈 → 주의사항.
 3. `assets/` — 코어 + React 래퍼 + CSS. 접근성 포함.
 4. `demo/src/demos/{스킬}/` 데모 페이지 + `demo/src/demos/index.ts` 등록. 테스트는 `demo/src/tests/`.
-5. README 표 한 행 + 배지 숫자(fe-ui 스킬 수, tests 수) 갱신 — 검사 스크립트가 실제 수와 비교한다.
+5. `README.md`와 `README.en.md` 양쪽에 표 한 행 + 배지 숫자(fe-ui 스킬 수, tests 수) 갱신 — 검사 스크립트가 두 파일 모두 실제 수와 비교한다.
 6. 워크로그.
 
 ### 완료 게이트 — 전부 통과해야 완료

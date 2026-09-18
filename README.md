@@ -2,6 +2,8 @@
 
 # fe-skills
 
+English: [README.en.md](README.en.md)
+
 **AI 에이전트를 위한 프론트엔드 스킬 모음**
 
 애니메이션·UI 구현 패턴과 시스템 설계 가이드를 문서와 코드로 제공합니다.
