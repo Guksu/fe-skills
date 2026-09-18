@@ -62,6 +62,27 @@ button:hover {
   text-decoration: none;
 }
 
+.brand-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+/* 언어 토글 — 사이드바 상단, 브랜드 옆. 작고 조용하게 */
+.lang-toggle {
+  padding: 0.2rem 0.55rem;
+  font-size: 0.75rem;
+  border-radius: 999px;
+  align-self: center;
+}
+
+.demo-lang-note {
+  margin: 0.5rem 0 0;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+}
+
 .tagline {
   margin: 0;
   font-size: 0.85rem;
