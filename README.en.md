@@ -9,13 +9,13 @@
 Animation and UI implementation patterns plus system design guides, as documents and code.
 
 [![Deploy demo](https://github.com/Guksu/fe-skills/actions/workflows/deploy-demo.yml/badge.svg)](https://github.com/Guksu/fe-skills/actions/workflows/deploy-demo.yml)
-![UI skills](https://img.shields.io/badge/fe--ui-52%20skills-6ea8fe)
+![UI skills](https://img.shields.io/badge/fe--ui-53%20skills-6ea8fe)
 ![System skills](https://img.shields.io/badge/fe--system-1%20skill-a78bfa)
 ![Dependencies](https://img.shields.io/badge/runtime%20deps-0-34c759)
-![Tests](https://img.shields.io/badge/tests-498%20passing-34c759)
+![Tests](https://img.shields.io/badge/tests-507%20passing-34c759)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
-[**Live demo**](https://guksu.github.io/fe-skills/) · [Installation](#installation) · [UI skills](#ui-skills-52--fe-ui) · [Design skill](#design-skill--fe-system) · [Development](#development) · [Contributing](#contributing)
+[**Live demo**](https://guksu.github.io/fe-skills/) · [Installation](#installation) · [UI skills](#ui-skills-53--fe-ui) · [Design skill](#design-skill--fe-system) · [Development](#development) · [Contributing](#contributing)
 
 </div>
 
@@ -25,7 +25,7 @@ fe-skills is a set of manuals an AI reads before implementing. Each pattern coll
 
 | Plugin | Purpose | Contents |
 |---|---|---|
-| **fe-ui** | Animation, UI and gesture implementation | 52 skills, implementation code, live demo |
+| **fe-ui** | Animation, UI and gesture implementation | 53 skills, implementation code, live demo |
 | **fe-system** | Structure and design decisions before implementation | `design` skill, questions and selection criteria per screen type |
 
 - **CSS first:** Anything CSS can do is done in CSS. Gestures and physics-based motion are handled in TypeScript without a runtime library.
@@ -99,7 +99,7 @@ After installing, ask for what you want as usual. The agent picks the skill that
 | "Make feed photos pinch-zoomable" | `pinch-zoom` |
 | "I want to build a product list + filter + detail screen" | Design Q&A with `design`, then implement |
 
-## UI skills (52) — fe-ui
+## UI skills (53) — fe-ui
 
 Click a name for the manual, or the demo link on the right for the working screen.
 
@@ -151,6 +151,7 @@ Click a name for the manual, or the demo link on the right for the working scree
 | [Hamburger menu](plugins/ui/skills/hamburger-menu/SKILL.md) | Morphs the menu icon into a close icon and shows the panel | [Demo](https://guksu.github.io/fe-skills/#/hamburger-menu) |
 | [Page transition](plugins/ui/skills/page-transition/SKILL.md) | Keeps the header and tab bar while transitioning screens in the direction of navigation | [Demo](https://guksu.github.io/fe-skills/#/page-transition) |
 | [Dropdown menu](plugins/ui/skills/dropdown-menu/SKILL.md) | Action menu that repositions to fit the space and moves with arrow keys and first-letter typing | [Demo](https://guksu.github.io/fe-skills/#/dropdown-menu) |
+| [Scroll-aware glass nav](plugins/ui/skills/glass-nav/SKILL.md) | Transparent at the top, glass once scrolled; hides on scroll down and returns on scroll up, or collapses into a single pill | [Demo](https://guksu.github.io/fe-skills/#/glass-nav) |
 
 ### Touch gestures (mobile)
 
