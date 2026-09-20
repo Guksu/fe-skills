@@ -9,13 +9,13 @@ English: [README.en.md](README.en.md)
 애니메이션·UI 구현 패턴과 시스템 설계 가이드를 문서와 코드로 제공합니다.
 
 [![Deploy demo](https://github.com/Guksu/fe-skills/actions/workflows/deploy-demo.yml/badge.svg)](https://github.com/Guksu/fe-skills/actions/workflows/deploy-demo.yml)
-![UI skills](https://img.shields.io/badge/fe--ui-52%20skills-6ea8fe)
+![UI skills](https://img.shields.io/badge/fe--ui-53%20skills-6ea8fe)
 ![System skills](https://img.shields.io/badge/fe--system-1%20skill-a78bfa)
 ![Dependencies](https://img.shields.io/badge/runtime%20deps-0-34c759)
-![Tests](https://img.shields.io/badge/tests-498%20passing-34c759)
+![Tests](https://img.shields.io/badge/tests-507%20passing-34c759)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
-[**라이브 데모**](https://guksu.github.io/fe-skills/) · [설치](#설치) · [UI 스킬](#ui-스킬-52종--fe-ui) · [설계 스킬](#설계-스킬--fe-system) · [개발](#개발) · [기여하기](#기여하기)
+[**라이브 데모**](https://guksu.github.io/fe-skills/) · [설치](#설치) · [UI 스킬](#ui-스킬-53종--fe-ui) · [설계 스킬](#설계-스킬--fe-system) · [개발](#개발) · [기여하기](#기여하기)
 
 </div>
 
@@ -25,7 +25,7 @@ fe-skills는 AI가 구현 전에 읽고 적용하는 설명서입니다. 패턴�
 
 | 플러그인 | 용도 | 구성 |
 |---|---|---|
-| **fe-ui** | 애니메이션·UI·제스처 구현 | 스킬 52종, 구현 코드, 라이브 데모 |
+| **fe-ui** | 애니메이션·UI·제스처 구현 | 스킬 53종, 구현 코드, 라이브 데모 |
 | **fe-system** | 구현 전 구조와 설계 결정 | `design` 스킬, 화면 유형별 질문과 선택 기준 |
 
 - **CSS 우선:** CSS로 가능한 동작은 CSS로 구현합니다. 제스처·물리 모션은 별도 런타임 라이브러리 없이 TypeScript로 처리합니다.
@@ -99,7 +99,7 @@ cp -R fe-skills/plugins/ui/skills/* fe-skills/plugins/system/skills/* .agents/sk
 | “피드 사진을 핀치줌할 수 있게 해줘” | `pinch-zoom` |
 | “상품 목록 + 필터 + 상세 화면을 만들려고 해” | `design`으로 설계 문답 후 구현 |
 
-## UI 스킬 52종 — fe-ui
+## UI 스킬 53종 — fe-ui
 
 이름을 누르면 설명서, 오른쪽 데모를 누르면 실제로 움직이는 화면을 볼 수 있습니다.
 
@@ -151,6 +151,7 @@ cp -R fe-skills/plugins/ui/skills/* fe-skills/plugins/system/skills/* .agents/sk
 | [햄버거 메뉴](plugins/ui/skills/hamburger-menu/SKILL.md) | 메뉴 아이콘을 닫기 아이콘으로 바꾸고 패널 표시 | [데모](https://guksu.github.io/fe-skills/#/hamburger-menu) |
 | [화면 전환](plugins/ui/skills/page-transition/SKILL.md) | 헤더·탭바를 유지하며 이동 방향에 맞춰 화면 전환 | [데모](https://guksu.github.io/fe-skills/#/page-transition) |
 | [드롭다운 메뉴](plugins/ui/skills/dropdown-menu/SKILL.md) | 공간에 맞춰 위치를 바꾸고 방향키·첫 글자로 이동하는 액션 메뉴 | [데모](https://guksu.github.io/fe-skills/#/dropdown-menu) |
+| [스크롤 반응 유리 GNB](plugins/ui/skills/glass-nav/SKILL.md) | 맨 위에서는 투명, 내려가면 유리로 전환. 아래로 스크롤하면 숨고 올리면 나타나거나 알약 하나로 축소 | [데모](https://guksu.github.io/fe-skills/#/glass-nav) |
 
 ### 손가락 제스처 (모바일)
 

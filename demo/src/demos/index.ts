@@ -51,6 +51,7 @@ import { StretchyHeaderDemo } from './stretchy-header/StretchyHeaderDemo'
 import { EdgeSwipeBackDemo } from './edge-swipe-back/EdgeSwipeBackDemo'
 import { MotionPrinciplesDemo } from './motion-principles/MotionPrinciplesDemo'
 import { MotionAuditDemo } from './motion-audit/MotionAuditDemo'
+import { GlassNavDemo } from './glass-nav/GlassNavDemo'
 
 export type DemoCategory = '등장과 전환' | '로딩과 진행' | '피드백' | '내비게이션' | '제스처' | '컨트롤' | '표면과 스타일' | '원칙과 검토'
 
@@ -1080,5 +1081,31 @@ console.log(formatFindings(findings))
 // menu.css:41 [error] layout-animation — height를 transition — 매 프레임 레이아웃이 돈다
 //     → 높이 변화는 grid-template-rows: 0fr→1fr (accordion 스킬) 또는 transform: scaleY`,
     Component: MotionAuditDemo,
+  },
+  {
+    slug: 'glass-nav',
+    title: '스크롤 반응 유리 GNB',
+    description: '맨 위에서는 투명, 내려가면 유리로 — 아래로 스크롤하면 숨고 올리면 나타나거나, 링크가 접혀 알약 하나로 줄어듦',
+    titleEn: 'Scroll-aware glass nav',
+    descriptionEn: 'Transparent at the top, glass once scrolled; hides on scroll down and returns on scroll up, or collapses into a single pill',
+    emoji: '🧭',
+    category: '내비게이션',
+    usage: `import { useGlassNav } from './useGlassNav'
+
+const { navRef } = useGlassNav({ mode: 'hide' }) // 'elevate' | 'hide' | 'compact'
+
+<header ref={navRef} className="gnav">
+  <div className="gnav-bar">
+    <a className="gnav-brand" href="/">🍜 국수집</a>
+    <nav className="gnav-links" aria-label="주메뉴">
+      <div>
+        <a href="/menu" aria-current="page">메뉴</a>
+        <a href="/stores">매장</a>
+      </div>
+    </nav>
+    <span className="gnav-current" aria-hidden="true">메뉴</span>
+  </div>
+</header>`,
+    Component: GlassNavDemo,
   },
 ]
