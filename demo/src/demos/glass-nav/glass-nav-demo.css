@@ -61,6 +61,16 @@
   opacity: 0.8;
 }
 
+.gn-section {
+  /* 섹션 사이 여백. 섹션 시작(h3)이 GNB 아래에 오도록 spy가 스크롤한다 */
+  padding-top: 8px;
+}
+
+.gn-section h3 {
+  margin: 0 16px 10px;
+  font-size: 1.1rem;
+}
+
 .gn-list {
   list-style: none;
   margin: 0;

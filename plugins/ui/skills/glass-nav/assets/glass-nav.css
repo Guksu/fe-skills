@@ -10,7 +10,10 @@
  *     <div class="gnav-bar">         ← 유리 판. compact에서 알약이 된다
  *       <a class="gnav-brand">…</a>
  *       <nav class="gnav-links">     ← 링크 묶음. compact에서 접힌다(grid-template-columns 0fr)
- *         <a aria-current="page">…</a> …
+ *         <div>
+ *           <span class="gnav-pill" aria-hidden="true"></span>   ← (선택) spy가 활성 링크 위로 미끄러뜨리는 알약
+ *           <a href="#menu" aria-current="page">…</a> …          ← spy: href="#섹션id"
+ *         </div>
  *       </nav>
  *     </div>
  *   </header> */
@@ -89,6 +92,7 @@
 }
 
 .gnav-links > * {
+  position: relative; /* 알약(gnav-pill)의 기준 상자 — 링크의 offsetLeft와 같은 원점 */
   display: flex;
   gap: 4px;
   min-width: 0;
@@ -96,6 +100,8 @@
 }
 
 .gnav-links a {
+  position: relative;
+  z-index: 1; /* 알약 위에 글자 */
   color: inherit;
   text-decoration: none;
   padding: 6px 10px;
@@ -108,6 +114,27 @@
 .gnav-links a[aria-current='page'] {
   opacity: 1;
   background: var(--_active-bg);
+}
+
+/* 활성 알약 — spy가 활성 링크의 위치·너비를 transform·width로 준다. 링크 사이를 미끄러진다(segmented-control의 thumb과 같은 기법).
+ * 알약이 있으면 활성 링크 자체의 배경은 끈다(두 겹 방지) */
+.gnav-pill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  border-radius: 999px;
+  background: var(--_active-bg);
+  pointer-events: none;
+  /* motion-audit-ignore: layout-animation — 알약은 absolute·pointer-events:none이라 width 전이가 자기 자신만 다시 그린다 */
+  transition:
+    transform var(--_duration) var(--_ease),
+    width var(--_duration) var(--_ease);
+}
+
+.gnav-links:has(.gnav-pill) a[aria-current='page'] {
+  background: transparent;
 }
 
 /* compact — 링크가 접히고 활성 링크 하나만 남아 알약이 된다. 활성 링크는 접히는 묶음 밖(gnav-current)에 복제해 둔다 */
@@ -141,7 +168,8 @@
 @media (prefers-reduced-motion: reduce) {
   .gnav,
   .gnav-bar,
-  .gnav-links {
+  .gnav-links,
+  .gnav-pill {
     transition: none;
   }
   .gnav-current {

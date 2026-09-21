@@ -1085,22 +1085,24 @@ console.log(formatFindings(findings))
   {
     slug: 'glass-nav',
     title: '스크롤 반응 유리 GNB',
-    description: '맨 위에서는 투명, 내려가면 유리로 — 아래로 스크롤하면 숨고 올리면 나타나거나, 링크가 접혀 알약 하나로 줄어듦',
+    description: '맨 위에서는 투명, 내려가면 유리로 — 아래로 스크롤하면 숨고 올리면 나타나거나, 링크가 접혀 알약 하나로 줄어듦. 링크를 누르면 그 섹션으로 이동하고 활성 알약이 따라옴',
     titleEn: 'Scroll-aware glass nav',
-    descriptionEn: 'Transparent at the top, glass once scrolled; hides on scroll down and returns on scroll up, or collapses into a single pill',
+    descriptionEn: 'Transparent at the top, glass once scrolled; hides on scroll down and returns on scroll up, or collapses into a single pill. Links scroll to their section and the active pill follows',
     emoji: '🧭',
     category: '내비게이션',
     usage: `import { useGlassNav } from './useGlassNav'
 
-const { navRef } = useGlassNav({ mode: 'hide' }) // 'elevate' | 'hide' | 'compact'
+// spy: 링크(href="#id")를 누르면 그 섹션으로 스크롤, 스크롤하면 활성 링크·알약이 따라온다
+const { navRef, activeId } = useGlassNav({ mode: 'hide', spy: true }) // 'elevate' | 'hide' | 'compact'
 
 <header ref={navRef} className="gnav">
   <div className="gnav-bar">
     <a className="gnav-brand" href="/">🍜 국수집</a>
     <nav className="gnav-links" aria-label="주메뉴">
       <div>
-        <a href="/menu" aria-current="page">메뉴</a>
-        <a href="/stores">매장</a>
+        <span className="gnav-pill" aria-hidden="true" />
+        <a href="#menu">메뉴</a>
+        <a href="#stores">매장</a>
       </div>
     </nav>
     <span className="gnav-current" aria-hidden="true">메뉴</span>
