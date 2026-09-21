@@ -12,7 +12,7 @@ Animation and UI implementation patterns plus system design guides, as documents
 ![UI skills](https://img.shields.io/badge/fe--ui-53%20skills-6ea8fe)
 ![System skills](https://img.shields.io/badge/fe--system-1%20skill-a78bfa)
 ![Dependencies](https://img.shields.io/badge/runtime%20deps-0-34c759)
-![Tests](https://img.shields.io/badge/tests-507%20passing-34c759)
+![Tests](https://img.shields.io/badge/tests-517%20passing-34c759)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 [**Live demo**](https://guksu.github.io/fe-skills/) · [Installation](#installation) · [UI skills](#ui-skills-53--fe-ui) · [Design skill](#design-skill--fe-system) · [Development](#development) · [Contributing](#contributing)
@@ -151,7 +151,7 @@ Click a name for the manual, or the demo link on the right for the working scree
 | [Hamburger menu](plugins/ui/skills/hamburger-menu/SKILL.md) | Morphs the menu icon into a close icon and shows the panel | [Demo](https://guksu.github.io/fe-skills/#/hamburger-menu) |
 | [Page transition](plugins/ui/skills/page-transition/SKILL.md) | Keeps the header and tab bar while transitioning screens in the direction of navigation | [Demo](https://guksu.github.io/fe-skills/#/page-transition) |
 | [Dropdown menu](plugins/ui/skills/dropdown-menu/SKILL.md) | Action menu that repositions to fit the space and moves with arrow keys and first-letter typing | [Demo](https://guksu.github.io/fe-skills/#/dropdown-menu) |
-| [Scroll-aware glass nav](plugins/ui/skills/glass-nav/SKILL.md) | Transparent at the top, glass once scrolled; hides on scroll down and returns on scroll up, or collapses into a single pill | [Demo](https://guksu.github.io/fe-skills/#/glass-nav) |
+| [Scroll-aware glass nav](plugins/ui/skills/glass-nav/SKILL.md) | Transparent at the top, glass once scrolled; hides on scroll down and returns on scroll up, or collapses into a single pill. Links scroll to their section and the active pill follows | [Demo](https://guksu.github.io/fe-skills/#/glass-nav) |
 
 ### Touch gestures (mobile)
 

@@ -20,13 +20,30 @@ const MENU = [
   { emoji: '🍚', name: '공기밥', desc: '국물에 말아 드세요.', price: '1,000원' },
 ]
 
+const STORES = [
+  { name: '성수점', desc: '성수동 2가 · 도보 3분', hours: '11:00–21:00' },
+  { name: '연남점', desc: '연남동 · 주차 2대', hours: '11:30–21:30' },
+  { name: '판교점', desc: '판교역 1번 출구', hours: '11:00–20:30' },
+]
+
+const ORDERS = [
+  { date: '9월 20일', items: '잔치국수 2 · 손만두 1', total: '17,000원' },
+  { date: '9월 14일', items: '비빔국수 1', total: '8,000원' },
+  { date: '9월 8일', items: '칼국수 + 만두 2', total: '19,000원' },
+  { date: '9월 1일', items: '콩국수 1 · 공기밥 1', total: '12,000원' },
+  { date: '8월 27일', items: '만두국 2', total: '18,000원' },
+  { date: '8월 20일', items: '들깨칼국수 1', total: '10,000원' },
+]
+
+const SECTION_LABEL: Record<string, string> = { menu: '메뉴', stores: '매장', orders: '주문 내역' }
+
 export const GlassNavDemo = () => {
   const [mode, setMode] = useState<NavMode>('hide')
   const [thresholdPx, setThresholdPx] = useState(8)
   const [hideAfterPx, setHideAfterPx] = useState(80)
   const [durationMs, setDurationMs] = useState(250)
   const containerRef = useRef<HTMLDivElement>(null)
-  const { navRef, state } = useGlassNav({ containerRef, mode, thresholdPx, hideAfterPx })
+  const { navRef, state, activeId } = useGlassNav({ containerRef, mode, thresholdPx, hideAfterPx, spy: true })
 
   const vars = { '--gnav-duration': `${durationMs}ms` } as CSSProperties
   const status = state.hidden ? '숨김' : state.compact ? '축소' : state.elevated ? '유리' : '투명'
@@ -68,7 +85,9 @@ export const GlassNavDemo = () => {
         </label>
         <p className="controls-note">
           폰 화면을 아래로 스크롤해 보세요. 맨 위에서는 바가 투명하고, 내려가면 유리가 됩니다. "내리면 숨김"은 아래로 가면 바가 위로
-          사라지고 조금만 올리면 돌아옵니다. "알약 축소"는 링크가 접혀 현재 메뉴만 남습니다. 지금 상태: <b>{status}</b>
+          사라지고 조금만 올리면 돌아옵니다. "알약 축소"는 링크가 접혀 현재 메뉴만 남습니다. GNB의 메뉴·매장·주문 내역을 누르면 그
+          섹션으로 내려가고, 스크롤하면 활성 알약이 따라옵니다. 지금 상태: <b>{status}</b> · 현재 섹션:{' '}
+          <b>{activeId ? SECTION_LABEL[activeId] : '-'}</b>
         </p>
       </section>
 
@@ -80,11 +99,10 @@ export const GlassNavDemo = () => {
             </a>
             <nav className="gnav-links" aria-label="주메뉴">
               <div>
-                <a href="#/glass-nav" aria-current="page">
-                  메뉴
-                </a>
-                <a href="#/glass-nav">매장</a>
-                <a href="#/glass-nav">주문 내역</a>
+                <span className="gnav-pill" aria-hidden="true" />
+                <a href="#menu">메뉴</a>
+                <a href="#stores">매장</a>
+                <a href="#orders">주문 내역</a>
               </div>
             </nav>
             <span className="gnav-current" aria-hidden="true">
@@ -99,21 +117,60 @@ export const GlassNavDemo = () => {
           <p>매일 새벽 반죽 · 11:00–21:00</p>
         </section>
 
-        <ul className="gn-list" aria-label="메뉴 목록">
-          {MENU.map((item) => (
-            <li key={item.name} className="gn-item">
-              <span className="gn-item-emoji" aria-hidden="true">
-                {item.emoji}
-              </span>
-              <div>
-                <strong>{item.name}</strong>
-                <p>{item.desc}</p>
-              </div>
-              <span className="gn-item-price">{item.price}</span>
-            </li>
-          ))}
-        </ul>
-        <p className="gn-end">끝까지 내려왔습니다. 위로 올려 보세요.</p>
+        <section id="menu" className="gn-section" aria-labelledby="gn-menu-title">
+          <h3 id="gn-menu-title">메뉴</h3>
+          <ul className="gn-list" aria-label="메뉴 목록">
+            {MENU.map((item) => (
+              <li key={item.name} className="gn-item">
+                <span className="gn-item-emoji" aria-hidden="true">
+                  {item.emoji}
+                </span>
+                <div>
+                  <strong>{item.name}</strong>
+                  <p>{item.desc}</p>
+                </div>
+                <span className="gn-item-price">{item.price}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section id="stores" className="gn-section" aria-labelledby="gn-stores-title">
+          <h3 id="gn-stores-title">매장</h3>
+          <ul className="gn-list" aria-label="매장 목록">
+            {STORES.map((store) => (
+              <li key={store.name} className="gn-item">
+                <span className="gn-item-emoji" aria-hidden="true">
+                  📍
+                </span>
+                <div>
+                  <strong>{store.name}</strong>
+                  <p>{store.desc}</p>
+                </div>
+                <span className="gn-item-price">{store.hours}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section id="orders" className="gn-section" aria-labelledby="gn-orders-title">
+          <h3 id="gn-orders-title">주문 내역</h3>
+          <ul className="gn-list" aria-label="주문 목록">
+            {ORDERS.map((order) => (
+              <li key={order.date} className="gn-item">
+                <span className="gn-item-emoji" aria-hidden="true">
+                  🧾
+                </span>
+                <div>
+                  <strong>{order.date}</strong>
+                  <p>{order.items}</p>
+                </div>
+                <span className="gn-item-price">{order.total}</span>
+              </li>
+            ))}
+          </ul>
+          <p className="gn-end">끝까지 내려왔습니다. 위로 올려 보세요.</p>
+        </section>
       </div>
     </div>
   )

@@ -12,7 +12,7 @@ English: [README.en.md](README.en.md)
 ![UI skills](https://img.shields.io/badge/fe--ui-53%20skills-6ea8fe)
 ![System skills](https://img.shields.io/badge/fe--system-1%20skill-a78bfa)
 ![Dependencies](https://img.shields.io/badge/runtime%20deps-0-34c759)
-![Tests](https://img.shields.io/badge/tests-507%20passing-34c759)
+![Tests](https://img.shields.io/badge/tests-517%20passing-34c759)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 [**라이브 데모**](https://guksu.github.io/fe-skills/) · [설치](#설치) · [UI 스킬](#ui-스킬-53종--fe-ui) · [설계 스킬](#설계-스킬--fe-system) · [개발](#개발) · [기여하기](#기여하기)
@@ -151,7 +151,7 @@ cp -R fe-skills/plugins/ui/skills/* fe-skills/plugins/system/skills/* .agents/sk
 | [햄버거 메뉴](plugins/ui/skills/hamburger-menu/SKILL.md) | 메뉴 아이콘을 닫기 아이콘으로 바꾸고 패널 표시 | [데모](https://guksu.github.io/fe-skills/#/hamburger-menu) |
 | [화면 전환](plugins/ui/skills/page-transition/SKILL.md) | 헤더·탭바를 유지하며 이동 방향에 맞춰 화면 전환 | [데모](https://guksu.github.io/fe-skills/#/page-transition) |
 | [드롭다운 메뉴](plugins/ui/skills/dropdown-menu/SKILL.md) | 공간에 맞춰 위치를 바꾸고 방향키·첫 글자로 이동하는 액션 메뉴 | [데모](https://guksu.github.io/fe-skills/#/dropdown-menu) |
-| [스크롤 반응 유리 GNB](plugins/ui/skills/glass-nav/SKILL.md) | 맨 위에서는 투명, 내려가면 유리로 전환. 아래로 스크롤하면 숨고 올리면 나타나거나 알약 하나로 축소 | [데모](https://guksu.github.io/fe-skills/#/glass-nav) |
+| [스크롤 반응 유리 GNB](plugins/ui/skills/glass-nav/SKILL.md) | 맨 위에서는 투명, 내려가면 유리로 전환. 아래로 스크롤하면 숨고 올리면 나타나거나 알약 하나로 축소. 링크를 누르면 그 섹션으로 이동하고 활성 알약이 따라옴 | [데모](https://guksu.github.io/fe-skills/#/glass-nav) |
 
 ### 손가락 제스처 (모바일)
 
