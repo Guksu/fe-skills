@@ -6,16 +6,15 @@ English: [README.en.md](README.en.md)
 
 **AI 에이전트를 위한 프론트엔드 스킬 모음**
 
-애니메이션·UI 구현 패턴과 시스템 설계 가이드를 문서와 코드로 제공합니다.
+애니메이션·UI 구현 패턴을 문서와 코드로 제공합니다.
 
 [![Deploy demo](https://github.com/Guksu/suta/actions/workflows/deploy-demo.yml/badge.svg)](https://github.com/Guksu/suta/actions/workflows/deploy-demo.yml)
 ![UI skills](https://img.shields.io/badge/suta-53%20skills-6ea8fe)
-![System skills](https://img.shields.io/badge/fe--system-1%20skill-a78bfa)
 ![Dependencies](https://img.shields.io/badge/runtime%20deps-0-34c759)
 ![Tests](https://img.shields.io/badge/tests-517%20passing-34c759)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
-[**라이브 데모**](https://guksu.github.io/suta/) · [설치](#설치) · [UI 스킬](#ui-스킬-53종--suta) · [설계 스킬](#설계-스킬--fe-system) · [개발](#개발) · [기여하기](#기여하기)
+[**라이브 데모**](https://guksu.github.io/suta/) · [설치](#설치) · [UI 스킬](#ui-스킬-53종--suta) · [개발](#개발) · [기여하기](#기여하기)
 
 </div>
 
@@ -23,10 +22,7 @@ English: [README.en.md](README.en.md)
 
 suta(수타, 手打 — 기계가 아니라 손으로 친다는 뜻)는 AI가 구현 전에 읽고 적용하는 설명서입니다. 패턴별 사용 시점, 구현 이유, 코드, 변경 가능한 옵션과 주의사항을 한곳에 정리했습니다.
 
-| 플러그인 | 용도 | 구성 |
-|---|---|---|
-| **suta** | 애니메이션·UI·제스처 구현 | 스킬 53종, 구현 코드, 라이브 데모 |
-| **fe-system** | 구현 전 구조와 설계 결정 | `design` 스킬, 화면 유형별 질문과 선택 기준 |
+플러그인 **suta** 하나에 애니메이션·UI·제스처 구현 스킬 53종, 구현 코드, 라이브 데모가 들어 있습니다.
 
 - **CSS 우선:** CSS로 가능한 동작은 CSS로 구현합니다. 제스처·물리 모션은 별도 런타임 라이브러리 없이 TypeScript로 처리합니다.
 - **로직과 React 분리:** 프레임워크에 독립적인 로직과 React 컴포넌트를 분리합니다. Vue·Svelte에서는 로직을 가져와 연결할 수 있습니다.
@@ -39,15 +35,16 @@ suta(수타, 手打 — 기계가 아니라 손으로 친다는 뜻)는 AI가 �
 
 ### Claude Code
 
-마켓플레이스를 등록한 뒤 필요한 플러그인을 설치합니다.
+마켓플레이스를 등록한 뒤 플러그인을 설치합니다.
 
 ```text
 /plugin marketplace add Guksu/suta
 /plugin install suta@suta
-/plugin install fe-system@suta
 ```
 
 > 예전 이름 `fe-skills`로 설치했다면 `/plugin marketplace remove fe-skills`로 옛 마켓플레이스를 지운 뒤 위 명령으로 다시 설치합니다. 플러그인 `fe-ui`는 `suta`로 이름이 바뀌었습니다.
+>
+> 설계 문답 플러그인 `fe-system`은 제거되었습니다. 설치했다면 `/plugin uninstall fe-system@suta`(예전 이름이면 `fe-system@fe-skills`)로 지웁니다.
 
 ### Codex · Cursor · Gemini CLI · GitHub Copilot 등
 
@@ -65,18 +62,18 @@ skills CLI로 특정 스킬만 고르려면 `npx skills add Guksu/suta --skill b
 
 | 원하는 것 | 명령 |
 |---|---|
-| UI 스킬만 | `curl -fsSL …/install-skills.sh \| sh -s -- ui` |
-| 설계 스킬만 | `… \| sh -s -- system` |
 | 다른 폴더에 설치 | `… \| sh -s -- --dest .cursor/skills` |
 | 내 컴퓨터 전체에서 쓰기 | `… \| sh -s -- --dest ~/.agents/skills` |
 | 업데이트 | 같은 명령을 다시 실행 (같은 이름 폴더만 교체) |
+
+> 예전에 설계 문답 스킬까지 설치했다면 스킬 폴더의 `design` 폴더를 직접 지웁니다. 설치 스크립트와 skills CLI는 다른 폴더를 지우지 않습니다.
 
 스크립트 없이 직접 복사해도 됩니다.
 
 ```bash
 git clone --depth 1 https://github.com/Guksu/suta.git
 mkdir -p .agents/skills
-cp -R suta/plugins/ui/skills/* suta/plugins/system/skills/* .agents/skills/
+cp -R suta/plugins/ui/skills/* .agents/skills/
 ```
 
 | 도구 | 프로젝트 스킬 폴더 | 개인 전역 폴더 |
@@ -89,7 +86,7 @@ cp -R suta/plugins/ui/skills/* suta/plugins/system/skills/* .agents/skills/
 
 경로는 2026년 9월 기준 각 도구의 문서를 따랐습니다. 도구가 바뀌면 그 도구의 문서를 확인하세요.
 
-> **스킬**은 AI가 읽는 설명서 한 편, **플러그인**은 스킬 묶음입니다. 이 저장소는 두 플러그인을 제공하며, Claude Code에서는 **마켓플레이스**로도 설치할 수 있습니다.
+> **스킬**은 AI가 읽는 설명서 한 편, **플러그인**은 스킬 묶음입니다. 이 저장소는 플러그인 하나(`suta`)를 제공하며, Claude Code에서는 **마켓플레이스**로도 설치할 수 있습니다.
 
 ### 사용 예시
 
@@ -99,7 +96,6 @@ cp -R suta/plugins/ui/skills/* suta/plugins/system/skills/* .agents/skills/
 |---|---|
 | “바텀시트로 메뉴 옵션을 고르게 해줘” | `bottom-sheet` |
 | “피드 사진을 핀치줌할 수 있게 해줘” | `pinch-zoom` |
-| “상품 목록 + 필터 + 상세 화면을 만들려고 해” | `design`으로 설계 문답 후 구현 |
 
 ## UI 스킬 53종 — suta
 
@@ -198,36 +194,6 @@ cp -R suta/plugins/ui/skills/* suta/plugins/system/skills/* .agents/skills/
 | [모션 원칙과 토큰](plugins/ui/skills/motion-principles/SKILL.md) | 시간 5단계·이징 5종·스태거·reduced-motion을 토큰 한 벌로 정하고, 움직임 종류별로 어느 값을 쓸지 정한 원칙 | [데모](https://guksu.github.io/suta/#/motion-principles) |
 | [모션 검사](plugins/ui/skills/motion-audit/SKILL.md) | CSS·JS를 훑어 레이아웃 속성 애니메이션·reduced-motion 누락·시간 범위 밖 등을 `file:line`으로 찾고 고치는 스킬을 안내 | [데모](https://guksu.github.io/suta/#/motion-audit) |
 
-
-## 설계 스킬 — fe-system
-
-[`design`](plugins/system/skills/design/SKILL.md)은 구현 전에 결정할 사항을 정리합니다. 필터를 URL에 저장할지, 상세 화면에서 돌아왔을 때 스크롤을 복원할지, 데이터를 언제 가져올지 등을 함께 결정합니다.
-
-### 진행 방식
-
-1. **기존 코드 조사:** 프레임워크, 라우터, API 등 코드에서 확인할 수 있는 사실을 먼저 파악합니다.
-2. **설계 문답:** 남은 질문을 묶어 제시하고, 각 선택의 추천안과 장단점을 설명합니다.
-3. **결정 기록:** 프로젝트의 `docs/design/`에 결정, 근거, 감수할 단점과 재검토 조건을 남깁니다.
-
-| 질문 유형 | 처리 방식 |
-|---|---|
-| **확정형** | 정해진 원칙을 질문 없이 적용 |
-| **추천형** | 상황에 맞는 추천안과 장단점을 제시하고 선택 확인 |
-| **필수 확인형** | 결제사 정책·개인정보 보관 요건 등은 추측하지 않고 확인 |
-
-### 화면 유형별 가이드
-
-목록에 없는 화면도 공통 질문을 바탕으로 설계할 수 있습니다.
-
-| 가이드 | 주요 결정 사항 |
-|---|---|
-| [공통 질문](plugins/system/skills/design/references/core-questions.md) | 요구사항, 데이터, 실행 환경, 상태 관리, 데이터 로딩, 복원, 실패 대응, 장단점 |
-| [목록 + 필터 + 상세](plugins/system/skills/design/references/cases/list-and-detail.md) | URL 필터, 데이터 로딩, 페이지네이션·무한 스크롤, 스크롤 복원 |
-| [무한 피드](plugins/system/skills/design/references/cases/feed.md) | 커서 페이지네이션, 화면 밖 항목 처리, 복귀 복원, 새 글 삽입, 추가 로딩 시점 |
-| [퍼널 폼](plugins/system/skills/design/references/cases/funnel-form.md) | 여러 단계 입력의 값 보관, 단계별 URL, 검증 시점, 이어서 작성, 중복 제출 방지 |
-
-선택의 근거는 [`references/topics/`](plugins/system/skills/design/references/topics/)에서 확인할 수 있습니다.
-
 ## 스킬 구성
 
 UI 스킬은 설명서와 실제 구현 코드를 함께 제공합니다.
@@ -243,8 +209,6 @@ plugins/ui/skills/bottom-sheet/
 
 `assets/`의 코드를 프로젝트에 복사해 사용할 수 있습니다. 공유 로직도 각 스킬에 포함하므로 스킬 단위로 가져올 수 있습니다. 저장소 검사 스크립트가 공유 파일과 원본의 일치 여부를 확인합니다.
 
-시스템 설계 스킬은 구현 코드 대신 `SKILL.md`와 `references/`의 질문·근거 문서로 구성됩니다.
-
 ## 저장소 구조
 
 ```text
@@ -254,8 +218,7 @@ suta/
 ├─ .agents/skills/add-skill/        스킬 추가 절차 (에이전트가 자동 발견)
 ├─ .claude-plugin/marketplace.json   Claude Code 플러그인 등록 정보
 ├─ plugins/
-│  ├─ ui/skills/{스킬}/             UI 스킬 원본 문서와 코드
-│  └─ system/skills/design/         설계 문답 규칙과 참고 문서
+│  └─ ui/skills/{스킬}/             UI 스킬 원본 문서와 코드
 ├─ demo/                            Vite + React 데모 사이트
 ├─ scripts/validateSkills.mjs        스킬 구조·배지 검사
 ├─ scripts/install-skills.sh         다른 프로젝트에 스킬 복사 설치
@@ -300,7 +263,7 @@ npm run dev
 4. **데모 등록:** `demo/src/demos/{이름}/`에서 `@skills/{이름}/assets/...`를 불러오고, `demo/src/demos/index.ts`에 등록합니다.
 5. **검증:** 빌드·린트·테스트·구조 검사·선택 평가(`npm run validate`)를 실행합니다. 브라우저에서 동작을 확인하고 모션의 속도·감속·접근성 설정을 검토합니다.
 
-스킬이나 테스트 수가 바뀌면 README 배지도 갱신해야 구조 검사를 통과합니다. 시스템 설계 스킬은 문서와 참고 자료를 검증하며, 데모·브라우저 검사는 적용하지 않습니다.
+스킬이나 테스트 수가 바뀌면 README 배지도 갱신해야 구조 검사를 통과합니다.
 
 ### 관련 문서
 

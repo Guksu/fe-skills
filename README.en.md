@@ -6,16 +6,15 @@
 
 **Frontend skills for AI agents**
 
-Animation and UI implementation patterns plus system design guides, as documents and code.
+Animation and UI implementation patterns, as documents and code.
 
 [![Deploy demo](https://github.com/Guksu/suta/actions/workflows/deploy-demo.yml/badge.svg)](https://github.com/Guksu/suta/actions/workflows/deploy-demo.yml)
 ![UI skills](https://img.shields.io/badge/suta-53%20skills-6ea8fe)
-![System skills](https://img.shields.io/badge/fe--system-1%20skill-a78bfa)
 ![Dependencies](https://img.shields.io/badge/runtime%20deps-0-34c759)
 ![Tests](https://img.shields.io/badge/tests-517%20passing-34c759)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
-[**Live demo**](https://guksu.github.io/suta/) · [Installation](#installation) · [UI skills](#ui-skills-53--suta) · [Design skill](#design-skill--fe-system) · [Development](#development) · [Contributing](#contributing)
+[**Live demo**](https://guksu.github.io/suta/) · [Installation](#installation) · [UI skills](#ui-skills-53--suta) · [Development](#development) · [Contributing](#contributing)
 
 </div>
 
@@ -23,10 +22,7 @@ Animation and UI implementation patterns plus system design guides, as documents
 
 suta (Korean "su-ta", 手打 — made by hand, not by machine) is a set of manuals an AI reads before implementing. Each pattern collects when to use it, why it is built the way it is, the code, the options you can change, and the caveats in one place.
 
-| Plugin | Purpose | Contents |
-|---|---|---|
-| **suta** | Animation, UI and gesture implementation | 53 skills, implementation code, live demo |
-| **fe-system** | Structure and design decisions before implementation | `design` skill, questions and selection criteria per screen type |
+A single plugin, **suta**, holds 53 animation, UI and gesture skills with implementation code and a live demo.
 
 - **CSS first:** Anything CSS can do is done in CSS. Gestures and physics-based motion are handled in TypeScript without a runtime library.
 - **Logic separated from React:** Framework-independent logic and React components are kept apart. In Vue or Svelte you can take the logic and wire it up yourself.
@@ -39,15 +35,16 @@ Skill documents follow the open Agent Skills format. Copy a skill folder into th
 
 ### Claude Code
 
-Register the marketplace, then install the plugins you need.
+Register the marketplace, then install the plugin.
 
 ```text
 /plugin marketplace add Guksu/suta
 /plugin install suta@suta
-/plugin install fe-system@suta
 ```
 
 > If you installed under the old name `fe-skills`, remove the old marketplace with `/plugin marketplace remove fe-skills`, then reinstall with the commands above. The `fe-ui` plugin is now called `suta`.
+>
+> The design Q&A plugin `fe-system` has been removed. If you installed it, remove it with `/plugin uninstall fe-system@suta` (or `fe-system@fe-skills` under the old name).
 
 ### Codex · Cursor · Gemini CLI · GitHub Copilot and others
 
@@ -65,18 +62,18 @@ To pick specific skills with the skills CLI, run `npx skills add Guksu/suta --sk
 
 | What you want | Command |
 |---|---|
-| UI skills only | `curl -fsSL …/install-skills.sh \| sh -s -- ui` |
-| Design skill only | `… \| sh -s -- system` |
 | Install into another folder | `… \| sh -s -- --dest .cursor/skills` |
 | Use across your whole machine | `… \| sh -s -- --dest ~/.agents/skills` |
 | Update | Run the same command again (only folders with the same name are replaced) |
+
+> If you previously installed the design Q&A skill too, delete the `design` folder from your skill folder yourself. Neither the install script nor the skills CLI removes other folders.
 
 You can also copy the files by hand without the script.
 
 ```bash
 git clone --depth 1 https://github.com/Guksu/suta.git
 mkdir -p .agents/skills
-cp -R suta/plugins/ui/skills/* suta/plugins/system/skills/* .agents/skills/
+cp -R suta/plugins/ui/skills/* .agents/skills/
 ```
 
 | Tool | Project skill folder | Personal global folder |
@@ -89,7 +86,7 @@ cp -R suta/plugins/ui/skills/* suta/plugins/system/skills/* .agents/skills/
 
 Paths follow each tool's documentation as of September 2026. If a tool changes, check that tool's documentation.
 
-> A **skill** is one manual an AI reads; a **plugin** is a bundle of skills. This repository provides two plugins, and Claude Code can also install them through a **marketplace**.
+> A **skill** is one manual an AI reads; a **plugin** is a bundle of skills. This repository provides one plugin (`suta`), and Claude Code can also install it through a **marketplace**.
 
 ### Usage examples
 
@@ -99,7 +96,6 @@ After installing, ask for what you want as usual. The agent picks the skill that
 |---|---|
 | "Let users pick menu options in a bottom sheet" | `bottom-sheet` |
 | "Make feed photos pinch-zoomable" | `pinch-zoom` |
-| "I want to build a product list + filter + detail screen" | Design Q&A with `design`, then implement |
 
 ## UI skills (53) — suta
 
@@ -198,36 +194,6 @@ Click a name for the manual, or the demo link on the right for the working scree
 | [Motion principles & tokens](plugins/ui/skills/motion-principles/SKILL.md) | One token set of 5 durations, 5 easings, stagger and reduced-motion, plus rules for which value each kind of movement uses | [Demo](https://guksu.github.io/suta/#/motion-principles) |
 | [Motion audit](plugins/ui/skills/motion-audit/SKILL.md) | Scans CSS and JS for layout-property animations, missing reduced-motion, out-of-range durations and more, reports them as `file:line` and points to the skill that fixes each | [Demo](https://guksu.github.io/suta/#/motion-audit) |
 
-
-## Design skill — fe-system
-
-[`design`](plugins/system/skills/design/SKILL.md) lays out the decisions to make before implementing. Together you decide whether filters live in the URL, whether scroll is restored when returning from a detail screen, when data is fetched, and more.
-
-### How it works
-
-1. **Inspect existing code:** Facts that can be read from the code, such as framework, router and API, come first.
-2. **Design Q&A:** The remaining questions are presented in groups, each with a recommended choice and its trade-offs.
-3. **Record decisions:** The decision, its rationale, the accepted downsides and the conditions for revisiting go into the project's `docs/design/`.
-
-| Question type | How it is handled |
-|---|---|
-| **Fixed** | Applies an established principle without asking |
-| **Recommended** | Presents a recommendation with trade-offs for the situation and confirms the choice |
-| **Must confirm** | Payment provider policy, personal data retention rules and the like are confirmed, never guessed |
-
-### Guides by screen type
-
-Screens not in the list can still be designed from the core questions.
-
-| Guide | Key decisions |
-|---|---|
-| [Core questions](plugins/system/skills/design/references/core-questions.md) | Requirements, data, runtime environment, state management, data loading, restoration, failure handling, trade-offs |
-| [List + filter + detail](plugins/system/skills/design/references/cases/list-and-detail.md) | URL filters, data loading, pagination vs infinite scroll, scroll restoration |
-| [Infinite feed](plugins/system/skills/design/references/cases/feed.md) | Cursor pagination, off-screen items, restoration on return, inserting new posts, when to load more |
-| [Funnel form](plugins/system/skills/design/references/cases/funnel-form.md) | Keeping values across multi-step input, per-step URLs, when to validate, resuming, preventing duplicate submits |
-
-The rationale behind each choice is in [`references/topics/`](plugins/system/skills/design/references/topics/).
-
 ## Skill layout
 
 UI skills ship the manual together with the implementation code.
@@ -243,8 +209,6 @@ plugins/ui/skills/bottom-sheet/
 
 You can copy the code in `assets/` into your project. Shared logic is included in each skill, so a skill can be taken on its own. The repository's check script verifies that shared files match their source.
 
-The system design skill has no implementation code; it consists of `SKILL.md` and the question and rationale documents in `references/`.
-
 ## Repository structure
 
 ```text
@@ -254,8 +218,7 @@ suta/
 ├─ .agents/skills/add-skill/        Skill-adding procedure (auto-discovered by agents)
 ├─ .claude-plugin/marketplace.json   Claude Code plugin registration
 ├─ plugins/
-│  ├─ ui/skills/{skill}/            UI skill source documents and code
-│  └─ system/skills/design/         Design Q&A rules and reference documents
+│  └─ ui/skills/{skill}/            UI skill source documents and code
 ├─ demo/                            Vite + React demo site
 ├─ scripts/validateSkills.mjs        Skill structure and badge checks
 ├─ scripts/install-skills.sh         Copies skills into another project
@@ -300,7 +263,7 @@ If you work with a coding agent, [`AGENTS.md`](AGENTS.md) is the shared instruct
 4. **Register the demo:** In `demo/src/demos/{name}/`, import from `@skills/{name}/assets/...` and register it in `demo/src/demos/index.ts`.
 5. **Verify:** Run build, lint, tests, structure checks and the selection eval (`npm run validate`). Check the behavior in a browser and review the motion's speed, deceleration and accessibility settings.
 
-When the number of skills or tests changes, update the README badges too or the structure check fails. System design skills are verified on their documents and references; demo and browser checks do not apply.
+When the number of skills or tests changes, update the README badges too or the structure check fails.
 
 ### Related documents
 

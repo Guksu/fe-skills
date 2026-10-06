@@ -29,16 +29,13 @@ const only = new Set(args.filter((a) => !a.startsWith('--')))
 
 // ---- 스킬 description 수집 ----
 const skills = []
-for (const plugin of ['ui', 'system']) {
-  const dir = join(root, 'plugins', plugin, 'skills')
-  if (!existsSync(dir)) continue
-  for (const name of readdirSync(dir).sort()) {
-    const skillPath = join(dir, name, 'SKILL.md')
-    if (!statSync(join(dir, name)).isDirectory() || !existsSync(skillPath)) continue
-    const md = readFileSync(skillPath, 'utf8')
-    const desc = md.match(/^description:\s*(.+)$/m)?.[1] ?? ''
-    skills.push({ name, plugin, description: desc })
-  }
+const skillsDir = join(root, 'plugins', 'ui', 'skills')
+for (const name of readdirSync(skillsDir).sort()) {
+  const skillPath = join(skillsDir, name, 'SKILL.md')
+  if (!statSync(join(skillsDir, name)).isDirectory() || !existsSync(skillPath)) continue
+  const md = readFileSync(skillPath, 'utf8')
+  const desc = md.match(/^description:\s*(.+)$/m)?.[1] ?? ''
+  skills.push({ name, description: desc })
 }
 
 // ---- 특징 추출: 공백 단위 토큰(가중 3) + 한글 음절 2-gram(가중 1) ----

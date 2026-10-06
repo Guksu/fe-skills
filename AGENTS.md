@@ -9,9 +9,8 @@
 | 플러그인 | 경로 | 내용 |
 |---|---|---|
 | suta | `plugins/ui/skills/{스킬}/` | 애니메이션·UI·제스처 구현 패턴. 바닐라 코어(.ts, 의존성 0) + React 래퍼(.tsx) + CSS |
-| fe-system | `plugins/system/skills/{스킬}/` | 시스템 설계 결정 가이드. 문답 절차 + 케이스별 트레이드오프 문서. 데모 없음 |
 
-데모 사이트(`demo/`, Vite + React, GitHub Pages)는 UI 스킬만 노출한다.
+데모 사이트(`demo/`, Vite + React, GitHub Pages)는 스킬마다 데모 페이지를 둔다.
 
 **정본 원칙:** 스킬 문서와 `assets/` 코드가 정본이다. 데모는 `@skills/{스킬}/assets/...` alias로 정본을 import만 한다. 복사본을 만들지 않는다. 복사본은 한쪽만 고치는 순간 문서가 거짓말이 된다.
 
@@ -25,7 +24,6 @@ suta/
 ├─ .claude/                          Claude Code 전용 훅·설정. skills/add-skill은 .agents/로의 심볼릭 링크
 ├─ .claude-plugin/marketplace.json   Claude Code 플러그인 마켓플레이스 카탈로그
 ├─ plugins/ui/skills/{스킬}/         UI 스킬 정본 (SKILL.md + assets/)
-├─ plugins/system/skills/{스킬}/     시스템 설계 스킬 정본 (SKILL.md + references/)
 ├─ demo/                             데모 사이트 (src/demos/index.ts가 목록·라우팅의 단일 출처)
 ├─ scripts/validateSkills.mjs        스킬 구조·공유 코드 일치·README 배지 검사
 ├─ scripts/install-skills.sh         다른 프로젝트에 스킬을 복사 설치하는 스크립트
@@ -82,10 +80,10 @@ npm run validate                  # 위 두 검사 + 모션 검사(audit.mjs)를
 |---|---|---|
 | 1 | 빌드·린트·테스트 | `npm run build && npm run lint && npm test` |
 | 2 | 스킬 구조·선택 평가 | `npm run validate` (`validateSkills.mjs` + `evalSelection.mjs`) |
-| 3 | 브라우저 실동작 | 데모 페이지를 실제 브라우저로 열어 동작·계산된 스타일·스크린샷으로 확인 (UI 스킬만) |
-| 4 | 모션 리뷰 | 이징·타이밍·reduced-motion 검토. 지적 사항 반영 (UI 스킬만) |
+| 3 | 브라우저 실동작 | 데모 페이지를 실제 브라우저로 열어 동작·계산된 스타일·스크린샷으로 확인 |
+| 4 | 모션 리뷰 | 이징·타이밍·reduced-motion 검토. 지적 사항 반영 |
 
-게이트가 실패하면 고친 뒤 그 게이트부터 다시 돌린다. 시스템 설계 스킬은 2번(구조·선택 평가)만 적용한다.
+게이트가 실패하면 고친 뒤 그 게이트부터 다시 돌린다.
 
 선택 평가는 LLM을 부르지 않는다. description과 요청 문장의 단어 겹침(IDF 가중)으로 순위를 매기는 대리 지표라, 실제 모델의 선택과 다를 수 있다. 잡아내는 것은 두 가지다: 트리거 표현이 description에 없는 경우, 두 스킬의 description이 구별되지 않는 경우.
 
