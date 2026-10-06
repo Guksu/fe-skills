@@ -5,7 +5,7 @@ description: 좋아요 하트가 토글 시 튀어오르고 게시물을 더블�
 
 # like-pop — 좋아요 팝 + 더블탭 버스트
 
-라이브 데모: https://guksu.github.io/fe-skills/#/like-pop
+라이브 데모: https://guksu.github.io/suta/#/like-pop
 
 ## 언제 쓰는가
 

@@ -5,7 +5,7 @@ description: 캐러셀(carousel) 컴포넌트 — 스와이프로 옆으로 넘�
 
 # carousel — 스냅 캐러셀
 
-라이브 데모: https://guksu.github.io/fe-skills/#/carousel
+라이브 데모: https://guksu.github.io/suta/#/carousel
 
 ## 언제 쓰는가
 

@@ -5,7 +5,7 @@ description: iOS 스타일 세그먼트 컨트롤(segmented control) 컴포넌�
 
 # segmented-control — 세그먼트 컨트롤
 
-라이브 데모: https://guksu.github.io/fe-skills/#/segmented-control
+라이브 데모: https://guksu.github.io/suta/#/segmented-control
 
 ## 언제 쓰는가
 

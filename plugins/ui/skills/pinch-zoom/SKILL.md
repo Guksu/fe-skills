@@ -5,7 +5,7 @@ description: 피드 이미지를 두 손가락으로 벌려 확대하는 핀치�
 
 # pinch-zoom — 피드 핀치줌
 
-라이브 데모: https://guksu.github.io/fe-skills/#/pinch-zoom
+라이브 데모: https://guksu.github.io/suta/#/pinch-zoom
 
 ## 언제 쓰는가
 

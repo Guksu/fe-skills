@@ -5,7 +5,7 @@ description: 스토리 화면 상단의 구간별 진행 막대(story progress)�
 
 # story-progress — 스토리 프로그레스
 
-라이브 데모: https://guksu.github.io/fe-skills/#/story-progress
+라이브 데모: https://guksu.github.io/suta/#/story-progress
 
 ## 언제 쓰는가
 

@@ -5,7 +5,7 @@ description: 상세·프로필·앨범 상단의 큰 커버 이미지 헤더(str
 
 # stretchy-header — 늘어나는 이미지 헤더
 
-라이브 데모: https://guksu.github.io/fe-skills/#/stretchy-header
+라이브 데모: https://guksu.github.io/suta/#/stretchy-header
 
 ## 언제 쓰는가
 

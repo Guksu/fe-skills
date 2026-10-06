@@ -36,7 +36,7 @@ export const ThemeToggleDemo = () => {
               <strong className="tt-card-title">성수동 손칼국수</strong>
               <p className="tt-card-sub">성수동 2가 · 영업 중</p>
             </div>
-            <ThemeToggle scopeRef={cardRef} durationMs={durationMs} storageKey="fe-skills-demo-theme" />
+            <ThemeToggle scopeRef={cardRef} durationMs={durationMs} storageKey="suta-demo-theme" />
           </header>
 
           <ul className="tt-menus">

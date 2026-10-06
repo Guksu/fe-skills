@@ -5,7 +5,7 @@ description: 네이티브 select를 대체하는 커스텀 셀렉트 박스(cust
 
 # select — 커스텀 셀렉트
 
-라이브 데모: https://guksu.github.io/fe-skills/#/select
+라이브 데모: https://guksu.github.io/suta/#/select
 
 ## 언제 쓰는가
 

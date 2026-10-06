@@ -5,7 +5,7 @@ description: iOS 드럼 휠 피커(wheel picker)를 구현한다 — 위아래�
 
 # wheel-picker — 휠(드럼) 피커
 
-라이브 데모: https://guksu.github.io/fe-skills/#/wheel-picker
+라이브 데모: https://guksu.github.io/suta/#/wheel-picker
 
 ## 언제 쓰는가
 

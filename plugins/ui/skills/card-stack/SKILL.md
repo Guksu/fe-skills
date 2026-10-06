@@ -5,7 +5,7 @@ description: Apple Wallet식 카드 묶음(card stack)을 구현한다 — 카�
 
 # card-stack — 카드 묶음 (지갑 스택)
 
-라이브 데모: https://guksu.github.io/fe-skills/#/card-stack
+라이브 데모: https://guksu.github.io/suta/#/card-stack
 
 ## 언제 쓰는가
 

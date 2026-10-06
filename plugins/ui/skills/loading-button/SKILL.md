@@ -5,7 +5,7 @@ description: 제출(submit) 버튼의 진행 상태 표시(loading button)를 �
 
 # loading-button — 제출 버튼 진행 표시
 
-라이브 데모: https://guksu.github.io/fe-skills/#/loading-button
+라이브 데모: https://guksu.github.io/suta/#/loading-button
 
 ## 언제 쓰는가
 

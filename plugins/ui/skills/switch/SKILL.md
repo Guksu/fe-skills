@@ -5,7 +5,7 @@ description: iOS 스타일 토글 스위치(toggle switch)를 구현한다 — �
 
 # switch — 토글 스위치
 
-라이브 데모: https://guksu.github.io/fe-skills/#/switch
+라이브 데모: https://guksu.github.io/suta/#/switch
 
 ## 언제 쓰는가
 

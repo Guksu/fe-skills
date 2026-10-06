@@ -1,5 +1,5 @@
 {
-  "name": "fe-skills",
+  "name": "suta",
   "private": true,
   "workspaces": ["demo"],
   "scripts": {

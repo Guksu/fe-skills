@@ -5,7 +5,7 @@ description: 호버·포커스 시 잠시 뒤 떠오르는 툴팁(tooltip) 말�
 
 # tooltip — 툴팁 말풍선
 
-라이브 데모: https://guksu.github.io/fe-skills/#/tooltip
+라이브 데모: https://guksu.github.io/suta/#/tooltip
 
 ## 언제 쓰는가
 

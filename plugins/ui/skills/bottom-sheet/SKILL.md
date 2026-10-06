@@ -5,7 +5,7 @@ description: 바텀시트(bottom sheet) 컴포넌트 — 아래에서 올라오�
 
 # bottom-sheet — 바텀시트
 
-라이브 데모: https://guksu.github.io/fe-skills/#/bottom-sheet
+라이브 데모: https://guksu.github.io/suta/#/bottom-sheet
 
 ## 언제 쓰는가
 

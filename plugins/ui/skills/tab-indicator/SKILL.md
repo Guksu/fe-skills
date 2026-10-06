@@ -5,7 +5,7 @@ description: 탭을 바꿀 때 활성 탭 밑줄(tab indicator)이 옆으로 미
 
 # tab-indicator — 탭 인디케이터 슬라이드
 
-라이브 데모: https://guksu.github.io/fe-skills/#/tab-indicator
+라이브 데모: https://guksu.github.io/suta/#/tab-indicator
 
 ## 언제 쓰는가
 

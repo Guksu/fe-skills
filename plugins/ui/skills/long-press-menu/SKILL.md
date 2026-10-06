@@ -5,7 +5,7 @@ description: 길게 누르면(long press) 항목이 살짝 떠오르고 뒤가 �
 
 # long-press-menu — 길게 눌러 메뉴
 
-라이브 데모: https://guksu.github.io/fe-skills/#/long-press-menu
+라이브 데모: https://guksu.github.io/suta/#/long-press-menu
 
 ## 언제 쓰는가
 

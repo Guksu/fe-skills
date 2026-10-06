@@ -7,7 +7,7 @@
  *  - 본문이 참조하는 assets/·references/ 경로 실재
  *  - 데모 레지스트리(demo/src/demos/index.ts)에 slug 등록
  *  - 공유 코어 복사본 동기: 첫 줄에 `@shared-core {파일} origin: {스킬}` 헤더가 있는 assets 파일은 원본과 내용이 같아야 한다
- *  - README.md·README.en.md 배지 숫자(fe-ui/fe-system 스킬 수, 테스트 수)가 실제와 일치
+ *  - README.md·README.en.md 배지 숫자(suta/fe-system 스킬 수, 테스트 수)가 실제와 일치
  *  - 공통 지침 파일: AGENTS.md 존재, CLAUDE.md가 @AGENTS.md를 가져옴, .agents/skills/add-skill이 있고 .claude/skills/add-skill이 같은 곳을 가리킴
  */
 import { readFileSync, readdirSync, existsSync, statSync } from 'node:fs'
@@ -84,7 +84,7 @@ const expectBadge = ({ label, actual }) => {
     if (shown !== actual) errors.push(`${name} 배지 ${label}: ${shown}로 표기, 실제 ${actual} — 배지를 갱신하라`)
   }
 }
-expectBadge({ label: 'fe--ui', actual: skillCounts[join(root, 'plugins/ui/skills')] ?? 0 })
+expectBadge({ label: 'suta', actual: skillCounts[join(root, 'plugins/ui/skills')] ?? 0 })
 expectBadge({ label: 'fe--system', actual: skillCounts[join(root, 'plugins/system/skills')] ?? 0 })
 const testsDir = join(root, 'demo/src/tests')
 const testCount = readdirSync(testsDir)

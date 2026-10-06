@@ -5,7 +5,7 @@ description: 인증번호(OTP) 칸 입력을 구현한다 — 한 글자를 치�
 
 # otp-input — 인증번호 칸 입력
 
-라이브 데모: https://guksu.github.io/fe-skills/#/otp-input
+라이브 데모: https://guksu.github.io/suta/#/otp-input
 
 ## 언제 쓰는가
 

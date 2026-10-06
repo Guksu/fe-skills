@@ -26,7 +26,7 @@ export const App = () => {
       <aside className="sidebar">
         <div className="brand-row">
           <a className="brand" href="#/">
-            fe-skills
+            suta
           </a>
           <button type="button" className="lang-toggle" onClick={toggle} aria-label={t.langToggleLabel} lang={lang === 'ko' ? 'en' : 'ko'}>
             {t.langToggle}
@@ -49,7 +49,7 @@ export const App = () => {
           ))}
         </nav>
         <footer>
-          <a href="https://github.com/Guksu/fe-skills" target="_blank" rel="noreferrer">
+          <a href="https://github.com/Guksu/suta" target="_blank" rel="noreferrer">
             GitHub
           </a>
         </footer>
@@ -111,7 +111,7 @@ const UsageBlock = ({ demo, lang }: { demo: DemoEntry; lang: Lang }) => {
             {copied ? t.copied : t.copy}
           </button>
           <a
-            href={`https://github.com/Guksu/fe-skills/blob/main/plugins/ui/skills/${demo.slug}/SKILL.md`}
+            href={`https://github.com/Guksu/suta/blob/main/plugins/ui/skills/${demo.slug}/SKILL.md`}
             target="_blank"
             rel="noreferrer"
           >
@@ -139,7 +139,7 @@ const Home = ({ lang }: { lang: Lang }) => {
 
   return (
     <section className="home">
-      <h1>fe-skills</h1>
+      <h1>suta</h1>
       <p className="home-intro">{t.homeIntro(demos.length)}</p>
       <div className="home-search">
         <input

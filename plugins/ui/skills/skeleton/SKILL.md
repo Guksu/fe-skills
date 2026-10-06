@@ -5,7 +5,7 @@ description: 로딩 중 콘텐츠 자리를 잡아주는 스켈레톤 UI(skeleto
 
 # skeleton — 스켈레톤 시머
 
-라이브 데모: https://guksu.github.io/fe-skills/#/skeleton
+라이브 데모: https://guksu.github.io/suta/#/skeleton
 
 ## 언제 쓰는가
 

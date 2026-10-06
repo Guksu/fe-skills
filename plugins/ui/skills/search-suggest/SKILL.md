@@ -5,7 +5,7 @@ description: 검색창 자동완성 제안 목록(search autocomplete, suggest)�
 
 # search-suggest — 검색어 자동완성
 
-라이브 데모: https://guksu.github.io/fe-skills/#/search-suggest
+라이브 데모: https://guksu.github.io/suta/#/search-suggest
 
 ## 언제 쓰는가
 

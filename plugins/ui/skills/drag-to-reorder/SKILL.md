@@ -5,7 +5,7 @@ description: 목록 항목을 잡고 끌어서 순서를 바꾸는 드래그 정
 
 # drag-to-reorder — 끌어서 순서 바꾸기
 
-라이브 데모: https://guksu.github.io/fe-skills/#/drag-to-reorder
+라이브 데모: https://guksu.github.io/suta/#/drag-to-reorder
 
 ## 언제 쓰는가
 

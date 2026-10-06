@@ -5,7 +5,7 @@ description: 화면(라우트) 전환 애니메이션(page transition)을 구현
 
 # page-transition — 화면 전환
 
-라이브 데모: https://guksu.github.io/fe-skills/#/page-transition
+라이브 데모: https://guksu.github.io/suta/#/page-transition
 
 ## 언제 쓰는가
 

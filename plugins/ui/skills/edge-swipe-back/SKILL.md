@@ -5,7 +5,7 @@ description: iOS swipe back — 화면 왼쪽 가장자리를 오른쪽으로 �
 
 # edge-swipe-back — 가장자리 스와이프 뒤로가기
 
-라이브 데모: https://guksu.github.io/fe-skills/#/edge-swipe-back
+라이브 데모: https://guksu.github.io/suta/#/edge-swipe-back
 
 ## 언제 쓰는가
 

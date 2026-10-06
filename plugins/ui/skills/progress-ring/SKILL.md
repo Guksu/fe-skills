@@ -5,7 +5,7 @@ description: 원이 채워지는 원형 진행률 표시(progress ring, 애플�
 
 # progress-ring — 원형 진행 링
 
-라이브 데모: https://guksu.github.io/fe-skills/#/progress-ring
+라이브 데모: https://guksu.github.io/suta/#/progress-ring
 
 ## 언제 쓰는가
 

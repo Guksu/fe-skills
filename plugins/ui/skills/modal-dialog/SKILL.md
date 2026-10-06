@@ -5,7 +5,7 @@ description: 화면 가운데 창을 띄우고 뒤 배경을 어둡게 잠그는
 
 # modal-dialog — 모달 다이얼로그
 
-라이브 데모: https://guksu.github.io/fe-skills/#/modal-dialog
+라이브 데모: https://guksu.github.io/suta/#/modal-dialog
 
 ## 언제 쓰는가
 

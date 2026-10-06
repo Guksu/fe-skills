@@ -5,7 +5,7 @@ description: 잘못된 입력을 좌우로 흔들고(shake) 에러 메시지가 
 
 # form-shake-error — 폼 에러 흔들림 + 메시지
 
-라이브 데모: https://guksu.github.io/fe-skills/#/form-shake-error
+라이브 데모: https://guksu.github.io/suta/#/form-shake-error
 
 ## 언제 쓰는가
 

@@ -5,7 +5,7 @@ description: React 요소의 진입/퇴장(enter/exit) 애니메이션을 구현
 
 # enter-exit — 진입/퇴장 애니메이션
 
-라이브 데모: https://guksu.github.io/fe-skills/#/enter-exit
+라이브 데모: https://guksu.github.io/suta/#/enter-exit
 
 ## 언제 쓰는가
 

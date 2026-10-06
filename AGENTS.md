@@ -1,4 +1,4 @@
-# fe-skills — 에이전트 작업 지침
+# suta — 에이전트 작업 지침
 
 이 파일은 이 저장소에서 일하는 **모든 코딩 에이전트**(Claude Code·Codex·Cursor·Gemini CLI·GitHub Copilot 등)를 위한 공통 지침이다. 도구별 파일(`CLAUDE.md` 등)은 이 파일을 가져오고 도구 전용 내용만 덧붙인다. 규칙을 고칠 때는 이 파일 한 곳에서만 고친다.
 
@@ -8,7 +8,7 @@
 
 | 플러그인 | 경로 | 내용 |
 |---|---|---|
-| fe-ui | `plugins/ui/skills/{스킬}/` | 애니메이션·UI·제스처 구현 패턴. 바닐라 코어(.ts, 의존성 0) + React 래퍼(.tsx) + CSS |
+| suta | `plugins/ui/skills/{스킬}/` | 애니메이션·UI·제스처 구현 패턴. 바닐라 코어(.ts, 의존성 0) + React 래퍼(.tsx) + CSS |
 | fe-system | `plugins/system/skills/{스킬}/` | 시스템 설계 결정 가이드. 문답 절차 + 케이스별 트레이드오프 문서. 데모 없음 |
 
 데모 사이트(`demo/`, Vite + React, GitHub Pages)는 UI 스킬만 노출한다.
@@ -18,7 +18,7 @@
 ## 저장소 구조
 
 ```text
-fe-skills/
+suta/
 ├─ AGENTS.md                         이 파일 — 공통 작업 지침(단일 출처)
 ├─ CLAUDE.md                         Claude Code 전용 — AGENTS.md를 가져오고 훅·스킬 이름만 덧붙임
 ├─ .agents/skills/add-skill/         스킬 추가 파이프라인(모든 에이전트가 발견)
@@ -38,13 +38,13 @@ fe-skills/
 
 ```bash
 npm ci                            # 의존성 설치
-npm run dev                       # 데모 개발 서버 → http://localhost:5173/fe-skills/
+npm run dev                       # 데모 개발 서버 → http://localhost:5173/suta/
 npm run build                     # tsc -b && vite build
 npm run lint                      # eslint (demo/ 기준)
 npm test                          # vitest run (jsdom)
 node scripts/validateSkills.mjs   # 스킬 구조 검사 — 실패하면 exit 1
 node scripts/evalSelection.mjs    # 스킬 선택 평가 — 요청 문장에 맞는 스킬이 골라지는지 검사
-npm run validate                  # 위 두 검사를 한 번에
+npm run validate                  # 위 두 검사 + 모션 검사(audit.mjs)를 한 번에
 ```
 
 알려진 제약: `npm run lint`는 `plugins/**/assets`를 실제로 검사하지 않는다(ESLint flat config가 `demo/` 밖 파일을 무시). assets 코드는 `npm run build`의 타입 검사와 테스트로 검증된다.
@@ -73,7 +73,7 @@ npm run validate                  # 위 두 검사를 한 번에
 2. `plugins/ui/skills/{스킬}/SKILL.md` — frontmatter `name`(= 폴더명)·`description`. **description 규칙:** 3인칭으로 "무엇을 하는가 + 언제 쓰는가"만 적는다. 80~300자, 150~250자 권장. 사용자가 실제로 쓸 표현을 따옴표로 나열하고 핵심 영어 용어를 한 번 넣는다. 구현 방식 요약과 에이전트 명령문("반드시 이 스킬을 사용할 것")은 넣지 않는다 — 에이전트가 본문을 읽지 않고 description만 보고 행동할 수 있다. 본문: 언제 쓰는가 → 기술 선택(왜 이 기술인가) → 파일 표 → 사용 방법(React / 순수 JS) → 커스터마이즈 → 주의사항.
 3. `assets/` — 코어 + React 래퍼 + CSS. 접근성 포함.
 4. `demo/src/demos/{스킬}/` 데모 페이지 + `demo/src/demos/index.ts` 등록(`title`·`description`과 영어 `titleEn`·`descriptionEn` 모두). 테스트는 `demo/src/tests/`.
-5. `README.md`와 `README.en.md` 양쪽에 표 한 행 + 배지 숫자(fe-ui 스킬 수, tests 수) 갱신 — 검사 스크립트가 두 파일 모두 실제 수와 비교한다.
+5. `README.md`와 `README.en.md` 양쪽에 표 한 행 + 배지 숫자(suta 스킬 수, tests 수) 갱신 — 검사 스크립트가 두 파일 모두 실제 수와 비교한다.
 6. 워크로그.
 
 ### 완료 게이트 — 전부 통과해야 완료

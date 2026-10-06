@@ -5,7 +5,7 @@ description: 항목이 수천·수만 개여도 화면에 보이는 구간만 �
 
 # virtual-list — 가상 스크롤
 
-라이브 데모: https://guksu.github.io/fe-skills/#/virtual-list
+라이브 데모: https://guksu.github.io/suta/#/virtual-list
 
 ## 언제 쓰는가
 

@@ -86,7 +86,7 @@ describe('auditMotion — JS 규칙과 출력', () => {
     expect(out).toContain('→')
   })
 
-  it('깨끗한 파일은 결과가 없다 (fe-ui 스킬 CSS 스타일)', () => {
+  it('깨끗한 파일은 결과가 없다 (suta 스킬 CSS 스타일)', () => {
     const text = `.sheet {\n  --_duration: var(--sheet-duration, 350ms);\n  transition: transform var(--_duration) cubic-bezier(0.32, 0.72, 0, 1), opacity var(--_duration) ease;\n}\n@media (prefers-reduced-motion: reduce) {\n  .sheet { transition: opacity 120ms linear; transform: none; }\n}`
     expect(auditMotion([{ file: 'clean.css', text }])).toEqual([])
   })

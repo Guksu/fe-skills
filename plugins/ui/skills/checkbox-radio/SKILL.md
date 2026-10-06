@@ -5,7 +5,7 @@ description: 체크박스(checkbox)·라디오(radio) 버튼 컴포넌트 구현
 
 # checkbox-radio — 체크박스 · 라디오
 
-라이브 데모: https://guksu.github.io/fe-skills/#/checkbox-radio
+라이브 데모: https://guksu.github.io/suta/#/checkbox-radio
 
 ## 언제 쓰는가
 

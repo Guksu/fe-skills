@@ -5,7 +5,7 @@ description: ⋯ 버튼을 누르면 열리는 액션 드롭다운 메뉴(dropdo
 
 # dropdown-menu — 액션 드롭다운 메뉴
 
-라이브 데모: https://guksu.github.io/fe-skills/#/dropdown-menu
+라이브 데모: https://guksu.github.io/suta/#/dropdown-menu
 
 ## 언제 쓰는가
 

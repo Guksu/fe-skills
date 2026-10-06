@@ -5,7 +5,7 @@ description: 리스트 정렬·필터·추가·삭제로 순서를 바꿀 때 �
 
 # flip-list — 리스트 재배치 (FLIP)
 
-라이브 데모: https://guksu.github.io/fe-skills/#/flip-list
+라이브 데모: https://guksu.github.io/suta/#/flip-list
 
 ## 언제 쓰는가
 

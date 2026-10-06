@@ -5,7 +5,7 @@ description: 목록·피드를 맨 위에서 아래로 당기면 새로고침하
 
 # pull-to-refresh — 당겨서 새로고침
 
-라이브 데모: https://guksu.github.io/fe-skills/#/pull-to-refresh
+라이브 데모: https://guksu.github.io/suta/#/pull-to-refresh
 
 ## 언제 쓰는가
 
