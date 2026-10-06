@@ -5,7 +5,7 @@
     "url": "https://github.com/Guksu"
   },
   "metadata": {
-    "description": "프론트엔드 스킬 모음 — UI/애니메이션(suta)과 시스템 설계(fe-system)",
+    "description": "프론트엔드 UI/애니메이션 구현 스킬 모음",
     "version": "0.2.0"
   },
   "plugins": [
@@ -17,15 +17,6 @@
       "author": { "name": "Guksu" },
       "homepage": "https://github.com/Guksu/suta",
       "keywords": ["frontend", "animation", "ui", "ux", "css", "react"]
-    },
-    {
-      "name": "fe-system",
-      "source": "./plugins/system",
-      "description": "프론트엔드 시스템 설계 스킬 — 상태 위치·데이터 페칭 등 설계 결정을 케이스별 트레이드오프 문서와 문답으로 추천한다",
-      "version": "0.1.0",
-      "author": { "name": "Guksu" },
-      "homepage": "https://github.com/Guksu/suta",
-      "keywords": ["frontend", "architecture", "state", "design"]
     }
   ]
 }

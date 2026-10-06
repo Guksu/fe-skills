@@ -5,23 +5,16 @@ description: suta 저장소에 애니메이션·UI·UX 스킬을 추가하거나
 
 # add-skill — 스킬 추가 파이프라인
 
-이 저장소의 반복 작업이다. 작업 전 `docs/harness-rules.md`를 읽는다. 설계 단일 출처는 `docs/design/2026-08-19-fe-skills.md`다. 플러그인이 2개이므로 먼저 어느 쪽인지 판별한다:
-
-- **UI 스킬**(`plugins/ui/skills/`) — 애니메이션/UI/UX 구현 패턴. 아래 전체 절차(문서→데모→게이트 4종) 적용.
-- **시스템 스킬**(`plugins/system/skills/`) — 설계 결정 가이드(문서+문답). 데모·브라우저 게이트 없음: SKILL.md(문답 절차와 추천 종합 방법) + references/(케이스별 트레이드오프 문서)를 쓰고, 게이트는 구조 검증(`node scripts/validateSkills.mjs`)과 트리거 검증(should/should-NOT 쿼리)만 적용한다. 문서는 "어떤 경우 이 설계가 좋고, 어떤 단점이 있는지"의 트레이드오프 중심으로 쓴다.
+이 저장소의 반복 작업이다. 작업 전 `docs/harness-rules.md`를 읽는다. 설계 단일 출처는 `docs/design/2026-08-19-fe-skills.md`다. 스킬은 모두 `plugins/ui/skills/`의 애니메이션/UI/UX 구현 패턴이며, 아래 전체 절차(문서→데모→게이트 4종)를 적용한다.
 
 ## 불변 구조 — 왜 이 모양인가
 
 ```
-plugins/ui/skills/{skill-name}/          # UI 스킬
+plugins/ui/skills/{skill-name}/
 ├─ SKILL.md          # 정본: 언제 쓰는가·사용 방법·핵심 패턴
 ├─ references/       # 상세(변형·엣지 케이스·접근성) — 필요할 때만 로드
 └─ assets/           # 예시 컴포넌트 코드 (정본의 일부, 실행 가능한 파일)
 demo/src/demos/{skill-name}/             # assets/를 import해 렌더링하는 데모 페이지
-
-plugins/system/skills/{skill-name}/      # 시스템 스킬 (데모 없음)
-├─ SKILL.md          # 문답 절차(무엇을 묻고 어떻게 종합 추천하는가)
-└─ references/       # 케이스별 설계 트레이드오프 문서
 ```
 
 - **assets/의 코드가 유일한 구현본이다.** 데모는 그 파일을 import만 한다 — 복사본을 만들면 한쪽만 고치는 순간 문서가 거짓말이 된다.
