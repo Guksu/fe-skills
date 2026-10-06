@@ -1,0 +1,10 @@
+{
+  "name": "suta",
+  "description": "AI 슬롭 없는 UI — UI를 만들거나 고칠 때 자동으로 읽혀, AI가 만든 티가 나는 모션·인터랙션·접근성 결함을 막고 검증된 UI 패턴 53종의 코드를 가져다 쓰게 한다. 데모: https://guksu.github.io/suta/",
+  "version": "0.3.0",
+  "author": { "name": "Guksu", "url": "https://github.com/Guksu" },
+  "homepage": "https://guksu.github.io/suta/",
+  "repository": "https://github.com/Guksu/suta",
+  "license": "MIT",
+  "keywords": ["ai-slop", "frontend", "ui", "animation", "interaction", "accessibility", "css", "react"]
+}

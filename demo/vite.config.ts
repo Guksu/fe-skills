@@ -10,13 +10,13 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      // 정본(plugins/ui/skills)의 예시 컴포넌트를 데모가 직접 import한다 — 복사본 금지 원칙
-      '@skills': fileURLToPath(new URL('../plugins/ui/skills', import.meta.url)),
+      // 정본(skills/suta/patterns)의 예시 컴포넌트를 데모가 직접 import한다 — 복사본 금지 원칙
+      '@skills': fileURLToPath(new URL('../skills/suta/patterns', import.meta.url)),
     },
   },
   server: {
     fs: {
-      // 데모 루트 밖의 plugin/ 디렉토리 접근 허용
+      // 데모 루트 밖의 skills/ 디렉토리(정본) 접근 허용
       allow: ['..'],
     },
   },

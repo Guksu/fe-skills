@@ -3,7 +3,7 @@ import { resolve } from 'node:path'
 import { DURATION, EASE, EXIT_RATIO, STAGGER_MS, cubicBezier, durationFor, exitDuration, staggerDelay } from '@skills/motion-principles/assets/motionTokens'
 
 // vitest는 demo/에서 돈다 — 정본 CSS를 파일로 읽어 TS 상수와 비교한다(두 벌이 어긋나면 화면마다 속도가 달라진다)
-const css = readFileSync(resolve(process.cwd(), '../plugins/ui/skills/motion-principles/assets/motion-tokens.css'), 'utf8')
+const css = readFileSync(resolve(process.cwd(), '../skills/suta/patterns/motion-principles/assets/motion-tokens.css'), 'utf8')
 const cssVar = (name: string) => css.match(new RegExp(`${name}:\\s*([^;]+);`))?.[1].trim()
 
 describe('motionTokens — CSS 토큰과 TS 상수가 같은 값이다', () => {
