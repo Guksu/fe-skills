@@ -56,7 +56,7 @@ import { GlassNavDemo } from './glass-nav/GlassNavDemo'
 export type DemoCategory = '등장과 전환' | '로딩과 진행' | '피드백' | '내비게이션' | '제스처' | '컨트롤' | '표면과 스타일' | '원칙과 검토'
 
 export type DemoEntry = {
-  /** URL 해시 조각 (#/{slug}) — plugins/ui/skills/{slug}와 일치시킨다 */
+  /** URL 해시 조각 (#/{slug}) — skills/suta/patterns/{slug}와 일치시킨다 */
   slug: string
   title: string
   description: string
@@ -65,7 +65,7 @@ export type DemoEntry = {
   descriptionEn: string
   emoji: string
   category: DemoCategory
-  /** 스킬 문서의 대표 사용 예시 — 데모 페이지의 "사용 예시" 코드 블록에 그대로 노출·복사된다 */
+  /** 패턴 문서의 대표 사용 예시 — 데모 페이지의 "사용 예시" 코드 블록에 그대로 노출·복사된다 */
   usage: string
   Component: ComponentType
 }

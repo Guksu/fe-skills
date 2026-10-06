@@ -68,7 +68,7 @@ const DemoPage = ({ demo, lang }: { demo: DemoEntry; lang: Lang }) => {
           <span aria-hidden="true">{demo.emoji}</span> {titleOf({ demo, lang })}
         </h1>
         <p>{descriptionOf({ demo, lang })}</p>
-        <code>plugins/ui/skills/{demo.slug}/</code>
+        <code>skills/suta/patterns/{demo.slug}/</code>
         {lang === 'en' && <p className="demo-lang-note">{t.demoNote}</p>}
       </header>
       {/* 데모 내부는 한국어 콘텐츠 — 스크린 리더가 언어를 바꿔 읽도록 lang을 명시한다 */}
@@ -111,7 +111,7 @@ const UsageBlock = ({ demo, lang }: { demo: DemoEntry; lang: Lang }) => {
             {copied ? t.copied : t.copy}
           </button>
           <a
-            href={`https://github.com/Guksu/suta/blob/main/plugins/ui/skills/${demo.slug}/SKILL.md`}
+            href={`https://github.com/Guksu/suta/blob/main/skills/suta/patterns/${demo.slug}/PATTERN.md`}
             target="_blank"
             rel="noreferrer"
           >
