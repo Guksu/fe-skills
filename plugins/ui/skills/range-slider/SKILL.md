@@ -5,7 +5,7 @@ description: 두 손잡이로 최소·최대 구간을 고르는 범위 슬라�
 
 # range-slider — 두 손잡이 범위 슬라이더
 
-라이브 데모: https://guksu.github.io/fe-skills/#/range-slider
+라이브 데모: https://guksu.github.io/suta/#/range-slider
 
 ## 언제 쓰는가
 

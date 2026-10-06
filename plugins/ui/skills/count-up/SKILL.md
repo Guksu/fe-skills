@@ -5,7 +5,7 @@ description: 숫자가 목표값까지 굴러 올라가는 카운트업(count up
 
 # count-up — 숫자 카운트업
 
-라이브 데모: https://guksu.github.io/fe-skills/#/count-up
+라이브 데모: https://guksu.github.io/suta/#/count-up
 
 ## 언제 쓰는가
 

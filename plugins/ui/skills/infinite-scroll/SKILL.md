@@ -5,7 +5,7 @@ description: 목록 끝에 닿으면 다음 페이지를 자동으로 불러오�
 
 # infinite-scroll — 무한 스크롤
 
-라이브 데모: https://guksu.github.io/fe-skills/#/infinite-scroll
+라이브 데모: https://guksu.github.io/suta/#/infinite-scroll
 
 ## 언제 쓰는가
 

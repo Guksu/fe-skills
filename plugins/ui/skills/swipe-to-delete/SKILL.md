@@ -5,7 +5,7 @@ description: 리스트 항목을 옆으로 밀어 삭제하는 제스처(swipe t
 
 # swipe-to-delete — 밀어서 삭제
 
-라이브 데모: https://guksu.github.io/fe-skills/#/swipe-to-delete
+라이브 데모: https://guksu.github.io/suta/#/swipe-to-delete
 
 ## 언제 쓰는가
 

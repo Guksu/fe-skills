@@ -5,7 +5,7 @@ description: 아코디언(accordion) 컴포넌트 — 눌러서 펼치고 접는
 
 # accordion — 아코디언 펼침
 
-라이브 데모: https://guksu.github.io/fe-skills/#/accordion
+라이브 데모: https://guksu.github.io/suta/#/accordion
 
 ## 언제 쓰는가
 

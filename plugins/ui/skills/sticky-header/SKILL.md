@@ -5,7 +5,7 @@ description: 스크롤하면 큰 제목이 밀려 나가고 상단 고정 헤더
 
 # sticky-header — 스티키 헤더 전환
 
-라이브 데모: https://guksu.github.io/fe-skills/#/sticky-header
+라이브 데모: https://guksu.github.io/suta/#/sticky-header
 
 ## 언제 쓰는가
 

@@ -137,7 +137,7 @@ const auditCss = ({ file, text, push: rawPush }: Source & { push: (f: Finding) =
       rule: 'no-reduced-motion',
       severity: 'error',
       message: '움직임이 있는데 prefers-reduced-motion 블록이 없다',
-      fix: '@media (prefers-reduced-motion: reduce) { … } 에서 이동·확대를 끄고 페이드만 남긴다 (모든 fe-ui 스킬 CSS 하단 블록 참고)',
+      fix: '@media (prefers-reduced-motion: reduce) { … } 에서 이동·확대를 끄고 페이드만 남긴다 (모든 suta 스킬 CSS 하단 블록 참고)',
     })
   }
 

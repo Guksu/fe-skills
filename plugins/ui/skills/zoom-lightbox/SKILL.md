@@ -5,7 +5,7 @@ description: 썸네일을 누르면 그 요소가 화면 가운데로 커지는 
 
 # zoom-lightbox — 확대 전환 라이트박스
 
-라이브 데모: https://guksu.github.io/fe-skills/#/zoom-lightbox
+라이브 데모: https://guksu.github.io/suta/#/zoom-lightbox
 
 ## 언제 쓰는가
 

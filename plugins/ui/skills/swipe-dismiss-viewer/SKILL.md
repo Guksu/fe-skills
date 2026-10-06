@@ -5,7 +5,7 @@ description: 전체화면 이미지 뷰어를 끌어내려 닫는 제스처(swip
 
 # swipe-dismiss-viewer — 끌어내려 닫는 이미지 뷰어
 
-라이브 데모: https://guksu.github.io/fe-skills/#/swipe-dismiss-viewer
+라이브 데모: https://guksu.github.io/suta/#/swipe-dismiss-viewer
 
 ## 언제 쓰는가
 

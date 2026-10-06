@@ -5,7 +5,7 @@ description: 수량 조절 스테퍼(quantity stepper, − / + 버튼) 컴포넌
 
 # quantity-stepper — 수량 스테퍼
 
-라이브 데모: https://guksu.github.io/fe-skills/#/quantity-stepper
+라이브 데모: https://guksu.github.io/suta/#/quantity-stepper
 
 ## 언제 쓰는가
 

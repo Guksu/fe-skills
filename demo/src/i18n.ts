@@ -3,7 +3,7 @@ import type { DemoCategory } from './demos'
 
 export type Lang = 'ko' | 'en'
 
-const STORAGE_KEY = 'fe-skills-lang'
+const STORAGE_KEY = 'suta-lang'
 
 /** 처음 언어를 정하는 순서: URL의 ?lang= → 저장된 선택 → 브라우저 언어(한국어면 ko, 그 밖은 en) */
 export const resolveInitialLang = ({ search, stored, navigatorLanguage }: { search: string; stored: string | null; navigatorLanguage: string }): Lang => {

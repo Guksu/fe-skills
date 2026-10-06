@@ -5,7 +5,7 @@ description: 스프링 물리 모션 유틸(spring physics)을 구현한다 — 
 
 # spring-physics — 스프링 물리 모션
 
-라이브 데모: https://guksu.github.io/fe-skills/#/spring-physics
+라이브 데모: https://guksu.github.io/suta/#/spring-physics
 
 ## 언제 쓰는가
 

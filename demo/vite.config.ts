@@ -3,9 +3,10 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { fileURLToPath } from 'node:url'
 
-// GitHub Pages(guksu.github.io/fe-skills/) 배포 경로 기준
+// GitHub Pages(guksu.github.io/suta/) 배포 경로 기준
+// CI는 저장소 이름으로 VITE_BASE를 만들어 넘긴다 — 저장소 이름을 바꿔도 다음 배포부터 경로가 따라간다
 export default defineConfig({
-  base: '/fe-skills/',
+  base: process.env.VITE_BASE ?? '/suta/',
   plugins: [react()],
   resolve: {
     alias: {

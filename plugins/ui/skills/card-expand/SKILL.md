@@ -5,7 +5,7 @@ description: 카드가 제자리에서 자라나 상세 화면이 되는 공유 
 
 # card-expand — 카드 확장(공유 요소 전환)
 
-라이브 데모: https://guksu.github.io/fe-skills/#/card-expand
+라이브 데모: https://guksu.github.io/suta/#/card-expand
 
 ## 언제 쓰는가
 

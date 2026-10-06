@@ -5,7 +5,7 @@ description: 버튼·카드를 탭하면 살짝 쪼그라들었다(움츠러들�
 
 # press-feedback — 프레스 피드백
 
-라이브 데모: https://guksu.github.io/fe-skills/#/press-feedback
+라이브 데모: https://guksu.github.io/suta/#/press-feedback
 
 ## 언제 쓰는가
 

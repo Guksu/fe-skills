@@ -5,7 +5,7 @@ description: 파일 끌어다 놓기 업로드(file upload, drop zone) 영역을
 
 # file-upload — 끌어다 놓는 파일 업로드
 
-라이브 데모: https://guksu.github.io/fe-skills/#/file-upload
+라이브 데모: https://guksu.github.io/suta/#/file-upload
 
 ## 언제 쓰는가
 

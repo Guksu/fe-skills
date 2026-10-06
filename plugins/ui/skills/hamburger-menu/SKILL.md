@@ -5,7 +5,7 @@ description: 햄버거 버튼(≡, 삼선 아이콘)이 X로 모핑하며 옆에
 
 # hamburger-menu — 햄버거 메뉴 모핑 + 드로어
 
-라이브 데모: https://guksu.github.io/fe-skills/#/hamburger-menu
+라이브 데모: https://guksu.github.io/suta/#/hamburger-menu
 
 ## 언제 쓰는가
 

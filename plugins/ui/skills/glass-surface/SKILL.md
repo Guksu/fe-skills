@@ -5,7 +5,7 @@ description: 뒤 배경이 흐릿하게 비치는 반투명 유리판 글라스�
 
 # glass-surface — 유리판(글라스모피즘)
 
-라이브 데모: https://guksu.github.io/fe-skills/#/glass-surface
+라이브 데모: https://guksu.github.io/suta/#/glass-surface
 
 ## 언제 쓰는가
 

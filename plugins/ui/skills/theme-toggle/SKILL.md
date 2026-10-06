@@ -5,7 +5,7 @@ description: 다크모드 전환(dark mode toggle)을 구현한다 — 누른 �
 
 # theme-toggle — 다크모드 전환
 
-라이브 데모: https://guksu.github.io/fe-skills/#/theme-toggle
+라이브 데모: https://guksu.github.io/suta/#/theme-toggle
 
 ## 언제 쓰는가
 

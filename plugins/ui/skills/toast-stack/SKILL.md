@@ -5,7 +5,7 @@ description: 화면 하단(또는 상단 배너 위치)에 토스트(toast) 알�
 
 # toast-stack — 토스트 스택
 
-라이브 데모: https://guksu.github.io/fe-skills/#/toast-stack
+라이브 데모: https://guksu.github.io/suta/#/toast-stack
 
 ## 언제 쓰는가
 

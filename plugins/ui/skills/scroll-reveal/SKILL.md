@@ -5,7 +5,7 @@ description: 스크롤로 뷰포트에 들어올 때 요소가 차례로 나타�
 
 # scroll-reveal — 스크롤 리빌
 
-라이브 데모: https://guksu.github.io/fe-skills/#/scroll-reveal
+라이브 데모: https://guksu.github.io/suta/#/scroll-reveal
 
 ## 언제 쓰는가
 

@@ -5,7 +5,7 @@ description: 라벨이 플레이스홀더 자리에 있다가 입력창을 누�
 
 # floating-label — 플로팅 라벨 입력
 
-라이브 데모: https://guksu.github.io/fe-skills/#/floating-label
+라이브 데모: https://guksu.github.io/suta/#/floating-label
 
 ## 언제 쓰는가
 

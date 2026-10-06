@@ -5,7 +5,7 @@ description: 담기 버튼을 누르면 상품 이미지가 장바구니 아이�
 
 # cart-fly — 카트 플라이
 
-라이브 데모: https://guksu.github.io/fe-skills/#/cart-fly
+라이브 데모: https://guksu.github.io/suta/#/cart-fly
 
 ## 언제 쓰는가
 

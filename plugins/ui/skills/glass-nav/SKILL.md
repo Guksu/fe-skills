@@ -5,7 +5,7 @@ description: 스크롤에 반응하는 유리 GNB(상단 내비게이션 바)를
 
 # glass-nav — 스크롤에 반응하는 유리 GNB
 
-라이브 데모: https://guksu.github.io/fe-skills/#/glass-nav
+라이브 데모: https://guksu.github.io/suta/#/glass-nav
 
 ## 언제 쓰는가
 
