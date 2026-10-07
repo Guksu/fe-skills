@@ -20,19 +20,11 @@
  * 예외에는 반드시 이유를 적는다 — 다음 사람이 규칙을 되살릴지 판단할 근거다.
  */
 
-export type Severity = 'error' | 'warn'
+import { blankComments, cssBlocks, declarationsOf, ignoredLines, lineOf, sortFindings, type Finding, type Source } from './auditCore.ts'
 
-export type Finding = {
-  file: string
-  line: number
-  rule: string
-  severity: Severity
-  message: string
-  /** 어떤 패턴·기법으로 고치는가 */
-  fix: string
-}
-
-type Source = { file: string; text: string }
+// 결과 형식은 공통 코어(auditCore.ts)가 정본이다 — layout-audit와 결과를 합칠 수 있게 같은 형식을 쓴다
+export type { Finding, Severity } from './auditCore.ts'
+export { formatFindings, summarize } from './auditCore.ts'
 
 const LAYOUT_PROPS = ['width', 'height', 'top', 'left', 'right', 'bottom', 'margin', 'padding', 'border-width', 'font-size', 'line-height', 'inset', 'max-height', 'min-height', 'gap']
 const LAYOUT_RE = new RegExp(`(^|[\\s,])(${LAYOUT_PROPS.map((p) => p.replace('-', '\\-')).join('|')})(?=\\s|$|,)`, 'i')
@@ -58,43 +50,6 @@ const parseTransition = (value: string) =>
 
 const toMs = (t: string) => (/ms$/i.test(t) ? parseFloat(t) : parseFloat(t) * 1000)
 
-/** 선택자 블록 단위로 잘라 (선택자, 본문, 시작 줄). 글자 단위로 중괄호를 세므로 한 줄 블록도 잡는다.
- * @media·@supports는 선택자 앞에 붙여 표시하고, 그 안에 prefers-reduced-motion이 있으면 inReducedMotion */
-const cssBlocks = (text: string) => {
-  // 주석은 같은 길이의 공백으로 바꿔 줄 번호를 보존한다
-  const src = blankComments(text)
-  const blocks: Array<{ selector: string; body: string; line: number; inReducedMotion: boolean }> = []
-  const stack: Array<{ selector: string; bodyStart: number; isGroup: boolean }> = []
-  let selectorStart = 0
-  for (let i = 0; i < src.length; i += 1) {
-    const ch = src[i]
-    if (ch === '{') {
-      const selector = src.slice(selectorStart, i).trim()
-      stack.push({ selector, bodyStart: i + 1, isGroup: /^@(media|supports|container|layer)/i.test(selector) })
-      selectorStart = i + 1
-    } else if (ch === '}') {
-      const top = stack.pop()
-      selectorStart = i + 1
-      if (!top || top.isGroup) continue
-      const groups = stack.filter((s) => s.isGroup).map((s) => s.selector)
-      blocks.push({
-        selector: [...groups, top.selector].join(' '),
-        body: src.slice(top.bodyStart, i),
-        line: lineOf(src, top.bodyStart),
-        inReducedMotion: groups.some((g) => /prefers-reduced-motion\s*:\s*reduce/.test(g)),
-      })
-    } else if (ch === ';' && stack.length === 0) {
-      selectorStart = i + 1 // 최상위 @import 같은 한 줄 규칙
-    }
-  }
-  return blocks
-}
-
-const lineOf = (text: string, index: number) => text.slice(0, index).split('\n').length
-
-/** 주석을 공백으로 지우되 줄바꿈은 남긴다 — 줄 번호가 어긋나면 file:line이 거짓말을 한다 */
-const blankComments = (text: string) => text.replace(/\/\*[\s\S]*?\*\//g, (m) => m.replace(/[^\n]/g, ' '))
-
 export const auditMotion = (sources: Source[]): Finding[] => {
   const findings: Finding[] = []
   const push = (f: Omit<Finding, 'file'> & { file: string }) => findings.push(f)
@@ -103,23 +58,11 @@ export const auditMotion = (sources: Source[]): Finding[] => {
     if (isCss(file)) auditCss({ file, text, push })
     if (isScript(file)) auditScript({ file, text, push })
   }
-  return findings.sort((a, b) => a.file.localeCompare(b.file) || a.line - b.line)
-}
-
-/** `motion-audit-ignore` 주석이 있는 줄과 그 다음 줄 — 이유를 적은 의도적 예외. 검사에서 뺀다 */
-const ignoredLines = (text: string) => {
-  const set = new Set<number>()
-  text.split('\n').forEach((line, i) => {
-    if (/motion-audit-ignore/.test(line)) {
-      set.add(i + 1)
-      set.add(i + 2)
-    }
-  })
-  return set
+  return sortFindings(findings)
 }
 
 const auditCss = ({ file, text, push: rawPush }: Source & { push: (f: Finding) => void }) => {
-  const ignored = ignoredLines(text)
+  const ignored = ignoredLines({ text, marker: /motion-audit-ignore/ })
   const push = (f: Finding) => {
     if (!ignored.has(f.line)) rawPush(f)
   }
@@ -142,17 +85,7 @@ const auditCss = ({ file, text, push: rawPush }: Source & { push: (f: Finding) =
   }
 
   for (const block of blocks) {
-    const decls = block.body.split(';').map((d) => d.trim()).filter(Boolean)
-    let offset = 0
-    for (const decl of decls) {
-      const at = block.body.indexOf(decl, offset)
-      offset = at + decl.length
-      const line = block.line + block.body.slice(0, at).split('\n').length - 1
-      const [rawProp, ...rest] = decl.split(':')
-      const prop = rawProp.trim().toLowerCase()
-      const value = rest.join(':').trim()
-      if (!value) continue
-
+    for (const { prop, value, line } of declarationsOf(block)) {
       if (prop === 'transition' || prop === 'transition-property') {
         for (const item of parseTransition(value)) {
           if (item.prop === 'all') {
@@ -236,12 +169,3 @@ const auditScript = ({ file, text, push }: Source & { push: (f: Finding) => void
     }
   }
 }
-
-/** 결과를 `file:line rule message` 줄로 — 에이전트가 그대로 읽고 고칠 수 있는 형식 */
-export const formatFindings = (findings: Finding[]) =>
-  findings.map((f) => `${f.file}:${f.line} [${f.severity}] ${f.rule} — ${f.message}\n    → ${f.fix}`).join('\n')
-
-export const summarize = (findings: Finding[]) => ({
-  errors: findings.filter((f) => f.severity === 'error').length,
-  warnings: findings.filter((f) => f.severity === 'warn').length,
-})

@@ -1,0 +1,490 @@
+/* layout-principles 데모 — "고친 뒤" 쪽은 layout-tokens.css의 토큰만 쓴다.
+ * "고치기 전" 쪽(.lp-b-*)은 AI가 흔히 만드는 모습을 일부러 재현한 것이라 원칙을 어긴다(그라데이션 글자·카드 안 상자·늘어난 사진).
+ * 데모 자체의 틀(.lp-example·.lp-pane)도 원칙을 따른다 — 상자는 화면 틀 하나뿐이고, 나머지는 간격으로 묶는다. */
+
+.lp-example {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.lp-example-head {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.lp-example-head h2 {
+  margin: 0;
+  font-size: var(--text-heading);
+  line-height: var(--leading-tight);
+}
+
+.lp-example-head p {
+  margin: 0;
+  font-size: var(--text-small);
+  color: var(--text-dim);
+}
+
+.lp-compare {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--space-6);
+}
+
+.lp-compare[data-view='before'],
+.lp-compare[data-view='after'] {
+  grid-template-columns: minmax(0, 420px);
+}
+
+.lp-pane {
+  display: grid;
+  gap: var(--space-2);
+  align-content: start;
+}
+
+.lp-pane-label {
+  margin: 0;
+  font-size: var(--text-caption);
+  font-weight: var(--weight-semibold);
+}
+
+.lp-pane[data-tone='before'] .lp-pane-label {
+  color: #f87171;
+}
+
+.lp-pane[data-tone='after'] .lp-pane-label {
+  color: #34d399;
+}
+
+/* 휴대폰 화면 틀 — 데모 안에서 유일한 상자다 */
+.lp-screen {
+  padding: var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  background: var(--bg);
+}
+
+.lp-pane-note {
+  margin: 0;
+  font-size: var(--text-small);
+  color: var(--text-dim);
+}
+
+/* ---------- 고치기 전: AI가 흔히 만드는 모습 ---------- */
+
+.lp-b-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.lp-b-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.lp-b-strong {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.lp-b-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 14px;
+  border: 1px solid rgba(167, 139, 250, 0.4);
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.16), rgba(236, 72, 153, 0.1));
+  box-shadow: 0 10px 30px rgba(139, 92, 246, 0.25);
+}
+
+.lp-b-inner-box {
+  padding: 10px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  font-weight: 700;
+}
+
+.lp-b-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+}
+
+.lp-b-text {
+  margin: 0;
+  font-size: 13px;
+  color: #5d6472;
+}
+
+.lp-b-fill {
+  align-self: center;
+  padding: 10px 22px;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #8b5cf6, #ec4899);
+  color: #fff;
+  font-weight: 800;
+  box-shadow: 0 0 24px rgba(236, 72, 153, 0.55);
+}
+
+.lp-b-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 20px;
+  border-radius: 22px;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(236, 72, 153, 0.25));
+  box-shadow: 0 0 36px rgba(236, 72, 153, 0.35);
+  text-align: center;
+}
+
+.lp-b-gradient-text {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 800;
+  background: linear-gradient(90deg, #a78bfa, #f472b6);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.lp-b-badges,
+.lp-b-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.lp-b-pill {
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+  color: #fff;
+}
+
+.lp-b-pill-red {
+  background: #ef4444;
+}
+
+.lp-b-pill-green {
+  background: #10b981;
+}
+
+.lp-b-pill-blue {
+  background: #3b82f6;
+}
+
+.lp-b-photo {
+  position: relative;
+}
+
+/* 틀에 맞춰 가로세로를 따로 늘인다 — 사진이 찌그러진다 */
+.lp-b-photo-img {
+  display: block;
+  inline-size: 100%;
+  block-size: 120px;
+  object-fit: fill;
+  border-radius: 18px;
+}
+
+.lp-b-photo-text {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  text-align: center;
+  color: #fff;
+  font-weight: 800;
+}
+
+.lp-b-photo-text p {
+  margin: 0;
+}
+
+/* ---------- 고친 뒤: 토큰만 쓴다 ---------- */
+
+.lp-a-title {
+  margin: 0;
+  font-size: var(--text-heading);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+}
+
+.lp-a-name {
+  font-size: var(--text-body);
+  font-weight: var(--weight-semibold);
+}
+
+.lp-a-sub {
+  font-size: var(--text-small);
+  color: var(--text-dim);
+}
+
+/* 같은 폭 숫자 + 오른쪽 끝 — 금액을 위아래로 비교할 수 있다 */
+.lp-a-amount {
+  font-variant-numeric: tabular-nums;
+  text-align: end;
+  white-space: nowrap;
+}
+
+.lp-a-order {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.lp-a-rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* 행은 상자 대신 선 한 줄로 나눈다 */
+.lp-a-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-4);
+  padding-block: var(--space-3);
+  border-bottom: 1px solid var(--border);
+}
+
+/* 이름과 옵션은 한 묶음 — 4px로 붙인다(행 사이 24px의 절반 이하) */
+.lp-a-row-text {
+  display: grid;
+  gap: var(--space-1);
+  min-inline-size: 0;
+}
+
+.lp-a-total {
+  display: flex;
+  justify-content: space-between;
+  padding-block-start: var(--space-2);
+  font-weight: var(--weight-bold);
+}
+
+.lp-a-intro {
+  display: grid;
+  justify-items: start;
+  gap: var(--gap-item);
+}
+
+.lp-a-body {
+  margin: 0;
+  max-inline-size: var(--measure);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+}
+
+.lp-a-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+  font-size: var(--text-small);
+  color: var(--text-dim);
+}
+
+.lp-a-divider {
+  inline-size: 1px;
+  block-size: 12px;
+  background: var(--border);
+}
+
+.lp-a-primary {
+  min-block-size: var(--tap-min);
+  margin-block-start: var(--space-2);
+  padding-inline: var(--space-6);
+  border: none;
+  border-radius: var(--radius-control);
+  background: var(--accent);
+  color: #0f1115;
+  font-weight: var(--weight-semibold);
+}
+
+.lp-a-primary:hover {
+  border: none;
+  background: #8db9ff;
+}
+
+.lp-a-link {
+  min-block-size: var(--tap-min);
+  padding-inline: var(--space-2);
+  border: none;
+  background: none;
+  color: var(--text-dim);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.lp-a-link:hover {
+  border: none;
+  background: none;
+  color: var(--text);
+}
+
+.lp-a-pay {
+  display: grid;
+  gap: var(--gap-group);
+}
+
+/* 핵심 금액은 자기 줄에 — 라벨은 위에 작게, 숫자는 라벨의 2배 이상 */
+.lp-a-key {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.lp-a-display {
+  font-size: var(--text-display);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+  font-variant-numeric: tabular-nums;
+}
+
+.lp-a-receipt {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+}
+
+.lp-a-receipt-row {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+  font-size: var(--text-small);
+}
+
+.lp-a-receipt-row dt {
+  color: var(--text-dim);
+}
+
+.lp-a-receipt-row dd {
+  margin: 0;
+}
+
+.lp-a-menu {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--space-3) var(--space-4);
+}
+
+.lp-a-menu-text {
+  display: grid;
+  gap: var(--space-1);
+}
+
+/* 배지는 회색 글자 — 강조는 담기 버튼 한 곳에만 남긴다 */
+.lp-a-tags {
+  font-size: var(--text-caption);
+  color: var(--text-dim);
+}
+
+.lp-a-price {
+  font-weight: var(--weight-bold);
+  font-variant-numeric: tabular-nums;
+}
+
+.lp-a-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.lp-a-actions .lp-a-primary {
+  margin-block-start: 0;
+}
+
+.lp-a-photo {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+}
+
+/* 비율 틀에 잘라 채운다 — 늘이지 않는다 */
+.lp-a-photo-img {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+  aspect-ratio: var(--ratio-photo);
+  object-fit: cover;
+  border-radius: var(--radius-control);
+}
+
+.lp-a-photo-text {
+  display: grid;
+  gap: var(--space-1);
+}
+
+/* ---------- 토큰 표 ---------- */
+
+.lp-tokens {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: var(--gap-group);
+}
+
+.lp-token-group {
+  display: grid;
+  gap: var(--space-3);
+  align-content: start;
+}
+
+.lp-token-title {
+  margin: 0;
+  font-size: var(--text-small);
+  color: var(--text-dim);
+}
+
+.lp-token-list {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* 이름 · 견본 · 값 — 견본 칸이 가장 큰 글자(40px)와 가장 긴 막대(64px)를 담을 만큼 넓어야 값과 겹치지 않는다 */
+.lp-token-row {
+  display: grid;
+  grid-template-columns: 8.5rem minmax(5.5rem, 1fr) 3rem;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.lp-token-row code {
+  font-size: var(--text-caption);
+  color: var(--accent);
+}
+
+.lp-token-value {
+  font-size: var(--text-caption);
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+  text-align: end;
+}
+
+.lp-space-bar {
+  inline-size: var(--bar);
+  block-size: 8px;
+  border-radius: 2px;
+  background: var(--accent);
+}
+
+.lp-type-sample {
+  line-height: var(--leading-tight);
+  white-space: nowrap;
+}
+
+/* 높이가 반경의 두 배보다 커야 24px(시트)와 완전 둥근 것이 구별된다 */
+.lp-radius-swatch {
+  inline-size: 80px;
+  block-size: 64px;
+  border: 2px solid var(--accent);
+}

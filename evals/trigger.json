@@ -10,7 +10,9 @@
     "토스트 알림 띄우는 UI 넣어줘",
     "build a landing page for our noodle shop",
     "add a toast notification component",
-    "make this dropdown usable with the keyboard"
+    "make this dropdown usable with the keyboard",
+    "카드가 너무 많고 여백이 제각각이야, 레이아웃 좀 다듬어줘",
+    "tighten up the spacing and layout of this settings page"
   ],
   "shouldNot": [
     "주문 API 엔드포인트 추가해줘",

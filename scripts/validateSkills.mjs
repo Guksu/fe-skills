@@ -5,10 +5,13 @@
  *
  * 진입 스킬 (skills/suta/SKILL.md — 에이전트가 description만 보고 고르는 유일한 스킬)
  *  - skills/ 아래 SKILL.md는 이것 하나뿐 — 패턴 문서가 SKILL.md면 도구가 패턴마다 스킬로 등록해 목록 예산을 다시 넘긴다
- *  - name 형식(소문자·숫자·하이픈, 64자 이하) = 폴더명 = plugin.json·marketplace.json의 이름, 두 매니페스트의 버전 일치
+ *  - name 형식(소문자·숫자·하이픈, 64자 이하) = 폴더명 = 매니페스트 네 개의 이름, 버전 일치
+ *    (Claude Code: .claude-plugin/plugin.json·marketplace.json, Codex: .codex-plugin/plugin.json·.agents/plugins/marketplace.json)
+ *  - 매니페스트의 훅은 편집 후 검사 훅(skills/suta/scripts/post-edit-hook.mjs) 하나만 가리키고, 그 파일이 실재한다
  *  - description 1,024바이트 이하(도구에 따라 바이트로 센다)·": " 없음(YAML이 깨진다)·에이전트 명령문 없음
- *  - 본문 500줄 이하, 본문이 가리키는 patterns/·references/ 경로 실재, 패턴 카탈로그가 PATTERN.md·데모 레지스트리와 동기
- *  - 저장소 루트가 곧 플러그인(source "./")이라, 루트에 플러그인 구성 폴더(commands·agents·hooks 등)가 없어야 한다
+ *  - 본문 500줄 이하, 본문이 가리키는 patterns/·references/·scripts/ 경로 실재, 패턴 카탈로그가 PATTERN.md·데모 레지스트리와 동기
+ *  - 저장소 루트가 곧 플러그인(source "./")이라, 루트에 플러그인 구성 폴더(commands·agents·hooks 등)가 없어야 한다.
+ *    훅은 매니페스트에 인라인으로만 둔다 — 루트 hooks/ 폴더를 허용하면 아무 훅이나 사용자 환경에 실릴 수 있다
  * 패턴 (skills/suta/patterns/{패턴}/PATTERN.md)
  *  - frontmatter name = 폴더명, description 80~300자·명령문 없음, 본문이 참조하는 assets/·references/ 경로 실재
  *  - 데모 레지스트리(demo/src/demos/index.ts)와 패턴 폴더가 서로 빠짐없이 짝지어짐
@@ -63,6 +66,27 @@ else {
   if (entry?.source !== './') errors.push('marketplace.json 플러그인 source는 "./"(저장소 루트)여야 한다')
   if (plugin.version !== entry?.version) errors.push(`plugin.json(${plugin.version})과 marketplace.json(${entry?.version})의 버전이 다름`)
 
+  // Codex — 같은 저장소 루트를 Codex 플러그인으로도 설치한다(codex plugin marketplace add). 이름·버전이 어긋나면 한쪽만 갱신된다
+  const readManifest = (path) => {
+    if (existsSync(join(root, path))) return readJson(join(root, path))
+    errors.push(`${path} 없음 — Codex 플러그인 매니페스트다`)
+    return {}
+  }
+  const codexPlugin = readManifest('.codex-plugin/plugin.json')
+  const codexEntry = readManifest('.agents/plugins/marketplace.json').plugins?.[0]
+  if (codexPlugin.name !== SKILL || codexEntry?.name !== SKILL) errors.push('Codex 매니페스트(.codex-plugin/plugin.json·.agents/plugins/marketplace.json)의 이름이 스킬 이름과 다름')
+  if (codexPlugin.version !== plugin.version) errors.push(`.codex-plugin/plugin.json(${codexPlugin.version})과 .claude-plugin/plugin.json(${plugin.version})의 버전이 다름`)
+  if (codexEntry?.source?.source !== 'local' || codexEntry?.source?.path !== './') errors.push('.agents/plugins/marketplace.json 플러그인 source는 { "source": "local", "path": "./" }(저장소 루트)여야 한다')
+  if (codexPlugin.skills !== './skills/') errors.push('.codex-plugin/plugin.json의 skills는 "./skills/"여야 한다')
+
+  // 훅 — 사용자 환경에서 편집할 때마다 실행되는 코드다. 검사 훅 하나만, 실재하는 스크립트를 가리켜야 한다
+  const HOOK_SCRIPT = 'skills/suta/scripts/post-edit-hook.mjs'
+  for (const [label, manifest] of [['.claude-plugin/plugin.json', plugin], ['.codex-plugin/plugin.json', codexPlugin]]) {
+    const commands = Object.values(manifest.hooks ?? {}).flat().flatMap((group) => group.hooks ?? []).map((hook) => hook.command ?? '')
+    if (commands.length !== 1 || !commands[0].includes(`/${HOOK_SCRIPT}`)) errors.push(`${label}: 훅은 ${HOOK_SCRIPT} 하나만 가리켜야 한다 — 지금 ${commands.length}개`)
+  }
+  if (!existsSync(join(root, HOOK_SCRIPT))) errors.push(`${HOOK_SCRIPT} 없음 — 매니페스트의 훅이 가리키는 스크립트다`)
+
   const desc = fm.match(/^description:\s*(.+)$/m)?.[1] ?? ''
   const bytes = Buffer.byteLength(desc, 'utf8')
   if (desc.length < 80 || bytes > 1024) errors.push(`SKILL.md: description ${desc.length}자·${bytes}바이트 (80자 이상, 1,024바이트 이하)`)
@@ -72,8 +96,8 @@ else {
   const bodyLines = md.slice(md.indexOf('\n---', 3) + 4).split('\n').length
   if (bodyLines > 500) errors.push(`SKILL.md: 본문 ${bodyLines}줄 (500줄 이하 — 매 UI 요청마다 통째로 읽힌다)`)
   const refs = [
-    ...[...md.matchAll(/`((?:patterns|references)\/[^`*{}]+)`/g)].map((match) => match[1]),
-    ...[...md.matchAll(/\]\(((?:patterns|references)\/[^)]+)\)/g)].map((match) => match[1]),
+    ...[...md.matchAll(/`((?:patterns|references|scripts)\/[^`*{}]+)`/g)].map((match) => match[1]),
+    ...[...md.matchAll(/\]\(((?:patterns|references|scripts)\/[^)]+)\)/g)].map((match) => match[1]),
   ]
   for (const ref of new Set(refs)) if (!existsSync(join(skillDir, ref))) errors.push(`SKILL.md: 참조 경로 없음 — ${ref}`)
   try {
