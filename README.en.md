@@ -10,20 +10,20 @@ An agent skill that removes the tell-tale signs of AI-made UI.<br>
 Install it once and Claude Code or Codex reads it automatically whenever they build UI.
 
 [![Deploy demo](https://github.com/Guksu/suta/actions/workflows/deploy-demo.yml/badge.svg)](https://github.com/Guksu/suta/actions/workflows/deploy-demo.yml)
-![Patterns](https://img.shields.io/badge/suta-53%20patterns-6ea8fe)
+![Patterns](https://img.shields.io/badge/suta-55%20patterns-6ea8fe)
 ![Dependencies](https://img.shields.io/badge/runtime%20deps-0-34c759)
-![Tests](https://img.shields.io/badge/tests-530%20passing-34c759)
+![Tests](https://img.shields.io/badge/tests-568%20passing-34c759)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
-[**Live demo**](https://guksu.github.io/suta/) · [What it removes](#what-it-removes) · [Installation](#installation) · [How it works](#how-it-works) · [53 patterns](#53-patterns) · [Development](#development) · [Contributing](#contributing)
+[**Live demo**](https://guksu.github.io/suta/) · [What it removes](#what-it-removes) · [Installation](#installation) · [How it works](#how-it-works) · [55 patterns](#55-patterns) · [Development](#development) · [Contributing](#contributing)
 
 </div>
 
 ## Overview
 
-Hand a screen to an AI and it shows quickly. Every element gets `transition: all`, animations that move `height` make the page stutter, the reduced-motion setting is ignored, and buttons built from `div` can't be pressed with a keyboard. Output that looks plausible but never went through a careful hand is called **AI slop**.
+Hand a screen to an AI and it shows quickly. Every section is boxed into a card with a border and shadow, every gap is the same value, and gradients and badges are stuck everywhere. Every element gets `transition: all`, animations that move `height` make the page stutter, the reduced-motion setting is ignored, and buttons built from `div` can't be pressed with a keyboard. Output that looks plausible but never went through a careful hand is called **AI slop**.
 
-**suta removes the UI that AI slop produces.** Once installed, the agent reads suta every time it works on UI. It keeps to the AI-slop rules below and adapts code from 53 patterns that come with tests, accessibility and reduced-motion support.
+**suta removes the UI that AI slop produces.** Once installed, the agent reads suta every time it works on UI. It keeps to the AI-slop rules below and adapts code from 55 patterns that come with tests, accessibility and reduced-motion support. Installed as a plugin, it also runs layout and motion checks every time a file is edited.
 
 The name comes from the Korean *suta* (手打), "hand-made" — like noodles pulled by hand instead of pressed by a machine. The goal is UI finished by hand, not stamped out.
 
@@ -31,6 +31,9 @@ The name comes from the Korean *suta* (手打), "hand-made" — like noodles pul
 
 | What AI usually makes | With suta |
 |---|---|
+| Every section wrapped in a card, with another box inside the card | Grouping by spacing and thin lines; cards only for standalone units, one layer deep |
+| Numbers the same size as their labels, spacing and radius values all over the place | Hierarchy from size and weight; spacing, type and radius picked from tokens (a scale) only |
+| Gradient text, glows and colored badges everywhere, 9px text | Emphasis in one or two places per screen, text at 12px or more — checked on every edit |
 | `transition: all 0.3s ease` on everything | Only the properties that move, with durations and easing sized to the motion (motion tokens) |
 | Animating `height` or `top`, so the page stutters | Only `transform` and `opacity` — the grid technique for height, FLIP for position changes |
 | Ignoring the reduced-motion setting | Reduced-motion support in every stylesheet |
@@ -38,7 +41,7 @@ The name comes from the Korean *suta* (手打), "hand-made" — like noodles pul
 | Modals that leave focus, Esc and background scroll alone | Focus moves in and returns, Esc closes, the background is locked |
 | Drag-to-dismiss that doesn't follow the finger | Follows the finger and decides from the release velocity |
 | A lone spinner for loading, double submits on rapid taps | Skeletons that hold the layout, buttons locked while pending |
-| Code written from scratch every time | 53 tested patterns copied and adapted to the project |
+| Code written from scratch every time | 55 tested patterns copied and adapted to the project |
 
 ## Installation
 
@@ -51,9 +54,20 @@ Install once. After that, ask for UI as you normally would.
 /plugin install suta@suta
 ```
 
-### Codex · Cursor · Gemini CLI · GitHub Copilot and others
+The plugin bundles the skill and the [post-edit check](#post-edit-check). Both are on as soon as it's installed.
 
-Install with one line from the project root. Pick one of the two methods.
+### Codex
+
+```bash
+codex plugin marketplace add Guksu/suta
+codex plugin add suta@suta
+```
+
+Codex runs a plugin's hooks only after you approve them. Open `/hooks` in Codex and approve suta's post-edit check. To use only the skill without the hook, the method below works too.
+
+### Other agents — Cursor · Gemini CLI · GitHub Copilot and others (skill only)
+
+Install with one line from the project root. Pick one of the two methods. This installs only the skill; the agent runs the checks itself as part of the workflow.
 
 ```bash
 # Method 1 — skills CLI (detects installed agents and copies into each one's skill folder)
@@ -98,7 +112,7 @@ Paths follow each tool's documentation as of September 2026. If a tool changes, 
 2. **Ask as usual** — say "build a login screen" or "polish this button animation" and the agent recognises UI work and opens suta. You don't need to name the skill.
 3. **Pick patterns** — the agent picks matching patterns from suta's catalog and reads each pattern's manual (`PATTERN.md`).
 4. **Bring in tested code** — it copies the pattern code and adapts it to the project's framework and styling.
-5. **Check** — the motion audit script finds layout animations, `transition: all` and missing reduced-motion support so they get fixed.
+5. **Check** — the combined audit script (`scripts/audit.mjs`) finds layout defects (nested cards, text under 12px, effect overuse, off-scale spacing) and motion defects (layout animations, `transition: all`, missing reduced-motion support) in one pass so they get fixed.
 
 | Request | Patterns suta picks |
 |---|---|
@@ -106,12 +120,27 @@ Paths follow each tool's documentation as of September 2026. If a tool changes, 
 | "Let users pick menu options in a bottom sheet" | `bottom-sheet` |
 | "Make feed photos pinch-zoomable" | `pinch-zoom` |
 | "Every screen animates differently" | `motion-principles` · `motion-audit` |
+| "Too many cards, it feels cramped — tidy up the layout" | `layout-principles` · `layout-audit` |
 
 To call it explicitly, use `/suta:suta` in Claude Code or `$suta` in Codex. To make every UI task use it, add a line such as "Follow the suta skill for UI work" to the project's `AGENTS.md` or `CLAUDE.md`.
 
-> A **skill** is a manual an AI reads. suta holds 53 patterns inside one skill and reads only the ones it needs, so it doesn't crowd the agent's skill list even next to other skills.
+> A **skill** is a manual an AI reads. suta holds 55 patterns inside one skill and reads only the ones it needs, so it doesn't crowd the agent's skill list even next to other skills.
 
-## 53 patterns
+### Post-edit check
+
+Installed as a Claude Code or Codex plugin, suta runs layout and motion checks on a file every time the agent edits it. A **hook** is a command a tool runs automatically at a given moment.
+
+| Result | What goes back to the agent |
+|---|---|
+| error — text under 11px, layout-property animation, `transition: all`, missing reduced-motion | The list and how to fix each, sent back so the agent fixes it on the spot |
+| warn — nested cards, effect overuse, off-scale spacing and more | A notice of up to 5 lines; whether to fix is a judgement call against the principles |
+| Clean, or not a checked file | Nothing |
+
+- Checked files are CSS, SCSS, Less, TSX, JSX, Vue, Svelte and HTML (layout and motion) and TS/JS (motion). `node_modules`, build folders and test files are skipped.
+- Mark an intended exception with a comment above the line that gives the reason (`/* layout-audit-ignore: tiny-text — chart axis ticks */`).
+- To turn it off, set the environment variable `SUTA_HOOK=off`. It needs Node 22.18 or later; on older versions it passes without checking. It never blocks an edit.
+
+## 55 patterns
 
 Click a name for the manual, or the demo link on the right for the working screen.
 
@@ -207,12 +236,17 @@ Click a name for the manual, or the demo link on the right for the working scree
 |---|---|---|
 | [Motion principles & tokens](skills/suta/patterns/motion-principles/PATTERN.md) | One token set of 5 durations, 5 easings, stagger and reduced-motion, plus rules for which value each kind of movement uses | [Demo](https://guksu.github.io/suta/#/motion-principles) |
 | [Motion audit](skills/suta/patterns/motion-audit/PATTERN.md) | Scans CSS and JS for layout-property animations, missing reduced-motion, out-of-range durations and more, reports them as `file:line` and points to the pattern that fixes each | [Demo](https://guksu.github.io/suta/#/motion-audit) |
+| [Layout principles & tokens](skills/suta/patterns/layout-principles/PATTERN.md) | 12 principles for order, hierarchy, grouping, alignment and emphasis, plus one token set for spacing, type, weight and radius, shown as before/after fixes of typical AI layouts | [Demo](https://guksu.github.io/suta/#/layout-principles) |
+| [Layout audit](skills/suta/patterns/layout-audit/PATTERN.md) | Scans CSS, JSX and HTML for nested cards, sub-11px text, effect overuse, off-scale spacing, centered paragraphs and more, reports them as `file:line` with the principle that fixes each | [Demo](https://guksu.github.io/suta/#/layout-audit) |
 
 ## Layout
 
 ```text
 skills/suta/                         The skill that gets installed
-├─ SKILL.md                         Workflow · AI-slop rules · motion values · pattern catalog
+├─ SKILL.md                         Workflow · AI-slop rules · layout and motion values · pattern catalog
+├─ scripts/
+│  ├─ audit.mjs                     Combined audit — layout and motion rules in one pass
+│  └─ post-edit-hook.mjs            Post-edit check hook (Claude Code and Codex plugins)
 └─ patterns/bottom-sheet/
    ├─ PATTERN.md                    When to use · why it's built this way · usage · options · caveats
    └─ assets/
@@ -227,8 +261,10 @@ Pattern code can be copied one pattern at a time. Logic shared by several patter
 
 ```text
 suta/
-├─ skills/suta/                     The installed skill — SKILL.md + 53 patterns (patterns/)
-├─ .claude-plugin/                  Claude Code marketplace and plugin info (the repo root is the plugin)
+├─ skills/suta/                     The installed skill — SKILL.md + combined audit (scripts/) + 55 patterns (patterns/)
+├─ .claude-plugin/                  Claude Code marketplace and plugin info (the repo root is the plugin, with the post-edit check hook)
+├─ .codex-plugin/                   Codex plugin info (skill + post-edit check hook)
+├─ .agents/plugins/                 Codex marketplace info
 ├─ AGENTS.md                        Working instructions for every coding agent (single source)
 ├─ CLAUDE.md                        Claude Code supplement (imports AGENTS.md)
 ├─ .agents/skills/add-skill/        Pattern-adding procedure (for maintainers, hidden from normal installs)
@@ -259,7 +295,7 @@ Open the [local demo](http://localhost:5173/suta/) in a browser. To check on a p
 | `npm run catalog` | Rebuilds the entry skill's pattern catalog from each `PATTERN.md` and the demo list |
 | `node scripts/validateSkills.mjs` | Entry skill and pattern structure, catalog sync, shared-code matches, README badge numbers |
 | `node scripts/evalSelection.mjs` | Selection eval — whether UI requests trigger suta (`evals/trigger.json`) and requests pick the right pattern (`evals/selection/`) |
-| `npm run validate` | Both checks above plus the motion audit in one go |
+| `npm run validate` | Both checks above plus the combined layout and motion audit (errors only) in one go |
 
 When changes land on `main`, the demo deploys to GitHub Pages automatically.
 

@@ -10,20 +10,20 @@ AI가 만든 티가 나는 UI를 없애는 에이전트 스킬입니다.<br>
 한 번 설치하면 Claude Code·Codex가 UI를 만들 때마다 자동으로 읽습니다.
 
 [![Deploy demo](https://github.com/Guksu/suta/actions/workflows/deploy-demo.yml/badge.svg)](https://github.com/Guksu/suta/actions/workflows/deploy-demo.yml)
-![Patterns](https://img.shields.io/badge/suta-53%20patterns-6ea8fe)
+![Patterns](https://img.shields.io/badge/suta-55%20patterns-6ea8fe)
 ![Dependencies](https://img.shields.io/badge/runtime%20deps-0-34c759)
-![Tests](https://img.shields.io/badge/tests-530%20passing-34c759)
+![Tests](https://img.shields.io/badge/tests-568%20passing-34c759)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
-[**라이브 데모**](https://guksu.github.io/suta/) · [무엇을 없애나](#무엇을-없애나) · [설치](#설치) · [동작 방식](#동작-방식) · [패턴 53종](#패턴-53종) · [개발](#개발) · [기여하기](#기여하기)
+[**라이브 데모**](https://guksu.github.io/suta/) · [무엇을 없애나](#무엇을-없애나) · [설치](#설치) · [동작 방식](#동작-방식) · [패턴 55종](#패턴-55종) · [개발](#개발) · [기여하기](#기여하기)
 
 </div>
 
 ## 소개
 
-AI에게 화면을 맡기면 금방 티가 납니다. 모든 요소에 `transition: all`이 붙고, 높이를 움직이는 애니메이션에 화면이 버벅입니다. 동작 줄이기 설정은 무시되고, `div`로 만든 버튼은 키보드로 누를 수 없습니다. 그럴듯해 보이지만 손을 거치지 않은 이런 결과물을 **AI 슬롭(AI slop)**이라고 부릅니다.
+AI에게 화면을 맡기면 금방 티가 납니다. 모든 섹션이 테두리와 그림자를 두른 카드에 갇히고, 간격은 한 값으로 똑같고, 그라데이션과 배지가 곳곳에 붙습니다. 모든 요소에 `transition: all`이 붙고, 높이를 움직이는 애니메이션에 화면이 버벅입니다. 동작 줄이기 설정은 무시되고, `div`로 만든 버튼은 키보드로 누를 수 없습니다. 그럴듯해 보이지만 손을 거치지 않은 이런 결과물을 **AI 슬롭(AI slop)**이라고 부릅니다.
 
-**suta는 AI 슬롭으로 생기는 UI를 없앱니다.** 설치해 두면 에이전트가 UI 작업을 할 때마다 suta를 읽습니다. 그리고 AI 슬롭 금지선을 지키며, 테스트·접근성·동작 줄이기 대응을 갖춘 패턴 53종의 코드를 프로젝트에 맞게 가져다 씁니다.
+**suta는 AI 슬롭으로 생기는 UI를 없앱니다.** 설치해 두면 에이전트가 UI 작업을 할 때마다 suta를 읽습니다. 그리고 AI 슬롭 금지선을 지키며, 테스트·접근성·동작 줄이기 대응을 갖춘 패턴 55종의 코드를 프로젝트에 맞게 가져다 씁니다. 플러그인으로 설치하면 파일을 고칠 때마다 레이아웃·모션 검사가 자동으로 돕니다.
 
 이름은 수타(手打)에서 왔습니다. 기계로 찍어낸 면이 아니라 손으로 쳐서 뽑은 면처럼, 손으로 다듬은 UI를 목표로 합니다.
 
@@ -31,6 +31,9 @@ AI에게 화면을 맡기면 금방 티가 납니다. 모든 요소에 `transiti
 
 | AI가 흔히 만드는 UI | suta를 쓰면 |
 |---|---|
+| 모든 섹션을 카드로 감싸고, 카드 안에 상자를 또 넣음 | 간격과 얇은 선으로 묶고, 카드는 독립 단위에 한 겹만 |
+| 숫자와 라벨이 같은 크기, 간격·반경 값이 제각각 | 크기·굵기로 위계를 세우고, 간격·글자·반경은 토큰(척도)에서만 |
+| 그라데이션 글자·글로우·색 배지를 곳곳에, 9px 글자 | 강조는 화면마다 한두 곳, 글자는 12px 이상 — 고칠 때마다 검사 |
 | 아무 데나 `transition: all 0.3s ease` | 움직일 속성만, 크기에 맞는 시간과 감속 곡선(모션 토큰) |
 | `height`·`top`을 움직여 화면이 버벅임 | `transform`·`opacity`만 움직임 — 높이는 grid 기법, 자리 이동은 FLIP 기법 |
 | 동작 줄이기(reduced motion) 설정 무시 | 모든 CSS에 동작 줄이기 대응 |
@@ -38,7 +41,7 @@ AI에게 화면을 맡기면 금방 티가 납니다. 모든 요소에 `transiti
 | 모달을 열어도 포커스·Esc·배경 스크롤이 그대로 | 포커스 이동과 복귀, Esc로 닫기, 배경 잠금 |
 | 끌어서 닫기가 손가락을 따라오지 않음 | 손가락을 따라가고, 놓는 순간의 속도로 닫을지 판정 |
 | 로딩은 스피너 하나, 연타하면 두 번 제출 | 스켈레톤으로 자리 잡기, 진행 중 버튼 잠금 |
-| 매번 처음부터 새로 짠 코드 | 테스트를 거친 패턴 53종을 복사해 프로젝트에 맞춤 |
+| 매번 처음부터 새로 짠 코드 | 테스트를 거친 패턴 55종을 복사해 프로젝트에 맞춤 |
 
 ## 설치
 
@@ -51,9 +54,20 @@ AI에게 화면을 맡기면 금방 티가 납니다. 모든 요소에 `transiti
 /plugin install suta@suta
 ```
 
-### Codex · Cursor · Gemini CLI · GitHub Copilot 등
+플러그인에는 스킬과 [편집 후 검사](#편집-후-검사)가 함께 들어 있습니다. 설치하면 바로 켜집니다.
 
-프로젝트 루트에서 한 줄로 설치합니다. 두 방법 중 하나를 고르세요.
+### Codex
+
+```bash
+codex plugin marketplace add Guksu/suta
+codex plugin add suta@suta
+```
+
+Codex는 플러그인의 훅을 사용자가 승인해야 실행합니다. Codex에서 `/hooks`를 열어 suta의 편집 후 검사를 승인하세요. 훅 없이 스킬만 쓰려면 아래 방법으로 설치해도 됩니다.
+
+### 그 밖의 에이전트 — Cursor · Gemini CLI · GitHub Copilot 등 (스킬만)
+
+프로젝트 루트에서 한 줄로 설치합니다. 두 방법 중 하나를 고르세요. 이 방법은 스킬만 설치합니다. 검사는 에이전트가 작업 절차에 따라 직접 돌립니다.
 
 ```bash
 # 방법 1 — skills CLI (설치된 에이전트를 찾아 각 스킬 폴더에 넣음)
@@ -98,7 +112,7 @@ cp -R suta/skills/suta .agents/skills/
 2. **평소처럼 요청** — "로그인 화면 만들어줘", "이 버튼 애니메이션 좀 다듬어줘"처럼 말하면, 에이전트가 UI 작업임을 알아보고 suta를 엽니다. 스킬 이름을 말할 필요는 없습니다.
 3. **패턴 고르기** — suta의 패턴 카탈로그에서 맞는 패턴을 고르고, 그 패턴의 설명서(`PATTERN.md`)를 읽습니다.
 4. **검증된 코드 가져오기** — 패턴 코드를 프로젝트의 프레임워크와 스타일 방식에 맞게 복사합니다.
-5. **검사** — 모션 검사 스크립트로 레이아웃 애니메이션·`transition: all`·동작 줄이기 누락을 찾아 고칩니다.
+5. **검사** — 통합 검사 스크립트(`scripts/audit.mjs`)로 레이아웃 결함(카드 안 카드·12px 미만 글자·효과 남발·척도 밖 간격)과 모션 결함(레이아웃 애니메이션·`transition: all`·동작 줄이기 누락)을 한 번에 찾아 고칩니다.
 
 | 요청 | suta가 고르는 패턴 |
 |---|---|
@@ -106,12 +120,27 @@ cp -R suta/skills/suta .agents/skills/
 | "바텀시트로 메뉴 옵션을 고르게 해줘" | `bottom-sheet` |
 | "피드 사진을 핀치줌할 수 있게 해줘" | `pinch-zoom` |
 | "애니메이션이 화면마다 제각각이야" | `motion-principles` · `motion-audit` |
+| "카드가 너무 많아 답답해, 레이아웃 다듬어줘" | `layout-principles` · `layout-audit` |
 
 직접 부르고 싶다면 Claude Code에서는 `/suta:suta`, Codex에서는 `$suta`를 씁니다. 모든 UI 작업에 꼭 쓰게 하려면, 프로젝트의 `AGENTS.md`나 `CLAUDE.md`에 "UI 작업에는 suta 스킬을 따른다" 한 줄을 넣습니다.
 
-> **스킬**은 AI가 읽는 설명서입니다. suta는 스킬 하나 안에 패턴 53종을 담고, 필요한 패턴만 그때그때 읽습니다. 그래서 다른 스킬과 함께 설치해도 에이전트의 스킬 목록을 차지하지 않습니다.
+> **스킬**은 AI가 읽는 설명서입니다. suta는 스킬 하나 안에 패턴 55종을 담고, 필요한 패턴만 그때그때 읽습니다. 그래서 다른 스킬과 함께 설치해도 에이전트의 스킬 목록을 차지하지 않습니다.
 
-## 패턴 53종
+### 편집 후 검사
+
+Claude Code·Codex 플러그인으로 설치하면, 에이전트가 파일을 고칠 때마다 그 파일에 레이아웃·모션 검사가 돕니다. **훅**은 도구가 특정 시점에 자동으로 실행하는 명령입니다.
+
+| 결과 | 에이전트에게 가는 것 |
+|---|---|
+| error — 11px 미만 글자, 레이아웃 속성 애니메이션, `transition: all`, 동작 줄이기 누락 | 목록과 고치는 법을 돌려보냅니다. 에이전트는 그 자리에서 고칩니다 |
+| warn — 카드 안 카드, 효과 남발, 척도 밖 간격 등 | 최대 5줄로 알리기만 합니다. 고칠지는 원칙을 보고 판단합니다 |
+| 문제 없음, 검사 대상이 아닌 파일 | 아무것도 출력하지 않습니다 |
+
+- 검사 대상은 CSS·SCSS·Less·TSX·JSX·Vue·Svelte·HTML(레이아웃·모션)과 TS·JS(모션)입니다. `node_modules`·빌드 폴더와 테스트 파일은 건너뜁니다.
+- 의도한 예외는 그 줄 위에 이유를 적은 주석으로 남깁니다(`/* layout-audit-ignore: tiny-text — 차트 축 눈금 */`).
+- 끄려면 환경 변수 `SUTA_HOOK=off`를 둡니다. Node 22.18 이상이 필요하고, 그보다 낮으면 검사 없이 지나갑니다. 편집을 막지는 않습니다.
+
+## 패턴 55종
 
 이름을 누르면 설명서, 오른쪽 데모를 누르면 실제로 움직이는 화면을 볼 수 있습니다.
 
@@ -207,12 +236,17 @@ cp -R suta/skills/suta .agents/skills/
 |---|---|---|
 | [모션 원칙과 토큰](skills/suta/patterns/motion-principles/PATTERN.md) | 시간 5단계·이징 5종·스태거·reduced-motion을 토큰 한 벌로 정하고, 움직임 종류별로 어느 값을 쓸지 정한 원칙 | [데모](https://guksu.github.io/suta/#/motion-principles) |
 | [모션 검사](skills/suta/patterns/motion-audit/PATTERN.md) | CSS·JS를 훑어 레이아웃 속성 애니메이션·reduced-motion 누락·시간 범위 밖 등을 `file:line`으로 찾고 고치는 패턴을 안내 | [데모](https://guksu.github.io/suta/#/motion-audit) |
+| [레이아웃 원칙과 토큰](skills/suta/patterns/layout-principles/PATTERN.md) | 순서·위계·묶음·정렬·강조 원칙 12개와 간격·글자·굵기·반경 토큰 한 벌, AI가 흔히 만드는 화면과 고친 화면 비교 | [데모](https://guksu.github.io/suta/#/layout-principles) |
+| [레이아웃 검사](skills/suta/patterns/layout-audit/PATTERN.md) | CSS·JSX·HTML을 훑어 카드 안 카드·11px 미만 글자·효과 남발·척도 밖 간격·문단 가운데 정렬 등을 `file:line`으로 찾고 고칠 원칙을 안내 | [데모](https://guksu.github.io/suta/#/layout-audit) |
 
 ## 구성
 
 ```text
 skills/suta/                         설치되는 스킬
-├─ SKILL.md                         작업 절차 · AI 슬롭 금지선 · 모션 값 · 패턴 카탈로그
+├─ SKILL.md                         작업 절차 · AI 슬롭 금지선 · 레이아웃·모션 값 · 패턴 카탈로그
+├─ scripts/
+│  ├─ audit.mjs                     통합 검사 — 레이아웃·모션 규칙을 한 번에
+│  └─ post-edit-hook.mjs            편집 후 검사 훅 (Claude Code·Codex 플러그인)
 └─ patterns/bottom-sheet/
    ├─ PATTERN.md                    사용 시점 · 구현 이유 · 사용법 · 옵션 · 주의사항
    └─ assets/
@@ -227,8 +261,10 @@ skills/suta/                         설치되는 스킬
 
 ```text
 suta/
-├─ skills/suta/                     설치되는 스킬 — SKILL.md + 패턴 53종(patterns/)
-├─ .claude-plugin/                  Claude Code 마켓플레이스·플러그인 정보 (저장소 루트가 곧 플러그인)
+├─ skills/suta/                     설치되는 스킬 — SKILL.md + 통합 검사(scripts/) + 패턴 55종(patterns/)
+├─ .claude-plugin/                  Claude Code 마켓플레이스·플러그인 정보 (저장소 루트가 곧 플러그인, 편집 후 검사 훅 포함)
+├─ .codex-plugin/                   Codex 플러그인 정보 (스킬 + 편집 후 검사 훅)
+├─ .agents/plugins/                 Codex 마켓플레이스 정보
 ├─ AGENTS.md                        모든 코딩 에이전트를 위한 작업 지침 (단일 출처)
 ├─ CLAUDE.md                        Claude Code 전용 보충 (AGENTS.md를 가져옴)
 ├─ .agents/skills/add-skill/        패턴 추가 절차 (저장소 관리용, 일반 설치 목록에서는 숨김)
@@ -259,7 +295,7 @@ npm run dev
 | `npm run catalog` | 진입 스킬의 패턴 카탈로그를 각 `PATTERN.md`와 데모 목록에서 다시 만듦 |
 | `node scripts/validateSkills.mjs` | 진입 스킬·패턴 구조, 카탈로그 동기, 공유 코드 일치, README 배지 숫자 |
 | `node scripts/evalSelection.mjs` | 선택 평가 — UI 요청에 suta가 걸리는지(`evals/trigger.json`), 요청에 맞는 패턴이 골라지는지(`evals/selection/`) |
-| `npm run validate` | 위 두 검사 + 모션 검사를 한 번에 |
+| `npm run validate` | 위 두 검사 + 레이아웃·모션 통합 검사(error만 출력)를 한 번에 |
 
 `main`에 변경이 올라가면 GitHub Pages로 데모가 자동 배포됩니다.
 

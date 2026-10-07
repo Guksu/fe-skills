@@ -4,12 +4,13 @@
 
 ## 이 저장소는 무엇인가
 
-suta — AI 슬롭(AI가 만든 티가 나는 UI)을 없애는 설치형 에이전트 스킬이다. 사용자는 진입 스킬 하나(`skills/suta`)를 설치하고, Claude Code·Codex 등은 UI 요청마다 그 스킬을 자동으로 읽는다. 열린 표준인 Agent Skills 형식을 따른다.
+suta — AI 슬롭(AI가 만든 티가 나는 UI)을 없애는 설치형 에이전트 스킬이다. 사용자는 진입 스킬 하나(`skills/suta`)를 설치하고, Claude Code·Codex 등은 UI 요청마다 그 스킬을 자동으로 읽는다. 열린 표준인 Agent Skills 형식을 따른다. Claude Code·Codex 플러그인으로 설치하면 파일을 고칠 때마다 레이아웃·모션 검사 훅도 돈다.
 
 | 무엇 | 경로 | 내용 |
 |---|---|---|
-| 진입 스킬 | `skills/suta/SKILL.md` | UI 요청에 걸리는 description + 작업 절차·AI 슬롭 금지선·모션 값 + 패턴 카탈로그(자동 생성 — `npm run catalog`) |
-| 패턴 53종 | `skills/suta/patterns/{패턴}/` | `PATTERN.md`(설명서) + `assets/`(바닐라 코어 .ts 의존성 0 + React 래퍼 .tsx + CSS) + `references/`(상세) |
+| 진입 스킬 | `skills/suta/SKILL.md` | UI 요청에 걸리는 description + 작업 절차·AI 슬롭 금지선·레이아웃·모션 값 + 패턴 카탈로그(자동 생성 — `npm run catalog`) |
+| 통합 검사·훅 | `skills/suta/scripts/` | `audit.mjs`(레이아웃·모션 검사를 한 번에) + `post-edit-hook.mjs`(편집 후 검사 훅) + 순수 로직(`auditAll.ts`·`hookCore.ts`) |
+| 패턴 55종 | `skills/suta/patterns/{패턴}/` | `PATTERN.md`(설명서) + `assets/`(바닐라 코어 .ts 의존성 0 + React 래퍼 .tsx + CSS) + `references/`(상세) |
 
 패턴 문서는 `SKILL.md`가 아니라 `PATTERN.md`다. 하위 폴더에 SKILL.md가 있으면 도구가 패턴마다 별도 스킬로 등록한다. 그러면 스킬 목록 길이 예산을 넘기고 진입 스킬과 경쟁한다(검사 스크립트가 막는다).
 
@@ -23,8 +24,10 @@ suta — AI 슬롭(AI가 만든 티가 나는 UI)을 없애는 설치형 에이�
 suta/
 ├─ AGENTS.md                         이 파일 — 공통 작업 지침(단일 출처)
 ├─ CLAUDE.md                         Claude Code 전용 — AGENTS.md를 가져오고 훅·스킬 이름만 덧붙임
-├─ skills/suta/                      설치되는 진입 스킬 — SKILL.md + patterns/{패턴}/(PATTERN.md + assets/)
-├─ .claude-plugin/                   Claude Code 마켓플레이스·플러그인 정보. source "./" — 저장소 루트가 곧 플러그인
+├─ skills/suta/                      설치되는 진입 스킬 — SKILL.md + scripts/(통합 검사·편집 후 검사 훅) + patterns/{패턴}/(PATTERN.md + assets/)
+├─ .claude-plugin/                   Claude Code 마켓플레이스·플러그인 정보. source "./" — 저장소 루트가 곧 플러그인. 편집 후 검사 훅을 인라인으로 담는다
+├─ .codex-plugin/                    Codex 플러그인 정보 — skills "./skills/" + 편집 후 검사 훅(인라인)
+├─ .agents/plugins/                  Codex 마켓플레이스 정보(local "./") — codex plugin marketplace add Guksu/suta
 ├─ .agents/skills/add-skill/         패턴 추가 파이프라인(모든 에이전트가 발견, metadata.internal로 일반 설치 목록에서는 숨김)
 ├─ .claude/                          Claude Code 전용 훅·설정. skills/add-skill은 .agents/로의 심볼릭 링크
 ├─ demo/                             데모 사이트 (src/demos/index.ts가 목록·라우팅·카탈로그 카테고리의 단일 출처)
@@ -33,7 +36,7 @@ suta/
 └─ docs/                             설계(design/)·조사(research/)·규칙(harness-rules.md)·작업 기록(worklog/)·템플릿
 ```
 
-저장소 루트가 플러그인이므로 루트에 `commands/`·`agents/`·`hooks/`·`.mcp.json` 같은 플러그인 구성 폴더를 만들지 않는다. 만들면 설치한 사용자 환경에 그대로 로드된다(검사 스크립트가 막는다).
+저장소 루트가 플러그인이므로 루트에 `commands/`·`agents/`·`hooks/`·`.mcp.json` 같은 플러그인 구성 폴더를 만들지 않는다. 만들면 설치한 사용자 환경에 그대로 로드된다(검사 스크립트가 막는다). 사용자 환경에 실리는 훅은 편집 후 검사 하나뿐이다. 매니페스트(`.claude-plugin/plugin.json`·`.codex-plugin/plugin.json`)에 인라인으로만 두고, `skills/suta/scripts/post-edit-hook.mjs`만 가리킨다(검사 스크립트가 확인한다). 버전을 올릴 때는 `.claude-plugin/plugin.json`·`.claude-plugin/marketplace.json`·`.codex-plugin/plugin.json`의 version을 함께 바꾼다(검사 스크립트가 비교한다).
 
 ## 개발 명령
 
@@ -48,7 +51,8 @@ npm test                          # vitest run (jsdom)
 npm run catalog                   # 진입 스킬의 패턴 카탈로그를 PATTERN.md·데모 레지스트리에서 다시 만든다
 node scripts/validateSkills.mjs   # 진입 스킬·패턴 구조 검사 — 실패하면 exit 1
 node scripts/evalSelection.mjs    # 선택 평가 — UI 요청에 suta가 걸리는지, 요청에 맞는 패턴이 골라지는지
-npm run validate                  # 위 두 검사 + 모션 검사(audit.mjs)를 한 번에
+node skills/suta/scripts/audit.mjs <경로>   # 레이아웃·모션 통합 검사 — error가 있으면 exit 1
+npm run validate                  # 위 두 검사 + 통합 검사(skills/suta 전체, error만 출력)를 한 번에
 ```
 
 알려진 제약: `npm run lint`는 `skills/**/assets`를 실제로 검사하지 않는다(ESLint flat config가 `demo/` 밖 파일을 무시). assets 코드는 `npm run build`의 타입 검사와 테스트로 검증된다. `scripts/lib/*.ts`는 Node 22.18 이상이 그대로 실행한다(타입 표기만 벗겨 실행).
@@ -64,7 +68,7 @@ npm run validate                  # 위 두 검사 + 모션 검사(audit.mjs)를
 5. **접근성은 선택이 아니다.** 모든 패턴 CSS에 `@media (prefers-reduced-motion: reduce)` 블록. 키보드 조작·ARIA 역할 포함.
 6. **코드 컨벤션.** 화살표 함수, `useCallback`/`useMemo` 지양, 인자 2개 이상이면 named-object `({ a, b })`, `useEffect(function 명명된함수() {}, [deps])`, TypeScript strict, 한글 주석으로 "왜"를 적는다, 한글 조판 `word-break: keep-all`.
 7. **데모 콘텐츠는 국수집 테마.** 잔치국수·비빔국수·칼국수·손만두·성수동 등. 토스·당근·인스타그램·애플 앱의 실제 문구·탭 이름·구성을 복제하지 않는다. 레퍼런스 앱 언급은 PATTERN.md의 "언제 쓰는가"(관례 설명)까지만.
-8. **진입 스킬과 패턴은 설치된 프로젝트에서 단독으로 완결되어야 한다.** SKILL.md·PATTERN.md는 `demo/`·`scripts/` 경로를 언급하지 않는다(설치하면 없다). 다른 패턴 코드가 필요하면 import하지 않고 파일을 복사하되 첫 줄의 `@shared-core {파일} origin: {패턴}` 헤더를 유지한다(검사 스크립트가 원본과 바이트 단위로 비교).
+8. **진입 스킬과 패턴은 설치된 프로젝트에서 단독으로 완결되어야 한다.** SKILL.md·PATTERN.md는 저장소 루트의 `demo/`·`scripts/` 경로를 언급하지 않는다(설치하면 없다). 스킬 안의 `skills/suta/scripts/`는 함께 설치되므로 SKILL.md가 `scripts/audit.mjs`로 가리킨다. 다른 패턴 코드가 필요하면 import하지 않고 파일을 복사하되 첫 줄의 `@shared-core {파일} origin: {패턴}` 헤더를 유지한다(검사 스크립트가 원본과 바이트 단위로 비교).
 9. **시크릿은 읽지도 기록하지도 않는다.** `.env`·credential·키 파일을 열지 않는다.
 10. **산출물은 파일로.** 작업 기록은 `docs/worklog/YYYY-MM-DD-{주제}.md`에 `docs/templates/worklog.md` 형식(1. 개요 / 2. 작업내용 / 3. 주의사항)으로 남긴다.
 11. **출력은 읽는 사람이 이해할 수 있게.** 전문용어는 처음 나올 때 한 줄로 풀이하고, 한 문장에 하나의 내용만 담는다.
@@ -88,7 +92,7 @@ npm run validate                  # 위 두 검사 + 모션 검사(audit.mjs)를
 | # | 게이트 | 방법 |
 |---|---|---|
 | 1 | 빌드·린트·테스트 | `npm run build && npm run lint && npm test` |
-| 2 | 구조·선택 평가 | `npm run validate` (`validateSkills.mjs` — 카탈로그 동기 포함 + `evalSelection.mjs` — 트리거·패턴 + 모션 검사) |
+| 2 | 구조·선택 평가 | `npm run validate` (`validateSkills.mjs` — 카탈로그·매니페스트 동기 포함 + `evalSelection.mjs` — 트리거·패턴 + 레이아웃·모션 통합 검사) |
 | 3 | 브라우저 실동작 | 데모 페이지를 실제 브라우저로 열어 동작·계산된 스타일·스크린샷으로 확인 |
 | 4 | 모션 리뷰 | 이징·타이밍·reduced-motion 검토. 지적 사항 반영 |
 
@@ -98,5 +102,5 @@ npm run validate                  # 위 두 검사 + 모션 검사(audit.mjs)를
 
 ## 도구별 차이
 
-- **Claude Code**는 `.claude/hooks/`로 규칙 1·2·9를 기계적으로 강제하고, 턴이 끝날 때 게이트 1·2를 자동 실행한다. `CLAUDE.md`가 이 파일을 가져온다.
+- **Claude Code**는 `.claude/hooks/`로 규칙 1·2·9를 기계적으로 강제하고, 턴이 끝날 때 게이트 1·2를 자동 실행한다. `CLAUDE.md`가 이 파일을 가져온다. 이 훅들은 저장소 작업용이고, 사용자에게 배포되는 훅(편집 후 검사)과 다르다.
 - **다른 에이전트**에는 훅이 없다. 위 규칙을 스스로 지키고, 끝내기 전에 게이트 1·2를 직접 실행한다. 패턴 추가 절차는 `.agents/skills/add-skill/`에서 자동으로 발견된다(Codex·Cursor·Gemini CLI·Copilot이 `.agents/skills/`를 읽는다).

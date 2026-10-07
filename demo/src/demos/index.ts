@@ -51,6 +51,8 @@ import { StretchyHeaderDemo } from './stretchy-header/StretchyHeaderDemo'
 import { EdgeSwipeBackDemo } from './edge-swipe-back/EdgeSwipeBackDemo'
 import { MotionPrinciplesDemo } from './motion-principles/MotionPrinciplesDemo'
 import { MotionAuditDemo } from './motion-audit/MotionAuditDemo'
+import { LayoutPrinciplesDemo } from './layout-principles/LayoutPrinciplesDemo'
+import { LayoutAuditDemo } from './layout-audit/LayoutAuditDemo'
 import { GlassNavDemo } from './glass-nav/GlassNavDemo'
 
 export type DemoCategory = '등장과 전환' | '로딩과 진행' | '피드백' | '내비게이션' | '제스처' | '컨트롤' | '표면과 스타일' | '원칙과 검토'
@@ -1081,6 +1083,52 @@ console.log(formatFindings(findings))
 // menu.css:41 [error] layout-animation — height를 transition — 매 프레임 레이아웃이 돈다
 //     → 높이 변화는 grid-template-rows: 0fr→1fr (accordion 스킬) 또는 transform: scaleY`,
     Component: MotionAuditDemo,
+  },
+  {
+    slug: 'layout-principles',
+    title: '레이아웃 원칙과 토큰',
+    description: '순서·위계·묶음·정렬·강조 원칙 12개와 간격·글자·굵기·반경 토큰 한 벌 — AI가 흔히 만드는 화면과 고친 화면을 나란히 비교',
+    titleEn: 'Layout principles & tokens',
+    descriptionEn: '12 principles for order, hierarchy, grouping, alignment and emphasis, plus one token set for spacing, type, weight and radius, shown as before/after fixes of typical AI layouts',
+    emoji: '📏',
+    category: '원칙과 검토',
+    usage: `/* layout-tokens.css를 전역에서 불러온 뒤, 숫자 대신 토큰만 쓴다 */
+.order-row {
+  display: grid;
+  gap: var(--gap-item); /* 묶음 안 8px — 묶음 사이(24px)의 절반 이하 */
+  padding-block: var(--space-3);
+  border-bottom: 1px solid var(--line); /* 상자 대신 선 한 줄 */
+}
+.order-total {
+  font-size: var(--text-display); /* 핵심 수치는 라벨의 2배 이상 */
+  font-weight: var(--weight-bold);
+  font-variant-numeric: tabular-nums;
+  text-align: end;
+}
+.menu-photo {
+  aspect-ratio: var(--ratio-photo);
+  object-fit: cover; /* 늘이지 않고 잘라 채운다 */
+}`,
+    Component: LayoutPrinciplesDemo,
+  },
+  {
+    slug: 'layout-audit',
+    title: '레이아웃 검사',
+    description: 'CSS·JSX·HTML을 훑어 카드 안 카드·11px 미만 글자·효과 남발·척도 밖 간격·문단 가운데 정렬 같은 레이아웃 문제를 file:line으로 찾고 고치는 법을 알려줌',
+    titleEn: 'Layout audit',
+    descriptionEn: 'Scans CSS, JSX and HTML for nested cards, sub-11px text, effect overuse, off-scale spacing, centered paragraphs and more, reports them as file:line with the principle that fixes each',
+    emoji: '🧐',
+    category: '원칙과 검토',
+    usage: `# 폴더 전체 검사 — error가 있으면 exit 1
+node tools/layout-audit/audit.mjs src/
+
+# 프로그램에서
+import { auditLayout, formatFindings } from './auditLayout'
+const findings = auditLayout([{ file: 'Menu.tsx', text: tsxSource }])
+console.log(formatFindings(findings))
+// Menu.tsx:8 [warn] nested-card — 상자 안에 상자 — 바깥 상자(3줄) 안에 …
+//     → 안쪽 상자를 걷어 내고 간격·얇은 선·정렬로 나눈다 (P5)`,
+    Component: LayoutAuditDemo,
   },
   {
     slug: 'glass-nav',

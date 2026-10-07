@@ -11,7 +11,7 @@ export type PatternMeta = { name: string; description: string }
 export type RegistryEntry = { slug: string; category: string }
 
 // 표 한 줄 요약 — description의 첫 문장. 첫 문장이 100자를 넘으면 줄표(—) 앞의 "무엇" 부분만 남긴다.
-// 진입 스킬 본문은 UI 요청마다 통째로 읽히므로, 53행이 짧아야 본문이 권장 크기(약 5,000토큰) 안에 든다
+// 진입 스킬 본문은 UI 요청마다 통째로 읽히므로, 패턴 수만큼의 행이 짧아야 본문이 권장 크기(약 5,000토큰) 안에 든다
 export const summarize = (description: string): string => {
   const sentence = description.match(/^(.+?다\.)(?=\s|$)/)?.[1] ?? description
   if (sentence.length <= 100 || !sentence.includes(' — ')) return sentence

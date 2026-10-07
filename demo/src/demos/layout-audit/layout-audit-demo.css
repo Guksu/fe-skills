@@ -1,0 +1,97 @@
+/* layout-audit 데모 — motion-audit 데모와 같은 배치(붙여 넣기 ↔ 결과). 파일 이름 입력칸 스타일은 motion-audit 데모 CSS가 공용으로 둔다 */
+
+.la-sample-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+}
+
+.la-sample-title {
+  color: var(--text-dim);
+}
+
+.la-samples {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.la-stage {
+  display: grid;
+  /* 좁은 화면에서는 한 열 — min()이 없으면 320px 최소 폭이 화면 밖으로 밀려난다 */
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: 1rem;
+}
+
+.la-input {
+  min-height: 420px;
+  padding: 1rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  resize: vertical;
+  tab-size: 2;
+}
+
+.la-result {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.la-summary {
+  font-weight: 700;
+}
+
+.la-summary[data-clean='true'] {
+  color: #34c759;
+}
+
+.la-findings {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.la-finding {
+  padding: 0.6rem 0.8rem;
+  border-radius: 8px;
+  background: var(--bg);
+  border-left: 3px solid #f59e0b;
+}
+
+.la-finding[data-severity='error'] {
+  border-left-color: #ef4444;
+}
+
+.la-finding code {
+  font-size: 0.75rem;
+  color: var(--accent);
+}
+
+.la-rule {
+  margin-left: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+}
+
+.la-finding p {
+  margin: 0.25rem 0 0;
+  font-size: 0.85rem;
+}
+
+.la-fix {
+  color: var(--text-dim);
+}

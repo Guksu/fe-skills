@@ -1,7 +1,7 @@
 #!/bin/sh
 # suta 설치 스크립트 — 진입 스킬 폴더(skills/suta) 하나를 현재 프로젝트의 스킬 디렉토리에 복사한다.
 #
-# suta는 열린 표준(Agent Skills) 스킬 하나다(SKILL.md + 패턴 53종). 에이전트가 읽는 폴더에 복사만 하면 된다.
+# suta는 열린 표준(Agent Skills) 스킬 하나다(SKILL.md + 통합 검사 scripts/ + 패턴 patterns/). 에이전트가 읽는 폴더에 복사만 하면 된다.
 # Codex·Cursor·Gemini CLI·GitHub Copilot은 .agents/skills/ 를 읽고(기본값), Claude Code는 .claude/skills/ 를 읽는다.
 #
 # 사용:
@@ -19,7 +19,7 @@
 #
 # 이미 있는 suta 폴더는 지우고 새로 복사한다(업데이트). 다른 폴더는 건드리지 않는다.
 # 예전 버전(fe-skills)의 패턴별 스킬 폴더가 남아 있으면 지우지 않고 목록만 알려 준다.
-# 필요한 것: git(--local이면 불필요), POSIX sh. 설치 후 모션 검사를 돌리려면 Node.js 22.18 이상.
+# 필요한 것: git(--local이면 불필요), POSIX sh. 설치 후 레이아웃·모션 검사(suta/scripts/audit.mjs)를 돌리려면 Node.js 22.18 이상.
 
 set -eu
 

@@ -9,6 +9,6 @@
     "lint": "npm run lint -w demo",
     "test": "npm run test -w demo",
     "catalog": "node scripts/buildCatalog.mjs",
-    "validate": "node scripts/validateSkills.mjs && node scripts/evalSelection.mjs && node skills/suta/patterns/motion-audit/assets/audit.mjs skills/suta/patterns"
+    "validate": "node scripts/validateSkills.mjs && node scripts/evalSelection.mjs && node skills/suta/scripts/audit.mjs skills/suta --errors-only"
   }
 }

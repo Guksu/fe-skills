@@ -1,0 +1,27 @@
+{
+  "name": "suta",
+  "version": "0.4.0",
+  "description": "AI 슬롭 없는 UI — UI를 만들거나 고칠 때 자동으로 읽혀, AI가 만든 티가 나는 레이아웃·모션·인터랙션·접근성 결함을 막고 검증된 UI 패턴 55종의 코드를 가져다 쓰게 한다. 파일을 고칠 때마다 레이아웃·모션 검사가 돈다. 데모: https://guksu.github.io/suta/",
+  "author": { "name": "Guksu", "url": "https://github.com/Guksu" },
+  "homepage": "https://guksu.github.io/suta/",
+  "repository": "https://github.com/Guksu/suta",
+  "license": "MIT",
+  "keywords": ["ai-slop", "frontend", "ui", "layout", "animation", "interaction", "accessibility", "css", "react"],
+  "skills": "./skills/",
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "apply_patch|Edit|Write",
+        "hooks": [{ "type": "command", "command": "node \"${PLUGIN_ROOT}/skills/suta/scripts/post-edit-hook.mjs\"", "timeout": 30, "statusMessage": "suta 레이아웃·모션 검사" }]
+      }
+    ]
+  },
+  "interface": {
+    "displayName": "suta",
+    "shortDescription": "AI 슬롭 없는 UI — 레이아웃·모션·접근성 기준과 UI 패턴 55종",
+    "longDescription": "UI를 만들거나 고칠 때 AI가 만든 티가 나는 결함(카드 안 카드, 레이아웃을 흔드는 애니메이션, 동작 줄이기 설정 무시, 키보드로 못 쓰는 컴포넌트)을 막는다. 검증된 UI 패턴 55종의 코드를 가져다 쓰고, 파일을 고칠 때마다 레이아웃·모션 검사가 돈다.",
+    "developerName": "Guksu",
+    "category": "Coding",
+    "websiteURL": "https://guksu.github.io/suta/"
+  }
+}
