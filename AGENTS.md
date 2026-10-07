@@ -30,7 +30,7 @@ suta/
 ├─ demo/                             데모 사이트 (src/demos/index.ts가 목록·라우팅·카탈로그 카테고리의 단일 출처)
 ├─ evals/                            선택 평가 — trigger.json(진입 스킬 트리거)·selection/{패턴}.json(패턴 선택)
 ├─ scripts/                          validateSkills·evalSelection·buildCatalog(.mjs), lib/(순수 로직 — 테스트는 demo/src/tests), install-skills.sh
-└─ docs/                             설계(design/)·규칙(harness-rules.md)·작업 기록(worklog/)·템플릿
+└─ docs/                             설계(design/)·조사(research/)·규칙(harness-rules.md)·작업 기록(worklog/)·템플릿
 ```
 
 저장소 루트가 플러그인이므로 루트에 `commands/`·`agents/`·`hooks/`·`.mcp.json` 같은 플러그인 구성 폴더를 만들지 않는다. 만들면 설치한 사용자 환경에 그대로 로드된다(검사 스크립트가 막는다).
