@@ -10,11 +10,17 @@ const descriptionOf = ({ demo, lang }: { demo: DemoEntry; lang: Lang }) => (lang
 
 export const App = () => {
   const [slug, setSlug] = useState(slugFromHash)
+  // 좁은 화면에서만 쓰는 메뉴 펼침 상태 — 넓은 화면은 CSS가 목록을 늘 보여 준다
+  const [menuOpen, setMenuOpen] = useState(false)
   const { lang, toggle } = useLang()
   const t = STRINGS[lang]
 
   useEffect(function syncSlugWithHash() {
-    const onHashChange = () => setSlug(slugFromHash())
+    const onHashChange = () => {
+      setSlug(slugFromHash())
+      // 패턴을 고르면 목록을 접어 데모 본문이 바로 보이게 한다
+      setMenuOpen(false)
+    }
     window.addEventListener('hashchange', onHashChange)
     return () => window.removeEventListener('hashchange', onHashChange)
   }, [])
@@ -23,7 +29,7 @@ export const App = () => {
 
   return (
     <div className="layout">
-      <aside className="sidebar">
+      <aside className="sidebar" data-menu-open={menuOpen ? 'true' : 'false'}>
         <div className="brand-row">
           <a className="brand" href="#/">
             suta
@@ -33,7 +39,11 @@ export const App = () => {
           </button>
         </div>
         <p className="tagline">{t.tagline}</p>
-        <nav>
+        <button type="button" className="nav-toggle" aria-expanded={menuOpen} aria-controls="pattern-nav" onClick={() => setMenuOpen((open) => !open)}>
+          <span>{t.menu(demos.length)}</span>
+          <span aria-hidden="true">{menuOpen ? '▴' : '▾'}</span>
+        </button>
+        <nav id="pattern-nav" aria-label={t.navLabel}>
           {CATEGORIES.map((category) => (
             <div key={category} className="nav-group">
               <span className="nav-group-title">{CATEGORY_LABEL[lang][category]}</span>

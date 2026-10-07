@@ -86,7 +86,7 @@
 }
 
 .mp-item {
-  padding: 0.6rem 0.8rem;
+  padding: var(--space-2) var(--space-3);
   border-radius: 8px;
   background: var(--bg);
   border: 1px solid var(--border);

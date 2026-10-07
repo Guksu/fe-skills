@@ -104,6 +104,7 @@ export const EnterExitDemo = () => {
             </button>
             <div className="stage">
               <Presence show={Boolean(visible[variant.className])} timeoutMs={durationMs + 100}>
+                {/* layout-audit-ignore: nested-card — 점선 칸은 등장 자리 표시이고, 카드는 나타나고 사라지는 주인공이다 */}
                 <div className={`fx ${variant.className} demo-card`}>
                   <strong>{variant.label}</strong>
                   <span>.{variant.className}</span>

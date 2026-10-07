@@ -10,20 +10,18 @@
 .feed-list {
   list-style: none;
   margin: 0;
-  padding: 0.5rem;
+  padding: 0 var(--space-4);
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
 }
 
+/* 피드 행은 상자 대신 선 한 줄 — 틀(.feed-frame)이 이미 상자다 */
 .feed-item {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
-  padding: 0.9rem 1rem;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  background: var(--bg);
+  gap: var(--space-1);
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid var(--border);
 }
 
 .feed-item span {

@@ -97,5 +97,6 @@ console.log(formatFindings(findings))
 - **`no-reduced-motion`은 파일 단위다.** 전역 CSS 한 곳에 reduced-motion 블록을 두고 컴포넌트 CSS에는 안 두는 구조라면 컴포넌트 파일마다 error가 난다. 그 경우 검사 대상에서 전역 파일을 같이 넣거나, 각 파일에 블록을 두는 suta 방식으로 바꾼다(패턴 단위로 복사해 쓰려면 파일마다 있어야 한다).
 - **경고는 판단의 여지가 있다.** 진행률 바의 `width` transition은 error로 잡히지만, 값이 드물게 바뀌는 진행률이면 실제 비용이 작다 — 그래도 `transform: scaleX`가 같은 결과를 더 싸게 낸다.
 - JS 규칙은 휴리스틱이다(`setInterval` 뒤 400자 안에 style 갱신, 프레임 루프 앞 600자 안의 `style.left` 대입). 놓치는 경우가 있고 오탐도 있다. 확신이 없으면 그 줄을 직접 읽는다.
+- **스크립트의 주석과 템플릿 문자열은 읽지 않는다.** 문서·데모 페이지가 화면에 보여 주는 예시 코드(`` `setInterval(…)` ``)는 실행되지 않기 때문이다. 템플릿 문자열로 만드는 CSS(CSS-in-JS)도 이 JS 규칙의 대상이 아니다. `motion-audit-ignore` 주석은 CSS와 스크립트 모두에 적용된다.
 - 코어는 Node가 바로 실행하도록 `.ts` 확장자를 붙여 import한다(`./auditCore.ts`). 앱의 tsconfig가 이 폴더를 포함하면 `allowImportingTsExtensions`를 켜거나 이 폴더를 제외한다.
 - Node 22.18 미만에서는 CLI가 `.ts`를 못 읽는다 — `node --experimental-strip-types audit.mjs …`로 실행한다.

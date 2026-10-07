@@ -60,14 +60,14 @@
 
 .wheel-demo-presets {
   display: flex;
-  gap: 6px;
+  gap: var(--space-1);
   flex-wrap: wrap;
 }
 
 .wheel-demo-presets button {
   font: inherit;
   font-size: 0.8rem;
-  padding: 6px 10px;
+  padding: var(--space-1) var(--space-2);
   border-radius: 8px;
   border: 1px solid var(--border);
   background: var(--bg);

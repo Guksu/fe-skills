@@ -1,9 +1,9 @@
 .pt-stage {
   display: flex;
   justify-content: center;
-  padding: 1.5rem;
+  padding: var(--space-6);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--radius-card);
   background: var(--surface);
 }
 
@@ -21,31 +21,31 @@
 .pt-header {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.85rem 1rem;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
   border-bottom: 1px solid var(--border);
   background: var(--surface);
 }
 
 .pt-title {
   flex: 1;
-  font-size: 0.95rem;
+  font-size: var(--text-body);
   text-align: center;
 }
 
 .pt-stage .pt-back {
-  padding: 0.25rem 0.5rem;
+  padding: var(--space-1) var(--space-2);
   border: none;
   background: transparent;
   color: var(--accent);
-  font-size: 0.85rem;
+  font-size: var(--text-small);
 }
 
 .pt-back-placeholder,
 .pt-depth {
   width: 3.5rem;
   color: var(--text-dim);
-  font-size: 0.75rem;
+  font-size: var(--text-caption);
   text-align: right;
 }
 
@@ -56,7 +56,12 @@
 
 .pt-view {
   min-height: 100%;
-  padding: 0.5rem 0;
+  padding: var(--space-2) 0;
+}
+
+/* 상세는 사진 자리가 머리 바로 아래에 붙는다 */
+.pt-view:has(> .pt-detail) {
+  padding-top: 0;
 }
 
 .pt-list,
@@ -69,9 +74,9 @@
 .pt-stage .pt-row {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: var(--space-3);
   width: 100%;
-  padding: 0.85rem 1rem;
+  padding: var(--space-3) var(--space-4);
   border: none;
   border-radius: 0;
   background: transparent;
@@ -83,71 +88,80 @@
 }
 
 .pt-row-emoji {
-  font-size: 1.5rem;
+  font-size: 24px;
 }
 
 .pt-row-body {
   display: flex;
   flex-direction: column;
   flex: 1;
-  gap: 0.15rem;
+  gap: 2px;
 }
 
 .pt-row-desc {
   color: var(--text-dim);
-  font-size: 0.78rem;
+  font-size: var(--text-caption);
 }
 
 .pt-row-price {
   color: var(--text-dim);
-  font-size: 0.85rem;
+  font-size: var(--text-small);
   font-variant-numeric: tabular-nums;
 }
 
 .pt-filler {
-  padding: 2rem 1rem;
+  padding: var(--space-8) var(--space-4);
   color: var(--text-dim);
-  font-size: 0.8rem;
+  font-size: var(--text-caption);
   text-align: center;
 }
 
+/* 상세 — 위는 폭 가득 사진 자리, 아래는 왼쪽 선 하나로 이름 → 가격 → 설명(문단은 가운데 정렬하지 않는다) */
 .pt-detail {
-  padding: 1rem;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-bottom: var(--space-6);
 }
 
 .pt-detail-hero {
-  font-size: 4rem;
-  line-height: 1.4;
+  align-self: stretch;
+  display: grid;
+  place-items: center;
+  block-size: 160px;
+  background: var(--surface);
+  font-size: 64px;
 }
 
 .pt-detail-name {
-  margin: 0.5rem 0 0.25rem;
+  margin: var(--space-4) var(--space-4) var(--space-1);
 }
 
 .pt-detail-price {
-  margin: 0;
+  margin: 0 var(--space-4);
   color: var(--accent);
-  font-weight: 600;
+  font-weight: var(--weight-semibold);
+  font-variant-numeric: tabular-nums;
 }
 
 .pt-detail-desc {
-  margin: 0.75rem 0 1.25rem;
+  margin: var(--space-3) var(--space-4) var(--space-6);
   color: var(--text-dim);
-  font-size: 0.9rem;
+  font-size: var(--text-small);
 }
 
 .pt-stage .pt-more {
+  margin-inline: var(--space-4);
   border: 1px solid var(--border);
   background: transparent;
-  font-size: 0.85rem;
+  font-size: var(--text-small);
 }
 
 .pt-reviews li {
-  padding: 0.9rem 1rem;
+  padding: var(--space-4);
   border-bottom: 1px solid var(--border);
   color: var(--text-dim);
-  font-size: 0.9rem;
+  font-size: var(--text-small);
 }
 
 .pt-tabbar {
@@ -158,9 +172,9 @@
 
 .pt-tab {
   flex: 1;
-  padding: 0.75rem 0;
+  padding: var(--space-3) 0;
   color: var(--text-dim);
-  font-size: 0.8rem;
+  font-size: var(--text-caption);
   text-align: center;
 }
 

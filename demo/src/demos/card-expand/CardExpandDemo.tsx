@@ -102,6 +102,7 @@ export const CardExpandDemo = () => {
       </section>
 
       <div className="ce-stage">
+        {/* layout-audit-ignore: nested-card — 폰 틀은 기기 모형이다. 무대는 데모 바탕일 뿐 화면의 일부가 아니다 */}
         <div className="ce-phone">
           <header className="ce-header">
             <span className="ce-eyebrow">9월 17일 수요일</span>

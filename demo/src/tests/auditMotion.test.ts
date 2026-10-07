@@ -84,6 +84,24 @@ describe('auditMotion — JS 규칙과 출력', () => {
     expect(rules(findings)).toEqual(['js-interval-anim', 'layout-animation'])
   })
 
+  it('템플릿 문자열·주석 속 예시 코드는 실행되는 코드가 아니라서 잡지 않는다 — 줄 번호는 그대로다', () => {
+    const text = [
+      'const SAMPLE = `',
+      'setInterval(() => {',
+      "  el.style.left = x + 'px'",
+      '}, 16)`',
+      '// setInterval(() => { el.style.top = y + "px" }, 16)',
+      "const tick = () => { el.style.left = x + 'px'; requestAnimationFrame(tick) }",
+    ].join('\n')
+    const findings = auditMotion([{ file: 'Demo.tsx', text }])
+    expect(findings.map((f) => `${f.line}:${f.rule}`)).toEqual(['6:layout-animation'])
+  })
+
+  it('motion-audit-ignore 주석은 스크립트의 지적에도 적용된다', () => {
+    const text = ['const tick = () => {', '  requestAnimationFrame(tick)', '  // motion-audit-ignore: layout-animation — 폭을 재는 측정용 막대', "  bar.style.width = w + 'px'", '}'].join('\n')
+    expect(auditMotion([{ file: 'measure.ts', text }])).toEqual([])
+  })
+
   it('요약과 file:line 형식 출력', () => {
     const findings = auditMotion([
       { file: 'z.css', text: `.a { transition: top 200ms; }` },

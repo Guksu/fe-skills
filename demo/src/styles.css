@@ -1,3 +1,7 @@
+/* 데모 사이트 셸 — 사이드바·홈·데모 페이지 머리·사용 예시와 데모 공통 틀(.playground·.controls).
+ * 값은 layout-tokens.css·motion-tokens.css의 토큰만 쓴다(main.tsx가 먼저 불러온다).
+ * 데모 사이트도 suta 검사(skills/suta/scripts/audit.mjs)를 통과하는 것이 기준이다. */
+
 :root {
   --bg: #0f1115;
   --surface: #171a21;
@@ -6,6 +10,8 @@
   --border: #2a2f3a;
   --accent: #6ea8fe;
   --accent-soft: rgba(110, 168, 254, 0.12);
+  /* 셸이 어두운 바탕이라 select·스크롤 막대 같은 기본 컨트롤도 어둡게 그린다 */
+  color-scheme: dark;
 }
 
 * {
@@ -17,8 +23,9 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: 'Pretendard Variable', Pretendard, -apple-system, system-ui, sans-serif;
+  font-size: var(--text-body);
   word-break: keep-all;
-  line-height: 1.6;
+  line-height: var(--leading-body);
 }
 
 button {
@@ -26,10 +33,12 @@ button {
   color: var(--text);
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 0.5rem 1rem;
+  border-radius: var(--radius-control);
+  padding: var(--space-2) var(--space-4);
   cursor: pointer;
-  transition: border-color 150ms ease, background 150ms ease;
+  transition:
+    border-color var(--motion-duration-instant) var(--motion-ease-out),
+    background-color var(--motion-duration-instant) var(--motion-ease-out);
   align-self: flex-start;
 }
 
@@ -38,26 +47,28 @@ button:hover {
   background: var(--accent-soft);
 }
 
+/* 셸 격자 — 본문 열은 minmax(0, 1fr). 그냥 1fr이면 열의 최소 폭이 내용의 최소 폭(긴 코드 한 줄 등)이 되어
+ * 좁은 화면에서 화면 밖으로 밀려난다 */
 .layout {
   display: grid;
-  grid-template-columns: 240px 1fr;
+  grid-template-columns: 240px minmax(0, 1fr);
   min-height: 100vh;
 }
 
 .sidebar {
   border-right: 1px solid var(--border);
-  padding: 1.5rem;
+  padding: var(--space-6);
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: var(--space-3);
   position: sticky;
   top: 0;
   height: 100vh;
 }
 
 .brand {
-  font-size: 1.25rem;
-  font-weight: 700;
+  font-size: var(--text-heading);
+  font-weight: var(--weight-bold);
   color: var(--text);
   text-decoration: none;
 }
@@ -66,34 +77,33 @@ button:hover {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.5rem;
+  gap: var(--space-2);
 }
 
 /* 언어 토글 — 사이드바 상단, 브랜드 옆. 작고 조용하게 */
 .lang-toggle {
-  padding: 0.2rem 0.55rem;
-  font-size: 0.75rem;
-  border-radius: 999px;
+  padding: var(--space-1) var(--space-2);
+  font-size: var(--text-caption);
+  border-radius: var(--radius-full);
   align-self: center;
-}
-
-.demo-lang-note {
-  margin: 0.5rem 0 0;
-  font-size: 0.8rem;
-  color: var(--text-dim);
 }
 
 .tagline {
   margin: 0;
-  font-size: 0.85rem;
+  font-size: var(--text-small);
   color: var(--text-dim);
+}
+
+/* 좁은 화면에서만 보이는 메뉴 버튼 — 넓은 화면은 목록을 늘 펼쳐 둔다 */
+.nav-toggle {
+  display: none;
 }
 
 .sidebar nav {
   display: flex;
   flex-direction: column;
-  gap: 0.9rem;
-  margin-top: 1rem;
+  gap: var(--space-4);
+  margin-top: var(--space-4);
   overflow-y: auto;
   /* 스크롤은 되되 막대는 감춘다 — 좁은 사이드바에서 막대가 소음이다 */
   scrollbar-width: none;
@@ -106,29 +116,31 @@ button:hover {
 .nav-group {
   display: flex;
   flex-direction: column;
-  gap: 0.1rem;
+  /* 항목 사이는 붙이고(2px) 묶음 사이(16px)로만 나눈다 — 묶음이 간격만으로 읽힌다 */
+  gap: 2px;
 }
 
 .nav-group-title {
-  font-size: 0.72rem;
-  font-weight: 700;
+  font-size: var(--text-caption);
+  font-weight: var(--weight-semibold);
   letter-spacing: 0.06em;
   color: var(--text-dim);
-  padding: 0 0.75rem 0.3rem;
+  padding: 0 var(--space-3) var(--space-1);
 }
 
 .nav-emoji {
-  margin-right: 0.45rem;
-  font-size: 0.85rem;
+  margin-right: var(--space-2);
 }
 
 .sidebar nav a {
   color: var(--text-dim);
   text-decoration: none;
-  padding: 0.4rem 0.75rem;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  transition: background 150ms ease, color 150ms ease;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-control);
+  font-size: var(--text-small);
+  transition:
+    background-color var(--motion-duration-instant) var(--motion-ease-out),
+    color var(--motion-duration-instant) var(--motion-ease-out);
 }
 
 .sidebar nav a:hover {
@@ -147,62 +159,72 @@ button:hover {
 
 .sidebar footer a {
   color: var(--text-dim);
-  font-size: 0.85rem;
+  font-size: var(--text-small);
 }
 
+/* 본문 열 — 데모 무대가 너무 넓어지지 않게 최대 폭을 둔다(글은 다시 65ch로 좁힌다) */
 .content {
-  padding: 2.5rem;
+  min-width: 0;
+  padding: var(--space-12);
   max-width: 880px;
   width: 100%;
   margin: 0 auto;
 }
 
 .demo-header {
-  margin-bottom: 2rem;
+  margin-bottom: var(--space-8);
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: var(--gap-item);
 }
 
-.demo-header h1 {
+.demo-header h1,
+.home h1 {
   margin: 0;
+  font-size: var(--text-title);
+  line-height: var(--leading-tight);
 }
 
 .demo-header p {
   margin: 0;
+  max-width: var(--measure);
   color: var(--text-dim);
 }
 
 .demo-header code {
-  font-size: 0.8rem;
+  font-size: var(--text-caption);
   color: var(--accent);
+  overflow-wrap: anywhere;
 }
 
-.home h1 {
-  margin-top: 0;
+.demo-lang-note {
+  font-size: var(--text-small);
 }
 
 .home-intro {
+  margin: var(--space-2) 0 0;
   color: var(--text-dim);
-  max-width: 60ch;
+  max-width: var(--measure);
 }
 
 .home-search {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  margin: 1.25rem 0 0.5rem;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
 }
 
 .home-search input {
   flex: 1;
+  min-width: 0;
   max-width: 420px;
+  min-height: var(--control-height);
   font: inherit;
   color: var(--text);
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 0.6rem 0.9rem;
+  border-radius: var(--radius-control);
+  padding: 0 var(--space-4);
 }
 
 .home-search input:focus-visible {
@@ -212,153 +234,152 @@ button:hover {
 
 .home-search-count {
   color: var(--text-dim);
-  font-size: 0.85rem;
+  font-size: var(--text-small);
 }
 
 .home-group h2 {
-  font-size: 0.95rem;
+  font-size: var(--text-small);
+  font-weight: var(--weight-semibold);
   color: var(--text-dim);
-  margin: 1.75rem 0 0.75rem;
+  margin: var(--space-8) 0 var(--space-3);
 }
 
+/* 패턴 목록 — 패턴 하나가 독립 단위(눌러서 들어가는 곳)라 카드 한 겹이 맞다 */
 .demo-list {
   list-style: none;
   padding: 0;
   margin: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr));
+  gap: var(--space-3);
 }
 
 .demo-list a {
   display: flex;
-  gap: 0.8rem;
+  gap: var(--space-3);
   align-items: flex-start;
   height: 100%;
-  padding: 1rem 1.1rem;
+  padding: var(--space-4);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--radius-card);
   background: var(--surface);
   color: var(--text);
   text-decoration: none;
-  transition: border-color 150ms ease, translate 150ms ease;
+  transition: border-color var(--motion-duration-instant) var(--motion-ease-out);
 }
 
 .demo-list a:hover {
   border-color: var(--accent);
-  translate: 0 -2px;
 }
 
 .demo-card-emoji {
-  font-size: 1.4rem;
-  line-height: 1.2;
+  font-size: var(--text-title);
+  line-height: var(--leading-tight);
 }
 
 .demo-card-body {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: var(--space-1);
+}
+
+.demo-card-body strong {
+  font-weight: var(--weight-semibold);
 }
 
 .demo-card-body span {
   color: var(--text-dim);
-  font-size: 0.85rem;
+  font-size: var(--text-small);
 }
 
 .home-empty {
   color: var(--text-dim);
-  margin-top: 2rem;
+  margin-top: var(--space-8);
 }
 
 /* --- 데모 페이지 하단: 사용 예시 --- */
 .usage {
-  margin-top: 2.5rem;
+  margin-top: var(--space-12);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--radius-card);
   background: var(--surface);
   overflow: hidden;
 }
 
 .usage-head {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
-  padding: 0.8rem 1.1rem;
+  gap: var(--space-2) var(--space-4);
+  padding: var(--space-3) var(--space-4);
   border-bottom: 1px solid var(--border);
 }
 
 .usage-head h2 {
   margin: 0;
-  font-size: 0.95rem;
+  font-size: var(--text-body);
 }
 
 .usage-actions {
   display: flex;
   align-items: center;
-  gap: 0.9rem;
+  gap: var(--space-4);
 }
 
 .usage-actions a {
   color: var(--accent);
-  font-size: 0.85rem;
+  font-size: var(--text-small);
   text-decoration: none;
 }
 
 .usage-code {
   margin: 0;
-  padding: 1.1rem 1.25rem;
+  padding: var(--space-4);
   overflow-x: auto;
-  font-size: 0.82rem;
-  line-height: 1.6;
+  font-size: var(--text-small);
+  line-height: var(--leading-body);
   color: var(--text);
 }
 
-@media (max-width: 720px) {
-  .layout {
-    grid-template-columns: 1fr;
-  }
-  .sidebar {
-    position: static;
-    height: auto;
-    border-right: none;
-    border-bottom: 1px solid var(--border);
-  }
+/* --- 데모 공통 틀: 조절 막대(.controls) 다음에 무대 --- */
+.playground {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
 }
 
-/* --- 데모 공통: 옵션 컨트롤 패널 --- */
+/* 조절 막대 — 상자로 감싸지 않고 아래 선 하나로 무대와 나눈다. 무대가 이미 상자라 둘 다 감싸면 상자가 겹쳐 보인다 */
 .controls {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 1rem 1.5rem;
-  padding: 1.25rem;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  background: var(--surface);
+  grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+  gap: var(--space-4) var(--space-6);
+  padding-bottom: var(--space-6);
+  border-bottom: 1px solid var(--border);
 }
 
 .controls label {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
-  font-size: 0.85rem;
+  gap: var(--space-2);
+  font-size: var(--text-small);
 }
 
 .controls label > span {
   color: var(--text-dim);
   display: flex;
   justify-content: space-between;
-  gap: 0.5rem;
+  gap: var(--space-2);
 }
 
 .controls code {
   color: var(--accent);
-  font-size: 0.75rem;
+  font-size: var(--text-caption);
 }
 
 .controls output {
   font-variant-numeric: tabular-nums;
-  font-size: 0.85rem;
+  font-size: var(--text-small);
 }
 
 .controls input[type='range'] {
@@ -366,28 +387,59 @@ button:hover {
   width: 100%;
 }
 
+/* 세로 배치 라벨 안의 체크박스는 늘어난 칸의 가운데가 아니라 왼쪽 선에 둔다 */
+.controls label > input[type='checkbox'] {
+  align-self: flex-start;
+  accent-color: var(--accent);
+}
+
 .controls select {
   font: inherit;
-  font-size: 0.85rem;
+  font-size: var(--text-small);
   color: var(--text);
-  background: var(--bg);
+  background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 0.4rem 0.5rem;
+  border-radius: var(--radius-control);
+  padding: var(--space-2);
   max-width: 100%;
+}
+
+/* 라디오 묶음 — 조절 막대 안에서는 테두리 없이 제목(legend)과 간격으로만 묶는다 */
+.controls fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.controls legend {
+  padding: 0;
+  margin-bottom: var(--space-2);
+  color: var(--text-dim);
+  font-size: var(--text-small);
+}
+
+/* 묶음 안의 라디오 — 단추와 문구는 한 줄이다(문구가 길면 문구 안에서 줄을 바꾼다).
+ * 위의 .controls label(세로 배치)보다 구체적이라 이긴다 */
+.controls fieldset label {
+  flex-direction: row;
+  align-items: center;
+  column-gap: var(--space-2);
+  row-gap: 0;
 }
 
 .controls-note {
   grid-column: 1 / -1;
   margin: 0;
-  font-size: 0.8rem;
+  max-width: var(--measure);
+  font-size: var(--text-small);
   color: var(--text-dim);
 }
 
 .controls-inline {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: var(--space-2);
 }
 
 /* label에 붙었을 때는 .controls label의 세로 배치를 이겨야 한다 — 체크박스와 문구는 한 줄이다 */
@@ -399,4 +451,64 @@ button:hover {
   width: 18px;
   height: 18px;
   accent-color: var(--accent);
+}
+
+/* --- 좁은 화면: 사이드바는 위 머리로, 패턴 목록은 메뉴 버튼 뒤로 접는다 ---
+ * 목록 55개를 펼쳐 두면 데모 본문이 다섯 화면 아래로 밀린다 */
+@media (max-width: 720px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sidebar {
+    position: static;
+    height: auto;
+    padding: var(--space-4) var(--page-inline);
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .lang-toggle {
+    min-height: var(--tap-min);
+    padding-inline: var(--space-3);
+  }
+
+  .nav-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    align-self: stretch;
+    min-height: var(--tap-min);
+  }
+
+  .sidebar[data-menu-open='false'] nav,
+  .sidebar[data-menu-open='false'] footer {
+    display: none;
+  }
+
+  .sidebar nav {
+    margin-top: var(--space-2);
+    overflow: visible;
+  }
+
+  /* 손가락으로 누르는 목록 — 행 높이를 누르는 영역 하한(44px)에 맞춘다 */
+  .sidebar nav a {
+    display: flex;
+    align-items: center;
+    min-height: var(--tap-min);
+  }
+
+  .content {
+    padding: var(--space-8) var(--page-inline) var(--space-12);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* 시간 토큰이 이미 줄어들지만, 셸의 색 전환도 즉시 바뀌게 명시한다 */
+  button,
+  .sidebar nav a,
+  .demo-list a {
+    transition-duration: 1ms;
+  }
 }

@@ -1,6 +1,6 @@
 .tab-demo {
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--radius-card);
   background: var(--surface);
   overflow: hidden;
 }
@@ -14,9 +14,9 @@
   background: none;
   border: none;
   border-radius: 0;
-  padding: 0.9rem 1.1rem;
+  padding: var(--space-4);
   color: var(--text-dim);
-  transition: color 150ms ease;
+  transition: color var(--motion-duration-instant) var(--motion-ease-out);
 }
 
 .demo-tab:hover {
@@ -27,17 +27,24 @@
 
 .demo-tab[aria-selected='true'] {
   color: var(--text);
-  font-weight: 600;
+  font-weight: var(--weight-semibold);
 }
 
 .tab-panel {
-  padding: 2rem 1.5rem 2.5rem;
+  padding: var(--space-8) var(--space-6) var(--space-12);
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: var(--space-2);
 }
 
 .tab-panel p {
   margin: 0;
   color: var(--text-dim);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* 탭 글자색은 바로 바뀌게 — 밑줄 인디케이터의 이동은 패턴 CSS(tab-indicator.css)가 줄인다 */
+  .demo-tab {
+    transition: none;
+  }
 }

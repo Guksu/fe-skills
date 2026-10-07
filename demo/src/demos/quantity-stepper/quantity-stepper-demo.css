@@ -1,7 +1,7 @@
 .qs-stage {
   display: flex;
   flex-direction: column;
-  gap: 0.9rem;
+  gap: var(--space-4);
   padding: 1.5rem;
   border: 1px solid var(--border);
   border-radius: 12px;
@@ -19,17 +19,16 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  border-top: 1px solid var(--border);
 }
 
+/* 행은 상자 대신 선 한 줄로 나눈다 — 무대가 이미 상자다 */
 .qs-row {
   display: flex;
   align-items: center;
-  gap: 0.9rem;
-  padding: 0.85rem 1rem;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  background: var(--bg);
+  gap: var(--space-4);
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--border);
 }
 
 .qs-emoji {
@@ -40,7 +39,7 @@
   display: flex;
   flex-direction: column;
   flex: 1;
-  gap: 0.15rem;
+  gap: 2px;
 }
 
 .qs-unit {

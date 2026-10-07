@@ -4,9 +4,9 @@ import type { NavMode } from '@skills/glass-nav/assets/navScrollCore'
 import './glass-nav-demo.css'
 
 const MODES: Array<{ value: NavMode; label: string; hint: string }> = [
-  { value: 'elevate', label: '투명 → 유리', hint: '배민 홈·카카오맵 검색 바' },
-  { value: 'hide', label: '내리면 숨김', hint: '배민·카카오 목록 화면' },
-  { value: 'compact', label: '알약 축소', hint: 'iOS 26 Liquid Glass 탭 바' },
+  { value: 'elevate', label: '투명 → 유리', hint: '사진 위에 뜨는 홈·지도 상단 바' },
+  { value: 'hide', label: '내리면 숨김', hint: '긴 목록 화면 — 내릴 때 비켜 준다' },
+  { value: 'compact', label: '알약 축소', hint: '탭 바를 알약 하나로 줄인다' },
 ]
 
 const MENU = [

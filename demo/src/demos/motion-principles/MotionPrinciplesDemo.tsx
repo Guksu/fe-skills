@@ -113,6 +113,7 @@ export const MotionPrinciplesDemo = () => {
                 <path d={curvePath(EASE[key])} />
               </svg>
               <div className="mp-track">
+                {/* layout-audit-ignore: nested-card — 이징을 비교하려고 움직이는 48px 말이다(무언가를 담는 상자가 아니다) */}
                 <div className="mp-card" data-moved={moved ? 'true' : 'false'} style={{ '--demo-ease': EASE[key] } as CSSProperties}>
                   🍜
                 </div>
@@ -132,6 +133,7 @@ export const MotionPrinciplesDemo = () => {
 
         <ul className="mp-list" key={listKey} aria-label="오늘의 메뉴">
           {MENU.map((name, index) => (
+            // layout-audit-ignore: nested-card — 차례로 나타나는 칩 — 스태거를 눈으로 세려면 항목마다 경계가 있어야 한다
             <li
               key={name}
               className="mp-item"

@@ -1,7 +1,7 @@
 .vl-stage {
   display: flex;
   flex-direction: column;
-  gap: 0.9rem;
+  gap: var(--space-4);
   padding: 1.5rem;
   border: 1px solid var(--border);
   border-radius: 12px;
@@ -31,7 +31,7 @@
 
 .vl-counters div {
   display: flex;
-  gap: 0.4rem;
+  gap: var(--space-2);
 }
 
 .vl-counters dt,
@@ -47,16 +47,15 @@
 
 .vl-viewport {
   --virtual-height: 420px;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  background: var(--bg);
+  /* 스크롤 영역은 위아래 선으로만 경계를 둔다 — 무대가 이미 상자다 */
+  border-block: 1px solid var(--border);
 }
 
 .vl-row {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  padding: 0 1rem;
+  gap: var(--space-4);
+  padding: 0;
   border-bottom: 1px solid var(--border);
 }
 

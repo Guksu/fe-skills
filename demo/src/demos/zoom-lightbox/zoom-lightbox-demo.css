@@ -1,7 +1,7 @@
 .zoom-gallery {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 0.9rem;
+  gap: var(--space-4);
 }
 
 .zoom-card {
@@ -25,9 +25,10 @@
   font-size: 2.6rem;
 }
 
-.zoom-tone-a { background: linear-gradient(140deg, #2a2f45, #40222e); }
-.zoom-tone-b { background: linear-gradient(140deg, #2d2a1e, #173042); }
-.zoom-tone-c { background: linear-gradient(140deg, #173042, #2a2f45); }
-.zoom-tone-d { background: linear-gradient(140deg, #40222e, #2d2a1e); }
-.zoom-tone-e { background: linear-gradient(140deg, #23321f, #2a2f45); }
-.zoom-tone-f { background: linear-gradient(140deg, #2a2f45, #23321f); }
+/* 사진 자리 — 어두운 단색. 그라데이션을 깔면 강한 효과가 화면 곳곳에 퍼진다 */
+.zoom-tone-a { background: #352939; }
+.zoom-tone-b { background: #222d30; }
+.zoom-tone-c { background: #20293b; }
+.zoom-tone-d { background: #372726; }
+.zoom-tone-e { background: #233026; }
+.zoom-tone-f { background: #2a2f45; }

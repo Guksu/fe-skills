@@ -3,7 +3,7 @@
 .la-sample-group {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: var(--space-2);
   font-size: 0.85rem;
 }
 
@@ -62,13 +62,12 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
+  gap: var(--space-2);
 }
 
+/* 지적 한 건 = 왼쪽 색 선 한 줄 — 결과 칸이 이미 상자라 지적마다 상자를 두지 않는다 */
 .la-finding {
-  padding: 0.6rem 0.8rem;
-  border-radius: 8px;
-  background: var(--bg);
+  padding: var(--space-1) 0 var(--space-1) var(--space-3);
   border-left: 3px solid #f59e0b;
 }
 
