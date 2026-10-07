@@ -28,6 +28,21 @@ describe('auditLayout — 글자 크기 하한 (tiny-text)', () => {
   })
 })
 
+describe('auditLayout — 실제 사이트 CSS에서 확인한 글자 크기 오판', () => {
+  it('아이콘 글꼴 선택자의 작은 font-size는 글자가 아니라 아이콘 크기라 세지 않는다', () => {
+    const css = ['.icon-close { font-size: 10px; }', '.w-icon-file-upload-remove { font-size: 10px; }', 'i.fa { font-size: 9px; }', '.material-symbols-outlined { font-size: 10px; }', '.caption { font-size: 10px; }'].join('\n')
+    expect(audit('a.css', css).filter((f) => f.rule === 'tiny-text').map((f) => f.line)).toEqual([5])
+  })
+
+  it('html 기준 크기(62.5% 등)를 바꾼 묶음은 rem을 그 기준으로 환산한다', () => {
+    const css = ['html { font-size: 62.5%; }', '.a { font-size: 1.2rem; }', '.b { font-size: 0.9rem; }', '.c { padding: 0.6rem; }'].join('\n')
+    const findings = audit('a.css', css)
+    expect(findings.filter((f) => f.rule === 'tiny-text').map((f) => `${f.line}:${f.severity}`)).toEqual(['3:error'])
+    expect(findings.find((f) => f.rule === 'spacing-off-scale')?.lines).toEqual([4])
+    expect(audit('b.css', '.b { font-size: 0.9rem; }')).toEqual([])
+  })
+})
+
 describe('auditLayout — 상자 안 상자 (nested-card)', () => {
   it('JSX에서 둥근 모서리 + 테두리·그림자·배경을 가진 요소 안의 같은 요소를 잡는다', () => {
     const text = [
@@ -146,6 +161,13 @@ describe('auditLayout — 규격 (font-size·font-weight·radius 종류, spacing
     expect(findings[0].message).toContain('2곳')
     expect(findings[0].fix).toContain('10px → 8px')
     expect(rules(audit('ok.css', '.a { padding: 12px 16px; gap: 0.5rem; margin: 0 auto; }'))).toEqual([])
+  })
+
+  it('파일 단위 요약 지적은 관여한 줄 전체를 lines로 준다', () => {
+    const text = `.a { padding: 10px; }\n.b { color: red; }\n.c { gap: 6px; }`
+    expect(audit('a.css', text).find((f) => f.rule === 'spacing-off-scale')?.lines).toEqual([1, 3])
+    const sizes = [12, 13, 14, 15, 16, 18, 20].map((px, i) => `.s${i} { font-size: ${px}px; }`).join('\n')
+    expect(audit('b.css', sizes).find((f) => f.rule === 'font-size-variety')?.lines).toEqual([1, 2, 3, 4, 5, 6, 7])
   })
 
   it('Tailwind 간격의 반 단계(1.5·2.5)와 임의값도 척도 밖으로 센다', () => {

@@ -302,16 +302,17 @@ type Push = (finding: Omit<Finding, 'file'>) => void
 
 /** 파일 단위로 모으는 값 — 종류 수·척도 밖 간격·효과 개수는 파일마다 한 번 요약한다 */
 type Tally = {
-  sizes: Map<string, number>
-  weights: Map<string, number>
-  radii: Map<string, number>
+  sizes: Map<string, number[]>
+  weights: Map<string, number[]>
+  radii: Map<string, number[]>
   offScale: Array<{ line: number; px: number }>
   effects: number[]
 }
 
 const newTally = (): Tally => ({ sizes: new Map(), weights: new Map(), radii: new Map(), offScale: [], effects: [] })
-const remember = ({ map, key, line }: { map: Map<string, number>; key: string; line: number }) => {
-  if (!map.has(key)) map.set(key, line)
+/** 값마다 나온 줄을 모은다 — 요약 지적의 첫 줄과 관여 줄 전체(편집 후 훅용)를 함께 낸다 */
+const remember = ({ map, key, line }: { map: Map<string, number[]>; key: string; line: number }) => {
+  map.set(key, [...(map.get(key) ?? []), line])
 }
 
 const checkTinyText = ({ px, line, push }: { px: number; line: number; push: Push }) => {
@@ -326,11 +327,33 @@ const checkTinyText = ({ px, line, push }: { px: number; line: number; push: Pus
   })
 }
 
-/** font-size 값(px·rem만 판정 — em·%는 부모 크기를 몰라 건너뛴다) */
-const sizePx = (value: string) => {
-  const raw = unwrapVar(value)
-  return /(px|rem)$/i.test(raw) ? toPx(raw) : null
+/** 길이 → px. rem은 이번 묶음의 html 기준 크기로 환산한다(62.5% = 10px 같은 설정을 쓰는 사이트가 흔하다) */
+const pxOf = ({ value, remBase }: { value: string; remBase: number }) => {
+  const raw = unwrapVar(value).trim()
+  return /^-?\d*\.?\d+rem$/i.test(raw) ? parseFloat(raw) * remBase : toPx(raw)
 }
+
+/** font-size 값(px·rem만 판정 — em·%는 부모 크기를 몰라 건너뛴다) */
+const sizePx = ({ value, remBase }: { value: string; remBase: number }) => {
+  const raw = unwrapVar(value)
+  return /(px|rem)$/i.test(raw) ? pxOf({ value: raw, remBase }) : null
+}
+
+/** html·:root의 font-size — 없으면 브라우저 기본 16px */
+const remBaseOf = (facts: BlockFacts[]) => {
+  for (const fact of facts) {
+    if (!splitTopLevel(fact.block.fullSelector).some((part) => /^(html|:root)$/i.test(part.trim()))) continue
+    const size = fact.decls.find((d) => d.prop === 'font-size')?.value.trim()
+    if (!size) continue
+    if (/%$/.test(size)) return (16 * parseFloat(size)) / 100
+    const px = toPx(size)
+    if (px) return px
+  }
+  return 16
+}
+
+// 아이콘 글꼴의 font-size는 글자가 아니라 아이콘 크기다 — 작은 글자·글자 크기 종류에서 뺀다
+const ICON_SELECTOR = /icon|glyph|(?:^|[\s.#>+~])fa(?:-|$|[\s.:#[])|material-(?:symbols|icons)|(?:^|[\s.])(?:bi|ri)-/i
 
 /** CSS 부분 → 블록별 사실(선언·상자 여부). @keyframes 안은 모션의 일이라 뺀다 */
 const factsFor = (css: string) =>
@@ -338,22 +361,24 @@ const factsFor = (css: string) =>
     .filter((block) => !/@keyframes/i.test(block.selector) && !/@keyframes/i.test(block.fullSelector))
     .map(factsOf)
 
-const auditCssFacts = ({ facts, boxKeys, tally, push }: { facts: BlockFacts[]; boxKeys: Set<string>; tally: Tally; push: Push }) => {
+const auditCssFacts = ({ facts, boxKeys, tally, push, remBase }: { facts: BlockFacts[]; boxKeys: Set<string>; tally: Tally; push: Push; remBase: number }) => {
   for (const fact of facts) {
     const { block, decls } = fact
     const hidden = isVisuallyHidden(fact)
+    const icon = ICON_SELECTOR.test(block.fullSelector)
     let clipReported = false
     let backdropCounted = false
 
     for (const { prop, value, line } of decls) {
       if (prop === 'font-size') {
-        const px = sizePx(value)
+        if (icon) continue
+        const px = sizePx({ value, remBase })
         if (px != null && !hidden) checkTinyText({ px, line, push })
         if (!RESET_VALUES.test(value.trim()) && value.trim() !== '0') remember({ map: tally.sizes, key: lengthKey(value), line })
       } else if (prop === 'font') {
         const size = value.match(/(?:^|\s)(\d*\.?\d+(?:px|rem))(?=\s*\/|\s)/i)?.[1]
-        if (size) {
-          const px = toPx(size)
+        if (size && !icon) {
+          const px = pxOf({ value: size, remBase })
           if (px != null && !hidden) checkTinyText({ px, line, push })
           remember({ map: tally.sizes, key: lengthKey(size), line })
         }
@@ -370,7 +395,7 @@ const auditCssFacts = ({ facts, boxKeys, tally, push }: { facts: BlockFacts[]; b
         }
       } else if (/^(margin|padding)(-(top|right|bottom|left|inline|block)(-(start|end))?)?$|^(row-|column-)?gap$/.test(prop)) {
         for (const part of splitValues(value)) {
-          const px = toPx(unwrapVar(part))
+          const px = pxOf({ value: part, remBase })
           if (px != null && !isOnGrid(px)) tally.offScale.push({ line, px })
         }
       } else if (prop === 'text-align' && /^center$/i.test(value.trim())) {
@@ -407,7 +432,7 @@ const auditCssFacts = ({ facts, boxKeys, tally, push }: { facts: BlockFacts[]; b
 
 type Element = { name: string; line: number; isBox: boolean; align: 'center' | 'start' | null; centerReported: boolean }
 
-const auditMarkup = ({ markup, boxKeys, tally, push }: { markup: string; boxKeys: Set<string>; tally: Tally; push: Push }) => {
+const auditMarkup = ({ markup, boxKeys, tally, push, remBase }: { markup: string; boxKeys: Set<string>; tally: Tally; push: Push; remBase: number }) => {
   const stack: Element[] = []
   for (const tag of scanTags(markup)) {
     if (tag.closing) {
@@ -465,7 +490,7 @@ const auditMarkup = ({ markup, boxKeys, tally, push }: { markup: string; boxKeys
     } else if (style) {
       for (const { prop, value } of declarationsOf({ body: style, line })) {
         if (prop === 'font-size') {
-          const px = sizePx(value)
+          const px = sizePx({ value, remBase })
           if (px != null) checkTinyText({ px, line, push })
         }
         if (prop === 'text-align') inlineAlign = /center/i.test(value) ? 'center' : 'start'
@@ -508,26 +533,28 @@ const auditMarkup = ({ markup, boxKeys, tally, push }: { markup: string; boxKeys
 }
 
 const summarizeTally = ({ tally, push }: { tally: Tally; push: Push }) => {
-  const firstLine = (map: Map<string, number>) => Math.min(...map.values())
-  const list = (map: Map<string, number>) => [...map.keys()].join('·')
+  const allLines = (lines: number[]) => [...new Set(lines)].sort((a, b) => a - b)
+  const linesOf = (map: Map<string, number[]>) => allLines([...map.values()].flat())
+  const firstLine = (map: Map<string, number[]>) => linesOf(map)[0]
+  const list = (map: Map<string, number[]>) => [...map.keys()].join('·')
   if (tally.sizes.size >= SIZE_VARIETY) {
-    push({ line: firstLine(tally.sizes), rule: 'font-size-variety', severity: 'warn', message: `글자 크기 ${tally.sizes.size}종(${list(tally.sizes)}) — 한 화면은 역할 수만큼 4~5종`, fix: '--text-* 토큰(12·14·16·20·24·32·40px)에서 역할로 고른다 (P2·P10)' })
+    push({ line: firstLine(tally.sizes), lines: linesOf(tally.sizes), rule: 'font-size-variety', severity: 'warn', message: `글자 크기 ${tally.sizes.size}종(${list(tally.sizes)}) — 한 화면은 역할 수만큼 4~5종`, fix: '--text-* 토큰(12·14·16·20·24·32·40px)에서 역할로 고른다 (P2·P10)' })
   }
   if (tally.weights.size >= WEIGHT_VARIETY) {
-    push({ line: firstLine(tally.weights), rule: 'font-weight-variety', severity: 'warn', message: `굵기 ${tally.weights.size}종(${list(tally.weights)}) — 3종이면 충분하다`, fix: '400·600·700(--weight-*)만 쓴다. 굵게는 영역마다 한 줄 (P2)' })
+    push({ line: firstLine(tally.weights), lines: linesOf(tally.weights), rule: 'font-weight-variety', severity: 'warn', message: `굵기 ${tally.weights.size}종(${list(tally.weights)}) — 3종이면 충분하다`, fix: '400·600·700(--weight-*)만 쓴다. 굵게는 영역마다 한 줄 (P2)' })
   }
   if (tally.radii.size >= RADIUS_VARIETY) {
-    push({ line: firstLine(tally.radii), rule: 'radius-variety', severity: 'warn', message: `모서리 반경 ${tally.radii.size}종(${list(tally.radii)}) — 같은 역할이 화면마다 달라 보인다`, fix: '역할로 3종(--radius-control 8·--radius-card 12·--radius-sheet 24px) + 완전 둥근 것 (P10)' })
+    push({ line: firstLine(tally.radii), lines: linesOf(tally.radii), rule: 'radius-variety', severity: 'warn', message: `모서리 반경 ${tally.radii.size}종(${list(tally.radii)}) — 같은 역할이 화면마다 달라 보인다`, fix: '역할로 3종(--radius-control 8·--radius-card 12·--radius-sheet 24px) + 완전 둥근 것 (P10)' })
   }
   if (tally.offScale.length > 0) {
     const sorted = [...tally.offScale].sort((a, b) => a.line - b.line)
     const lines = [...new Set(sorted.map((o) => o.line))]
     const examples = [...new Set(sorted.map((o) => Math.abs(o.px)))].slice(0, 3).map((px) => `${formatPx(px)} → ${formatPx(nearestSpace(px))}`)
-    push({ line: lines[0], rule: 'spacing-off-scale', severity: 'warn', message: `4px 격자 밖 간격 ${sorted.length}곳(${lines.slice(0, 8).join('·')}줄)`, fix: `척도(4·8·12·16·24·32·48·64)로 — ${examples.join(', ')} (P4·P10)` })
+    push({ line: lines[0], lines, rule: 'spacing-off-scale', severity: 'warn', message: `4px 격자 밖 간격 ${sorted.length}곳(${lines.slice(0, 8).join('·')}줄)`, fix: `척도(4·8·12·16·24·32·48·64)로 — ${examples.join(', ')} (P4·P10)` })
   }
   if (tally.effects.length >= EFFECT_LIMIT) {
     const lines = [...tally.effects].sort((a, b) => a - b)
-    push({ line: lines[0], rule: 'effect-overuse', severity: 'warn', message: `강한 효과 ${lines.length}곳(${lines.slice(0, 8).join('·')}줄) — 그라데이션·유리·큰 그림자는 화면마다 한두 곳`, fix: '1순위 요소 한 곳에만 남기고 나머지는 단색 면·얇은 선·간격으로 (P3)' })
+    push({ line: lines[0], lines: [...new Set(lines)], rule: 'effect-overuse', severity: 'warn', message: `강한 효과 ${lines.length}곳(${lines.slice(0, 8).join('·')}줄) — 그라데이션·유리·큰 그림자는 화면마다 한두 곳`, fix: '1순위 요소 한 곳에만 남기고 나머지는 단색 면·얇은 선·간격으로 (P3)' })
   }
 }
 
@@ -556,6 +583,7 @@ export const auditLayout = (sources: Source[]): Finding[] => {
     return { source, parts, tally, facts: parts.css ? factsFor(parts.css) : [] }
   })
   const boxKeys = collectBoxKeys(prepared.map((p) => p.facts))
+  const remBase = remBaseOf(prepared.flatMap((p) => p.facts))
 
   for (const { source, parts, tally, facts } of prepared) {
     if (!parts.css && !parts.markup) continue
@@ -564,8 +592,8 @@ export const auditLayout = (sources: Source[]): Finding[] => {
     const push: Push = (finding) => {
       if (!ignored.has(finding.line) && !fileIgnored.has(finding.rule)) findings.push({ file: source.file, ...finding })
     }
-    auditCssFacts({ facts, boxKeys, tally, push })
-    if (parts.markup) auditMarkup({ markup: parts.markup, boxKeys, tally, push })
+    auditCssFacts({ facts, boxKeys, tally, push, remBase })
+    if (parts.markup) auditMarkup({ markup: parts.markup, boxKeys, tally, push, remBase })
     summarizeTally({ tally, push })
   }
   return sortFindings(findings)

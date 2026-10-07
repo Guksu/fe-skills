@@ -21,7 +21,7 @@ AI에게 UI를 맡기면 어디서 본 듯한, 티 나는 결과가 나온다. �
 ## 작업 절차
 
 1. **프로젝트를 먼저 읽는다.** 프레임워크(React·Vue·Svelte·순수 JS), TypeScript 여부, 스타일 방식(CSS 파일·CSS Modules·Tailwind), 기존 디자인 토큰과 컴포넌트를 확인한다. 이미 있는 체계가 우선이다 — 패턴은 그 위에 얹는다.
-2. **순서부터 정한다.** 화면에 들어갈 요소를 적고 순위를 매긴다. 1순위는 하나다. 넣을 이유를 한 문장으로 말할 수 없는 요소는 뺀다. 그 순서를 크기·굵기·간격·정렬로 보이고, 카드·그라데이션·배지는 마지막에 한두 곳만 쓴다(`patterns/layout-principles/PATTERN.md`).
+2. **순서부터 정한다.** 화면에 들어갈 요소를 적고 순위를 매긴다. 1순위는 하나다. 넣을 이유를 한 문장으로 말할 수 없는 요소는 뺀다. 그 순서를 크기·굵기·간격·정렬로 보이고, 카드·그라데이션·배지는 마지막에 한두 곳만 쓴다(`patterns/layout-principles/PATTERN.md`). 홈·목록·상세·검색·폼·설정·빈 상태·시트처럼 유형이 있는 화면은 `patterns/layout-principles/references/screen-conventions.md`에서 그 유형의 뼈대부터 가져온다. 잘 만든 앱들이 공통으로 쓰는 구조다.
 3. **금지선을 확인한다.** 아래 "AI 슬롭 금지선"은 맞는 패턴이 없는 UI에도 적용된다.
 4. **카탈로그에서 패턴을 고른다.** 요청을 화면 요소로 쪼개 맞는 패턴을 모두 고른다. 예: "국수집 주문 화면" → `quantity-stepper`(수량)·`bottom-sheet`(옵션)·`loading-button`(주문)·`toast-stack`(담김 알림). 맞는 패턴이 없으면 금지선만으로 구현한다.
 5. **고른 패턴의 `patterns/{패턴}/PATTERN.md`를 끝까지 읽는다.** 주의사항에 접근성·성능 함정이 적혀 있다.
@@ -32,7 +32,7 @@ AI에게 UI를 맡기면 어디서 본 듯한, 티 나는 결과가 나온다. �
    - 다른 패턴의 코드가 필요하면 import 경로로 엮지 말고 그 파일을 함께 복사한다.
 7. **값을 토큰에 연결한다.** 프로젝트에 기준이 없으면 `patterns/layout-principles/assets/layout-tokens.css`(간격·글자·굵기·반경)와 `patterns/motion-principles/assets/motion-tokens.css`(시간·이징)를 함께 넣는다. 컴포넌트에서는 숫자 대신 토큰을 쓰고, 패턴의 공개 변수(`--sheet-duration` 같은)를 토큰에 연결한다.
 8. **검사한다.** `node <이 스킬 폴더>/scripts/audit.mjs <바꾼 파일·폴더>`를 실행해 error가 0이 될 때까지 고친다. 레이아웃·모션 규칙이 한 번에 돈다. warn은 원칙을 보고 판단한다. Node 22.18 이상이 필요하다. 실행할 수 없으면 `patterns/layout-audit/PATTERN.md`·`patterns/motion-audit/PATTERN.md`의 규칙표로 직접 확인한다.
-   - 플러그인으로 설치했으면 파일을 고칠 때마다 같은 검사가 자동으로 돈다. error는 바로 돌려받으니 그 자리에서 고친다.
+   - 플러그인으로 설치했으면 파일을 고칠 때마다 같은 검사가 자동으로 돈다. 방금 바꾼 줄의 error만 돌려받으니 그 자리에서 고친다. 파일에 원래 있던 문제로는 멈추지 않는다.
 9. **마무리 체크리스트를 확인한다**(아래).
 10. **어떤 패턴을 왜 썼는지 1~2줄로 보고한다.**
 
@@ -42,7 +42,9 @@ AI에게 UI를 맡기면 어디서 본 듯한, 티 나는 결과가 나온다. �
 
 | AI가 흔히 하는 것 | 대신 | 근거 패턴 |
 |---|---|---|
+| 어떤 화면이든 같은 틀(히어로 → 카드 3장 → 버튼)로 짠다 | 화면 유형의 뼈대에서 시작한다 — 홈은 구역 제목 + 가로 줄, 상세는 사진 → 이름·가격 → 하단 고정 바, 설정은 라벨·값 행 | `layout-principles` |
 | 모든 섹션·목록 행을 테두리+그림자+둥근 카드로 감싸고, 카드 안에 상자를 또 넣는다 | 간격과 얇은 선으로 묶는다. 카드는 독립 단위에 한 겹만 | `layout-principles`, `layout-audit` |
+| 담기·구매·찜을 모두 채운 버튼으로 내용 중간에 둔다 | 주 행동은 채운 버튼 하나로, 상세·폼·시작 안내에서는 하단 고정 바에 둔다(폭 가득, 아래에 안전 영역). 보조 행동은 윤곽선·아이콘 | `layout-principles` |
 | 모든 간격이 같은 값 | 묶음 안 간격 ≤ 묶음 사이 간격의 1/2. 값은 4px 척도에서만 | `layout-principles` |
 | 지표 숫자와 라벨이 비슷한 크기, 라벨까지 모두 굵게 | 숫자는 라벨의 2~3배. 굵기는 3종, 굵게는 영역마다 한 줄 | `layout-principles` |
 | 그라데이션·글로우·글래스·채운 버튼을 여러 곳에 | 강한 효과와 채운 강조색은 화면마다 한 곳(주 행동) | `layout-principles`, `layout-audit` |
@@ -108,8 +110,10 @@ AI에게 UI를 맡기면 어디서 본 듯한, 티 나는 결과가 나온다. �
 | 모서리 반경 | 8(입력칸·버튼)·12(카드)·24px(시트) + 완전 둥근 것 |
 | 폭·크기 | 글 덩어리 최대 65ch, 누르는 영역 44px, 입력칸·주 버튼 높이 48px |
 | 이미지 비율 | 1:1·4:3·16:9 중 2~3개만, 한 목록은 한 비율 |
+| 화면 뼈대 | 좌우 여백은 화면 하나에 한 값(16~24). 주 버튼 높이 48(44~56). 하단 고정 바는 아래 여백에 `env(safe-area-inset-bottom)`을 더한다(웹앱·웹뷰에서 홈 표시줄을 피한다) |
+| 넓은 화면 | 본문 16(긴 글 18), 문단 65ch 이하, 가장 큰 글자는 한 곳만 48~64, 콘텐츠 최대 폭 1120~1280 |
 
-전체 토큰과 원칙 12개, 반대로 읽히는 조언의 판단 기준은 `patterns/layout-principles/PATTERN.md`에 있다.
+전체 토큰과 원칙 12개, 반대로 읽히는 조언의 판단 기준은 `patterns/layout-principles/PATTERN.md`에 있다. 화면 유형별 뼈대와 값은 `patterns/layout-principles/references/screen-conventions.md`에 있다.
 
 ## 모션 값
 
@@ -128,6 +132,7 @@ AI에게 UI를 맡기면 어디서 본 듯한, 티 나는 결과가 나온다. �
 ## 마무리 체크리스트
 
 - [ ] 1순위 요소가 하나다 — 가장 큰 글자 하나, 채운 주 버튼 하나.
+- [ ] 화면 유형의 뼈대를 따랐다 — 상세·폼·시작 안내의 주 행동은 하단 고정 바에 있다.
 - [ ] 상자 안에 상자가 없고, 묶음은 간격(묶음 안 ≤ 묶음 사이의 1/2)으로 보인다.
 - [ ] 간격·글자 크기·반경은 토큰(척도)에서만 골랐고, 글자는 12px 이상이다.
 - [ ] 가장 긴 값·빈 값·320px 폭에서 깨지지 않는다.
@@ -235,7 +240,7 @@ AI에게 UI를 맡기면 어디서 본 듯한, 티 나는 결과가 나온다. �
 |---|---|
 | [`motion-principles`](patterns/motion-principles/PATTERN.md) | 앱 전체의 애니메이션 시간·이징·스태거·reduced-motion 기준을 한 벌의 토큰(motion tokens)으로 정하고, 어떤 움직임에 어느 값을 쓰는지 고르는 원칙을 제공한다. |
 | [`motion-audit`](patterns/motion-audit/PATTERN.md) | 프로젝트의 CSS·JS를 훑어 애니메이션 문제(크기·위치 속성 transition, transition: all, reduced-motion 누락, 시간 범위 밖, 이동에 linear, 퇴장에 ease-in, 무한 반복, setInterval 애니메이션)를 file:line으로 찾아 고치는 방법까지 알려주는 검사 도구(motion audit)다. |
-| [`layout-principles`](patterns/layout-principles/PATTERN.md) | 화면의 순서·위계·묶음·정렬·강조를 정하는 레이아웃 원칙 12개와 간격·글자·반경 토큰(layout tokens)을 제공한다. |
+| [`layout-principles`](patterns/layout-principles/PATTERN.md) | 화면의 순서·위계·묶음·정렬·강조를 정하는 레이아웃 원칙 12개, 화면 유형별 관례(홈·목록·폼·설정 등 11종), 간격·글자·반경 토큰(layout tokens)을 제공한다. |
 | [`layout-audit`](patterns/layout-audit/PATTERN.md) | CSS·JSX·HTML에서 AI가 흔히 만드는 레이아웃 문제를 file:line으로 찾는 정적 검사 도구(layout audit)다. |
 <!-- catalog:end -->
 

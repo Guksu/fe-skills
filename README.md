@@ -12,7 +12,7 @@ AI가 만든 티가 나는 UI를 없애는 에이전트 스킬입니다.<br>
 [![Deploy demo](https://github.com/Guksu/suta/actions/workflows/deploy-demo.yml/badge.svg)](https://github.com/Guksu/suta/actions/workflows/deploy-demo.yml)
 ![Patterns](https://img.shields.io/badge/suta-55%20patterns-6ea8fe)
 ![Dependencies](https://img.shields.io/badge/runtime%20deps-0-34c759)
-![Tests](https://img.shields.io/badge/tests-568%20passing-34c759)
+![Tests](https://img.shields.io/badge/tests-576%20passing-34c759)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 [**라이브 데모**](https://guksu.github.io/suta/) · [무엇을 없애나](#무엇을-없애나) · [설치](#설치) · [동작 방식](#동작-방식) · [패턴 55종](#패턴-55종) · [개발](#개발) · [기여하기](#기여하기)
@@ -31,6 +31,7 @@ AI에게 화면을 맡기면 금방 티가 납니다. 모든 섹션이 테두리
 
 | AI가 흔히 만드는 UI | suta를 쓰면 |
 |---|---|
+| 어떤 화면이든 히어로 → 카드 3장 → 버튼 틀, 버튼은 전부 채운 색 | 잘 만든 앱 1,116장에서 뽑은 화면 유형별 뼈대 — 상세는 하단 고정 바에 채운 버튼 하나 |
 | 모든 섹션을 카드로 감싸고, 카드 안에 상자를 또 넣음 | 간격과 얇은 선으로 묶고, 카드는 독립 단위에 한 겹만 |
 | 숫자와 라벨이 같은 크기, 간격·반경 값이 제각각 | 크기·굵기로 위계를 세우고, 간격·글자·반경은 토큰(척도)에서만 |
 | 그라데이션 글자·글로우·색 배지를 곳곳에, 9px 글자 | 강조는 화면마다 한두 곳, 글자는 12px 이상 — 고칠 때마다 검사 |
@@ -121,6 +122,7 @@ cp -R suta/skills/suta .agents/skills/
 | "피드 사진을 핀치줌할 수 있게 해줘" | `pinch-zoom` |
 | "애니메이션이 화면마다 제각각이야" | `motion-principles` · `motion-audit` |
 | "카드가 너무 많아 답답해, 레이아웃 다듬어줘" | `layout-principles` · `layout-audit` |
+| "국수집 메뉴 상세 화면 만들어줘" | `layout-principles`(상세 화면 뼈대) · `stretchy-header` · `quantity-stepper` · `loading-button` |
 
 직접 부르고 싶다면 Claude Code에서는 `/suta:suta`, Codex에서는 `$suta`를 씁니다. 모든 UI 작업에 꼭 쓰게 하려면, 프로젝트의 `AGENTS.md`나 `CLAUDE.md`에 "UI 작업에는 suta 스킬을 따른다" 한 줄을 넣습니다.
 
@@ -136,6 +138,7 @@ Claude Code·Codex 플러그인으로 설치하면, 에이전트가 파일을 �
 | warn — 카드 안 카드, 효과 남발, 척도 밖 간격 등 | 최대 5줄로 알리기만 합니다. 고칠지는 원칙을 보고 판단합니다 |
 | 문제 없음, 검사 대상이 아닌 파일 | 아무것도 출력하지 않습니다 |
 
+- **이번 편집이 바꾼 줄만 봅니다.** 원래 있던 문제로는 에이전트를 멈추지 않습니다. 다른 알림이 나갈 때만 "이번 편집과 무관한 기존 error N건"을 한 줄 덧붙입니다. 새로 만든 파일은 전체를 봅니다.
 - 검사 대상은 CSS·SCSS·Less·TSX·JSX·Vue·Svelte·HTML(레이아웃·모션)과 TS·JS(모션)입니다. `node_modules`·빌드 폴더와 테스트 파일은 건너뜁니다.
 - 의도한 예외는 그 줄 위에 이유를 적은 주석으로 남깁니다(`/* layout-audit-ignore: tiny-text — 차트 축 눈금 */`).
 - 끄려면 환경 변수 `SUTA_HOOK=off`를 둡니다. Node 22.18 이상이 필요하고, 그보다 낮으면 검사 없이 지나갑니다. 편집을 막지는 않습니다.
@@ -236,7 +239,7 @@ Claude Code·Codex 플러그인으로 설치하면, 에이전트가 파일을 �
 |---|---|---|
 | [모션 원칙과 토큰](skills/suta/patterns/motion-principles/PATTERN.md) | 시간 5단계·이징 5종·스태거·reduced-motion을 토큰 한 벌로 정하고, 움직임 종류별로 어느 값을 쓸지 정한 원칙 | [데모](https://guksu.github.io/suta/#/motion-principles) |
 | [모션 검사](skills/suta/patterns/motion-audit/PATTERN.md) | CSS·JS를 훑어 레이아웃 속성 애니메이션·reduced-motion 누락·시간 범위 밖 등을 `file:line`으로 찾고 고치는 패턴을 안내 | [데모](https://guksu.github.io/suta/#/motion-audit) |
-| [레이아웃 원칙과 토큰](skills/suta/patterns/layout-principles/PATTERN.md) | 순서·위계·묶음·정렬·강조 원칙 12개와 간격·글자·굵기·반경 토큰 한 벌, AI가 흔히 만드는 화면과 고친 화면 비교 | [데모](https://guksu.github.io/suta/#/layout-principles) |
+| [레이아웃 원칙과 토큰](skills/suta/patterns/layout-principles/PATTERN.md) | 순서·위계·묶음·정렬·강조 원칙 12개, 화면 유형별 관례, 간격·글자·굵기·반경 토큰 한 벌, AI가 흔히 만드는 화면 6개와 고친 화면 비교 | [데모](https://guksu.github.io/suta/#/layout-principles) |
 | [레이아웃 검사](skills/suta/patterns/layout-audit/PATTERN.md) | CSS·JSX·HTML을 훑어 카드 안 카드·11px 미만 글자·효과 남발·척도 밖 간격·문단 가운데 정렬 등을 `file:line`으로 찾고 고칠 원칙을 안내 | [데모](https://guksu.github.io/suta/#/layout-audit) |
 
 ## 구성

@@ -52,6 +52,15 @@ describe('auditMotion — CSS 규칙', () => {
   })
 })
 
+describe('auditMotion — 편집 후 훅을 위한 관여 줄', () => {
+  it('no-reduced-motion은 움직임을 선언한 줄 전체를 lines로 준다 — 그중 하나를 고친 편집만 이 지적을 받는다', () => {
+    const text = `.a {\n  color: red;\n  transition: opacity 200ms ease-out;\n}\n.b {\n  animation: fade 300ms ease-out;\n}`
+    const finding = auditMotion([{ file: 'a.css', text }]).find((f) => f.rule === 'no-reduced-motion')
+    expect(finding?.line).toBe(3)
+    expect(finding?.lines).toEqual([3, 6])
+  })
+})
+
 describe('auditMotion — 예외와 관용 표현', () => {
   it('motion-audit-ignore 주석이 있는 줄(또는 다음 줄)의 지적은 건너뛴다', () => {
     const text = `.thumb {\n  /* motion-audit-ignore: layout-animation — absolute라 자기만 레이아웃 */\n  transition: width 200ms ease-out;\n  will-change: transform; /* motion-audit-ignore: will-change-global — 계속 끌리는 요소 */\n}\n@media (prefers-reduced-motion: reduce) { .thumb { transition: none } }`

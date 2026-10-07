@@ -16,6 +16,8 @@ export type Finding = {
   message: string
   /** 어떤 패턴·기법으로 고치는가 */
   fix: string
+  /** 파일 단위 요약 지적(종류 수·척도 밖 간격 등)에 관여한 줄 전체 — 편집 후 훅이 이번 편집과 겹치는지 볼 때 쓴다 */
+  lines?: number[]
 }
 
 export type Source = { file: string; text: string }
