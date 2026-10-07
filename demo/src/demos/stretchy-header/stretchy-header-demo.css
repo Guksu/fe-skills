@@ -29,7 +29,7 @@
 }
 
 .stretchy-demo-subtitle {
-  margin: 0.3rem 0 0;
+  margin: var(--space-1) 0 0;
   font-size: 0.85rem;
   opacity: 0.85;
 }
@@ -48,14 +48,14 @@
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
-  padding: 0.9rem 1.25rem;
+  padding: var(--space-4) 1.25rem;
   border-bottom: 1px solid var(--border);
 }
 
 .stretchy-demo-item div {
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;
+  gap: var(--space-1);
 }
 
 .stretchy-demo-item span {

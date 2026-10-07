@@ -20,7 +20,7 @@
  * 예외에는 반드시 이유를 적는다 — 다음 사람이 규칙을 되살릴지 판단할 근거다.
  */
 
-import { blankComments, cssBlocks, declarationsOf, ignoredLines, lineOf, sortFindings, type Finding, type Source } from './auditCore.ts'
+import { blank, blankComments, cssBlocks, declarationsOf, ignoredLines, lineOf, sortFindings, type Finding, type Source } from './auditCore.ts'
 
 // 결과 형식은 공통 코어(auditCore.ts)가 정본이다 — layout-audit와 결과를 합칠 수 있게 같은 형식을 쓴다
 export type { Finding, Severity } from './auditCore.ts'
@@ -153,21 +153,36 @@ const layoutFix = (prop: string) => {
   return 'transform·opacity로 바꾼다'
 }
 
-const auditScript = ({ file, text, push }: Source & { push: (f: Finding) => void }) => {
+/** 실행되지 않는 글을 같은 길이의 공백으로 지운다 — 주석과 템플릿 문자열(화면에 보여 주는 예시 코드·마크업 문자열).
+ * 문서·데모 페이지의 예시 코드에 편집 후 훅이 걸려 에이전트를 멈추지 않게 한다. 줄 번호는 그대로다.
+ * `https://`의 `//`는 주석이 아니므로 바로 앞이 `:`이면 남긴다 */
+const scriptCode = (text: string) =>
+  blankComments(text)
+    .split('\n')
+    .map((line) => line.replace(/(^|[^:\\])\/\/.*$/, (all: string, lead: string) => lead + blank(all.slice(lead.length))))
+    .join('\n')
+    .replace(/`(?:\\.|[^`\\])*`/g, blank)
+
+const auditScript = ({ file, text, push: rawPush }: Source & { push: (f: Finding) => void }) => {
+  const ignored = ignoredLines({ text, marker: /motion-audit-ignore/ })
+  const push = (f: Finding) => {
+    if (!ignored.has(f.line)) rawPush(f)
+  }
+  const code = scriptCode(text)
   const interval = /setInterval\s*\(/g
   let m: RegExpExecArray | null
-  while ((m = interval.exec(text))) {
-    const window = text.slice(m.index, m.index + 400)
+  while ((m = interval.exec(code))) {
+    const window = code.slice(m.index, m.index + 400)
     if (/\.style\.|transform|opacity|scrollTop|scrollLeft/.test(window)) {
-      push({ file, line: lineOf(text, m.index), rule: 'js-interval-anim', severity: 'warn', message: 'setInterval로 스타일을 갱신 — 프레임과 어긋나 끊긴다', fix: 'requestAnimationFrame 루프(count-up·spring-physics 코어) 또는 CSS transition' })
+      push({ file, line: lineOf(code, m.index), rule: 'js-interval-anim', severity: 'warn', message: 'setInterval로 스타일을 갱신 — 프레임과 어긋나 끊긴다', fix: 'requestAnimationFrame 루프(count-up·spring-physics 코어) 또는 CSS transition' })
     }
   }
   // 인라인 스타일로 레이아웃 속성을 애니메이션(프레임 루프 안에서 top/left/width/height 갱신)
   const layoutWrite = /\.style\.(top|left|width|height|marginLeft|marginTop)\s*=/g
-  while ((m = layoutWrite.exec(text))) {
-    const before = text.slice(Math.max(0, m.index - 600), m.index)
+  while ((m = layoutWrite.exec(code))) {
+    const before = code.slice(Math.max(0, m.index - 600), m.index)
     if (/requestAnimationFrame|setInterval|onUpdate|tick/.test(before)) {
-      push({ file, line: lineOf(text, m.index), rule: 'layout-animation', severity: 'error', message: `프레임 루프에서 style.${m[1]} 갱신 — 매 프레임 레이아웃이 돈다`, fix: 'style.transform = translate()/scale()로 바꾼다' })
+      push({ file, line: lineOf(code, m.index), rule: 'layout-animation', severity: 'error', message: `프레임 루프에서 style.${m[1]} 갱신 — 매 프레임 레이아웃이 돈다`, fix: 'style.transform = translate()/scale()로 바꾼다' })
     }
   }
 }

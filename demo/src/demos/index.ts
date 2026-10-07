@@ -62,7 +62,7 @@ export type DemoEntry = {
   slug: string
   title: string
   description: string
-  /** 영어 제목·설명 — 데모 사이트의 언어 토글용. README.en.md의 표와 같은 문구 */
+  /** 영어 제목·설명 — 데모 사이트의 언어 토글용. docs/guide.en.md 패턴 표와 같은 문구 */
   titleEn: string
   descriptionEn: string
   emoji: string

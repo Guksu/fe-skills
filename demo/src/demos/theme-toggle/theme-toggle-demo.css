@@ -51,7 +51,7 @@
 }
 
 .tt-card-sub {
-  margin: 0.2rem 0 0;
+  margin: var(--space-1) 0 0;
   color: var(--card-dim);
   font-size: 0.85rem;
 }
@@ -70,16 +70,16 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  border-top: 1px solid var(--card-border);
 }
 
+/* 메뉴 행은 상자 대신 선 한 줄로 나눈다 — 카드가 이미 상자다 */
 .tt-menu {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.75rem 0.9rem;
-  border-radius: 10px;
-  background: var(--card-surface);
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--card-border);
 }
 
 .tt-menu-emoji {
@@ -95,12 +95,12 @@
   font-variant-numeric: tabular-nums;
 }
 
-.tt-stage .tt-order,
-.tt-stage .tt-order:hover {
+.tt-stage button.tt-order,
+.tt-stage button.tt-order:hover {
   align-self: stretch;
   border: none;
   border-radius: 10px;
-  padding: 0.8rem;
+  padding: var(--space-3);
   background: var(--card-accent);
   color: #fff;
   font-weight: 600;

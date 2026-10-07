@@ -72,6 +72,7 @@ export const PageTransitionDemo = () => {
       </section>
 
       <div className="pt-stage">
+        {/* layout-audit-ignore: nested-card — 폰 틀은 기기 모형이다. 무대는 데모 바탕일 뿐 화면의 일부가 아니다 */}
         <div className="pt-phone">
           <header className="pt-header">
             {stack.canGoBack ? (

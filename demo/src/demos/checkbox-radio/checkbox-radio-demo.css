@@ -1,28 +1,30 @@
 .check-stage {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
-  padding: 1.5rem;
+  gap: var(--space-6);
+  padding: var(--space-6);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--radius-card);
   background: var(--surface);
   --check-border: #4b5563;
 }
 
+/* 선택지 묶음 — 무대가 이미 상자라 묶음은 테두리 없이 제목(legend)과 간격으로 나눈다(묶음 안 12px, 묶음 사이 24px) */
 .check-group {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: var(--space-3);
+  min-width: 0;
   margin: 0;
-  padding: 1rem 1.25rem;
-  border: 1px solid var(--border);
-  border-radius: 10px;
+  padding: 0;
+  border: 0;
 }
 
 .check-group legend {
-  padding: 0 0.4rem;
+  padding: 0;
+  margin-bottom: var(--space-3);
   color: var(--text-dim);
-  font-size: 0.9rem;
+  font-size: var(--text-small);
 }
 
 .check-result {

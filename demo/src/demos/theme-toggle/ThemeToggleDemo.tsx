@@ -30,6 +30,7 @@ export const ThemeToggleDemo = () => {
       </section>
 
       <div className="tt-stage">
+        {/* layout-audit-ignore: nested-card — 무대는 데모 바탕이고, 카드는 테마가 바뀌는 앱 화면 미리보기다 */}
         <div className="tt-card" ref={cardRef}>
           <header className="tt-card-head">
             <div>

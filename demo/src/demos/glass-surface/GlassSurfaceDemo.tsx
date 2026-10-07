@@ -98,6 +98,7 @@ export const GlassSurfaceDemo = () => {
 
           <div className="glass-tiles" aria-hidden="true">
             {TILES.map((emoji, index) => (
+              // layout-audit-ignore: nested-card — 타일은 유리 뒤에 비칠 사진 자리다(유리의 흐림을 보여 주는 배경)
               <span key={index} className="glass-tile">
                 {emoji}
               </span>

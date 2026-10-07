@@ -19,7 +19,7 @@
 }
 
 .header-demo-title {
-  margin: 0 0 0.4rem;
+  margin: 0 0 var(--space-2);
   font-size: 1.8rem;
 }
 
@@ -34,7 +34,7 @@
 }
 
 .header-demo-section h3 {
-  margin: 0 0 0.4rem;
+  margin: 0 0 var(--space-2);
 }
 
 .header-demo-section p {

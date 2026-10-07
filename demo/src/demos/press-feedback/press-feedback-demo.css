@@ -18,7 +18,7 @@
 }
 
 .press-primary {
-  padding: 0.85rem 1.8rem;
+  padding: var(--space-3) var(--space-8);
   font-weight: 700;
   background: var(--accent);
   color: #0b1220;
@@ -35,8 +35,8 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 0.3rem;
-  padding: 1.2rem 1.4rem;
+  gap: var(--space-1);
+  padding: var(--space-4) var(--space-6);
   border: 1px solid var(--border);
   border-radius: 14px;
   background: var(--surface);

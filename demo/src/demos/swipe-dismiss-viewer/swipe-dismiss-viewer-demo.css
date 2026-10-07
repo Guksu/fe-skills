@@ -16,7 +16,7 @@
 .dismiss-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 6px;
+  gap: var(--space-1);
 }
 
 /* 데모 전역 button 스타일을 썸네일에서 되돌린다 */

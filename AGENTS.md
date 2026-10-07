@@ -31,9 +31,9 @@ suta/
 ├─ .agents/skills/add-skill/         패턴 추가 파이프라인(모든 에이전트가 발견, metadata.internal로 일반 설치 목록에서는 숨김)
 ├─ .claude/                          Claude Code 전용 훅·설정. skills/add-skill은 .agents/로의 심볼릭 링크
 ├─ demo/                             데모 사이트 (src/demos/index.ts가 목록·라우팅·카탈로그 카테고리의 단일 출처)
-├─ evals/                            선택 평가 — trigger.json(진입 스킬 트리거)·selection/{패턴}.json(패턴 선택)
-├─ scripts/                          validateSkills·evalSelection·buildCatalog(.mjs), lib/(순수 로직 — 테스트는 demo/src/tests), install-skills.sh
-└─ docs/                             설계(design/)·조사(research/)·규칙(harness-rules.md)·작업 기록(worklog/)·템플릿
+├─ evals/                            선택 평가 — trigger.json(진입 스킬 트리거)·selection/{패턴}.json(패턴 선택), benchmark/(퍼블리싱 벤치마크 요청문·결과)
+├─ scripts/                          validateSkills·evalSelection·buildCatalog(.mjs), lib/(순수 로직 — 테스트는 demo/src/tests), benchmark/(벤치마크 실행·측정·집계), install-skills.sh
+└─ docs/                             상세 안내(guide.md·guide.en.md)·설계(design/)·조사(research/)·규칙(harness-rules.md)·작업 기록(worklog/)·템플릿
 ```
 
 저장소 루트가 플러그인이므로 루트에 `commands/`·`agents/`·`hooks/`·`.mcp.json` 같은 플러그인 구성 폴더를 만들지 않는다. 만들면 설치한 사용자 환경에 그대로 로드된다(검사 스크립트가 막는다). 사용자 환경에 실리는 훅은 편집 후 검사 하나뿐이다. 매니페스트(`.claude-plugin/plugin.json`·`.codex-plugin/plugin.json`)에 인라인으로만 두고, `skills/suta/scripts/post-edit-hook.mjs`만 가리킨다(검사 스크립트가 확인한다). 버전을 올릴 때는 `.claude-plugin/plugin.json`·`.claude-plugin/marketplace.json`·`.codex-plugin/plugin.json`의 version을 함께 바꾼다(검사 스크립트가 비교한다).
@@ -53,6 +53,7 @@ node scripts/validateSkills.mjs   # 진입 스킬·패턴 구조 검사 — 실�
 node scripts/evalSelection.mjs    # 선택 평가 — UI 요청에 suta가 걸리는지, 요청에 맞는 패턴이 골라지는지
 node skills/suta/scripts/audit.mjs <경로>   # 레이아웃·모션 통합 검사 — error가 있으면 exit 1
 npm run validate                  # 위 두 검사 + 통합 검사(skills/suta 전체, error만 출력)를 한 번에
+node scripts/benchmark/run.mjs --out <폴더>   # 퍼블리싱 벤치마크(일반 vs suta) — claude CLI를 수십 번 부르므로 비용이 든다. 측정·집계는 measure.mjs·report.mjs, 방법은 docs/benchmark.md
 ```
 
 알려진 제약: `npm run lint`는 `skills/**/assets`를 실제로 검사하지 않는다(ESLint flat config가 `demo/` 밖 파일을 무시). assets 코드는 `npm run build`의 타입 검사와 테스트로 검증된다. `scripts/lib/*.ts`는 Node 22.18 이상이 그대로 실행한다(타입 표기만 벗겨 실행).
@@ -82,7 +83,7 @@ npm run validate                  # 위 두 검사 + 통합 검사(skills/suta �
 3. `assets/` — 코어 + React 래퍼 + CSS. 접근성 포함.
 4. `demo/src/demos/{패턴}/` 데모 페이지 + `demo/src/demos/index.ts` 등록(`title`·`description`과 영어 `titleEn`·`descriptionEn` 모두, `category`는 카탈로그 묶음이 된다). 테스트는 `demo/src/tests/`.
 5. `npm run catalog` — 진입 스킬의 패턴 카탈로그를 다시 만든다. 손으로 고치지 않는다.
-6. `README.md`와 `README.en.md` 양쪽에 표 한 행 + 배지 숫자(패턴 수, tests 수) 갱신 — 검사 스크립트가 두 파일 모두 실제 수와 비교한다.
+6. 상세 안내 `docs/guide.md`와 `docs/guide.en.md`의 패턴 표에 한 행씩 더하고, `README.md`·`README.en.md`의 배지 숫자(패턴 수, tests 수)를 갱신한다 — 검사 스크립트가 두 README의 배지를 실제 수와 비교한다.
 7. 워크로그.
 
 진입 스킬(`skills/suta/SKILL.md`)의 description을 고칠 때는 `evals/trigger.json`도 같이 본다. 일반 UI 요청(should)에는 suta가 걸리고, UI가 아닌 요청(shouldNot)에는 걸리지 않아야 한다. description은 1,024바이트 이하이고 `": "`를 쓰지 않는다(YAML).

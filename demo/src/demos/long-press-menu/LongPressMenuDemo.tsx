@@ -74,6 +74,7 @@ export const LongPressMenuDemo = () => {
                 },
               ]}
             >
+              {/* layout-audit-ignore: nested-card — 무대는 흐려질 배경이고, 카드는 길게 눌러 떠오르는 주인공이다 */}
               <article className="lpm-card">
                 <span className="lpm-card-emoji" aria-hidden="true">
                   {item.emoji}

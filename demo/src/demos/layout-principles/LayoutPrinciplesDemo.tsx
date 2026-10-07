@@ -2,6 +2,7 @@ import { useState, type CSSProperties, type ReactNode } from 'react'
 import { GAP, RADIUS, SPACE, TEXT, WEIGHT, groupGapOk } from '@skills/layout-principles/assets/layoutTokens'
 import '@skills/layout-principles/assets/layout-tokens.css'
 import './layout-principles-demo.css'
+import './layout-principles-before.css'
 
 type View = 'both' | 'before' | 'after'
 
@@ -35,10 +36,12 @@ const OrderBefore = () => (
       <div key={item.name} className="lp-b-card">
         <p className="lp-b-strong">{item.name}</p>
         <p className="lp-b-strong">{item.option}</p>
+        {/* layout-audit-ignore: nested-card — 고치기 전 예시: 카드 안에 상자를 또 넣은 모습 */}
         <div className="lp-b-inner-box">{won(item.price)}</div>
       </div>
     ))}
     <div className="lp-b-card">
+      {/* layout-audit-ignore: nested-card — 고치기 전 예시 */}
       <div className="lp-b-inner-box">합계 {won(ORDER_TOTAL)}</div>
     </div>
   </div>
@@ -223,6 +226,7 @@ const DetailBefore = () => (
     <div className="lp-b-card">
       <p className="lp-b-strong">맵기 선택</p>
       {SPICE.map((spice) => (
+        // layout-audit-ignore: nested-card — 고치기 전 예시: 선택지마다 상자
         <div key={spice} className="lp-b-inner-box">
           {spice}
         </div>

@@ -1,7 +1,7 @@
 .field-stage {
   display: flex;
   flex-direction: column;
-  gap: 1.1rem;
+  gap: var(--space-4);
   max-width: 420px;
   padding: 1.5rem;
   border: 1px solid var(--border);

@@ -1,7 +1,7 @@
 .dm-stage {
   display: flex;
   flex-direction: column;
-  gap: 0.9rem;
+  gap: var(--space-4);
   padding: 1.5rem;
   border: 1px solid var(--border);
   border-radius: 12px;
@@ -17,17 +17,15 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  overflow: hidden;
-  background: var(--bg);
+  /* 목록을 상자로 감싸지 않고 위아래 선으로만 경계를 둔다 — 무대가 이미 상자다 */
+  border-block: 1px solid var(--border);
 }
 
 .dm-row {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  padding: 0.85rem 1rem;
+  gap: var(--space-4);
+  padding: var(--space-3) 0;
 }
 
 .dm-row + .dm-row {
@@ -38,7 +36,7 @@
   display: flex;
   flex-direction: column;
   flex: 1;
-  gap: 0.15rem;
+  gap: 2px;
 }
 
 .dm-row-date {

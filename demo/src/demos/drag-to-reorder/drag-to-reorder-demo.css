@@ -22,18 +22,20 @@
 .dr-list {
   display: flex;
   flex-direction: column;
-  gap: 8px; /* 코어가 항목 간 간격을 이 값으로 잰다 */
-  margin: 0.5rem 0;
+  /* 행 사이는 선 한 줄 — 코어는 실제 위치로 간격을 재므로 0이어도 된다 */
+  gap: 0;
+  margin: var(--space-2) 0;
+  border-top: 1px solid var(--border);
 }
 
+/* 행은 상자 대신 선으로 나눈다. 바탕색은 무대와 같아 평소에는 안 보이고, 끌어올린 행이 아래 행을 가릴 때만 드러난다 */
 .dr-row {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.85rem 1rem;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  background: var(--bg);
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
 }
 
 /* 데모 전역 button 스타일이 손잡이에 묻지 않게 되돌린다 — 스킬 assets는 건드리지 않는다 */

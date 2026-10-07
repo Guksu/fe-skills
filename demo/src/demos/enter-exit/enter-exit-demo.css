@@ -1,9 +1,3 @@
-.playground {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
-
 .demo-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));

@@ -1,0 +1,2197 @@
+{
+  "date": "2026-10-07",
+  "about": "같은 요청문을 일반 Claude Code와 suta 플러그인을 설치한 Claude Code에 주고, 만든 index.html을 브라우저로 열어 잰 결과. 모델·설정·도구 권한은 두 조건이 같다. 방법은 docs/benchmark.md",
+  "prompts": [
+    "menu-detail",
+    "login",
+    "settings",
+    "dashboard",
+    "landing",
+    "cart",
+    "search-results",
+    "option-sheet"
+  ],
+  "metrics": [
+    {
+      "key": "overflow320",
+      "label": "320px에서 가로로 넘친 화면",
+      "en": "Pages that scroll sideways at 320px",
+      "kind": "share"
+    },
+    {
+      "key": "coveredByBar",
+      "label": "끝까지 내려도 하단 고정 바가 본문을 가리는 화면",
+      "en": "Pages where a fixed bottom bar still covers content at the end",
+      "kind": "share"
+    },
+    {
+      "key": "tinyText",
+      "label": "12px 미만 글자가 있는 화면",
+      "en": "Pages with text under 12px",
+      "kind": "share"
+    },
+    {
+      "key": "smallTargets",
+      "label": "24px 미만 터치 영역 (화면당)",
+      "en": "Touch targets under 24px (per page)",
+      "kind": "mean"
+    },
+    {
+      "key": "boxes",
+      "label": "카드형 상자 (화면당)",
+      "en": "Card-like boxes (per page)",
+      "kind": "mean",
+      "descriptive": true
+    },
+    {
+      "key": "nestedBoxes",
+      "label": "상자 안 상자 (화면당)",
+      "en": "Boxes nested in boxes (per page)",
+      "kind": "mean"
+    },
+    {
+      "key": "strongEffects",
+      "label": "그라데이션·흐림·큰 그림자 (화면당)",
+      "en": "Gradients, blurs, large shadows (per page)",
+      "kind": "mean"
+    },
+    {
+      "key": "fontSizes",
+      "label": "글자 크기 종류 (화면당)",
+      "en": "Distinct font sizes (per page)",
+      "kind": "mean"
+    },
+    {
+      "key": "centeredParagraphs",
+      "label": "가운데 정렬 문단 (화면당)",
+      "en": "Centered multi-line paragraphs (per page)",
+      "kind": "mean"
+    },
+    {
+      "key": "transitionAll",
+      "label": "`transition: all`을 쓴 화면",
+      "en": "Pages using `transition: all`",
+      "kind": "share"
+    },
+    {
+      "key": "layoutMotion",
+      "label": "너비·높이·위치·여백을 직접 움직인 화면",
+      "en": "Pages animating width, height, position or margins directly",
+      "kind": "share"
+    },
+    {
+      "key": "gridMotion",
+      "label": "격자 트랙(grid-template-rows)으로 높이를 여닫은 화면",
+      "en": "Pages opening height via grid tracks (grid-template-rows)",
+      "kind": "share",
+      "descriptive": true
+    },
+    {
+      "key": "reducedMotion",
+      "label": "움직임이 있는데 동작 줄이기 대응이 없는 화면",
+      "en": "Pages with motion but no reduced-motion support",
+      "kind": "share"
+    },
+    {
+      "key": "axeSerious",
+      "label": "접근성 위반 — 심각 이상 (화면당, axe)",
+      "en": "Serious+ accessibility violations (per page, axe)",
+      "kind": "mean"
+    },
+    {
+      "key": "axeAll",
+      "label": "접근성 위반 — 전체 (화면당, axe)",
+      "en": "All accessibility violations (per page, axe)",
+      "kind": "mean"
+    },
+    {
+      "key": "sutaErrors",
+      "label": "suta 검사 error (화면당)",
+      "en": "suta audit errors (per page)",
+      "kind": "mean",
+      "self": true
+    },
+    {
+      "key": "sutaWarns",
+      "label": "suta 검사 warn (화면당)",
+      "en": "suta audit warnings (per page)",
+      "kind": "mean",
+      "self": true
+    }
+  ],
+  "summary": {
+    "baseline": {
+      "pages": 16,
+      "metrics": {
+        "overflow320": {
+          "count": 2,
+          "of": 16
+        },
+        "coveredByBar": {
+          "count": 0,
+          "of": 16
+        },
+        "tinyText": {
+          "count": 4,
+          "of": 16
+        },
+        "smallTargets": 1.69,
+        "boxes": 7.88,
+        "nestedBoxes": 2.56,
+        "strongEffects": 2.94,
+        "fontSizes": 8.06,
+        "centeredParagraphs": 0.19,
+        "transitionAll": {
+          "count": 0,
+          "of": 16
+        },
+        "layoutMotion": {
+          "count": 1,
+          "of": 16
+        },
+        "gridMotion": {
+          "count": 0,
+          "of": 16
+        },
+        "reducedMotion": {
+          "count": 1,
+          "of": 16
+        },
+        "axeSerious": 5.44,
+        "axeAll": 5.44,
+        "sutaErrors": 0.13,
+        "sutaWarns": 5.88
+      },
+      "process": {
+        "medianSeconds": 61,
+        "meanTurns": 2.2,
+        "meanOutputTokens": 10051,
+        "meanInputTokens": 79881,
+        "skillRead": {
+          "count": 0,
+          "of": 16
+        },
+        "hookBlocks": 0,
+        "hookWarns": 0,
+        "pageErrors": {
+          "count": 0,
+          "of": 16
+        },
+        "permissionDenials": 0
+      }
+    },
+    "suta": {
+      "pages": 16,
+      "metrics": {
+        "overflow320": {
+          "count": 0,
+          "of": 16
+        },
+        "coveredByBar": {
+          "count": 0,
+          "of": 16
+        },
+        "tinyText": {
+          "count": 0,
+          "of": 16
+        },
+        "smallTargets": 0,
+        "boxes": 1.69,
+        "nestedBoxes": 0,
+        "strongEffects": 0,
+        "fontSizes": 4.13,
+        "centeredParagraphs": 0,
+        "transitionAll": {
+          "count": 0,
+          "of": 16
+        },
+        "layoutMotion": {
+          "count": 0,
+          "of": 16
+        },
+        "gridMotion": {
+          "count": 5,
+          "of": 16
+        },
+        "reducedMotion": {
+          "count": 0,
+          "of": 16
+        },
+        "axeSerious": 0.25,
+        "axeAll": 0.25,
+        "sutaErrors": 0,
+        "sutaWarns": 0.13
+      },
+      "process": {
+        "medianSeconds": 96,
+        "meanTurns": 8.3,
+        "meanOutputTokens": 14975,
+        "meanInputTokens": 341274,
+        "skillRead": {
+          "count": 16,
+          "of": 16
+        },
+        "hookBlocks": 0,
+        "hookWarns": 6,
+        "pageErrors": {
+          "count": 0,
+          "of": 16
+        },
+        "permissionDenials": 0
+      }
+    }
+  },
+  "judge": {
+    "judgments": 32,
+    "suta": 7,
+    "baseline": 25,
+    "tie": 0,
+    "consistentPairs": [
+      "baseline",
+      "baseline",
+      "baseline",
+      "suta",
+      "baseline",
+      "baseline",
+      "baseline",
+      "suta",
+      "baseline",
+      "baseline",
+      "suta",
+      "baseline",
+      "baseline",
+      "baseline",
+      "baseline"
+    ],
+    "byPrompt": {
+      "cart": {
+        "suta": 0,
+        "baseline": 4,
+        "tie": 0
+      },
+      "dashboard": {
+        "suta": 2,
+        "baseline": 2,
+        "tie": 0
+      },
+      "landing": {
+        "suta": 1,
+        "baseline": 3,
+        "tie": 0
+      },
+      "login": {
+        "suta": 0,
+        "baseline": 4,
+        "tie": 0
+      },
+      "menu-detail": {
+        "suta": 2,
+        "baseline": 2,
+        "tie": 0
+      },
+      "option-sheet": {
+        "suta": 2,
+        "baseline": 2,
+        "tie": 0
+      },
+      "search-results": {
+        "suta": 0,
+        "baseline": 4,
+        "tie": 0
+      },
+      "settings": {
+        "suta": 0,
+        "baseline": 4,
+        "tie": 0
+      }
+    },
+    "reasons": [
+      {
+        "pair": "cart-1",
+        "order": "base-first",
+        "winner": "baseline",
+        "reason": "A는 전체 선택·선택 삭제, 옵션, 개당 가격, 쿠폰 코드 칩, 안내 문구까지 갖춰 정보 위계와 간격이 일관되고 합계가 주 CTA 색과 맞물려 실서비스 수준인 반면, B는 헤더 \"4개\"인데 상품이 3개만 보이고 헤더 구분선이 없으며 데스크톱에서 하단 바와 버튼이 어색해 A가 더 완성도가 높다."
+      },
+      {
+        "pair": "cart-1",
+        "order": "suta-first",
+        "winner": "baseline",
+        "reason": "B는 전체 선택·선택 삭제, 개당 가격, 쿠폰 할인 줄, 안내 문구, 주황색 강조로 총 결제 금액과 CTA의 위계가 뚜렷하고, 모바일과 데스크톱 모두 간격·정렬이 일관되며 하단 버튼 영역도 컬럼 안에 단정하게 맞아 실제 서비스에 가까운 완성도를 보이는 반면, A는 기능은 갖췄지만 상대적으로 밋밋하고 데스크톱에서 하단 버튼이 컬럼 가장자리에 붙어 답답합니다."
+      },
+      {
+        "pair": "cart-2",
+        "order": "base-first",
+        "winner": "baseline",
+        "reason": "A는 상품 행(체크·썸네일·옵션·수량·가격·삭제)이 촘촘하고 일관되게 정렬돼 있고 결제 금액과 CTA의 위계도 분명한 반면, B는 헤더 아래 불필요한 빈 공간, 가격이 수량 조절 위에 떠 있는 어색한 배치, 행마다 높이가 커서 산만해 완성도가 떨어진다."
+      },
+      {
+        "pair": "cart-2",
+        "order": "suta-first",
+        "winner": "baseline",
+        "reason": "B는 전체 선택·선택 삭제, 옵션 정보, 가격과 수량 조절이 한 행에 정리된 촘촘한 구조에 컬러 썸네일, 일관된 간격, 강조된 최종 금액과 \"(4개)\" CTA까지 갖춰 실제 서비스 수준의 완성도를 보이는 반면, A는 가격·수량·삭제가 세로로 흩어져 위계가 느슨하고 상단 여백이 어색하며 세 번째 상품엔 부가 정보도 없다."
+      },
+      {
+        "pair": "dashboard-1",
+        "order": "base-first",
+        "winner": "baseline",
+        "reason": "A는 KPI 카드, 데스크톱 사이드바와 2단 배치, 모바일 하단 내비게이션, 상태 배지가 있는 주문 목록까지 갖춰 완성도가 높고 위계도 분명하며, Y축 라벨 줄바꿈이나 '일 10.11' 겹침 같은 작은 결함만 있는 반면, B는 깔끔하지만 밋밋하고 상품명이 잘리며 상태 구분이 약하고 '표로 보기'가 어색하게 떠 있으며 내비게이션도 없습니다."
+      },
+      {
+        "pair": "dashboard-1",
+        "order": "suta-first",
+        "winner": "baseline",
+        "reason": "B는 KPI 카드·증감 배지·처리할 일·상태 배지 주문 목록·사이드바와 하단 탭 등 실제 서비스 수준의 위계와 반응형 배치를 갖췄고 수치도 서로 맞는 반면(요일 라벨 \"일10.11\" 겹침과 y축 \"만\" 줄바꿈은 흠), A는 깔끔하지만 막대에 값 표기가 없고 데스크톱 하단이 비어 있으며 밋밋해서 완성도가 떨어집니다."
+      },
+      {
+        "pair": "dashboard-2",
+        "order": "base-first",
+        "winner": "suta",
+        "reason": "A는 막대그래프의 막대가 보이지 않고 축이 전부 0으로 나오며 데스크톱 표에서 주문번호·금액·시간이 어색하게 줄바꿈되는 등 결함이 커서, 그래프가 정상 표시되고 오늘 매출 중심의 위계가 분명하며 모바일·데스크톱 배치가 깔끔한 B가 더 출시할 만하다."
+      },
+      {
+        "pair": "dashboard-2",
+        "order": "suta-first",
+        "winner": "suta",
+        "reason": "B는 카드와 배지 등 겉모양은 더 완성돼 보이지만, 막대그래프의 막대가 보이지 않고 축 눈금이 모두 0이며 데스크톱 표에서 주문번호·금액·시간이 어색하게 줄바꿈되어 그대로 내보낼 수 없는 반면, A는 단순하지만 지표 위계가 분명하고 막대그래프와 주문 목록이 모바일·데스크톱 모두에서 깔끔하게 동작한다."
+      },
+      {
+        "pair": "landing-1",
+        "order": "base-first",
+        "winner": "baseline",
+        "reason": "A는 로고·캘린더 목업·아이콘 카드·강조된 CTA로 정보 위계와 시각적 완성도가 뚜렷하고 모바일·데스크톱 배치도 안정적인 반면, B는 단정하지만 밋밋하고 데스크톱 기능 3열에서 03번 제목이 다른 열과 어긋나 있습니다."
+      },
+      {
+        "pair": "landing-1",
+        "order": "suta-first",
+        "winner": "baseline",
+        "reason": "B는 캘린더 목업·카드형 기능 소개·배지·사회적 증거 등으로 위계와 완성도가 높고 모바일·데스크톱 배치도 안정적인 반면, A는 깔끔하지만 밋밋하고 데스크톱 기능 3열에서 03번 제목이 어긋나 정렬이 깨져 있습니다(B는 히어로 강조어 \"한 화면\"이 줄바꿈에서 갈라지는 흠이 있지만 상대적으로 사소합니다)."
+      },
+      {
+        "pair": "landing-2",
+        "order": "base-first",
+        "winner": "suta",
+        "reason": "B는 절제된 타이포 위계와 일관된 여백, 실제 일정 목록 목업, 번호·구분선으로 정리한 기능 섹션 덕분에 모바일·데스크톱 모두 읽기 쉽고 완성도가 높은 반면, A는 모바일 히어로 캘린더 목업의 글자가 작고 줄바꿈이 어색하며 기능 카드가 무겁고 템플릿스럽습니다."
+      },
+      {
+        "pair": "landing-2",
+        "order": "suta-first",
+        "winner": "baseline",
+        "reason": "B는 배지·강조색 헤드라인·주간 캘린더 목업으로 히어로의 위계가 또렷하고, 기능 카드의 아이콘과 일정한 간격, 연 결제 토글과 할인 표기까지 모바일·데스크톱 모두 서비스 수준으로 완성돼 있는 반면, A는 깔끔하지만 아이콘이나 카드 없이 텍스트 위주라 밋밋하고 시각적 구분이 약하다."
+      },
+      {
+        "pair": "login-1",
+        "order": "base-first",
+        "winner": "baseline",
+        "reason": "A는 카드형 레이아웃, 브랜드 로고, 소셜 버튼의 실제 브랜드 아이콘, 로그인 유지와 비밀번호 찾기의 한 줄 배치, 일관된 간격으로 완성도가 높고 모바일과 데스크톱 모두 안정적입니다. B는 깔끔하지만 밋밋하고 아이콘이 없으며 데스크톱에서 좌측 정렬된 폼이 허전하고, 비밀번호 찾기 링크와 회원가입 링크가 눈에 덜 띕니다."
+      },
+      {
+        "pair": "login-1",
+        "order": "suta-first",
+        "winner": "baseline",
+        "reason": "B는 카드 구성, 로고, 소셜 아이콘, 파란 링크와 로그인 유지 체크로 위계와 완성도가 높고 데스크톱에서도 화면 중앙에 안정적으로 놓이지만, A는 데스크톱에서 카드 없이 흰 바탕에 폼만 놓여 밋밋하고 소셜 버튼에 아이콘이 없으며 모바일 하단의 미리보기 버튼이 어수선합니다."
+      },
+      {
+        "pair": "login-2",
+        "order": "base-first",
+        "winner": "baseline",
+        "reason": "A는 카드 레이아웃과 굵은 라벨, 파란 링크로 위계가 분명하고, 모바일·데스크톱 모두 간격과 정렬이 일정하며 소셜 버튼도 브랜드 색으로 구분돼 완성도가 높습니다. B는 깔끔하지만 비밀번호 찾기가 회색이라 링크처럼 보이지 않고, 데스크톱에서 컨테이너 없이 떠 있어 밋밋합니다."
+      },
+      {
+        "pair": "login-2",
+        "order": "suta-first",
+        "winner": "baseline",
+        "reason": "B는 카드 안에서 제목·입력칸·로그인 버튼·소셜 버튼이 일관된 간격으로 정렬되고, \"비밀번호 찾기\"가 자동 로그인 체크박스와 같은 줄에서 파란 링크로 눈에 띄며, 카카오·네이버 브랜드 색 버튼이 국내 서비스에 맞고 모바일과 데스크톱 모두 한 화면에 안정적으로 들어오는 반면, A는 단정하지만 비밀번호 찾기 링크가 흐리고 소셜 버튼이 밋밋하며 데스크톱에서 카드 없이 밋밋하게 떠 있어 완성도가 B보다 낮습니다."
+      },
+      {
+        "pair": "menu-detail-1",
+        "order": "base-first",
+        "winner": "suta",
+        "reason": "A는 사이즈 카드 제목이 테두리에 걸려 어긋나 보이고 카드가 많아 답답한 반면, B는 옵션 리스트·하단 고정 수량/담기 바의 위계와 간격·정렬이 일관되고 모바일·데스크톱 모두 깔끔해 바로 내보낼 만합니다."
+      },
+      {
+        "pair": "menu-detail-1",
+        "order": "suta-first",
+        "winner": "suta",
+        "reason": "A는 위계와 간격·정렬이 일관되고 하단 고정 바에 수량과 담기 버튼을 깔끔하게 묶어 결함 없이 바로 내보낼 수 있는 반면, B는 더 풍부해 보이지만 \"사이즈\" 레전드가 카드 테두리에 겹치고 사이즈 타일 텍스트가 빽빽하며 컵 일러스트 하단이 잘려 보이는 등 완성도 결함이 눈에 띈다."
+      },
+      {
+        "pair": "menu-detail-2",
+        "order": "base-first",
+        "winner": "baseline",
+        "reason": "A는 이름·가격 위계가 뚜렷하고 사이즈·샷·수량이 카드로 깔끔하게 나뉘며 하단 CTA에 선택 요약과 금액이 함께 있어 완성도가 높고(설명 줄바꿈이 단어 중간에서 끊기는 점은 아쉽다), B는 깔끔하지만 가격이 작고 전체적으로 밋밋하며 데스크톱에서 옵션이 잘려 보인다."
+      },
+      {
+        "pair": "menu-detail-2",
+        "order": "suta-first",
+        "winner": "baseline",
+        "reason": "B가 더 낫다고 봤습니다. 이름과 가격을 한 줄에 두고 태그, 카드형 옵션 그룹, 선택 상태가 분명한 사이즈 칩, 스테퍼, 옵션 요약, 가격이 들어간 하단 고정 CTA까지 위계와 완성도가 높습니다. 설명 문구가 단어 중간에서 줄바꿈되는 점(메/뉴요)과 아이콘이 모호한 점은 흠이지만, 밋밋한 리스트형이고 데스크톱 첫 화면에서 옵션이 잘리는 A보다 서비스 품질에 가깝습니다."
+      },
+      {
+        "pair": "option-sheet-1",
+        "order": "base-first",
+        "winner": "baseline",
+        "reason": "A는 헤더 제목, 할인율·가격·정가로 이어지는 위계, 데스크톱 첫 화면에서 잘림 없이 정돈된 배치가 좋은 반면, B는 데스크톱에서 하단 고정 버튼 밑으로 '알레르기' 행이 겹쳐 잘리고 헤더가 비어 있으며 배경 구분도 약해 완성도가 떨어진다."
+      },
+      {
+        "pair": "option-sheet-1",
+        "order": "suta-first",
+        "winner": "baseline",
+        "reason": "B는 제목 있는 헤더, 브랜드·상품명·할인율·가격으로 이어지는 뚜렷한 위계, 회색 배경 위에 앉힌 데스크톱 중앙 컬럼 덕분에 완성도가 높습니다. A는 스펙 표가 유용하지만 헤더가 비어 있고 흰 배경에 컬럼이 묻히며, 데스크톱 첫 화면에서 알레르기 행이 하단 버튼에 가려져 덜 다듬어 보입니다."
+      },
+      {
+        "pair": "option-sheet-2",
+        "order": "base-first",
+        "winner": "suta",
+        "reason": "B는 가격·설명·스펙 표가 좌측 여백에 일관되게 정렬되고 따뜻한 톤과 위계가 안정적인 반면, A는 불릿이 본문 여백 밖으로 튀어나오고 모바일 하단이 비어 있으며 데스크톱에서 목록이 하단 버튼에 잘려 완성도가 떨어진다."
+      },
+      {
+        "pair": "option-sheet-2",
+        "order": "suta-first",
+        "winner": "suta",
+        "reason": "A는 정보 위계와 여백·정렬이 일관되고 스펙 표와 CTA도 정돈된 반면, B는 목록 불릿이 본문 여백 밖으로 튀어나와 정렬이 깨지고 데스크톱에서 하단 고정 버튼에 내용이 가려져 완성도가 떨어진다."
+      },
+      {
+        "pair": "search-results-1",
+        "order": "base-first",
+        "winner": "baseline",
+        "reason": "A는 현위치·검색창·칩·정렬이 뚜렷한 위계로 쌓여 있고, 카드마다 평점·거리·영업 상태(초록/회색)가 한 줄에서 바로 구분되며 모바일·데스크톱 모두 간격과 정렬이 일관된 반면, B는 깔끔하지만 영업 상태 구분이 약하고 정렬 컨트롤이 흐리며 데스크톱에서는 목록이 밋밋하게 비어 보인다."
+      },
+      {
+        "pair": "search-results-1",
+        "order": "suta-first",
+        "winner": "baseline",
+        "reason": "B는 현재 위치, 카드형 목록, 메뉴 설명, 평점·거리·영업 상태를 한 줄에 아이콘과 색으로 구분해 정보 위계와 완성도가 더 높습니다. A는 깔끔하지만 거리와 영업 상태가 회색 메타 텍스트에 묻히고 데스크톱에서 밋밋한 단일 열로 보입니다."
+      },
+      {
+        "pair": "search-results-2",
+        "order": "base-first",
+        "winner": "baseline",
+        "reason": "A는 카드 간격과 정렬이 일정하고, 이름·평점·거리·영업 상태가 한 줄에 정리돼 위계가 또렷하며, 선택된 칩과 보조 필터(평점·거리)까지 갖춰 완성도가 높습니다. B는 깔끔하지만 거리가 오른쪽 끝에 떨어져 시선이 분산되고, 데스크톱에서 행 오른쪽이 휑하며 선택된 칩도 없어 상대적으로 덜 완성돼 보입니다."
+      },
+      {
+        "pair": "search-results-2",
+        "order": "suta-first",
+        "winner": "baseline",
+        "reason": "B는 활성 칩, 영업 상태 색 구분, 카드형 목록 덕분에 위계와 완성도가 더 높습니다. 반면 A는 깔끔해도 선택된 필터 상태가 없고 밋밋하며, B의 약점인 거리 위치 불일치와 데스크톱 카드의 빈 공간은 크게 거슬리지 않습니다."
+      },
+      {
+        "pair": "settings-1",
+        "order": "base-first",
+        "winner": "baseline",
+        "reason": "A는 카드 단위로 영역이 분명히 나뉘고 토글·간격·정렬이 일관되며 로그아웃과 회원 탈퇴의 위계도 뚜렷해 모바일과 데스크톱 모두 완성도가 높은 반면, B는 구분선이 들쭉날쭉하고 테마 아래 빈 공간이 어색하며 데스크톱에서 좁은 열에 내용이 밋밋하게 놓여 덜 다듬어져 보인다."
+      },
+      {
+        "pair": "settings-1",
+        "order": "suta-first",
+        "winner": "baseline",
+        "reason": "B는 카드 단위 그룹핑, 일관된 간격, 프로필 편집 버튼, 구분된 로그아웃/탈퇴 영역으로 위계와 완성도가 높고 모바일 레이아웃도 안정적인 반면, A는 평평한 리스트에 프로필 영역이 약하고 테마와 계정 사이 여백이 어색하며 데스크톱에서 좁은 열에 빈 공간이 많고, B의 데스크톱 첫 화면에서 회원 탈퇴가 잘리는 단점은 있으나 전반적으로 더 서비스에 가깝다."
+      },
+      {
+        "pair": "settings-2",
+        "order": "base-first",
+        "winner": "baseline",
+        "reason": "A는 프로필·알림·화면 설정이 카드로 명확히 구획되고 토글·보조 설명·세그먼트 컨트롤의 간격과 정렬이 모바일·데스크톱 모두 일관돼 완성도가 높은 반면, B는 깔끔하지만 구획이 약해 위계가 평평하고 하단 로그아웃·탈퇴가 일반 목록처럼 보입니다."
+      },
+      {
+        "pair": "settings-2",
+        "order": "suta-first",
+        "winner": "baseline",
+        "reason": "B는 카드로 영역을 나눠 프로필·알림·화면/언어·계정 그룹이 뚜렷하고, 프로필 편집 버튼과 아바타, 버전 표기까지 있어 완성도가 높으며 모바일과 데스크톱 모두 정렬과 간격이 일관됩니다. A는 깔끔하지만 구분선만 쓴 평평한 목록이라 위계가 약하고 하단 여백이 어색합니다."
+      }
+    ]
+  },
+  "judgeAlt": {
+    "judgments": 32,
+    "suta": 14,
+    "baseline": 18,
+    "tie": 0,
+    "consistentPairs": [
+      "baseline",
+      "baseline",
+      "suta",
+      "suta",
+      "suta",
+      "suta",
+      "baseline",
+      "baseline",
+      "suta",
+      "baseline",
+      "baseline",
+      "suta",
+      "baseline",
+      "baseline"
+    ],
+    "byPrompt": {
+      "cart": {
+        "suta": 0,
+        "baseline": 4,
+        "tie": 0
+      },
+      "dashboard": {
+        "suta": 4,
+        "baseline": 0,
+        "tie": 0
+      },
+      "landing": {
+        "suta": 4,
+        "baseline": 0,
+        "tie": 0
+      },
+      "login": {
+        "suta": 0,
+        "baseline": 4,
+        "tie": 0
+      },
+      "menu-detail": {
+        "suta": 2,
+        "baseline": 2,
+        "tie": 0
+      },
+      "option-sheet": {
+        "suta": 2,
+        "baseline": 2,
+        "tie": 0
+      },
+      "search-results": {
+        "suta": 2,
+        "baseline": 2,
+        "tie": 0
+      },
+      "settings": {
+        "suta": 0,
+        "baseline": 4,
+        "tie": 0
+      }
+    },
+    "reasons": [
+      {
+        "pair": "cart-1",
+        "order": "base-first",
+        "winner": "baseline",
+        "reason": "A는 선택 체크박스·단가 표시·쿠폰 칩 등 정보 위계가 촘촘하고, 데스크톱에서도 하단 주문 바가 콘텐츠 열과 정렬되어 일관적인 반면, B는 헤더에 '4개'라 적고 상품은 3개만 보여 주며 데스크톱 주문 버튼이 본문 좌우 여백과 어긋나 완성도가 떨어진다."
+      },
+      {
+        "pair": "cart-1",
+        "order": "suta-first",
+        "winner": "baseline",
+        "reason": "B가 더 낫습니다. 선택 체크박스, 개당 가격, 쿠폰 할인 행, 안내 문구까지 갖춰 정보의 위계와 완성도가 높고, 강조색도 일관되게 썼으며, 데스크톱 하단 주문 바도 콘텐츠 폭에 맞게 깔끔하게 정렬되어 있습니다. 반면 A는 헤더에 '4개'라고 적혀 있지만 상품은 3개만 보여 숫자가 서로 맞지 않습니다."
+      },
+      {
+        "pair": "cart-2",
+        "order": "base-first",
+        "winner": "baseline",
+        "reason": "A는 전체 선택·체크박스, 상품명·옵션·수량·가격을 촘촘하고 일관되게 정렬한 행 구성으로 위계가 분명하고, 모바일과 데스크톱 모두 완성도가 높습니다. B는 가격이 수량 조절 버튼과 떨어져 혼자 떠 있고 헤더 아래 여백이 어색하며, 헤더의 개수(4)가 표시된 상품 수(3개)와 맞지 않아 보여 다듬어지지 않은 느낌입니다."
+      },
+      {
+        "pair": "cart-2",
+        "order": "suta-first",
+        "winner": "baseline",
+        "reason": "B는 수량 조절기와 굵은 가격을 한 줄에 맞추고 전체 선택·삭제 동작과 총 결제 금액 강조까지 갖춰 위계와 정렬이 깔끔한 반면, A는 헤더 아래 여백이 지나치게 크고 가격이 따로 떠 있는 줄에 놓여 상품 행이 늘어지고 엉성해 보이므로 B가 더 완성도 높습니다."
+      },
+      {
+        "pair": "dashboard-1",
+        "order": "base-first",
+        "winner": "suta",
+        "reason": "A는 내비게이션, 상태 배지, 처리할 일 목록까지 갖춰 기능은 더 풍부하지만, 그래프 Y축 라벨이 '400/만'처럼 줄바꿈되고 '일10.11' 라벨이 겹치는 등 눈에 띄는 마감 결함이 있어 그대로 내보내기 어렵고, B는 오늘 매출을 크게 강조해 정보의 위계가 분명하며 간격과 정렬이 일관되고 모바일과 데스크톱 모두 결함 없이 깔끔하게 정리되어 있습니다."
+      },
+      {
+        "pair": "dashboard-1",
+        "order": "suta-first",
+        "winner": "suta",
+        "reason": "B는 정보가 더 풍부하지만, 그래프 Y축 라벨이 '400/만'처럼 줄바꿈되고 '일10.11' 라벨이 어긋나는 등 바로 보이는 결함이 있습니다. A는 오늘 매출을 가장 크게 보여 주는 명확한 위계, 일관된 간격과 정렬, 깔끔한 모바일·데스크톱 배치를 결함 없이 갖춰 그대로 내보내기에 더 적합합니다."
+      },
+      {
+        "pair": "dashboard-2",
+        "order": "base-first",
+        "winner": "suta",
+        "reason": "A는 카드 구성과 사이드바가 더 풍부하지만, 핵심 요소인 막대그래프가 깨져 축 눈금이 모두 0이고 막대가 보이지 않으며, 데스크톱 주문 표에서도 주문번호·금액·시간이 어색하게 줄바꿈되어 그대로 출시할 수 없는 반면, B는 모바일 지표 박스의 오른쪽 테두리가 잘리는 작은 흠이 있어도 그래프와 위계, 정렬이 두 화면 모두에서 깔끔하게 완성되어 있다."
+      },
+      {
+        "pair": "dashboard-2",
+        "order": "suta-first",
+        "winner": "suta",
+        "reason": "B는 카드 구성과 사이드바가 풍부하지만, 모바일과 데스크톱 모두 핵심인 막대그래프에 막대가 그려지지 않고 축 값이 전부 0으로 깨져 있으며, 데스크톱 주문 표의 주문번호·금액·시간이 어색하게 줄바꿈되어 그대로 내보내기 어렵습니다. A는 모바일 지표 박스 오른쪽 테두리가 잘리는 작은 흠이 있지만, 오늘 매출을 중심으로 한 정보 위계가 분명하고 그래프와 주문 목록이 두 화면 모두에서 정돈되어 완성도가 더 높습니다."
+      },
+      {
+        "pair": "landing-1",
+        "order": "base-first",
+        "winner": "suta",
+        "reason": "A는 강조 문구 '한 화면'이 줄바꿈으로 쪼개지고 모바일 주간 캘린더 글자가 너무 작고 빽빽하며 내비게이션에서 FAQ만 굵게 나오는 등 마감이 거칠지만, B는 제목 줄바꿈이 자연스럽고 위계가 절제되어 있으며 모바일과 데스크톱 모두 간격과 정렬이 일관되어 그대로 내보내기에 더 완성도가 높다."
+      },
+      {
+        "pair": "landing-1",
+        "order": "suta-first",
+        "winner": "suta",
+        "reason": "B가 장식과 시각적 풍부함은 더 낫지만, 모바일과 데스크톱 모두 히어로 헤드라인이 '한 / 화면에서'로 어절 중간에서 끊기고 본문도 '보내 / 드립니다'처럼 어색하게 줄바꿈되어 가장 눈에 띄는 곳의 완성도가 떨어지는 반면, A는 데스크톱 기능 3번 제목이 조금 어긋난 것 말고는 위계와 간격, 줄바꿈이 깔끔하고 일관되어 그대로 내보내기에 더 적합하다."
+      },
+      {
+        "pair": "landing-2",
+        "order": "base-first",
+        "winner": "suta",
+        "reason": "A는 색감과 시각 요소가 풍부하지만 390px 모바일에서 5열 주간 캘린더의 일정 이름이 좁은 칸에서 줄바꿈되고 기능 카드 본문도 일찍 줄바꿈되는 반면, B는 왼쪽 정렬과 번호 목록, 일정 리스트로 위계와 간격이 모바일과 데스크톱 모두에서 고르게 유지돼 그대로 내보내기에 더 완성도가 높다."
+      },
+      {
+        "pair": "landing-2",
+        "order": "suta-first",
+        "winner": "suta",
+        "reason": "B가 장식 요소는 더 많지만 모바일에서 5열 주간 캘린더가 좁아 '기획 회의'·'디자인 리뷰' 같은 일정 이름이 줄바꿈되고 깨져 보이고, 가운데 정렬과 왼쪽 정렬이 섞여 있습니다. 반면 A는 모바일과 데스크톱 모두 왼쪽 정렬과 간격이 일관되고, 히어로 일정 카드와 기능 목록이 또렷하게 읽혀 그대로 출시하기에 더 안정적입니다."
+      },
+      {
+        "pair": "login-1",
+        "order": "base-first",
+        "winner": "baseline",
+        "reason": "A는 브랜드 영역, 카드 레이아웃, 아이콘이 들어간 소셜 버튼, 로그인 상태 유지와 비밀번호 찾기를 한 줄에 맞춘 배치로 정보 위계와 완성도가 높고 데스크톱에서도 배경과 카드로 구조가 잘 잡힌 반면, B는 깔끔하지만 소셜 버튼에 아이콘이 없고 굵은 글씨가 주 버튼과 위계를 다투며 데스크톱이 흰 배경 위에 덩그러니 놓여 덜 다듬어 보입니다."
+      },
+      {
+        "pair": "login-1",
+        "order": "suta-first",
+        "winner": "baseline",
+        "reason": "두 화면 모두 오류 상태는 미리보기 토글로만 제공하지만, B는 브랜드 아이콘이 있는 소셜 버튼, 서비스 로고와 카드 구성, 로그인 상태 유지와 비밀번호 찾기를 한 줄에 맞춘 배치 덕분에 위계와 완성도가 더 높고 모바일과 데스크톱 모두 잘 다듬어져 있어 아이콘 없이 밋밋한 A보다 실제 서비스에 내보내기에 적합합니다."
+      },
+      {
+        "pair": "login-2",
+        "order": "base-first",
+        "winner": "baseline",
+        "reason": "A는 카드 안에서 요소들이 촘촘하고 일관되게 정렬되어 있고, 비밀번호 찾기와 로그인 상태 유지가 한 줄에 놓여 흐름이 자연스러우며, 카카오·네이버 버튼에 실제 브랜드 색을 써서 모바일과 데스크톱 모두 완성도가 높습니다. 반면 B는 간격이 느슨하고 비밀번호 찾기 링크가 따로 떨어져 있으며, 소셜 버튼을 모두 단색으로 처리해 실제 서비스 수준의 마감이 부족합니다."
+      },
+      {
+        "pair": "login-2",
+        "order": "suta-first",
+        "winner": "baseline",
+        "reason": "두 화면 모두 오류 상태는 보이지 않지만, B는 카드 안에 요소를 촘촘하고 일관되게 묶었고 로그인 유지와 비밀번호 찾기를 한 줄에 정리했으며 Google·카카오·네이버 브랜드 색 버튼과 가운데 정렬된 하단 링크로 모바일과 데스크톱 모두에서 실제 서비스 수준의 완성도를 보여 주는 반면, A는 간격이 들쭉날쭉하고 하단 링크와 안내 문구가 왼쪽에 붙어 있어 상대적으로 덜 다듬어져 보입니다."
+      },
+      {
+        "pair": "menu-detail-1",
+        "order": "base-first",
+        "winner": "suta",
+        "reason": "A는 사이즈 카드의 '사이즈' 제목이 카드 테두리 위에 걸쳐 깨져 있고 섹션마다 카드 스타일이 달라 정리가 덜 됐지만, B는 리스트형 옵션과 하단 수량·담기 바의 정렬과 간격이 모바일과 데스크톱 모두에서 깔끔하고 일관되어 그대로 내보내도 될 만큼 완성도가 높습니다."
+      },
+      {
+        "pair": "menu-detail-1",
+        "order": "suta-first",
+        "winner": "suta",
+        "reason": "B는 장식 요소가 더 많지만, '사이즈' 제목이 카드 테두리에 걸쳐 잘려 보이고 사이즈 카드 안의 아이콘과 텍스트 높이가 서로 맞지 않습니다. 반면 A는 사진, 이름·가격, 옵션, 하단 수량·담기 버튼의 위계가 분명하고 간격과 정렬이 모바일·데스크톱 모두에서 깔끔하게 일관되어 그대로 내보내기에 더 적합합니다."
+      },
+      {
+        "pair": "menu-detail-2",
+        "order": "base-first",
+        "winner": "baseline",
+        "reason": "두 안 모두 깔끔하지만, A는 이름·가격의 좌우 배치와 태그부터 카드로 묶은 옵션, 선택 요약, 금액이 표시된 하단 고정 버튼까지 정보의 위계가 분명하고 시각적 완성도가 높습니다. 반면 B는 단순한 리스트형 구성이라 상대적으로 밋밋하므로 A가 실제 서비스에 내보내기에 더 적합합니다."
+      },
+      {
+        "pair": "menu-detail-2",
+        "order": "suta-first",
+        "winner": "baseline",
+        "reason": "B는 A보다 실제 서비스에 가깝게 완성됐습니다. 이름·가격·태그로 정보 위계가 분명하고, 사이즈 선택 카드와 필수·최대 안내, 샷·수량 스테퍼, 선택 요약, 고정된 담기 버튼까지 갖췄습니다. 설명문 줄바꿈이 단어 중간에서 끊기는 흠은 있지만 A의 단조로운 리스트 구성보다 낫습니다."
+      },
+      {
+        "pair": "option-sheet-1",
+        "order": "base-first",
+        "winner": "baseline",
+        "reason": "두 화면 모두 바텀시트와 토스트는 보이지 않지만, A는 브랜드·할인율·가격 순으로 정보 위계가 더 뚜렷하고 데스크톱에서도 회색 배경 위 중앙 컬럼으로 깔끔하게 정리된 반면, B는 데스크톱에서 하단 버튼 바가 마지막 스펙 행을 가리고 컬럼 경계가 흐려 완성도가 조금 떨어집니다."
+      },
+      {
+        "pair": "option-sheet-1",
+        "order": "suta-first",
+        "winner": "baseline",
+        "reason": "두 안 모두 스크린샷에는 바텀시트가 열린 상태가 없어 기본 상품 화면만 비교할 수 있었는데, B는 브랜드·상품명·할인가로 이어지는 정보 위계가 뚜렷하고 데스크톱에서도 중앙 프레임 안에 깔끔하게 정리된 반면, A는 데스크톱에서 하단 고정 버튼 바가 '알레르기' 행을 가리고 헤더가 정돈되지 않아 완성도가 떨어진다."
+      },
+      {
+        "pair": "option-sheet-2",
+        "order": "base-first",
+        "winner": "suta",
+        "reason": "A는 불릿 목록의 점이 본문 여백 밖 화면 가장자리까지 삐져나와 있고, 데스크톱에서는 하단 고정 버튼이 목록을 반쯤 가려 글자가 잘리는 반면, B는 카테고리·상품명·가격·설명·스펙 표로 이어지는 위계가 분명하고 여백과 정렬이 모바일과 데스크톱 모두에서 일정해 완성도가 더 높다."
+      },
+      {
+        "pair": "option-sheet-2",
+        "order": "suta-first",
+        "winner": "suta",
+        "reason": "A는 브랜드명, 상품명, 가격, 설명, 스펙 표의 위계와 좌측 정렬이 모바일과 데스크톱 모두에서 고르게 맞지만, B는 특징 목록의 글머리표가 콘텐츠 여백 밖(모바일에서는 화면 왼쪽 끝)으로 삐져나와 정렬이 깨져 있어 완성도가 떨어진다."
+      },
+      {
+        "pair": "search-results-1",
+        "order": "base-first",
+        "winner": "suta",
+        "reason": "B가 더 낫습니다. 두 안 모두 데스크톱에서 폭을 넓게 쓰지 못하고, 검색 결과가 없을 때의 화면도 스크린샷에서 확인되지 않습니다. 그래도 B는 가게 이름·평점·카테고리/거리를 촘촘한 위계로 묶어 읽기 쉽고, 간결한 구분선 목록으로 정렬이 일관적입니다. 반면 A는 카드 안에서 이름과 평점 사이가 어색하게 비어 있고, 썸네일 색이 강해 시선이 분산됩니다."
+      },
+      {
+        "pair": "search-results-1",
+        "order": "suta-first",
+        "winner": "baseline",
+        "reason": "두 안 모두 데스크톱에서 좁은 단일 열을 그대로 쓰고 결과 없음 화면도 보이지 않지만, B는 현재 위치 표시, 대표 메뉴 줄, 위치 아이콘이 붙은 거리, 색으로 구분한 영업 상태 덕분에 정보 위계가 더 분명하고 카드 간격과 정렬도 일정해서, 밋밋한 리스트에 데스크톱 칩 간격이 어색한 A보다 실서비스 완성도가 높다."
+      },
+      {
+        "pair": "search-results-2",
+        "order": "base-first",
+        "winner": "suta",
+        "reason": "빈 결과 화면은 둘 다 없고 데스크톱도 둘 다 모바일을 좁게 늘린 수준이지만, B는 실제 검색어·뒤로가기·지우기 버튼으로 검색 맥락이 분명하고, 이름·평점·부가정보가 3단 위계로 정리되어 있으며, 거리를 오른쪽 끝에 맞추고 구분선 목록으로 간결하게 정렬해 A의 카드형 목록보다 읽기 쉽고 완성도가 높다."
+      },
+      {
+        "pair": "search-results-2",
+        "order": "suta-first",
+        "winner": "baseline",
+        "reason": "빈 결과 화면은 두 시안 모두 스크린샷에 없지만, B는 선택된 필터 칩 상태와 종류·조건 칩 사이의 구분선, '가게 이름 → 종류 → 평점·거리·영업 상태'로 이어지는 뚜렷한 정보 위계, 모바일과 데스크톱에 똑같이 적용된 카드 간격과 정렬 덕분에 A보다 실제 서비스에 바로 내보낼 만큼 완성도가 높다."
+      },
+      {
+        "pair": "settings-1",
+        "order": "base-first",
+        "winner": "baseline",
+        "reason": "A는 프로필·알림·화면·계정을 카드로 묶어 위계가 분명하고 간격과 정렬이 모바일·데스크톱 모두에서 고르게 맞는 반면, B는 카드 없이 평면적으로 나열돼 구분선 폭이 콘텐츠 폭과 맞지 않고 계정 섹션 앞에 어색한 빈 공간이 있어 A보다 완성도가 떨어진다."
+      },
+      {
+        "pair": "settings-1",
+        "order": "suta-first",
+        "winner": "baseline",
+        "reason": "B는 카드로 묶은 섹션 덕분에 정보 위계가 분명하고, 간격과 정렬이 고르며, 로그아웃과 회원 탈퇴의 무게도 잘 나눴다. 반면 A는 행 간격이 빠듯하고 계정 섹션 앞에 빈 공간이 크게 남으며, 구분선이 콘텐츠 들여쓰기와 어긋나 완성도가 떨어진다."
+      },
+      {
+        "pair": "settings-2",
+        "order": "base-first",
+        "winner": "baseline",
+        "reason": "A는 회색 배경 위에 섹션별 카드로 묶어 프로필·알림·화면 설정·계정 영역의 위계가 뚜렷하고, 여백과 정렬이 일정하며 버전 표기까지 있어 완성도가 높습니다. 반면 B는 평면적인 목록이라 섹션 구분이 약하고, 로그아웃과 회원 탈퇴도 밋밋하게 처리되어 실제 서비스에 내보내기에는 덜 다듬어진 느낌입니다."
+      },
+      {
+        "pair": "settings-2",
+        "order": "suta-first",
+        "winner": "baseline",
+        "reason": "B는 회색 배경 위에 섹션별 카드를 나눠 프로필·알림·화면·계정 영역의 위계가 분명하고, 간격과 정렬도 일정하며, 편집 버튼과 버전 표기 같은 마감 요소까지 갖춰 모바일과 데스크톱 모두 A보다 완성도가 높습니다."
+      }
+    ]
+  },
+  "perPrompt": {
+    "cart": {
+      "baseline": {
+        "overflow320": 0,
+        "nestedBoxes": 0,
+        "strongEffects": 0.5,
+        "fontSizes": 8.5,
+        "axeSerious": 9.5,
+        "seconds": 64
+      },
+      "suta": {
+        "overflow320": 0,
+        "nestedBoxes": 0,
+        "strongEffects": 0,
+        "fontSizes": 4.5,
+        "axeSerious": 0,
+        "seconds": 96
+      }
+    },
+    "dashboard": {
+      "baseline": {
+        "overflow320": 0,
+        "nestedBoxes": 0,
+        "strongEffects": 0.5,
+        "fontSizes": 10,
+        "axeSerious": 2.5,
+        "seconds": 79
+      },
+      "suta": {
+        "overflow320": 0,
+        "nestedBoxes": 0,
+        "strongEffects": 0,
+        "fontSizes": 5,
+        "axeSerious": 0,
+        "seconds": 107
+      }
+    },
+    "landing": {
+      "baseline": {
+        "overflow320": 1,
+        "nestedBoxes": 5.5,
+        "strongEffects": 6,
+        "fontSizes": 14,
+        "axeSerious": 6.5,
+        "seconds": 77
+      },
+      "suta": {
+        "overflow320": 0,
+        "nestedBoxes": 0,
+        "strongEffects": 0,
+        "fontSizes": 5,
+        "axeSerious": 0,
+        "seconds": 83
+      }
+    },
+    "login": {
+      "baseline": {
+        "overflow320": 0,
+        "nestedBoxes": 0,
+        "strongEffects": 1,
+        "fontSizes": 7,
+        "axeSerious": 0.5,
+        "seconds": 44
+      },
+      "suta": {
+        "overflow320": 0,
+        "nestedBoxes": 0,
+        "strongEffects": 0,
+        "fontSizes": 3.5,
+        "axeSerious": 0,
+        "seconds": 98
+      }
+    },
+    "menu-detail": {
+      "baseline": {
+        "overflow320": 0,
+        "nestedBoxes": 3,
+        "strongEffects": 2,
+        "fontSizes": 7.5,
+        "axeSerious": 8,
+        "seconds": 45
+      },
+      "suta": {
+        "overflow320": 0,
+        "nestedBoxes": 0,
+        "strongEffects": 0,
+        "fontSizes": 4,
+        "axeSerious": 0.5,
+        "seconds": 80
+      }
+    },
+    "option-sheet": {
+      "baseline": {
+        "overflow320": 0,
+        "nestedBoxes": 0,
+        "strongEffects": 1,
+        "fontSizes": 5,
+        "axeSerious": 1,
+        "seconds": 78
+      },
+      "suta": {
+        "overflow320": 0,
+        "nestedBoxes": 0,
+        "strongEffects": 0,
+        "fontSizes": 4,
+        "axeSerious": 0.5,
+        "seconds": 148
+      }
+    },
+    "search-results": {
+      "baseline": {
+        "overflow320": 1,
+        "nestedBoxes": 12,
+        "strongEffects": 12,
+        "fontSizes": 5,
+        "axeSerious": 9.5,
+        "seconds": 60
+      },
+      "suta": {
+        "overflow320": 0,
+        "nestedBoxes": 0,
+        "strongEffects": 0,
+        "fontSizes": 3,
+        "axeSerious": 0,
+        "seconds": 86
+      }
+    },
+    "settings": {
+      "baseline": {
+        "overflow320": 0,
+        "nestedBoxes": 0,
+        "strongEffects": 0.5,
+        "fontSizes": 7.5,
+        "axeSerious": 6,
+        "seconds": 59
+      },
+      "suta": {
+        "overflow320": 0,
+        "nestedBoxes": 0,
+        "strongEffects": 0,
+        "fontSizes": 4,
+        "axeSerious": 1,
+        "seconds": 147
+      }
+    }
+  },
+  "runs": [
+    {
+      "prompt": "cart",
+      "condition": "baseline",
+      "rep": 1,
+      "seconds": 72,
+      "turns": 2,
+      "outputTokens": 11223,
+      "skillRead": false,
+      "patterns": [],
+      "hookBlocks": 0,
+      "hookWarns": 0,
+      "overflow320": false,
+      "overflow390": false,
+      "coveredByBar": false,
+      "tinyText": 0,
+      "smallTargets": 0,
+      "boxes": 0,
+      "nestedBoxes": 0,
+      "strongEffects": 0,
+      "fontSizes": 9,
+      "centeredParagraphs": 0,
+      "moving": 6,
+      "transitionAll": 0,
+      "layoutMotion": 0,
+      "gridMotion": 0,
+      "reducedMotion": true,
+      "pageErrors": 0,
+      "axe": {
+        "serious": 7,
+        "all": 7,
+        "rules": [
+          "color-contrast"
+        ]
+      },
+      "suta": {
+        "errors": 0,
+        "warns": 3
+      }
+    },
+    {
+      "prompt": "cart",
+      "condition": "baseline",
+      "rep": 2,
+      "seconds": 55,
+      "turns": 2,
+      "outputTokens": 8806,
+      "skillRead": false,
+      "patterns": [],
+      "hookBlocks": 0,
+      "hookWarns": 0,
+      "overflow320": false,
+      "overflow390": false,
+      "coveredByBar": false,
+      "tinyText": 0,
+      "smallTargets": 0,
+      "boxes": 4,
+      "nestedBoxes": 0,
+      "strongEffects": 1,
+      "fontSizes": 8,
+      "centeredParagraphs": 0,
+      "moving": 6,
+      "transitionAll": 0,
+      "layoutMotion": 0,
+      "gridMotion": 0,
+      "reducedMotion": false,
+      "pageErrors": 0,
+      "axe": {
+        "serious": 12,
+        "all": 12,
+        "rules": [
+          "color-contrast"
+        ]
+      },
+      "suta": {
+        "errors": 0,
+        "warns": 4
+      }
+    },
+    {
+      "prompt": "dashboard",
+      "condition": "baseline",
+      "rep": 1,
+      "seconds": 86,
+      "turns": 3,
+      "outputTokens": 13287,
+      "skillRead": false,
+      "patterns": [],
+      "hookBlocks": 0,
+      "hookWarns": 0,
+      "overflow320": false,
+      "overflow390": false,
+      "coveredByBar": false,
+      "tinyText": 13,
+      "smallTargets": 2,
+      "boxes": 7,
+      "nestedBoxes": 0,
+      "strongEffects": 0,
+      "fontSizes": 10,
+      "centeredParagraphs": 0,
+      "moving": 4,
+      "transitionAll": 0,
+      "layoutMotion": 0,
+      "gridMotion": 0,
+      "reducedMotion": true,
+      "pageErrors": 0,
+      "axe": {
+        "serious": 5,
+        "all": 5,
+        "rules": [
+          "button-name",
+          "label-content-name-mismatch",
+          "nested-interactive"
+        ]
+      },
+      "suta": {
+        "errors": 0,
+        "warns": 7
+      }
+    },
+    {
+      "prompt": "dashboard",
+      "condition": "baseline",
+      "rep": 2,
+      "seconds": 71,
+      "turns": 2,
+      "outputTokens": 11327,
+      "skillRead": false,
+      "patterns": [],
+      "hookBlocks": 0,
+      "hookWarns": 0,
+      "overflow320": false,
+      "overflow390": false,
+      "coveredByBar": false,
+      "tinyText": 9,
+      "smallTargets": 1,
+      "boxes": 6,
+      "nestedBoxes": 0,
+      "strongEffects": 1,
+      "fontSizes": 10,
+      "centeredParagraphs": 0,
+      "moving": 14,
+      "transitionAll": 0,
+      "layoutMotion": 0,
+      "gridMotion": 0,
+      "reducedMotion": true,
+      "pageErrors": 0,
+      "axe": {
+        "serious": 0,
+        "all": 0,
+        "rules": []
+      },
+      "suta": {
+        "errors": 1,
+        "warns": 6
+      }
+    },
+    {
+      "prompt": "landing",
+      "condition": "baseline",
+      "rep": 1,
+      "seconds": 68,
+      "turns": 2,
+      "outputTokens": 11089,
+      "skillRead": false,
+      "patterns": [],
+      "hookBlocks": 0,
+      "hookWarns": 0,
+      "overflow320": false,
+      "overflow390": false,
+      "coveredByBar": false,
+      "tinyText": 17,
+      "smallTargets": 11,
+      "boxes": 13,
+      "nestedBoxes": 0,
+      "strongEffects": 8,
+      "fontSizes": 14,
+      "centeredParagraphs": 1,
+      "moving": 11,
+      "transitionAll": 0,
+      "layoutMotion": 0,
+      "gridMotion": 0,
+      "reducedMotion": true,
+      "pageErrors": 0,
+      "axe": {
+        "serious": 12,
+        "all": 12,
+        "rules": [
+          "color-contrast"
+        ]
+      },
+      "suta": {
+        "errors": 1,
+        "warns": 7
+      }
+    },
+    {
+      "prompt": "landing",
+      "condition": "baseline",
+      "rep": 2,
+      "seconds": 85,
+      "turns": 2,
+      "outputTokens": 12924,
+      "skillRead": false,
+      "patterns": [],
+      "hookBlocks": 0,
+      "hookWarns": 0,
+      "overflow320": true,
+      "overflow390": false,
+      "coveredByBar": false,
+      "tinyText": 7,
+      "smallTargets": 9,
+      "boxes": 25,
+      "nestedBoxes": 11,
+      "strongEffects": 4,
+      "fontSizes": 14,
+      "centeredParagraphs": 1,
+      "moving": 14,
+      "transitionAll": 0,
+      "layoutMotion": 0,
+      "gridMotion": 0,
+      "reducedMotion": true,
+      "pageErrors": 0,
+      "axe": {
+        "serious": 1,
+        "all": 1,
+        "rules": [
+          "color-contrast"
+        ]
+      },
+      "suta": {
+        "errors": 0,
+        "warns": 5
+      }
+    },
+    {
+      "prompt": "login",
+      "condition": "baseline",
+      "rep": 1,
+      "seconds": 48,
+      "turns": 2,
+      "outputTokens": 8076,
+      "skillRead": false,
+      "patterns": [],
+      "hookBlocks": 0,
+      "hookWarns": 0,
+      "overflow320": false,
+      "overflow390": false,
+      "coveredByBar": false,
+      "tinyText": 0,
+      "smallTargets": 2,
+      "boxes": 1,
+      "nestedBoxes": 0,
+      "strongEffects": 1,
+      "fontSizes": 7,
+      "centeredParagraphs": 1,
+      "moving": 7,
+      "transitionAll": 0,
+      "layoutMotion": 0,
+      "gridMotion": 0,
+      "reducedMotion": true,
+      "pageErrors": 0,
+      "axe": {
+        "serious": 0,
+        "all": 0,
+        "rules": []
+      },
+      "suta": {
+        "errors": 0,
+        "warns": 4
+      }
+    },
+    {
+      "prompt": "login",
+      "condition": "baseline",
+      "rep": 2,
+      "seconds": 40,
+      "turns": 2,
+      "outputTokens": 6347,
+      "skillRead": false,
+      "patterns": [],
+      "hookBlocks": 0,
+      "hookWarns": 0,
+      "overflow320": false,
+      "overflow390": false,
+      "coveredByBar": false,
+      "tinyText": 0,
+      "smallTargets": 2,
+      "boxes": 1,
+      "nestedBoxes": 0,
+      "strongEffects": 1,
+      "fontSizes": 7,
+      "centeredParagraphs": 0,
+      "moving": 6,
+      "transitionAll": 0,
+      "layoutMotion": 0,
+      "gridMotion": 0,
+      "reducedMotion": true,
+      "pageErrors": 0,
+      "axe": {
+        "serious": 1,
+        "all": 1,
+        "rules": [
+          "color-contrast"
+        ]
+      },
+      "suta": {
+        "errors": 0,
+        "warns": 5
+      }
+    },
+    {
+      "prompt": "menu-detail",
+      "condition": "baseline",
+      "rep": 1,
+      "seconds": 46,
+      "turns": 2,
+      "outputTokens": 7170,
+      "skillRead": false,
+      "patterns": [],
+      "hookBlocks": 0,
+      "hookWarns": 0,
+      "overflow320": false,
+      "overflow390": false,
+      "coveredByBar": false,
+      "tinyText": 0,
+      "smallTargets": 0,
+      "boxes": 6,
+      "nestedBoxes": 3,
+      "strongEffects": 2,
+      "fontSizes": 8,
+      "centeredParagraphs": 0,
+      "moving": 5,
+      "transitionAll": 0,
+      "layoutMotion": 0,
+      "gridMotion": 0,
+      "reducedMotion": true,
+      "pageErrors": 0,
+      "axe": {
+        "serious": 11,
+        "all": 11,
+        "rules": [
+          "color-contrast"
+        ]
+      },
+      "suta": {
+        "errors": 0,
+        "warns": 14
+      }
+    },
+    {
+      "prompt": "menu-detail",
+      "condition": "baseline",
+      "rep": 2,
+      "seconds": 45,
+      "turns": 2,
+      "outputTokens": 7259,
+      "skillRead": false,
+      "patterns": [],
+      "hookBlocks": 0,
+      "hookWarns": 0,
+      "overflow320": false,
+      "overflow390": false,
+      "coveredByBar": false,
+      "tinyText": 0,
+      "smallTargets": 0,
+      "boxes": 6,
+      "nestedBoxes": 3,
+      "strongEffects": 2,
+      "fontSizes": 7,
+      "centeredParagraphs": 0,
+      "moving": 5,
+      "transitionAll": 0,
+      "layoutMotion": 0,
+      "gridMotion": 0,
+      "reducedMotion": true,
+      "pageErrors": 0,
+      "axe": {
+        "serious": 5,
+        "all": 5,
+        "rules": [
+          "color-contrast"
+        ]
+      },
+      "suta": {
+        "errors": 0,
+        "warns": 8
+      }
+    },
+    {
+      "prompt": "option-sheet",
+      "condition": "baseline",
+      "rep": 1,
+      "seconds": 70,
+      "turns": 2,
+      "outputTokens": 11613,
+      "skillRead": false,
+      "patterns": [],
+      "hookBlocks": 0,
+      "hookWarns": 0,
+      "overflow320": false,
+      "overflow390": false,
+      "coveredByBar": false,
+      "tinyText": 0,
+      "smallTargets": 0,
+      "boxes": 0,
+      "nestedBoxes": 0,
+      "strongEffects": 1,
+      "fontSizes": 5,
+      "centeredParagraphs": 0,
+      "moving": 18,
+      "transitionAll": 0,
+      "layoutMotion": 2,
+      "gridMotion": 0,
+      "reducedMotion": true,
+      "pageErrors": 0,
+      "axe": {
+        "serious": 1,
+        "all": 1,
+        "rules": [
+          "color-contrast"
+        ]
+      },
+      "suta": {
+        "errors": 0,
+        "warns": 11
+      }
+    },
+    {
+      "prompt": "option-sheet",
+      "condition": "baseline",
+      "rep": 2,
+      "seconds": 86,
+      "turns": 3,
+      "outputTokens": 12872,
+      "skillRead": false,
+      "patterns": [],
+      "hookBlocks": 0,
+      "hookWarns": 0,
+      "overflow320": false,
+      "overflow390": false,
+      "coveredByBar": false,
+      "tinyText": 0,
+      "smallTargets": 0,
+      "boxes": 0,
+      "nestedBoxes": 0,
+      "strongEffects": 1,
+      "fontSizes": 5,
+      "centeredParagraphs": 0,
+      "moving": 18,
+      "transitionAll": 0,
+      "layoutMotion": 0,
+      "gridMotion": 0,
+      "reducedMotion": true,
+      "pageErrors": 0,
+      "axe": {
+        "serious": 1,
+        "all": 1,
+        "rules": [
+          "label-content-name-mismatch"
+        ]
+      },
+      "suta": {
+        "errors": 0,
+        "warns": 8
+      }
+    },
+    {
+      "prompt": "search-results",
+      "condition": "baseline",
+      "rep": 1,
+      "seconds": 61,
+      "turns": 2,
+      "outputTokens": 8839,
+      "skillRead": false,
+      "patterns": [],
+      "hookBlocks": 0,
+      "hookWarns": 0,
+      "overflow320": true,
+      "overflow390": false,
+      "coveredByBar": false,
+      "tinyText": 0,
+      "smallTargets": 0,
+      "boxes": 25,
+      "nestedBoxes": 12,
+      "strongEffects": 12,
+      "fontSizes": 5,
+      "centeredParagraphs": 0,
+      "moving": 0,
+      "transitionAll": 0,
+      "layoutMotion": 0,
+      "gridMotion": 0,
+      "reducedMotion": false,
+      "pageErrors": 0,
+      "axe": {
+        "serious": 9,
+        "all": 9,
+        "rules": [
+          "color-contrast"
+        ]
+      },
+      "suta": {
+        "errors": 0,
+        "warns": 2
+      }
+    },
+    {
+      "prompt": "search-results",
+      "condition": "baseline",
+      "rep": 2,
+      "seconds": 58,
+      "turns": 3,
+      "outputTokens": 8899,
+      "skillRead": false,
+      "patterns": [],
+      "hookBlocks": 0,
+      "hookWarns": 0,
+      "overflow320": false,
+      "overflow390": false,
+      "coveredByBar": false,
+      "tinyText": 0,
+      "smallTargets": 0,
+      "boxes": 25,
+      "nestedBoxes": 12,
+      "strongEffects": 12,
+      "fontSizes": 5,
+      "centeredParagraphs": 0,
+      "moving": 12,
+      "transitionAll": 0,
+      "layoutMotion": 0,
+      "gridMotion": 0,
+      "reducedMotion": true,
+      "pageErrors": 0,
+      "axe": {
+        "serious": 10,
+        "all": 10,
+        "rules": [
+          "color-contrast"
+        ]
+      },
+      "suta": {
+        "errors": 0,
+        "warns": 3
+      }
+    },
+    {
+      "prompt": "settings",
+      "condition": "baseline",
+      "rep": 1,
+      "seconds": 58,
+      "turns": 2,
+      "outputTokens": 10244,
+      "skillRead": false,
+      "patterns": [],
+      "hookBlocks": 0,
+      "hookWarns": 0,
+      "overflow320": false,
+      "overflow390": false,
+      "coveredByBar": false,
+      "tinyText": 0,
+      "smallTargets": 0,
+      "boxes": 3,
+      "nestedBoxes": 0,
+      "strongEffects": 0,
+      "fontSizes": 7,
+      "centeredParagraphs": 0,
+      "moving": 5,
+      "transitionAll": 0,
+      "layoutMotion": 0,
+      "gridMotion": 0,
+      "reducedMotion": true,
+      "pageErrors": 0,
+      "axe": {
+        "serious": 6,
+        "all": 6,
+        "rules": [
+          "color-contrast"
+        ]
+      },
+      "suta": {
+        "errors": 0,
+        "warns": 3
+      }
+    },
+    {
+      "prompt": "settings",
+      "condition": "baseline",
+      "rep": 2,
+      "seconds": 61,
+      "turns": 2,
+      "outputTokens": 10846,
+      "skillRead": false,
+      "patterns": [],
+      "hookBlocks": 0,
+      "hookWarns": 0,
+      "overflow320": false,
+      "overflow390": false,
+      "coveredByBar": false,
+      "tinyText": 0,
+      "smallTargets": 0,
+      "boxes": 4,
+      "nestedBoxes": 0,
+      "strongEffects": 1,
+      "fontSizes": 8,
+      "centeredParagraphs": 0,
+      "moving": 7,
+      "transitionAll": 0,
+      "layoutMotion": 0,
+      "gridMotion": 0,
+      "reducedMotion": true,
+      "pageErrors": 0,
+      "axe": {
+        "serious": 6,
+        "all": 6,
+        "rules": [
+          "color-contrast"
+        ]
+      },
+      "suta": {
+        "errors": 0,
+        "warns": 4
+      }
+    },
+    {
+      "prompt": "cart",
+      "condition": "suta",
+      "rep": 1,
+      "seconds": 94,
+      "turns": 9,
+      "outputTokens": 14567,
+      "skillRead": true,
+      "patterns": [
+        "layout-principles",
+        "motion-principles",
+        "quantity-stepper"
+      ],
+      "hookBlocks": 0,
+      "hookWarns": 0,
+      "overflow320": false,
+      "overflow390": false,
+      "coveredByBar": false,
+      "tinyText": 0,
+      "smallTargets": 0,
+      "boxes": 3,
+      "nestedBoxes": 0,
+      "strongEffects": 0,
+      "fontSizes": 5,
+      "centeredParagraphs": 0,
+      "moving": 19,
+      "transitionAll": 0,
+      "layoutMotion": 0,
+      "gridMotion": 3,
+      "reducedMotion": true,
+      "pageErrors": 0,
+      "axe": {
+        "serious": 0,
+        "all": 0,
+        "rules": []
+      },
+      "suta": {
+        "errors": 0,
+        "warns": 0
+      }
+    },
+    {
+      "prompt": "cart",
+      "condition": "suta",
+      "rep": 2,
+      "seconds": 98,
+      "turns": 8,
+      "outputTokens": 15488,
+      "skillRead": true,
+      "patterns": [
+        "layout-principles",
+        "motion-principles",
+        "quantity-stepper",
+        "swipe-to-delete"
+      ],
+      "hookBlocks": 0,
+      "hookWarns": 0,
+      "overflow320": false,
+      "overflow390": false,
+      "coveredByBar": false,
+      "tinyText": 0,
+      "smallTargets": 0,
+      "boxes": 3,
+      "nestedBoxes": 0,
+      "strongEffects": 0,
+      "fontSizes": 4,
+      "centeredParagraphs": 0,
+      "moving": 17,
+      "transitionAll": 0,
+      "layoutMotion": 0,
+      "gridMotion": 3,
+      "reducedMotion": true,
+      "pageErrors": 0,
+      "axe": {
+        "serious": 0,
+        "all": 0,
+        "rules": []
+      },
+      "suta": {
+        "errors": 0,
+        "warns": 0
+      }
+    },
+    {
+      "prompt": "dashboard",
+      "condition": "suta",
+      "rep": 1,
+      "seconds": 120,
+      "turns": 7,
+      "outputTokens": 16087,
+      "skillRead": true,
+      "patterns": [],
+      "hookBlocks": 0,
+      "hookWarns": 1,
+      "overflow320": false,
+      "overflow390": false,
+      "coveredByBar": false,
+      "tinyText": 0,
+      "smallTargets": 0,
+      "boxes": 0,
+      "nestedBoxes": 0,
+      "strongEffects": 0,
+      "fontSizes": 4,
+      "centeredParagraphs": 0,
+      "moving": 4,
+      "transitionAll": 0,
+      "layoutMotion": 0,
+      "gridMotion": 0,
+      "reducedMotion": true,
+      "pageErrors": 0,
+      "axe": {
+        "serious": 0,
+        "all": 0,
+        "rules": []
+      },
+      "suta": {
+        "errors": 0,
+        "warns": 0
+      }
+    },
+    {
+      "prompt": "dashboard",
+      "condition": "suta",
+      "rep": 2,
+      "seconds": 94,
+      "turns": 6,
+      "outputTokens": 12676,
+      "skillRead": true,
+      "patterns": [],
+      "hookBlocks": 0,
+      "hookWarns": 1,
+      "overflow320": false,
+      "overflow390": false,
+      "coveredByBar": false,
+      "tinyText": 0,
+      "smallTargets": 0,
+      "boxes": 0,
+      "nestedBoxes": 0,
+      "strongEffects": 0,
+      "fontSizes": 6,
+      "centeredParagraphs": 0,
+      "moving": 14,
+      "transitionAll": 0,
+      "layoutMotion": 0,
+      "gridMotion": 0,
+      "reducedMotion": true,
+      "pageErrors": 0,
+      "axe": {
+        "serious": 0,
+        "all": 0,
+        "rules": []
+      },
+      "suta": {
+        "errors": 0,
+        "warns": 0
+      }
+    },
+    {
+      "prompt": "landing",
+      "condition": "suta",
+      "rep": 1,
+      "seconds": 92,
+      "turns": 8,
+      "outputTokens": 13681,
+      "skillRead": true,
+      "patterns": [
+        "accordion",
+        "layout-principles",
+        "motion-principles"
+      ],
+      "hookBlocks": 0,
+      "hookWarns": 1,
+      "overflow320": false,
+      "overflow390": false,
+      "coveredByBar": false,
+      "tinyText": 0,
+      "smallTargets": 0,
+      "boxes": 1,
+      "nestedBoxes": 0,
+      "strongEffects": 0,
+      "fontSizes": 5,
+      "centeredParagraphs": 0,
+      "moving": 20,
+      "transitionAll": 0,
+      "layoutMotion": 0,
+      "gridMotion": 5,
+      "reducedMotion": true,
+      "pageErrors": 0,
+      "axe": {
+        "serious": 0,
+        "all": 0,
+        "rules": []
+      },
+      "suta": {
+        "errors": 0,
+        "warns": 0
+      }
+    },
+    {
+      "prompt": "landing",
+      "condition": "suta",
+      "rep": 2,
+      "seconds": 74,
+      "turns": 6,
+      "outputTokens": 10877,
+      "skillRead": true,
+      "patterns": [],
+      "hookBlocks": 0,
+      "hookWarns": 1,
+      "overflow320": false,
+      "overflow390": false,
+      "coveredByBar": false,
+      "tinyText": 0,
+      "smallTargets": 0,
+      "boxes": 5,
+      "nestedBoxes": 0,
+      "strongEffects": 0,
+      "fontSizes": 5,
+      "centeredParagraphs": 0,
+      "moving": 22,
+      "transitionAll": 0,
+      "layoutMotion": 0,
+      "gridMotion": 0,
+      "reducedMotion": true,
+      "pageErrors": 0,
+      "axe": {
+        "serious": 0,
+        "all": 0,
+        "rules": []
+      },
+      "suta": {
+        "errors": 0,
+        "warns": 1
+      }
+    },
+    {
+      "prompt": "login",
+      "condition": "suta",
+      "rep": 1,
+      "seconds": 103,
+      "turns": 10,
+      "outputTokens": 14314,
+      "skillRead": true,
+      "patterns": [
+        "form-shake-error",
+        "layout-principles",
+        "loading-button",
+        "motion-principles"
+      ],
+      "hookBlocks": 0,
+      "hookWarns": 0,
+      "overflow320": false,
+      "overflow390": false,
+      "coveredByBar": false,
+      "tinyText": 0,
+      "smallTargets": 0,
+      "boxes": 0,
+      "nestedBoxes": 0,
+      "strongEffects": 0,
+      "fontSizes": 4,
+      "centeredParagraphs": 0,
+      "moving": 14,
+      "transitionAll": 0,
+      "layoutMotion": 0,
+      "gridMotion": 2,
+      "reducedMotion": true,
+      "pageErrors": 0,
+      "axe": {
+        "serious": 0,
+        "all": 0,
+        "rules": []
+      },
+      "suta": {
+        "errors": 0,
+        "warns": 0
+      }
+    },
+    {
+      "prompt": "login",
+      "condition": "suta",
+      "rep": 2,
+      "seconds": 92,
+      "turns": 8,
+      "outputTokens": 12498,
+      "skillRead": true,
+      "patterns": [
+        "form-shake-error",
+        "layout-principles",
+        "loading-button",
+        "motion-principles"
+      ],
+      "hookBlocks": 0,
+      "hookWarns": 1,
+      "overflow320": false,
+      "overflow390": false,
+      "coveredByBar": false,
+      "tinyText": 0,
+      "smallTargets": 0,
+      "boxes": 0,
+      "nestedBoxes": 0,
+      "strongEffects": 0,
+      "fontSizes": 3,
+      "centeredParagraphs": 0,
+      "moving": 11,
+      "transitionAll": 0,
+      "layoutMotion": 0,
+      "gridMotion": 2,
+      "reducedMotion": true,
+      "pageErrors": 0,
+      "axe": {
+        "serious": 0,
+        "all": 0,
+        "rules": []
+      },
+      "suta": {
+        "errors": 0,
+        "warns": 0
+      }
+    },
+    {
+      "prompt": "menu-detail",
+      "condition": "suta",
+      "rep": 1,
+      "seconds": 97,
+      "turns": 9,
+      "outputTokens": 12983,
+      "skillRead": true,
+      "patterns": [
+        "layout-principles",
+        "motion-principles",
+        "press-feedback",
+        "quantity-stepper",
+        "toast-stack"
+      ],
+      "hookBlocks": 0,
+      "hookWarns": 0,
+      "overflow320": false,
+      "overflow390": false,
+      "coveredByBar": false,
+      "tinyText": 0,
+      "smallTargets": 0,
+      "boxes": 0,
+      "nestedBoxes": 0,
+      "strongEffects": 0,
+      "fontSizes": 4,
+      "centeredParagraphs": 0,
+      "moving": 10,
+      "transitionAll": 0,
+      "layoutMotion": 0,
+      "gridMotion": 0,
+      "reducedMotion": true,
+      "pageErrors": 0,
+      "axe": {
+        "serious": 1,
+        "all": 1,
+        "rules": [
+          "label-content-name-mismatch"
+        ]
+      },
+      "suta": {
+        "errors": 0,
+        "warns": 0
+      }
+    },
+    {
+      "prompt": "menu-detail",
+      "condition": "suta",
+      "rep": 2,
+      "seconds": 63,
+      "turns": 7,
+      "outputTokens": 9271,
+      "skillRead": true,
+      "patterns": [
+        "layout-principles",
+        "motion-principles",
+        "press-feedback",
+        "quantity-stepper",
+        "toast-stack"
+      ],
+      "hookBlocks": 0,
+      "hookWarns": 0,
+      "overflow320": false,
+      "overflow390": false,
+      "coveredByBar": false,
+      "tinyText": 0,
+      "smallTargets": 0,
+      "boxes": 1,
+      "nestedBoxes": 0,
+      "strongEffects": 0,
+      "fontSizes": 4,
+      "centeredParagraphs": 0,
+      "moving": 12,
+      "transitionAll": 0,
+      "layoutMotion": 0,
+      "gridMotion": 0,
+      "reducedMotion": true,
+      "pageErrors": 0,
+      "axe": {
+        "serious": 0,
+        "all": 0,
+        "rules": []
+      },
+      "suta": {
+        "errors": 0,
+        "warns": 0
+      }
+    },
+    {
+      "prompt": "option-sheet",
+      "condition": "suta",
+      "rep": 1,
+      "seconds": 138,
+      "turns": 9,
+      "outputTokens": 19101,
+      "skillRead": true,
+      "patterns": [
+        "bottom-sheet",
+        "layout-principles",
+        "motion-principles",
+        "quantity-stepper",
+        "toast-stack"
+      ],
+      "hookBlocks": 0,
+      "hookWarns": 0,
+      "overflow320": false,
+      "overflow390": false,
+      "coveredByBar": false,
+      "tinyText": 0,
+      "smallTargets": 0,
+      "boxes": 0,
+      "nestedBoxes": 0,
+      "strongEffects": 0,
+      "fontSizes": 4,
+      "centeredParagraphs": 0,
+      "moving": 13,
+      "transitionAll": 0,
+      "layoutMotion": 0,
+      "gridMotion": 0,
+      "reducedMotion": true,
+      "pageErrors": 0,
+      "axe": {
+        "serious": 1,
+        "all": 1,
+        "rules": [
+          "label-content-name-mismatch"
+        ]
+      },
+      "suta": {
+        "errors": 0,
+        "warns": 0
+      }
+    },
+    {
+      "prompt": "option-sheet",
+      "condition": "suta",
+      "rep": 2,
+      "seconds": 159,
+      "turns": 9,
+      "outputTokens": 22453,
+      "skillRead": true,
+      "patterns": [
+        "bottom-sheet",
+        "layout-principles",
+        "motion-principles",
+        "quantity-stepper",
+        "toast-stack"
+      ],
+      "hookBlocks": 0,
+      "hookWarns": 1,
+      "overflow320": false,
+      "overflow390": false,
+      "coveredByBar": false,
+      "tinyText": 0,
+      "smallTargets": 0,
+      "boxes": 0,
+      "nestedBoxes": 0,
+      "strongEffects": 0,
+      "fontSizes": 4,
+      "centeredParagraphs": 0,
+      "moving": 12,
+      "transitionAll": 0,
+      "layoutMotion": 0,
+      "gridMotion": 0,
+      "reducedMotion": true,
+      "pageErrors": 0,
+      "axe": {
+        "serious": 0,
+        "all": 0,
+        "rules": []
+      },
+      "suta": {
+        "errors": 0,
+        "warns": 1
+      }
+    },
+    {
+      "prompt": "search-results",
+      "condition": "suta",
+      "rep": 1,
+      "seconds": 96,
+      "turns": 7,
+      "outputTokens": 12788,
+      "skillRead": true,
+      "patterns": [
+        "layout-principles",
+        "motion-principles",
+        "search-suggest"
+      ],
+      "hookBlocks": 0,
+      "hookWarns": 0,
+      "overflow320": false,
+      "overflow390": false,
+      "coveredByBar": false,
+      "tinyText": 0,
+      "smallTargets": 0,
+      "boxes": 10,
+      "nestedBoxes": 0,
+      "strongEffects": 0,
+      "fontSizes": 3,
+      "centeredParagraphs": 0,
+      "moving": 19,
+      "transitionAll": 0,
+      "layoutMotion": 0,
+      "gridMotion": 0,
+      "reducedMotion": true,
+      "pageErrors": 0,
+      "axe": {
+        "serious": 0,
+        "all": 0,
+        "rules": []
+      },
+      "suta": {
+        "errors": 0,
+        "warns": 0
+      }
+    },
+    {
+      "prompt": "search-results",
+      "condition": "suta",
+      "rep": 2,
+      "seconds": 76,
+      "turns": 6,
+      "outputTokens": 10320,
+      "skillRead": true,
+      "patterns": [
+        "layout-principles",
+        "motion-principles"
+      ],
+      "hookBlocks": 0,
+      "hookWarns": 0,
+      "overflow320": false,
+      "overflow390": false,
+      "coveredByBar": false,
+      "tinyText": 0,
+      "smallTargets": 0,
+      "boxes": 4,
+      "nestedBoxes": 0,
+      "strongEffects": 0,
+      "fontSizes": 3,
+      "centeredParagraphs": 0,
+      "moving": 14,
+      "transitionAll": 0,
+      "layoutMotion": 0,
+      "gridMotion": 0,
+      "reducedMotion": true,
+      "pageErrors": 0,
+      "axe": {
+        "serious": 0,
+        "all": 0,
+        "rules": []
+      },
+      "suta": {
+        "errors": 0,
+        "warns": 0
+      }
+    },
+    {
+      "prompt": "settings",
+      "condition": "suta",
+      "rep": 1,
+      "seconds": 189,
+      "turns": 12,
+      "outputTokens": 25789,
+      "skillRead": true,
+      "patterns": [
+        "layout-principles",
+        "modal-dialog",
+        "motion-principles",
+        "segmented-control",
+        "switch",
+        "theme-toggle"
+      ],
+      "hookBlocks": 0,
+      "hookWarns": 0,
+      "overflow320": false,
+      "overflow390": false,
+      "coveredByBar": false,
+      "tinyText": 0,
+      "smallTargets": 0,
+      "boxes": 0,
+      "nestedBoxes": 0,
+      "strongEffects": 0,
+      "fontSizes": 4,
+      "centeredParagraphs": 0,
+      "moving": 23,
+      "transitionAll": 0,
+      "layoutMotion": 0,
+      "gridMotion": 0,
+      "reducedMotion": true,
+      "pageErrors": 0,
+      "axe": {
+        "serious": 2,
+        "all": 2,
+        "rules": [
+          "color-contrast"
+        ]
+      },
+      "suta": {
+        "errors": 0,
+        "warns": 0
+      }
+    },
+    {
+      "prompt": "settings",
+      "condition": "suta",
+      "rep": 2,
+      "seconds": 105,
+      "turns": 11,
+      "outputTokens": 16706,
+      "skillRead": true,
+      "patterns": [
+        "layout-principles",
+        "modal-dialog",
+        "motion-principles",
+        "segmented-control",
+        "switch",
+        "theme-toggle"
+      ],
+      "hookBlocks": 0,
+      "hookWarns": 0,
+      "overflow320": false,
+      "overflow390": false,
+      "coveredByBar": false,
+      "tinyText": 0,
+      "smallTargets": 0,
+      "boxes": 0,
+      "nestedBoxes": 0,
+      "strongEffects": 0,
+      "fontSizes": 4,
+      "centeredParagraphs": 0,
+      "moving": 20,
+      "transitionAll": 0,
+      "layoutMotion": 0,
+      "gridMotion": 0,
+      "reducedMotion": true,
+      "pageErrors": 0,
+      "axe": {
+        "serious": 0,
+        "all": 0,
+        "rules": []
+      },
+      "suta": {
+        "errors": 0,
+        "warns": 0
+      }
+    }
+  ]
+}

@@ -1,0 +1,165 @@
+/* layout-principles 데모 — "고치기 전" 예시(.lp-b-*). AI가 흔히 만드는 모습을 일부러 재현하므로 원칙을 어긴다.
+ * 검사기가 이 예시를 지적하지 않도록 파일 단위로 규칙을 끈다. "고친 뒤" 쪽(layout-principles-demo.css)은 끄지 않는다.
+ * layout-audit-ignore-file: nested-card — 카드 안 상자를 보여 주는 예시
+ * layout-audit-ignore-file: effect-overuse — 그라데이션·글로우 남발을 보여 주는 예시
+ * layout-audit-ignore-file: gradient-text — 그라데이션 글자를 보여 주는 예시
+ * layout-audit-ignore-file: spacing-off-scale — 척도 밖 간격(14·10·22px)을 보여 주는 예시
+ * layout-audit-ignore-file: font-size-variety — 제각각인 글자 크기를 보여 주는 예시
+ * layout-audit-ignore-file: font-weight-variety — 굵기 남발(800)을 보여 주는 예시
+ * layout-audit-ignore-file: radius-variety — 제각각인 반경(18·10·22px)을 보여 주는 예시
+ * layout-audit-ignore-file: tiny-text — 11px 배지를 보여 주는 예시
+ * layout-audit-ignore-file: centered-text-block — 가운데 정렬 문단을 보여 주는 예시
+ * layout-audit-ignore-file: image-distort — 늘어난 사진을 보여 주는 예시 */
+
+.lp-b-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.lp-b-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.lp-b-strong {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.lp-b-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 14px;
+  border: 1px solid rgba(167, 139, 250, 0.4);
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.16), rgba(236, 72, 153, 0.1));
+  box-shadow: 0 10px 30px rgba(139, 92, 246, 0.25);
+}
+
+.lp-b-inner-box {
+  padding: 10px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  font-weight: 700;
+}
+
+.lp-b-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+}
+
+.lp-b-text {
+  margin: 0;
+  font-size: 13px;
+  color: #5d6472;
+}
+
+.lp-b-fill {
+  align-self: center;
+  padding: 10px 22px;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #8b5cf6, #ec4899);
+  color: #fff;
+  font-weight: 800;
+  box-shadow: 0 0 24px rgba(236, 72, 153, 0.55);
+}
+
+.lp-b-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 20px;
+  border-radius: 22px;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(236, 72, 153, 0.25));
+  box-shadow: 0 0 36px rgba(236, 72, 153, 0.35);
+  text-align: center;
+}
+
+.lp-b-gradient-text {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 800;
+  background: linear-gradient(90deg, #a78bfa, #f472b6);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.lp-b-badges,
+.lp-b-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.lp-b-pill {
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+  color: #fff;
+}
+
+.lp-b-pill-red {
+  background: #ef4444;
+}
+
+.lp-b-pill-green {
+  background: #10b981;
+}
+
+.lp-b-pill-blue {
+  background: #3b82f6;
+}
+
+.lp-b-photo {
+  position: relative;
+}
+
+/* 틀에 맞춰 가로세로를 따로 늘인다 — 사진이 찌그러진다 */
+.lp-b-photo-img {
+  display: block;
+  inline-size: 100%;
+  block-size: 120px;
+  object-fit: fill;
+  border-radius: 18px;
+}
+
+.lp-b-photo-text {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  text-align: center;
+  color: #fff;
+  font-weight: 800;
+}
+
+.lp-b-photo-text p {
+  margin: 0;
+}
+
+/* 행동 버튼이 내용 중간에 있어 스크롤하면 사라진다 */
+.lp-b-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  block-size: 560px;
+  padding: 14px;
+  overflow-y: auto;
+}
+
+.lp-b-detail-photo {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+  border-radius: 10px;
+}

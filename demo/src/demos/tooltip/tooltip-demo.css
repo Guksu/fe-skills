@@ -2,11 +2,14 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 1.25rem;
-  padding: 5rem 2rem;
+  gap: var(--space-6);
+  padding: 80px var(--space-8);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--radius-card);
   background: var(--surface);
+  /* 닫힌 말풍선(보이지 않아도 자리는 있다)이 좁은 화면에서 페이지를 옆으로 밀지 않게 가로만 자른다.
+   * 이 패턴은 자동 플립이 없다 — 화면 가장자리 앵커는 place를 반대쪽으로 정한다(PATTERN.md 주의사항) */
+  overflow-x: clip;
 }
 
 /* 사이트 공통 버튼의 align-self가 앵커 래퍼 안에서 어긋나지 않게 */

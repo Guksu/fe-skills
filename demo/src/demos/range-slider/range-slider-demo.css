@@ -48,16 +48,16 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  border-top: 1px solid var(--border);
 }
 
+/* 결과 행은 상자 대신 선 한 줄로 나눈다 — 무대가 이미 상자다 */
 .rs-menu {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.6rem 0.9rem;
-  border-radius: 10px;
-  background: var(--bg);
+  gap: var(--space-3);
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--border);
 }
 
 .rs-menu-name {

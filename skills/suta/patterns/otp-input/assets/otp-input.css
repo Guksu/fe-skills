@@ -8,10 +8,13 @@
   --_accent: var(--otp-accent, #2563eb);
   display: flex;
   gap: var(--otp-gap, 0.5rem);
+  /* 여섯 칸(기본 328px)이 320px 화면에서 넘치지 않게 — 부모보다 넓어지지 않고, 칸이 대신 줄어든다 */
+  max-width: 100%;
 }
 
 .otp-cell {
   width: var(--_size);
+  min-width: 0;
   height: calc(var(--_size) * 1.2);
   border: 1.5px solid var(--otp-border, #d1d5db);
   border-radius: var(--otp-radius, 10px);
