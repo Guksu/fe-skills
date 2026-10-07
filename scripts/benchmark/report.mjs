@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 /**
  * 퍼블리싱 벤치마크 3단계 — 집계. measure.mjs의 metrics.json을 조건별로 모아 비교한다.
- * 결과: evals/benchmark/results.json(저장소에 남기는 요약 + 실행별 지표)과 표준 출력의 마크다운 표
- * 사용: node scripts/benchmark/report.mjs --out <폴더> [--date YYYY-MM-DD]
+ * 결과: evals/benchmark/<이름>.json(저장소에 남기는 요약 + 실행별 지표, 기본 이름 results)과 표준 출력의 마크다운 표
+ * 사용: node scripts/benchmark/report.mjs --out <폴더> [--date YYYY-MM-DD] [--name results]
  */
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
@@ -51,6 +51,16 @@ const METRICS = [
   { key: 'sutaWarns', label: 'suta 검사 warn (화면당)', en: 'suta audit warnings (per page)', kind: 'mean', value: (r) => r.suta.warns, self: true },
 ]
 
+/** 톤 지표 — 좋고 나쁨의 방향이 하나가 아니라 레퍼런스(잘 만든 웹사이트 19곳, 모바일 390px의 아래 사분위·중앙값·위 사분위)와 견준다 */
+const TONE = [
+  { key: 'bodySize', label: '가장 많은 글자의 크기(px, 중앙값)', en: 'Size of the most-used text (px, median)', ref: '16 (13~16)', value: (r) => r.bodySize },
+  { key: 'smallTextShare', label: '15px 미만 글자의 비율(%, 중앙값)', en: 'Share of text under 15px (%, median)', ref: '59 (14~82)', value: (r) => r.smallTextShare },
+  { key: 'toneSurfaces', label: '바탕 말고 넓은 무채색 면의 종류(중앙값)', en: 'Neutral surfaces besides the page background (median)', ref: '2 (1~2)', value: (r) => r.toneSurfaces },
+  { key: 'accentTextShare', label: '강조색 글자의 비율(%, 중앙값)', en: 'Share of text in an accent color (%, median)', ref: '0.5 (0~6.4)', value: (r) => r.accentTextShare },
+  { key: 'primaryBlue', label: '주 버튼이 파랑·남색·보라 계열인 화면', en: 'Pages whose primary button is blue, indigo or violet', ref: '—', kind: 'share', test: (r) => r.primaryHue !== null && r.primaryHue !== undefined && r.primaryHue >= 200 && r.primaryHue <= 290 },
+]
+const hasTone = rows.some((r) => r.smallTextShare !== undefined)
+
 const summary = {}
 for (const condition of conditions) {
   const list = rows.filter((r) => r.condition === condition)
@@ -58,9 +68,11 @@ for (const condition of conditions) {
   for (const metric of METRICS) {
     metrics[metric.key] = metric.kind === 'share' ? share(list, metric.test) : round(mean(list.map(metric.value)), 2)
   }
+  const tone = hasTone ? Object.fromEntries(TONE.map((metric) => [metric.key, metric.kind === 'share' ? share(list, metric.test) : round(median(list.map(metric.value)), 1)])) : undefined
   summary[condition] = {
     pages: list.length,
     metrics,
+    tone,
     process: {
       medianSeconds: round(median(list.map((r) => (r.durationMs ?? r.wallMs) / 1000)), 0),
       meanTurns: round(mean(list.map((r) => r.turns ?? 0)), 1),
@@ -105,6 +117,13 @@ for (const [lang, head] of [['ko', '| 지표 (낮을수록 좋다) | 일반 Clau
   }
   console.log(table.join('\n') + '\n')
 }
+if (hasTone) {
+  for (const [lang, head] of [['ko', '| 톤 지표 | 레퍼런스 웹사이트 | 일반 Claude Code | suta 설치 |'], ['en', '| Tone metric | Reference websites | Plain Claude Code | With suta |']]) {
+    const table = [head, '|---|---|---|---|']
+    for (const metric of TONE) table.push(`| ${lang === 'ko' ? metric.label : metric.en} | ${metric.ref} | ${cell(metric, summary.baseline.tone[metric.key])} | ${cell(metric, summary.suta.tone[metric.key])} |`)
+    console.log(table.join('\n') + '\n')
+  }
+}
 console.log('※ suta가 스스로 정한 기준(편집 후 훅이 쓰는 검사기)이라 참고로만 본다')
 console.log('† 많고 적음이 곧 좋고 나쁨은 아니다 — 설명용\n')
 for (const condition of conditions) console.log(condition, JSON.stringify(summary[condition].process))
@@ -123,6 +142,7 @@ for (const prompt of new Set(rows.map((r) => r.prompt))) {
       strongEffects: round(mean(list.map((r) => r.strongEffects)), 1),
       fontSizes: round(mean(list.map((r) => r.fontSizes)), 1),
       axeSerious: round(mean(list.map((r) => r.axe.seriousNodes)), 1),
+      ...(hasTone ? { smallTextShare: round(median(list.map((r) => r.smallTextShare)), 0), toneSurfaces: round(median(list.map((r) => r.toneSurfaces)), 1) } : {}),
       seconds: Math.round(mean(list.map((r) => (r.durationMs ?? r.wallMs) / 1000))),
     }
   }
@@ -134,6 +154,7 @@ const results = {
   about: '같은 요청문을 일반 Claude Code와 suta 플러그인을 설치한 Claude Code에 주고, 만든 index.html을 브라우저로 열어 잰 결과. 모델·설정·도구 권한은 두 조건이 같다. 방법은 docs/benchmark.md',
   prompts: JSON.parse(readFileSync(join(root, 'evals/benchmark/prompts.json'), 'utf8')).prompts.map((p) => p.id),
   metrics: METRICS.map(({ key, label, en, kind, self, descriptive }) => ({ key, label, en, kind, ...(self ? { self: true } : {}), ...(descriptive ? { descriptive: true } : {}) })),
+  ...(hasTone ? { tone: TONE.map(({ key, label, en, ref, kind }) => ({ key, label, en, ref, kind: kind ?? 'median' })) } : {}),
   summary,
   judge,
   judgeAlt,
@@ -158,6 +179,7 @@ const results = {
     nestedBoxes: r.nestedBoxes,
     strongEffects: r.strongEffects,
     fontSizes: r.fontSizes,
+    ...(hasTone ? { bodySize: r.bodySize, smallTextShare: r.smallTextShare, accentTextShare: r.accentTextShare, toneSurfaces: r.toneSurfaces, primaryHue: r.primaryHue } : {}),
     centeredParagraphs: r.centeredParagraphs,
     moving: r.moving,
     transitionAll: r.transitionAll,
@@ -169,5 +191,6 @@ const results = {
     suta: { errors: r.suta.errors, warns: r.suta.warns },
   })),
 }
-writeFileSync(join(root, 'evals/benchmark/results.json'), JSON.stringify(results, null, 2) + '\n')
-console.log('→ evals/benchmark/results.json')
+const name = option('name', 'results')
+writeFileSync(join(root, `evals/benchmark/${name}.json`), JSON.stringify(results, null, 2) + '\n')
+console.log(`→ evals/benchmark/${name}.json`)

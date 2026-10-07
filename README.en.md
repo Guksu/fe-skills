@@ -10,7 +10,7 @@ Install it once and Claude Code or Codex reads it automatically whenever they bu
 [![Deploy demo](https://github.com/Guksu/suta/actions/workflows/deploy-demo.yml/badge.svg)](https://github.com/Guksu/suta/actions/workflows/deploy-demo.yml)
 ![Patterns](https://img.shields.io/badge/suta-55%20patterns-6ea8fe)
 ![Dependencies](https://img.shields.io/badge/runtime%20deps-0-34c759)
-![Tests](https://img.shields.io/badge/tests-578%20passing-34c759)
+![Tests](https://img.shields.io/badge/tests-584%20passing-34c759)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 [**Live demo**](https://guksu.github.io/suta/) · [Full guide](docs/guide.en.md) · [한국어](README.md)
@@ -19,18 +19,23 @@ Install it once and Claude Code or Codex reads it automatically whenever they bu
 
 ## Benchmark
 
-We gave the same 8 requests to Claude Code twice each and measured the resulting pages in a browser. One side had nothing installed; the other had only suta. Model and settings were the same.
+We gave the same 8 requests to Claude Code twice each and measured the resulting pages in a browser. One side had nothing installed; the other had only suta. Model and settings were the same. Below is round 2, after adding the type, color and surface rules.
 
-| 16-page total (lower is better) | Plain Claude Code | With suta |
+| 16 pages (lower is better) | Plain Claude Code | With suta |
 |---|---|---|
-| Accessibility violations (axe) | 87 | 4 |
-| Boxes nested in boxes | 41 | 0 |
-| Gradients, blurs, large shadows | 47 | 0 |
-| Touch targets under 24px | 27 | 0 |
+| Accessibility violations (axe, total) | 87 | 13 |
+| Boxes nested in boxes (total) | 41 | 1 |
+| Gradients, blurs, large shadows (total) | 47 | 0 |
+| Touch targets under 24px (total) | 27 | 0 |
 | Pages with text under 12px | 4 | 0 |
 | Pages that scroll sideways at 320px | 2 | 0 |
+| Pages whose primary button is blue, indigo or violet | 10 | 0 |
 
-Defects dropped sharply. But when a model compared screenshots blind, it picked the plain side more often (25 of 32; 18 with a different judge model). The most common reason was that suta's pages were "clean but plain". Each page takes longer, from 61 to 96 seconds. Method, the judges' reasons and limitations are in the [benchmark doc](docs/benchmark.en.md).
+Defects dropped sharply. The size of the most-used text (16px) and the use of surfaces also moved close to well-made sites.
+
+When a model compared screenshots blind, the result depended on the judge. Out of 32, suta was picked 11 times by the default judge (round 1: 7) and 19 times by a different judge (round 1: 14).
+
+Each page takes longer, from 61 to 103 seconds. Method, the judges' reasons and limitations are in the [benchmark doc](docs/benchmark.en.md).
 
 ## What it does
 
@@ -40,6 +45,7 @@ Hand a screen to an AI and every section ends up boxed in a card, gaps vary at r
 |---|---|
 | Every screen on the same template, every section in a card | A skeleton per screen type, grouping by spacing and thin lines |
 | Random spacing, type and radius values, 9px text | Values only from tokens (scales), text at 12px or more |
+| Default blue accent, white page with only lines, faint secondary text | One chosen accent carried through, two surface tones, three text tones |
 | Gradients, badges and filled buttons everywhere | Emphasis in one or two places per screen |
 | `transition: all`, animations that move height | Only `transform` and `opacity`, durations sized to the motion |
 | Keyboard, screen readers and reduced motion ignored | Accessibility and reduced-motion support in every pattern |

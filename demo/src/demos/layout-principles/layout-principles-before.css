@@ -163,3 +163,87 @@
   block-size: auto;
   border-radius: 10px;
 }
+
+/* ⑦ 설정 — 흰 바탕 위에 테두리·그림자 카드, 이름과 설명이 같은 연회색, 기본 파랑, 채운 버튼 둘 */
+.lp-b-settings {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 22px 18px;
+  background: #ffffff;
+  color: #111827;
+}
+
+.lp-b-plain-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 18px;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.lp-b-setting-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+}
+
+/* 이름과 설명을 같은 옅은 회색·같은 크기로 — 무엇을 먼저 읽을지 정해지지 않는다(대비도 2.5:1) */
+.lp-b-faint {
+  margin: 0;
+  font-size: 14px;
+  color: #9ca3af;
+}
+
+.lp-b-toggle {
+  flex: none;
+  inline-size: 44px;
+  block-size: 24px;
+  border-radius: 999px;
+  background: #d1d5db;
+}
+
+.lp-b-toggle[data-on] {
+  background: #2563eb;
+}
+
+.lp-b-blue-fill {
+  align-self: stretch;
+  min-block-size: 44px;
+  border: none;
+  border-radius: 10px;
+  background: #2563eb;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+/* ⑧ 로그인 — 굵은 라벨, 기본 파랑, 같은 흰 윤곽선 소셜 버튼, 링크로 보이지 않는 회색 글자 */
+.lp-b-login {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 22px 18px;
+  background: #ffffff;
+  color: #111827;
+}
+
+.lp-b-input {
+  padding: 13px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  color: #9ca3af;
+}
+
+.lp-b-outline {
+  align-self: stretch;
+  min-block-size: 44px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #111827;
+  font-weight: 700;
+}

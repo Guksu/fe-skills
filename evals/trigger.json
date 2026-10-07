@@ -12,7 +12,8 @@
     "add a toast notification component",
     "make this dropdown usable with the keyboard",
     "카드가 너무 많고 여백이 제각각이야, 레이아웃 좀 다듬어줘",
-    "tighten up the spacing and layout of this settings page"
+    "tighten up the spacing and layout of this settings page",
+    "화면 색이랑 폰트 크기가 AI가 만든 티 나, 좀 다듬어줘"
   ],
   "shouldNot": [
     "주문 API 엔드포인트 추가해줘",

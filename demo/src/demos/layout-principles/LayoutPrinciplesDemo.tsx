@@ -273,7 +273,154 @@ const DetailAfter = () => {
   )
 }
 
-type Example = { id: string; title: string; principle: string; before: string; after: string; Before: () => ReactNode; After: () => ReactNode; flush?: boolean }
+/* ---- ⑦ 설정 — 면 두 단계·글자 색 세 단계·강조색 하나(P5·P2·P3) ---- */
+
+const NOTICES = [
+  { id: 'cook', label: '조리 시작 알림', desc: '주문한 국수를 삶기 시작하면 알려 드려요' },
+  { id: 'event', label: '새 메뉴·쿠폰 소식', desc: '한 달에 한두 번 보내요' },
+]
+
+const SettingsBefore = () => (
+  <div className="lp-b-settings">
+    <p className="lp-b-title">설정</p>
+    <div className="lp-b-plain-card">
+      <p className="lp-b-strong">알림</p>
+      {NOTICES.map((notice, index) => (
+        <div key={notice.id} className="lp-b-setting-row">
+          <div>
+            <p className="lp-b-faint">{notice.label}</p>
+            <p className="lp-b-faint">{notice.desc}</p>
+          </div>
+          <span className="lp-b-toggle" data-on={index === 0 || undefined} aria-hidden="true" />
+        </div>
+      ))}
+    </div>
+    <div className="lp-b-plain-card">
+      <p className="lp-b-strong">계정</p>
+      <button type="button" className="lp-b-blue-fill">
+        로그아웃
+      </button>
+      <button type="button" className="lp-b-blue-fill">
+        회원 탈퇴
+      </button>
+    </div>
+  </div>
+)
+
+const SettingsAfter = () => {
+  const [enabled, setEnabled] = useState<Record<string, boolean>>({ cook: true, event: false })
+
+  return (
+    <div className="lp-t-page">
+      <p className="lp-t-title">설정</p>
+      <p className="lp-t-group-label" id="lp-t-notice">
+        알림
+      </p>
+      <ul className="lp-t-group" aria-labelledby="lp-t-notice">
+        {NOTICES.map((notice) => (
+          <li key={notice.id}>
+            <label className="lp-t-row">
+              <span className="lp-t-row-text">
+                <span className="lp-t-label">{notice.label}</span>
+                <span className="lp-t-desc">{notice.desc}</span>
+              </span>
+              <input
+                type="checkbox"
+                role="switch"
+                className="lp-t-switch"
+                checked={enabled[notice.id]}
+                onChange={(e) => setEnabled((prev) => ({ ...prev, [notice.id]: e.target.checked }))}
+              />
+            </label>
+          </li>
+        ))}
+      </ul>
+      <p className="lp-t-group-label" id="lp-t-screen">
+        화면
+      </p>
+      <ul className="lp-t-group" aria-labelledby="lp-t-screen">
+        <li>
+          <button type="button" className="lp-t-row lp-t-row-button">
+            <span className="lp-t-label">글자 크기</span>
+            <span className="lp-t-value">
+              보통
+              <span aria-hidden="true" className="lp-t-chevron" />
+            </span>
+          </button>
+        </li>
+      </ul>
+      <ul className="lp-t-group" aria-label="계정">
+        <li>
+          <button type="button" className="lp-t-row lp-t-row-button">
+            <span className="lp-t-label">로그아웃</span>
+          </button>
+        </li>
+      </ul>
+      <button type="button" className="lp-t-quiet">
+        회원 탈퇴
+      </button>
+    </div>
+  )
+}
+
+/* ---- ⑧ 로그인 — 강조색 하나를 이어 쓰고, 외부 서비스 버튼은 그 서비스의 색(P3·P11) ---- */
+
+const LoginBefore = () => (
+  <div className="lp-b-login">
+    <p className="lp-b-title">로그인</p>
+    <p className="lp-b-strong">이메일</p>
+    <span className="lp-b-input">name@example.com</span>
+    <p className="lp-b-strong">비밀번호</p>
+    <span className="lp-b-input">8자 이상</span>
+    <p className="lp-b-faint">비밀번호 찾기</p>
+    <button type="button" className="lp-b-blue-fill">
+      로그인
+    </button>
+    <button type="button" className="lp-b-outline">
+      카카오로 계속하기
+    </button>
+    <button type="button" className="lp-b-outline">
+      네이버로 계속하기
+    </button>
+  </div>
+)
+
+const LoginAfter = () => (
+  <form className="lp-t-page lp-t-login" onSubmit={(e) => e.preventDefault()}>
+    <p className="lp-t-title">성수 국수집에 다시 오셨네요</p>
+    <label className="lp-t-field">
+      <span className="lp-t-field-label">이메일</span>
+      <input className="lp-t-input" type="email" placeholder="name@example.com" autoComplete="email" />
+    </label>
+    <label className="lp-t-field">
+      <span className="lp-t-field-label">비밀번호</span>
+      <input className="lp-t-input" type="password" placeholder="8자 이상" autoComplete="current-password" />
+    </label>
+    <button type="submit" className="lp-t-primary">
+      로그인
+    </button>
+    <p className="lp-t-links">
+      <a href="#/layout-principles">비밀번호 찾기</a>
+      <span aria-hidden="true" className="lp-t-links-divider" />
+      <a href="#/layout-principles">회원가입</a>
+    </p>
+    <p className="lp-t-desc lp-t-social-label">다른 방법으로 로그인</p>
+    <button type="button" className="lp-t-social" data-brand="kakao">
+      <svg aria-hidden="true" viewBox="0 0 24 24" className="lp-t-social-mark">
+        <path d="M12 4C7 4 3 7.1 3 11c0 2.5 1.7 4.7 4.2 5.9l-.9 3.3c-.1.3.3.6.6.4l3.9-2.6c.4 0 .8.1 1.2.1 5 0 9-3.1 9-7s-4-7.1-9-7.1z" />
+      </svg>
+      카카오로 시작하기
+    </button>
+    <button type="button" className="lp-t-social" data-brand="naver">
+      <svg aria-hidden="true" viewBox="0 0 24 24" className="lp-t-social-mark">
+        <path d="M14.6 12.4 9.1 4.5H4.5v15h4.9v-7.9l5.5 7.9h4.6v-15h-4.9z" />
+      </svg>
+      네이버로 시작하기
+    </button>
+  </form>
+)
+
+type Example = { id: string; title: string; principle: string; before: string; after: string; Before: () => ReactNode; After: () => ReactNode; flush?: boolean; light?: boolean }
 
 const EXAMPLES: Example[] = [
   {
@@ -331,12 +478,34 @@ const EXAMPLES: Example[] = [
     After: DetailAfter,
     flush: true,
   },
+  {
+    id: 'settings',
+    title: '⑦ 설정',
+    principle: 'P5 면은 톤 차이로 · P2 글자 색 세 단계 · P3 강조색 하나',
+    before: '흰 바탕에 테두리·그림자 카드를 겹치고, 이름과 설명이 같은 연회색이다. 강조색은 기본 파랑이고 채운 버튼이 둘이다.',
+    after: '옅은 바탕 위 흰 묶음(테두리·그림자 없음). 구역 이름은 묶음 밖 위에 옅게, 항목 이름은 진하게, 설명은 한 단계 옅게. 강조색은 켜진 스위치에만 쓰고, 탈퇴는 옅은 글자 링크로 낮춘다.',
+    Before: SettingsBefore,
+    After: SettingsAfter,
+    flush: true,
+    light: true,
+  },
+  {
+    id: 'login',
+    title: '⑧ 로그인',
+    principle: 'P3 강조색 하나를 이어 쓴다 · P11 외부 서비스 버튼은 그 서비스의 색',
+    before: '기본 파랑 버튼, 굵은 라벨, 같은 흰 윤곽선 소셜 버튼. 비밀번호 찾기는 링크로 보이지 않는 회색 글자다.',
+    after: '서비스의 강조색 하나로 주 버튼을 채운다. 링크는 밑줄로 링크답게, 소셜 버튼은 그 서비스의 색과 로고(카카오 노랑, 네이버 로고)를 같은 높이로.',
+    Before: LoginBefore,
+    After: LoginAfter,
+    flush: true,
+    light: true,
+  },
 ]
 
-const Pane = ({ label, note, tone, flush = false, children }: { label: string; note: string; tone: 'before' | 'after'; flush?: boolean; children: ReactNode }) => (
+const Pane = ({ label, note, tone, flush = false, light = false, children }: { label: string; note: string; tone: 'before' | 'after'; flush?: boolean; light?: boolean; children: ReactNode }) => (
   <div className="lp-pane" data-tone={tone}>
     <p className="lp-pane-label">{label}</p>
-    <div className="lp-screen" data-flush={flush || undefined}>
+    <div className="lp-screen" data-flush={flush || undefined} data-light={light || undefined}>
       {children}
     </div>
     <p className="lp-pane-note">{note}</p>
@@ -373,12 +542,12 @@ export const LayoutPrinciplesDemo = () => {
           </div>
           <div className="lp-compare" data-view={view}>
             {view !== 'after' && (
-              <Pane label="고치기 전" note={example.before} tone="before" flush={example.flush}>
+              <Pane label="고치기 전" note={example.before} tone="before" flush={example.flush} light={example.light}>
                 <example.Before />
               </Pane>
             )}
             {view !== 'before' && (
-              <Pane label="고친 뒤" note={example.after} tone="after" flush={example.flush}>
+              <Pane label="고친 뒤" note={example.after} tone="after" flush={example.flush} light={example.light}>
                 <example.After />
               </Pane>
             )}

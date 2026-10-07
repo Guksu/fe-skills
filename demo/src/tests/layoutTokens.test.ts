@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { GAP, LEADING, LIMITS, RADIUS, RATIO, SPACE, TEXT, WEIGHT, groupGapOk, isOnGrid, nearestSpace, toPx } from '@skills/layout-principles/assets/layoutTokens'
+import { COLOR, GAP, LEADING, LIMITS, RADIUS, RATIO, SPACE, TEXT, WEIGHT, contrastRatio, groupGapOk, isOnGrid, nearestSpace, toPx } from '@skills/layout-principles/assets/layoutTokens'
 
 // vitest는 demo/에서 돈다 — 정본 CSS를 파일로 읽어 TS 상수와 비교한다(두 벌이 어긋나면 검사기와 화면이 다른 척도를 쓴다)
 const css = readFileSync(resolve(process.cwd(), '../skills/suta/patterns/layout-principles/assets/layout-tokens.css'), 'utf8')
@@ -80,5 +80,47 @@ describe('layoutTokens — 판정 함수', () => {
     expect(nearestSpace(28)).toBe(24)
     expect(nearestSpace(100)).toBe(64)
     expect(nearestSpace(-6)).toBe(-4)
+  })
+
+  it('contrastRatio는 WCAG 명암비를 계산하고 두 색의 순서와 무관하다', () => {
+    expect(contrastRatio('#000000', '#ffffff')).toBeCloseTo(21, 1)
+    expect(contrastRatio('#ffffff', '#000000')).toBeCloseTo(21, 1)
+    expect(contrastRatio('#777777', '#777777')).toBe(1)
+    expect(contrastRatio('#767676', '#ffffff')).toBeCloseTo(4.54, 1)
+    expect(contrastRatio('#FFF', '#000')).toBeCloseTo(21, 1)
+  })
+})
+
+describe('layoutTokens — 색 역할 (P2 농도·P3 강조·P5 면)', () => {
+  it('색 역할이 CSS와 일치한다', () => {
+    const name = (key: string) => `--color-${key.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`)}`
+    for (const [key, value] of Object.entries(COLOR)) expect(cssVar(name(key))).toBe(value)
+  })
+
+  it('글자 색 3단계는 흰 면과 옅은 바탕 모두에서 4.5:1 이상이고, 단계가 눈에 띄게 다르다', () => {
+    for (const ground of [COLOR.surface, COLOR.canvas]) {
+      for (const text of [COLOR.text, COLOR.textSecondary, COLOR.textTertiary]) expect(contrastRatio(text, ground)).toBeGreaterThanOrEqual(4.5)
+    }
+    expect(contrastRatio(COLOR.text, COLOR.surface)).toBeGreaterThan(contrastRatio(COLOR.textSecondary, COLOR.surface) * 1.5)
+    expect(contrastRatio(COLOR.textSecondary, COLOR.surface)).toBeGreaterThan(contrastRatio(COLOR.textTertiary, COLOR.surface) * 1.2)
+  })
+
+  it('상태 색은 글자로 써도 흰 면에서 4.5:1 이상이다', () => {
+    for (const state of [COLOR.danger, COLOR.success, COLOR.warning]) expect(contrastRatio(state, COLOR.surface)).toBeGreaterThanOrEqual(4.5)
+    expect(contrastRatio(COLOR.onAccent, COLOR.accent)).toBeGreaterThanOrEqual(4.5)
+  })
+
+  it('옅은 바탕은 흰 면과 구별되지만 선·글자보다 약하다 — 면은 톤 차이로 나눈다', () => {
+    const canvas = contrastRatio(COLOR.canvas, COLOR.surface)
+    expect(canvas).toBeGreaterThanOrEqual(1.05)
+    expect(canvas).toBeLessThan(contrastRatio(COLOR.line, COLOR.surface))
+    expect(contrastRatio(COLOR.line, COLOR.surface)).toBeLessThan(1.5)
+  })
+
+  it('구역 사이 간격은 좁은 화면 32px, 넓은 화면 48px이고 구역 띠는 8px이다 (레퍼런스 구역 사이 중앙값 29)', () => {
+    expect(GAP.section).toBe(32)
+    expect(GAP.sectionWide).toBe(48)
+    expect(css).toMatch(/@media \(min-width: 768px\)\s*\{\s*:root\s*\{[^}]*--gap-section:\s*var\(--space-12\)/)
+    expect(cssVar('--band')).toBe('var(--space-2)')
   })
 })
