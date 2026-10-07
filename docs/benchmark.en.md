@@ -9,7 +9,76 @@ Model, settings and tool permissions are identical. The only difference is the p
 
 한국어: [benchmark.md](benchmark.md)
 
-## Results (2026-10-07 · 16 pages per condition)
+## Round 2 — after the type, color and surface update (2026-10-07 · 16 pages per condition)
+
+In round 1 the judges called suta's pages "clean but plain". We re-analyzed the references (1,104 app screens, 19 websites, design-feedback cases) for type, color and surfaces and updated the skill ([`research/2026-10-07-tone.md`](research/2026-10-07-tone.md), Korean). Only the suta side was re-run with the updated skill (version 0.6.0).
+
+- The plain side reuses the round 1 output. Prompts, model and settings are the same.
+- The four requests with no brand or industry cue (login, dashboard, landing, cart) were run once more after adding the rule "with no cue, use the near-black default". The other four are from before that rule (it does not apply to them).
+
+### At a glance
+
+- **Judgments moved toward suta.** The default judge went from 7 : 25 to 11 : 21; the other judge flipped from 14 : 18 to **19 : 13**.
+- **Tone metrics moved toward the references.**
+  - Size of the most-used text: 14 → 16px (references: 16).
+  - Neutral surfaces besides the page background: 0 → 1 (references: 1–2).
+  - Pages whose primary button is blue, indigo or violet: 8 → 0/16 (plain: 10/16).
+- **Defect metrics stayed at round 1 levels.** Overflow, tiny text, small touch targets and strong effects are zero; one nested box appeared.
+- **Accessibility violations rose from round 1 (4 → 13; plain: 87).** Almost all are `label-content-name-mismatch` (an `aria-label` that differs from the visible text), concentrated on one search-results page.
+- **Cost is similar.** Median 103 seconds per page (round 1: 96); input tokens 4.4× the plain side.
+
+![Pages built from the same request — in each pair, plain on the left and suta round 2 on the right. The first three requests in order (run 1)](assets/benchmark-compare.jpg)
+
+### Tone metrics
+
+The reference websites (mobile 390px, 14 sites) were measured with the same script. Ranges are lower quartile, median, upper quartile.
+
+| Tone metric | Reference websites | Plain | suta round 1 | suta round 2 |
+|---|---|---|---|---|
+| Size of the most-used text (px, median) | 16 (13–16) | 13 | 14 | 16 |
+| Share of text under 15px (%, median) | 59 (14–82) | 61.5 | 62.5 | 35.5 |
+| Neutral surfaces besides the page background (median) | 2 (1–2) | 1 | 0 | 1 |
+| Share of text in an accent color (%, median) | 0.5 (0–6.4) | 6.5 | 0 | 2.6 |
+| Pages whose primary button is blue, indigo or violet | — | 10/16 | 8/16 | 0/16 |
+
+- The amount of small text is not the target — well-made mobile sites also have more than half their text under 15px. The target is the size of the body text.
+
+### Defect metrics
+
+| Metric (16 pages, lower is better) | Plain | suta round 1 | suta round 2 |
+|---|---|---|---|
+| Pages that scroll sideways at 320px | 2/16 | 0/16 | 0/16 |
+| Pages with text under 12px | 4/16 | 0/16 | 0/16 |
+| Touch targets under 24px (total) | 27 | 0 | 0 |
+| Boxes nested in boxes (total) | 41 | 0 | 1 |
+| Gradients, blurs, large shadows (total) | 47 | 0 | 0 |
+| Distinct font sizes (per page) | 8.1 | 4.1 | 4.1 |
+| Accessibility violations (axe, total) | 87 | 4 | 13 |
+
+### Judgment results
+
+| Request | Default judge (suta : plain) | Other judge (suta : plain) |
+|---|---|---|
+| Detail `menu-detail` | 0 : 4 | 1 : 3 |
+| Login `login` | 1 : 3 | 3 : 1 |
+| Settings `settings` | 2 : 2 | 2 : 2 |
+| Dashboard `dashboard` | 2 : 2 | 2 : 2 |
+| Landing `landing` | 2 : 2 | 4 : 0 |
+| Cart `cart` | 0 : 4 | 0 : 4 |
+| Search results `search-results` | 1 : 3 | 3 : 1 |
+| Bottom sheet `option-sheet` | 3 : 1 | 4 : 0 |
+| **Total** | **11 : 21** (round 1: 7 : 25) | **19 : 13** (round 1: 14 : 18) |
+
+### Why, and what is left
+
+- **Why suta won**: clear settings sections with sign-out separated from account deletion; a login with one strong button and a Kakao-colored social button; restrained, consistently left-aligned landing; clear name → rating → distance hierarchy in search results.
+- **Why plain won — next candidates**
+  - **Photo placeholders** (cart, search results, detail): suta used gray tiles with line icons and was called "wireframe-like"; the plain side used emoji and illustrations. When image files are not allowed, placeholders need to look more like photos.
+  - **A cart defect**: one run showed the empty-state message while the cart had items.
+  - **Long values**: an email wrapped mid-word in settings (needs truncation).
+  - **Link size**: the login links were still called small and weak.
+
+## Round 1 (history, 2026-10-07 · 16 pages per condition)
 
 ### At a glance
 
@@ -25,8 +94,6 @@ Model, settings and tool permissions are identical. The only difference is the p
 - **It costs more.**
   - Time per page went from a median of 61 to 96 seconds.
   - Input tokens were 4.3× and output tokens 1.5×, because the agent reads the skill and pattern docs and runs the checks.
-
-![Pages built from the same request — in each pair, plain on the left and suta on the right. The first three requests in order (run 1)](assets/benchmark-compare.jpg)
 
 ### All metrics
 
@@ -155,13 +222,14 @@ For each request and run, the two pages' screenshots (full mobile page at 390px,
 
 - The judge is a fresh Claude Code session without the plugin. Each pair was judged once by the same model that built the pages (the default judge model) and once by a different model.
 - The criterion was "the one an experienced product designer would approve to ship as is". The judge was not told suta's rules.
-- In the full mobile-page capture, fixed elements (top bars, bottom button bars) were moved to where they appear at the start or end of scrolling. Captured as is, a bottom bar lands in the middle of the page and looks like it covers content. The first judgment used captures with this problem; it was redone after the fix.
+- In the full mobile-page capture, fixed elements (top bars, bottom button bars) were moved to where they appear at the start or end of scrolling. Captured as is, a bottom bar lands in the middle of the page and looks like it covers content. The first judgment used captures with this problem; it was redone after the fix. From round 2, bottom `position: sticky` bars have the same problem and are returned to their place in the document flow.
 - Each pair was judged twice with the order swapped, to cancel out any bias toward whichever comes first.
 - This is a model's judgment, not a human evaluation.
 
 ## Limitations
 
-- **The sample is small**: 8 requests × 2 runs. Small differences may be chance. Every run's values are in [`evals/benchmark/results.json`](../evals/benchmark/results.json).
+- **The sample is small**: 8 requests × 2 runs. Small differences may be chance. Every run's values are in [`evals/benchmark/results.json`](../evals/benchmark/results.json) (round 2) and [`results-r1.json`](../evals/benchmark/results-r1.json) (round 1).
+- **Round 2 re-ran only the suta side.** The plain side is round 1 output, and the four no-cue requests were made after one more rule, so the 16 suta pages were not all made by the exact same skill.
 - **One model, one setting.** Results may differ with other models or thinking levels.
 - **Some metrics overlap with what suta prevents** (nested boxes, `transition: all` and so on). In other words, they measure suta's claimed effect with code independent of suta's checker. Accessibility (axe) is a third-party standard.
 - **Only the initial state** is measured. Screens after interaction and actual behavior (for example, whether drag-to-dismiss follows the finger) are not.

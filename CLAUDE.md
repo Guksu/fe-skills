@@ -27,3 +27,4 @@
 | 2026-10-07 | README 간결화(314줄 → 73줄) — 설치·소개만 남기고 나머지는 상세 안내(`docs/guide.md`·`guide.en.md`)로 옮김. 패턴 표는 상세 안내에 둔다 | README 2벌·docs/guide·AGENTS.md·add-skill | 사용자 요청 — 텍스트가 많아 읽기 어려움 |
 | 2026-10-07 | 데모 사이트를 suta 검사로 점검·개선 — 셸 토큰화·좁은 화면 넘침 수정·모바일 메뉴 접기·조절 막대와 목록 행의 상자 걷기(error 5·warn 96 → 0). motion-audit 오탐(주석·템플릿 문자열) 수정, OTP 칸 320px 대응, 버전 0.5.1 | demo/·motion-audit·otp-input·매니페스트 3개 | 사용자 요청 |
 | 2026-10-07 | 퍼블리싱 벤치마크 — 같은 요청 8개를 일반 Claude Code와 suta 설치 Claude Code에 2회씩(32회), 렌더 지표·axe·블라인드 판정으로 비교. README 맨 위에 요약 | scripts/benchmark·evals/benchmark·docs/benchmark(.en).md·README 2벌 | 사용자 요청 |
+| 2026-10-07 | 글자·색·면 기준 — 레퍼런스(앱 1,104장·웹 19곳·피드백 사례) 재분석으로 색 역할 토큰 11개·본문 행간 1.5·구역 사이 32/48·띠 8, 진입 스킬 "글자·색·면" 금지선과 톤 단계(근거 없으면 거의 검정), 관례 문서(로그인·설정·장바구니 세부, 대시보드·랜딩), 데모 ⑦·⑧, 벤치마크 2차와 톤 지표, 버전 0.6.0 | skills/suta·demo·evals·scripts/benchmark·docs·README | 사용자 요청 — 벤치마크의 suta 화면이 아직 AI 티가 난다, 레퍼런스 우선 |

@@ -226,7 +226,7 @@ Click a name for the manual, or the demo link on the right for the working scree
 |---|---|---|
 | [Motion principles & tokens](../skills/suta/patterns/motion-principles/PATTERN.md) | One token set of 5 durations, 5 easings, stagger and reduced-motion, plus rules for which value each kind of movement uses | [Demo](https://guksu.github.io/suta/#/motion-principles) |
 | [Motion audit](../skills/suta/patterns/motion-audit/PATTERN.md) | Scans CSS and JS for layout-property animations, missing reduced-motion, out-of-range durations and more, reports them as `file:line` and points to the pattern that fixes each | [Demo](https://guksu.github.io/suta/#/motion-audit) |
-| [Layout principles & tokens](../skills/suta/patterns/layout-principles/PATTERN.md) | 12 principles for order, hierarchy, grouping, alignment and emphasis, conventions per screen type, and one token set for spacing, type, weight and radius, shown as before/after fixes of six typical AI screens | [Demo](https://guksu.github.io/suta/#/layout-principles) |
+| [Layout principles & tokens](../skills/suta/patterns/layout-principles/PATTERN.md) | 12 principles for order, hierarchy, grouping, alignment and emphasis, conventions per screen type (13), type/color/surface guidance, and one token set for spacing, type, weight, radius and color, shown as before/after fixes of eight typical AI screens | [Demo](https://guksu.github.io/suta/#/layout-principles) |
 | [Layout audit](../skills/suta/patterns/layout-audit/PATTERN.md) | Scans CSS, JSX and HTML for nested cards, sub-11px text, effect overuse, off-scale spacing, centered paragraphs and more, reports them as `file:line` with the principle that fixes each | [Demo](https://guksu.github.io/suta/#/layout-audit) |
 
 ## Layout

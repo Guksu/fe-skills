@@ -6,6 +6,8 @@
  *   가로 넘침(320·390px) · 12px 미만 글자 · 24px 미만 터치 영역(WCAG 2.2 기준 2.5.8) · 글자 크기 종류 · 상자 안 상자 ·
  *   강한 효과(그라데이션·흐림·큰 그림자) · 가운데 정렬 문단 · transition: all · 레이아웃 속성 애니메이션 · 동작 줄이기 대응 · 스크립트 오류 ·
  *   끝까지 내려도 하단 고정 바가 본문을 가리는가(390·1280px)
+ * 톤(390px, 레퍼런스 웹사이트와 같은 방식) — 가장 많은 글자의 크기 · 15px 미만 글자 비율 · 강조색 글자 비율 ·
+ *   페이지 바탕 말고 넓은 무채색 면의 종류 · 주 버튼의 색상각(파랑·남색·보라 계열인지)
  * 접근성(axe-core) — WCAG 2.0·2.1·2.2 A·AA 규칙 위반
  * suta 검사 — 같은 파일에 suta의 레이아웃·모션 검사를 돌린 error·warn 수. suta가 스스로 정한 기준이라 보고서에서 따로 표시한다
  *
@@ -70,6 +72,55 @@ const renderMetrics = () => {
   const tinyText = sizes.filter((px) => px < 12).length
   const fontSizes = new Set(sizes.map((px) => Math.round(px * 2) / 2)).size
 
+  // 톤 — 레퍼런스 웹사이트 19곳을 잰 방식(docs/research/2026-10-07-tone.md)과 같게, 글자 수로 가중한다
+  const rgbOf = (color) => {
+    const m = color.match(/rgba?\(([^)]+)\)/)
+    if (!m) return null
+    const p = m[1].split(/[ ,/]+/).filter(Boolean).map(Number)
+    return { r: p[0], g: p[1], b: p[2], a: p.length > 3 ? p[3] : 1 }
+  }
+  const hslOf = ({ r, g, b }) => {
+    const [R, G, B] = [r / 255, g / 255, b / 255]
+    const max = Math.max(R, G, B)
+    const min = Math.min(R, G, B)
+    const l = (max + min) / 2
+    const d = max - min
+    const s = d === 0 ? 0 : d / (1 - Math.abs(2 * l - 1))
+    const h = d === 0 ? 0 : max === R ? ((G - B) / d) % 6 : max === G ? (B - R) / d + 2 : (R - G) / d + 4
+    return { h: (h * 60 + 360) % 360, s, l }
+  }
+  const saturated = (c) => {
+    const { s, l } = hslOf(c)
+    return s >= 0.35 && l > 0.15 && l < 0.85
+  }
+  const achromatic = (c) => {
+    const { s, l } = hslOf(c)
+    return s < 0.12 || l < 0.08 || l > 0.97
+  }
+  let chars = 0
+  let smallChars = 0
+  let accentChars = 0
+  const charsBySize = new Map()
+  // 레퍼런스 측정과 같게 — 화면 여섯 장 높이 안의 글자만, 반투명(알파 0.5 이하) 글자는 뺀다
+  const reach = innerHeight * 6
+  for (const el of textEls) {
+    if (el.getBoundingClientRect().top + scrollY >= reach) continue
+    const cs = getComputedStyle(el)
+    const color = rgbOf(cs.color)
+    if (!color || color.a <= 0.5) continue
+    const n = ownText(el).replace(/\s+/g, '').length // 공백을 뺀 글자 수 — 레퍼런스 측정과 같게
+    if (n === 0) continue
+    const size = parseFloat(cs.fontSize)
+    chars += n
+    if (size < 15) smallChars += n
+    charsBySize.set(Math.round(size), (charsBySize.get(Math.round(size)) ?? 0) + n)
+    if (saturated(color)) accentChars += n
+  }
+  // 가장 많은 글자의 크기, 15px 미만 글자의 비율, 강조색(채도 있는 색) 글자의 비율
+  const bodySize = [...charsBySize].sort((a, b) => b[1] - a[1])[0]?.[0] ?? 0
+  const smallTextShare = chars ? Math.round((100 * smallChars) / chars) : 0
+  const accentTextShare = chars ? Math.round((1000 * accentChars) / chars) / 10 : 0
+
   // 터치 영역 — 문장 안의 링크는 WCAG 예외라 뺀다. 체크박스·라디오는 라벨까지 누르는 영역이다
   const targets = visible.filter((el) =>
     el.matches('a[href], button, input:not([type=hidden]), select, textarea, summary, [role=button], [role=switch], [role=tab], [role=checkbox], [role=radio]'),
@@ -116,6 +167,36 @@ const renderMetrics = () => {
     const shadowed = cs.boxShadow !== 'none'
     return bordered || filled || shadowed
   }
+  // 면 — 페이지 바탕 말고 넓은 무채색 면이 몇 종류인가(칠한 면 넓이의 1% 이상). 흰 바탕 하나에 선만 두면 0이다
+  const canvasColor = alpha(getComputedStyle(document.body).backgroundColor) > 0.5 ? getComputedStyle(document.body).backgroundColor : getComputedStyle(document.documentElement).backgroundColor
+  const toneArea = new Map()
+  let paintedArea = 0
+  for (const el of visible) {
+    const cs = getComputedStyle(el)
+    const color = rgbOf(cs.backgroundColor)
+    if (!color || color.a < 0.5) continue
+    const r = el.getBoundingClientRect()
+    if (r.top + scrollY >= reach) continue
+    const area = Math.min(r.width, innerWidth) * Math.min(r.height, innerHeight * 6)
+    if (area < 2000) continue
+    paintedArea += area
+    if (cs.backgroundColor !== canvasColor && achromatic(color)) toneArea.set(cs.backgroundColor, (toneArea.get(cs.backgroundColor) ?? 0) + area)
+  }
+  const toneSurfaces = [...toneArea.values()].filter((area) => area / paintedArea >= 0.01).length
+  // 주 버튼 — 채도 있는 색으로 채운 버튼 중 가장 넓은 것의 색상각. 거의 검정 같은 무채색 주 버튼은 null
+  let primaryHue = null
+  let primaryArea = 0
+  for (const el of targets) {
+    if (!el.matches('button, a[href], [role=button], input[type=submit]')) continue
+    const color = rgbOf(getComputedStyle(el).backgroundColor)
+    if (!color || color.a < 0.5 || !saturated(color)) continue
+    const r = el.getBoundingClientRect()
+    if (r.width * r.height > primaryArea) {
+      primaryArea = r.width * r.height
+      primaryHue = Math.round(hslOf(color).h)
+    }
+  }
+
   const boxes = visible.filter(isBox)
   const boxSet = new Set(boxes)
   const nestedBoxes = boxes.filter((el) => {
@@ -193,6 +274,11 @@ const renderMetrics = () => {
   return {
     tinyText,
     fontSizes,
+    bodySize,
+    smallTextShare,
+    accentTextShare,
+    toneSurfaces,
+    primaryHue,
     targets: targets.length,
     smallTargets,
     boxes: boxes.length,
@@ -298,6 +384,13 @@ for (const dir of runDirs.sort()) {
       el.style.setProperty('transform', 'none', 'important')
       el.style.setProperty('translate', 'none', 'important')
       el.style.setProperty('margin', '0', 'important')
+    }
+    // 아래쪽에 붙는 sticky 바도 전체 캡처에서는 처음 화면의 자리(페이지 중간)에 찍힌다 — 문서 흐름 속 제자리(끝까지 내렸을 때 보이는 자리)로 돌린다
+    for (const el of document.body.querySelectorAll('*')) {
+      const cs = getComputedStyle(el)
+      if (cs.position !== 'sticky') continue
+      const r = el.getBoundingClientRect()
+      if (r.height > 0 && r.height < innerHeight * 0.4 && r.top > innerHeight / 2) el.style.setProperty('position', 'static', 'important')
     }
   })
   const height = await page.evaluate(() => Math.min(document.documentElement.scrollHeight, 2400))
