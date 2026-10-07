@@ -1,5 +1,5 @@
 import { auditAll, isAuditTarget } from '../../../skills/suta/scripts/auditAll'
-import { editedFiles, hookResponse } from '../../../skills/suta/scripts/hookCore'
+import { changedLines, editedFiles, hookResponse } from '../../../skills/suta/scripts/hookCore'
 
 const finding = ({ severity, line = 1 }: { severity: 'error' | 'warn'; line?: number }) => ({
   file: 'src/menu.css',
@@ -66,6 +66,52 @@ describe('hookCore — 훅 응답', () => {
 
   it('문제가 없으면 아무것도 출력하지 않는다', () => {
     expect(hookResponse({ findings: [] })).toEqual({ exitCode: 0, stdout: '', stderr: '' })
+  })
+})
+
+describe('hookCore — 이번 편집이 바꾼 줄', () => {
+  const text = ['.a {', '  color: blue;', '  padding: 8px;', '}', '.b {', '  font-size: 10px;', '}'].join('\n')
+
+  it('Claude Code는 tool_response.structuredPatch의 + 줄을 새 파일 줄 번호로 바꾼다 — 새로 만든 파일은 null(전체)', () => {
+    const edit = {
+      tool_name: 'Edit',
+      tool_input: { file_path: '/p/a.css' },
+      tool_response: { structuredPatch: [{ oldStart: 1, oldLines: 3, newStart: 1, newLines: 4, lines: [' .a {', '-  color: red;', '+  color: blue;', '+  padding: 8px;', ' }'] }] },
+    }
+    expect([...(changedLines({ input: edit, file: '/p/a.css', text }) ?? [])]).toEqual([2, 3])
+    const created = { tool_name: 'Write', tool_input: { file_path: '/p/a.css' }, tool_response: { type: 'create', structuredPatch: [] } }
+    expect(changedLines({ input: created, file: '/p/a.css', text })).toBeNull()
+  })
+
+  it('Codex apply_patch는 그 파일 구간의 + 줄을 새 파일에서 찾고, Add File은 null(전체)이다', () => {
+    const patch = ['*** Begin Patch', '*** Update File: src/a.css', '@@ .b {', '-  font-size: 14px;', '+  font-size: 10px;', '*** Add File: src/new.css', '+.c { color: red; }', '*** End Patch'].join('\n')
+    const input = { tool_name: 'apply_patch', cwd: '/w', tool_input: { command: patch } }
+    expect([...(changedLines({ input, file: '/w/src/a.css', text }) ?? [])]).toEqual([6])
+    expect(changedLines({ input, file: '/w/src/new.css', text: '.c { color: red; }' })).toBeNull()
+  })
+
+  it('응답이 없는 Edit은 new_string 위치로 찾는다', () => {
+    const input = { tool_name: 'Edit', tool_input: { file_path: '/p/a.css', old_string: 'x', new_string: '  padding: 8px;\n}' } }
+    expect([...(changedLines({ input, file: '/p/a.css', text }) ?? [])]).toEqual([3, 4])
+  })
+
+  it('이번 편집이 건드리지 않은 기존 error는 막지 않고, 건드린 줄의 error와 관여 줄이 겹치는 요약 warn만 알린다', () => {
+    const old = { ...finding({ severity: 'error', line: 6 }), file: 'a.css' }
+    const touchedWarn = { ...finding({ severity: 'warn', line: 9 }), file: 'a.css', lines: [3, 9] }
+    const untouchedWarn = { ...finding({ severity: 'warn', line: 8 }), file: 'a.css', lines: [8] }
+    const changed = new Map([['a.css', new Set([2, 3])]])
+    const quiet = hookResponse({ findings: [old, untouchedWarn], changed })
+    expect(quiet).toEqual({ exitCode: 0, stdout: '', stderr: '' })
+    const noted = hookResponse({ findings: [old, touchedWarn], changed })
+    expect(noted.exitCode).toBe(0)
+    const context: string = JSON.parse(noted.stdout).hookSpecificOutput.additionalContext
+    expect(context).toContain('warn 1건')
+    expect(context).toContain('기존 error 1건')
+    const blocked = hookResponse({ findings: [old, { ...old, line: 2 }], changed })
+    expect(blocked.exitCode).toBe(2)
+    expect(blocked.stderr).toContain('a.css:2 [error]')
+    expect(blocked.stderr).not.toContain('a.css:6 [error]')
+    expect(hookResponse({ findings: [old], changed: new Map([['a.css', null]]) }).exitCode).toBe(2)
   })
 })
 

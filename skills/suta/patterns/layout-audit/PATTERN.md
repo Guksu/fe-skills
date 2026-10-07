@@ -62,7 +62,7 @@ console.log(formatFindings(findings))
 
 | 규칙 | 심각도 | 잡는 것 | 원칙 |
 |------|--------|---------|------|
-| `tiny-text` | 11px 미만 error, 11px대 warn | CSS `font-size`·`font`, Tailwind `text-[10px]`, 인라인 스타일 `fontSize`. 화면 낭독기 전용(`sr-only`)은 뺀다 | P7 |
+| `tiny-text` | 11px 미만 error, 11px대 warn | CSS `font-size`·`font`, Tailwind `text-[10px]`, 인라인 스타일 `fontSize`. 화면 낭독기 전용(`sr-only`)과 아이콘 글꼴(`icon`·`fa-`·`material-icons` 등)은 뺀다 | P7 |
 | `nested-card` | warn | 둥근 모서리 + 테두리·그림자·배경을 가진 요소 안의 같은 요소. JSX·HTML 태그 중첩(Tailwind 클래스, CSS가 상자로 정의한 클래스, `Card` 컴포넌트)과 CSS 자손 선택자·중첩으로 판정한다. 입력칸·버튼·링크·배지·컨트롤 부속은 뺀다 | P5 |
 | `effect-overuse` | warn | 색 그라데이션·`backdrop-filter`·큰 그림자(흐림 16px 이상)가 한 파일에 3곳 이상. 검은 스크림·흰 반짝임은 세지 않는다 | P3 |
 | `gradient-text` | warn | `background-clip: text`·`bg-clip-text` | P3 |
@@ -107,6 +107,6 @@ JSX는 `{/* layout-audit-ignore: nested-card — 이유 */}`로 적는다. 이�
 - **TSX 안의 여러 줄 템플릿 문자열은 마크업으로 읽지 않는다.** 예시 코드나 HTML 문자열을 담은 `` `<div …>…` `` 는 JSX가 아니기 때문이다. 한 줄짜리 ``className={`…`}``는 그대로 읽는다.
 - **상자 판정은 같은 실행에 넘긴 파일만 본다.** CSS 모듈(`styles.card`)처럼 클래스 이름이 코드에 문자열로 없으면 상자로 알 수 없다. 폴더 전체를 한 번에 넘기면 CSS 파일의 클래스를 TSX에서 찾는다.
 - **warn은 판단의 여지가 있다.** 대시보드는 숫자 크기가 많아 `font-size-variety`가 날 수 있다. 화면을 컴포넌트로 나눴는지 먼저 보고, 그래도 필요하면 이유를 적고 남긴다.
-- **`em` 글자 크기는 판정하지 않는다.** 부모 크기를 몰라서다. `px`·`rem`만 본다.
+- **`em` 글자 크기는 판정하지 않는다.** 부모 크기를 몰라서다. `px`·`rem`만 본다. `rem`은 함께 넘긴 파일의 `html`·`:root` 글자 크기로 바꾼다(`62.5%`면 1rem = 10px, 없으면 16px).
 - 코어는 Node가 바로 실행하도록 `.ts` 확장자를 붙여 import한다. 앱의 tsconfig가 이 폴더를 포함하면 `allowImportingTsExtensions`를 켜거나 이 폴더를 제외한다.
 - Node 22.18 미만에서는 CLI가 `.ts`를 못 읽는다. `node --experimental-strip-types audit.mjs …`로 실행한다.

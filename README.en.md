@@ -12,7 +12,7 @@ Install it once and Claude Code or Codex reads it automatically whenever they bu
 [![Deploy demo](https://github.com/Guksu/suta/actions/workflows/deploy-demo.yml/badge.svg)](https://github.com/Guksu/suta/actions/workflows/deploy-demo.yml)
 ![Patterns](https://img.shields.io/badge/suta-55%20patterns-6ea8fe)
 ![Dependencies](https://img.shields.io/badge/runtime%20deps-0-34c759)
-![Tests](https://img.shields.io/badge/tests-568%20passing-34c759)
+![Tests](https://img.shields.io/badge/tests-576%20passing-34c759)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 [**Live demo**](https://guksu.github.io/suta/) · [What it removes](#what-it-removes) · [Installation](#installation) · [How it works](#how-it-works) · [55 patterns](#55-patterns) · [Development](#development) · [Contributing](#contributing)
@@ -31,6 +31,7 @@ The name comes from the Korean *suta* (手打), "hand-made" — like noodles pul
 
 | What AI usually makes | With suta |
 |---|---|
+| Every screen built from the same hero → three cards → button template, every button filled | A skeleton per screen type drawn from 1,116 screens of well-made apps — a detail screen keeps one filled button in a bar fixed to the bottom |
 | Every section wrapped in a card, with another box inside the card | Grouping by spacing and thin lines; cards only for standalone units, one layer deep |
 | Numbers the same size as their labels, spacing and radius values all over the place | Hierarchy from size and weight; spacing, type and radius picked from tokens (a scale) only |
 | Gradient text, glows and colored badges everywhere, 9px text | Emphasis in one or two places per screen, text at 12px or more — checked on every edit |
@@ -121,6 +122,7 @@ Paths follow each tool's documentation as of September 2026. If a tool changes, 
 | "Make feed photos pinch-zoomable" | `pinch-zoom` |
 | "Every screen animates differently" | `motion-principles` · `motion-audit` |
 | "Too many cards, it feels cramped — tidy up the layout" | `layout-principles` · `layout-audit` |
+| "Build the menu detail screen for the noodle shop" | `layout-principles` (detail screen skeleton) · `stretchy-header` · `quantity-stepper` · `loading-button` |
 
 To call it explicitly, use `/suta:suta` in Claude Code or `$suta` in Codex. To make every UI task use it, add a line such as "Follow the suta skill for UI work" to the project's `AGENTS.md` or `CLAUDE.md`.
 
@@ -136,6 +138,7 @@ Installed as a Claude Code or Codex plugin, suta runs layout and motion checks o
 | warn — nested cards, effect overuse, off-scale spacing and more | A notice of up to 5 lines; whether to fix is a judgement call against the principles |
 | Clean, or not a checked file | Nothing |
 
+- **Only the lines this edit changed count.** Problems that were already in the file never stop the agent. When something else is being reported, one extra line notes "N existing errors unrelated to this edit". A newly created file is checked in full.
 - Checked files are CSS, SCSS, Less, TSX, JSX, Vue, Svelte and HTML (layout and motion) and TS/JS (motion). `node_modules`, build folders and test files are skipped.
 - Mark an intended exception with a comment above the line that gives the reason (`/* layout-audit-ignore: tiny-text — chart axis ticks */`).
 - To turn it off, set the environment variable `SUTA_HOOK=off`. It needs Node 22.18 or later; on older versions it passes without checking. It never blocks an edit.
@@ -236,7 +239,7 @@ Click a name for the manual, or the demo link on the right for the working scree
 |---|---|---|
 | [Motion principles & tokens](skills/suta/patterns/motion-principles/PATTERN.md) | One token set of 5 durations, 5 easings, stagger and reduced-motion, plus rules for which value each kind of movement uses | [Demo](https://guksu.github.io/suta/#/motion-principles) |
 | [Motion audit](skills/suta/patterns/motion-audit/PATTERN.md) | Scans CSS and JS for layout-property animations, missing reduced-motion, out-of-range durations and more, reports them as `file:line` and points to the pattern that fixes each | [Demo](https://guksu.github.io/suta/#/motion-audit) |
-| [Layout principles & tokens](skills/suta/patterns/layout-principles/PATTERN.md) | 12 principles for order, hierarchy, grouping, alignment and emphasis, plus one token set for spacing, type, weight and radius, shown as before/after fixes of typical AI layouts | [Demo](https://guksu.github.io/suta/#/layout-principles) |
+| [Layout principles & tokens](skills/suta/patterns/layout-principles/PATTERN.md) | 12 principles for order, hierarchy, grouping, alignment and emphasis, conventions per screen type, and one token set for spacing, type, weight and radius, shown as before/after fixes of six typical AI screens | [Demo](https://guksu.github.io/suta/#/layout-principles) |
 | [Layout audit](skills/suta/patterns/layout-audit/PATTERN.md) | Scans CSS, JSX and HTML for nested cards, sub-11px text, effect overuse, off-scale spacing, centered paragraphs and more, reports them as `file:line` with the principle that fixes each | [Demo](https://guksu.github.io/suta/#/layout-audit) |
 
 ## Layout

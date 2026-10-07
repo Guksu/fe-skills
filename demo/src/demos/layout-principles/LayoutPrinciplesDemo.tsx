@@ -196,7 +196,80 @@ const PhotoAfter = () => (
   </figure>
 )
 
-type Example = { id: string; title: string; principle: string; before: string; after: string; Before: () => ReactNode; After: () => ReactNode }
+/* ---- ⑥ 메뉴 상세 — 화면 유형의 관례: 행동은 하단 고정 바 하나(P11·P3) ---- */
+
+const SPICE = ['순한 맛', '보통', '매운맛']
+
+const DetailBefore = () => (
+  <div className="lp-b-detail" tabIndex={0} aria-label="고치기 전 메뉴 상세 — 스크롤 영역">
+    <div className="lp-b-card">
+      <img className="lp-b-detail-photo" src={PHOTO} alt="들깨칼국수 한 그릇" width={480} height={360} />
+    </div>
+    <div className="lp-b-center">
+      <p className="lp-b-title">들깨칼국수</p>
+      <p className="lp-b-text">{won(11000)}</p>
+    </div>
+    <div className="lp-b-actions">
+      <button type="button" className="lp-b-fill">
+        담기
+      </button>
+      <button type="button" className="lp-b-fill">
+        바로 주문
+      </button>
+      <button type="button" className="lp-b-fill">
+        찜
+      </button>
+    </div>
+    <div className="lp-b-card">
+      <p className="lp-b-strong">맵기 선택</p>
+      {SPICE.map((spice) => (
+        <div key={spice} className="lp-b-inner-box">
+          {spice}
+        </div>
+      ))}
+    </div>
+    <p className="lp-b-text">고소한 들깨 국물에 직접 민 칼국수. 들깨는 그날 아침에 갈아 넣습니다.</p>
+  </div>
+)
+
+const DetailAfter = () => {
+  const [spice, setSpice] = useState(SPICE[1])
+
+  return (
+    <div className="lp-a-detail">
+      <div className="lp-a-detail-scroll" tabIndex={0} aria-label="고친 뒤 메뉴 상세 — 스크롤 영역">
+        <img className="lp-a-detail-photo" src={PHOTO} alt="들깨칼국수 한 그릇" width={480} height={360} />
+        <div className="lp-a-detail-body">
+          <div className="lp-a-detail-head">
+            <span className="lp-a-sub">성수동 골목 국수집</span>
+            <span className="lp-a-detail-name">들깨칼국수</span>
+            <span className="lp-a-display">{won(11000)}</span>
+            <span className="lp-a-sub">고소한 들깨 국물에 직접 민 칼국수. 들깨는 그날 아침에 갈아 넣습니다.</span>
+          </div>
+          <fieldset className="lp-a-options">
+            <legend className="lp-a-options-title">맵기</legend>
+            {SPICE.map((option) => (
+              <label key={option} className="lp-a-option">
+                <span>{option}</span>
+                <input type="radio" name="lp-spice" value={option} checked={spice === option} onChange={() => setSpice(option)} />
+              </label>
+            ))}
+          </fieldset>
+        </div>
+      </div>
+      <div className="lp-a-buybar">
+        <button type="button" className="lp-a-icon-button" aria-label="찜하기">
+          ♡
+        </button>
+        <button type="button" className="lp-a-buy">
+          {won(11000)} 담기
+        </button>
+      </div>
+    </div>
+  )
+}
+
+type Example = { id: string; title: string; principle: string; before: string; after: string; Before: () => ReactNode; After: () => ReactNode; flush?: boolean }
 
 const EXAMPLES: Example[] = [
   {
@@ -244,12 +317,24 @@ const EXAMPLES: Example[] = [
     Before: PhotoBefore,
     After: PhotoAfter,
   },
+  {
+    id: 'detail',
+    title: '⑥ 메뉴 상세',
+    principle: 'P11 익숙한 구조 · P3 강조는 한 곳 — 상세 화면의 관례',
+    before: '담기·바로 주문·찜이 모두 채운 버튼으로 내용 중간에 있다. 스크롤하면 사라지고, 가격은 작은 회색 글자다.',
+    after: '사진 → 이름 → 가격 → 옵션 순. 행동은 화면 아래에 고정한 바 하나에 모으고, 채운 버튼은 담기 하나다. 바 아래에는 홈 표시줄 높이(안전 영역)를 더한다.',
+    Before: DetailBefore,
+    After: DetailAfter,
+    flush: true,
+  },
 ]
 
-const Pane = ({ label, note, tone, children }: { label: string; note: string; tone: 'before' | 'after'; children: ReactNode }) => (
+const Pane = ({ label, note, tone, flush = false, children }: { label: string; note: string; tone: 'before' | 'after'; flush?: boolean; children: ReactNode }) => (
   <div className="lp-pane" data-tone={tone}>
     <p className="lp-pane-label">{label}</p>
-    <div className="lp-screen">{children}</div>
+    <div className="lp-screen" data-flush={flush || undefined}>
+      {children}
+    </div>
     <p className="lp-pane-note">{note}</p>
   </div>
 )
@@ -284,12 +369,12 @@ export const LayoutPrinciplesDemo = () => {
           </div>
           <div className="lp-compare" data-view={view}>
             {view !== 'after' && (
-              <Pane label="고치기 전" note={example.before} tone="before">
+              <Pane label="고치기 전" note={example.before} tone="before" flush={example.flush}>
                 <example.Before />
               </Pane>
             )}
             {view !== 'before' && (
-              <Pane label="고친 뒤" note={example.after} tone="after">
+              <Pane label="고친 뒤" note={example.after} tone="after" flush={example.flush}>
                 <example.After />
               </Pane>
             )}

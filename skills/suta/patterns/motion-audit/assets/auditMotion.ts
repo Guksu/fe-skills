@@ -77,6 +77,8 @@ const auditCss = ({ file, text, push: rawPush }: Source & { push: (f: Finding) =
     push({
       file,
       line: lineOf(code, code.search(MOTION_HINT)),
+      // 움직임을 선언한 줄 전체 — 편집 후 훅은 이 중 하나를 고친 편집에만 이 지적을 돌려준다
+      lines: code.split('\n').flatMap((row, index) => (MOTION_HINT.test(row) ? [index + 1] : [])),
       rule: 'no-reduced-motion',
       severity: 'error',
       message: '움직임이 있는데 prefers-reduced-motion 블록이 없다',

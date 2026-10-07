@@ -63,6 +63,12 @@
   background: var(--bg);
 }
 
+/* ⑥ 상세 화면 예 — 틀의 안쪽 여백을 없애고, 정해진 높이 안에서 스크롤한다(휴대폰 화면처럼) */
+.lp-screen[data-flush] {
+  padding: 0;
+  overflow: hidden;
+}
+
 .lp-pane-note {
   margin: 0;
   font-size: var(--text-small);
@@ -205,6 +211,23 @@
 
 .lp-b-photo-text p {
   margin: 0;
+}
+
+/* 행동 버튼이 내용 중간에 있어 스크롤하면 사라진다 */
+.lp-b-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  block-size: 560px;
+  padding: 14px;
+  overflow-y: auto;
+}
+
+.lp-b-detail-photo {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+  border-radius: 10px;
 }
 
 /* ---------- 고친 뒤: 토큰만 쓴다 ---------- */
@@ -420,6 +443,119 @@
 .lp-a-photo-text {
   display: grid;
   gap: var(--space-1);
+}
+
+/* ⑥ 상세 화면 — 위는 스크롤되는 내용, 아래는 늘 보이는 구매 바.
+ * 실제 화면에서는 바를 position: fixed(bottom: 0)로 두고 본문 아래에 바 높이만큼 여백을 준다 */
+.lp-a-detail {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  block-size: 560px;
+}
+
+.lp-a-detail-scroll {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* 상세 화면 맨 위는 폭 가득 사진 — 비율 틀에 잘라 채운다 */
+.lp-a-detail-photo {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+  aspect-ratio: var(--ratio-photo);
+  object-fit: cover;
+}
+
+.lp-a-detail-body {
+  display: grid;
+  gap: var(--gap-group);
+  padding: var(--space-4) var(--page-inline) var(--space-6);
+}
+
+.lp-a-detail-head {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.lp-a-detail-name {
+  font-size: var(--text-title);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+}
+
+.lp-a-options {
+  display: grid;
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.lp-a-options-title {
+  margin-block-end: var(--space-2);
+  padding: 0;
+  font-size: var(--text-small);
+  font-weight: var(--weight-semibold);
+}
+
+/* 옵션 행은 상자 없이 선 한 줄 — 행 전체가 누르는 영역(44px 이상) */
+.lp-a-option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-4);
+  min-block-size: var(--tap-min);
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+}
+
+.lp-a-option input {
+  margin: 0;
+  accent-color: var(--accent);
+}
+
+/* 하단 고정 바 — 채운 버튼은 주 행동 하나, 보조 행동은 윤곽선 아이콘.
+ * 아래 여백에 홈 표시줄 높이(안전 영역)를 더한다 — viewport-fit=cover인 웹앱·웹뷰에서 버튼이 가리지 않는다 */
+.lp-a-buybar {
+  display: flex;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--page-inline) calc(var(--space-3) + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid var(--border);
+  background: var(--bg);
+}
+
+.lp-a-icon-button {
+  flex: none;
+  inline-size: var(--control-height);
+  min-block-size: var(--control-height);
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-control);
+  background: none;
+  color: var(--text);
+  font-size: var(--text-heading);
+}
+
+.lp-a-icon-button:hover {
+  border-color: var(--text-dim);
+  background: none;
+}
+
+.lp-a-buy {
+  flex: 1;
+  min-block-size: var(--control-height);
+  border: none;
+  border-radius: var(--radius-control);
+  background: var(--accent);
+  color: #0f1115;
+  font-weight: var(--weight-semibold);
+  font-variant-numeric: tabular-nums;
+}
+
+.lp-a-buy:hover {
+  border: none;
+  background: #8db9ff;
 }
 
 /* ---------- 토큰 표 ---------- */
