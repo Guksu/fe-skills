@@ -49,11 +49,11 @@
 }
 
 .lp-pane[data-tone='before'] .lp-pane-label {
-  color: var(--color-danger);
+  color: #f87171;
 }
 
 .lp-pane[data-tone='after'] .lp-pane-label {
-  color: var(--color-success);
+  color: #34d399;
 }
 
 /* 휴대폰 화면 틀 — 데모 안에서 유일한 상자다 */
@@ -173,13 +173,13 @@
   border: none;
   border-radius: var(--radius-control);
   background: var(--accent);
-  color: var(--color-on-accent);
+  color: #0f1115;
   font-weight: var(--weight-semibold);
 }
 
 .lp-a-primary:hover {
   border: none;
-  background: var(--color-text-secondary);
+  background: #8db9ff;
 }
 
 .lp-a-link {
@@ -395,14 +395,14 @@
   border: none;
   border-radius: var(--radius-control);
   background: var(--accent);
-  color: var(--color-on-accent);
+  color: #0f1115;
   font-weight: var(--weight-semibold);
   font-variant-numeric: tabular-nums;
 }
 
 .lp-a-buy:hover {
   border: none;
-  background: var(--color-text-secondary);
+  background: #8db9ff;
 }
 
 /* ---------- 토큰 표 ---------- */
