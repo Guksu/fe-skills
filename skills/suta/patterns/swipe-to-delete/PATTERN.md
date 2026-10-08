@@ -67,7 +67,7 @@ const Cart = () => {
 - **마지막(가장 오른쪽) 액션이 기본 액션이다.** 끝까지 밀거나 그 버튼을 누르면 행이 빠지고 접힌 뒤 `onClick`이 불린다(그리고 `onDelete`도 있으면 같은 시점에). 나머지 액션은 즉시 `onClick`을 부르고 행을 닫는다.
 - 따라서 마지막 액션은 행을 목록에서 제거하는 동작(삭제·보관·완료)이어야 한다 — 플래그처럼 행이 남는 동작을 마지막에 두면 접힌 행이 사라지지 않는다.
 - `actions`를 쓰면 `onDelete`는 생략할 수 있다. `actions`가 없으면 `actionLabel` 하나짜리 삭제 버튼(기존 동작)이다.
-- `tone`은 `'default'`(회색) · `'accent'`(파랑) · `'danger'`(빨강). 끝까지 밀리면 마지막 버튼이 늘어나 앞의 버튼들을 덮는다(`flex-grow` 전이).
+- `tone`은 `'default'`(회색) · `'accent'`(강조색, 기본 거의 검정) · `'danger'`(빨강). 끝까지 밀리면 마지막 버튼이 늘어나 앞의 버튼들을 덮는다(`flex-grow` 전이).
 
 ## 사용 방법 — 순수 JS (React 없음)
 
@@ -103,7 +103,7 @@ item.querySelector('.swipe-action').addEventListener('click', swipe.swipeOut)
 | 여러 액션 | `actions` prop — `{ label, onClick, tone? }[]`, 왼쪽부터 순서대로. 마지막이 끝까지 밀기 액션 |
 | 끝까지 밀기 임계 | `swipeOutThresholdPx` prop (기본: 단일 액션은 폭×2.5, 여러 액션은 열림 폭 + 폭×0.75) · 코어 `swipeOutVelocity`(0.8px/ms) |
 | 속도 | `--swipe-duration` (260ms — 정착·접힘·마지막 버튼 늘어남 공통) |
-| 색 | tone별 `--swipe-action-bg`(danger, #dc2626) · `--swipe-action-accent-bg`(#2563eb) · `--swipe-action-default-bg`(#6b7280), `--swipe-bg`(내용 배경 — 반드시 불투명해야 액션이 가려진다) |
+| 색 | tone별 `--swipe-action-bg`(danger, #dc2626) · `--swipe-action-accent-bg`(#1b1e24) · `--swipe-action-default-bg`(#6b7280), `--swipe-bg`(내용 배경 — 반드시 불투명해야 액션이 가려진다) |
 | 액션 문구 | 단일이면 `actionLabel` prop, 여러 개면 각 `actions[].label` |
 
 ## 주의사항

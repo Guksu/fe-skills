@@ -1,16 +1,16 @@
 # suta 상세 안내
 
-짧은 소개와 설치는 [README](../README.md)에 있습니다. 이 문서는 설치 방법 전체, 동작 방식, 편집 후 검사, 패턴 55종, 저장소 구조, 개발과 기여 방법을 담습니다.
+짧은 소개와 설치는 [README](../README.md)에 있습니다. 이 문서는 설치 방법 전체, 동작 방식, 편집 후 검사, 패턴 56종, 저장소 구조, 개발과 기여 방법을 담습니다.
 
 English: [guide.en.md](guide.en.md)
 
-**목차** — [소개](#소개) · [무엇을 없애나](#무엇을-없애나) · [설치](#설치) · [동작 방식](#동작-방식) · [편집 후 검사](#편집-후-검사) · [패턴 55종](#패턴-55종) · [구성](#구성) · [저장소 구조](#저장소-구조) · [개발](#개발) · [기여하기](#기여하기)
+**목차** — [소개](#소개) · [무엇을 없애나](#무엇을-없애나) · [설치](#설치) · [동작 방식](#동작-방식) · [편집 후 검사](#편집-후-검사) · [패턴 56종](#패턴-56종) · [구성](#구성) · [저장소 구조](#저장소-구조) · [개발](#개발) · [기여하기](#기여하기)
 
 ## 소개
 
 AI에게 화면을 맡기면 금방 티가 납니다. 모든 섹션이 테두리와 그림자를 두른 카드에 갇히고, 간격은 한 값으로 똑같고, 그라데이션과 배지가 곳곳에 붙습니다. 모든 요소에 `transition: all`이 붙고, 높이를 움직이는 애니메이션에 화면이 버벅입니다. 동작 줄이기 설정은 무시되고, `div`로 만든 버튼은 키보드로 누를 수 없습니다. 그럴듯해 보이지만 손을 거치지 않은 이런 결과물을 **AI 슬롭(AI slop)**이라고 부릅니다.
 
-**suta는 AI 슬롭으로 생기는 UI를 없앱니다.** 설치해 두면 에이전트가 UI 작업을 할 때마다 suta를 읽습니다. 그리고 AI 슬롭 금지선을 지키며, 테스트·접근성·동작 줄이기 대응을 갖춘 패턴 55종의 코드를 프로젝트에 맞게 가져다 씁니다. 플러그인으로 설치하면 파일을 고칠 때마다 레이아웃·모션 검사가 자동으로 돕니다.
+**suta는 AI 슬롭으로 생기는 UI를 없앱니다.** 설치해 두면 에이전트가 UI 작업을 할 때마다 suta를 읽습니다. 그리고 AI 슬롭 금지선을 지키며, 테스트·접근성·동작 줄이기 대응을 갖춘 패턴 56종의 코드를 프로젝트에 맞게 가져다 씁니다. 플러그인으로 설치하면 파일을 고칠 때마다 레이아웃·모션 검사가 자동으로 돕니다.
 
 이름은 수타(手打)에서 왔습니다. 기계로 찍어낸 면이 아니라 손으로 쳐서 뽑은 면처럼, 손으로 다듬은 UI를 목표로 합니다.
 
@@ -29,7 +29,7 @@ AI에게 화면을 맡기면 금방 티가 납니다. 모든 섹션이 테두리
 | 모달을 열어도 포커스·Esc·배경 스크롤이 그대로 | 포커스 이동과 복귀, Esc로 닫기, 배경 잠금 |
 | 끌어서 닫기가 손가락을 따라오지 않음 | 손가락을 따라가고, 놓는 순간의 속도로 닫을지 판정 |
 | 로딩은 스피너 하나, 연타하면 두 번 제출 | 스켈레톤으로 자리 잡기, 진행 중 버튼 잠금 |
-| 매번 처음부터 새로 짠 코드 | 테스트를 거친 패턴 55종을 복사해 프로젝트에 맞춤 |
+| 매번 처음부터 새로 짠 코드 | 테스트를 거친 패턴 56종을 복사해 프로젝트에 맞춤 |
 
 ## 설치
 
@@ -113,7 +113,7 @@ cp -R suta/skills/suta .agents/skills/
 
 직접 부르고 싶다면 Claude Code에서는 `/suta:suta`, Codex에서는 `$suta`를 씁니다. 모든 UI 작업에 꼭 쓰게 하려면, 프로젝트의 `AGENTS.md`나 `CLAUDE.md`에 "UI 작업에는 suta 스킬을 따른다" 한 줄을 넣습니다.
 
-> **스킬**은 AI가 읽는 설명서입니다. suta는 스킬 하나 안에 패턴 55종을 담고, 필요한 패턴만 그때그때 읽습니다. 그래서 다른 스킬과 함께 설치해도 에이전트의 스킬 목록을 차지하지 않습니다.
+> **스킬**은 AI가 읽는 설명서입니다. suta는 스킬 하나 안에 패턴 56종을 담고, 필요한 패턴만 그때그때 읽습니다. 그래서 다른 스킬과 함께 설치해도 에이전트의 스킬 목록을 차지하지 않습니다.
 
 ### 편집 후 검사
 
@@ -130,7 +130,7 @@ Claude Code·Codex 플러그인으로 설치하면, 에이전트가 파일을 �
 - 의도한 예외는 그 줄 위에 이유를 적은 주석으로 남깁니다(`/* layout-audit-ignore: tiny-text — 차트 축 눈금 */`).
 - 끄려면 환경 변수 `SUTA_HOOK=off`를 둡니다. Node 22.18 이상이 필요하고, 그보다 낮으면 검사 없이 지나갑니다. 편집을 막지는 않습니다.
 
-## 패턴 55종
+## 패턴 56종
 
 이름을 누르면 설명서, 오른쪽 데모를 누르면 실제로 움직이는 화면을 볼 수 있습니다.
 
@@ -183,6 +183,7 @@ Claude Code·Codex 플러그인으로 설치하면, 에이전트가 파일을 �
 | [화면 전환](../skills/suta/patterns/page-transition/PATTERN.md) | 헤더·탭바를 유지하며 이동 방향에 맞춰 화면 전환 | [데모](https://guksu.github.io/suta/#/page-transition) |
 | [드롭다운 메뉴](../skills/suta/patterns/dropdown-menu/PATTERN.md) | 공간에 맞춰 위치를 바꾸고 방향키·첫 글자로 이동하는 액션 메뉴 | [데모](https://guksu.github.io/suta/#/dropdown-menu) |
 | [스크롤 반응 유리 GNB](../skills/suta/patterns/glass-nav/PATTERN.md) | 맨 위에서는 투명, 내려가면 유리로 전환. 아래로 스크롤하면 숨고 올리면 나타나거나 알약 하나로 축소. 링크를 누르면 그 섹션으로 이동하고 활성 알약이 따라옴 | [데모](https://guksu.github.io/suta/#/glass-nav) |
+| [하단 탭 바(GNB)](../skills/suta/patterns/bottom-nav/PATTERN.md) | 최상위 화면 4~5개를 오가는 하단 고정 메뉴. 개수 배지·새 소식 점, 상세·장바구니에서 숨기기, 키보드가 올라오면 숨기기, 홈 표시줄(안전 영역) 피하기 | [데모](https://guksu.github.io/suta/#/bottom-nav) |
 
 ### 손가락 제스처 (모바일)
 
@@ -226,8 +227,8 @@ Claude Code·Codex 플러그인으로 설치하면, 에이전트가 파일을 �
 |---|---|---|
 | [모션 원칙과 토큰](../skills/suta/patterns/motion-principles/PATTERN.md) | 시간 5단계·이징 5종·스태거·reduced-motion을 토큰 한 벌로 정하고, 움직임 종류별로 어느 값을 쓸지 정한 원칙 | [데모](https://guksu.github.io/suta/#/motion-principles) |
 | [모션 검사](../skills/suta/patterns/motion-audit/PATTERN.md) | CSS·JS를 훑어 레이아웃 속성 애니메이션·reduced-motion 누락·시간 범위 밖 등을 `file:line`으로 찾고 고치는 패턴을 안내 | [데모](https://guksu.github.io/suta/#/motion-audit) |
-| [레이아웃 원칙과 토큰](../skills/suta/patterns/layout-principles/PATTERN.md) | 순서·위계·묶음·정렬·강조 원칙 12개, 화면 유형별 관례(AI 채팅 포함 14종), 글자·색·면 기준(무채색 + 강조색 하나 + 오류 빨강), 간격·글자·굵기·반경·색 토큰 한 벌, AI가 흔히 만드는 화면 9개와 고친 화면 비교 | [데모](https://guksu.github.io/suta/#/layout-principles) |
-| [레이아웃 검사](../skills/suta/patterns/layout-audit/PATTERN.md) | CSS·JSX·HTML을 훑어 카드 안 카드·11px 미만 글자·효과 남발·척도 밖 간격·문단 가운데 정렬·옅은 색 면·색 계열 과다 등을 `file:line`으로 찾고 고칠 원칙을 안내 | [데모](https://guksu.github.io/suta/#/layout-audit) |
+| [레이아웃 원칙과 토큰](../skills/suta/patterns/layout-principles/PATTERN.md) | 순서·위계·묶음·정렬·강조 원칙 12개, 화면 유형별 관례(AI 채팅·쇼핑 앱 포함 15종, 하단 탭 바·모바일 웹뷰), 선 아이콘 한 벌, 글자·색·면 기준(무채색 + 강조색 하나 + 오류 빨강), 간격·글자·굵기·반경·색 토큰 한 벌, AI가 흔히 만드는 화면 9개와 고친 화면 비교 | [데모](https://guksu.github.io/suta/#/layout-principles) |
+| [레이아웃 검사](../skills/suta/patterns/layout-audit/PATTERN.md) | CSS·JSX·HTML을 훑어 카드 안 카드·11px 미만 글자·효과 남발·척도 밖 간격·문단 가운데 정렬·옅은 색 면·색 계열 과다·이모지 아이콘·모바일 웹뷰의 100vh와 입력칸 확대 등을 `file:line`으로 찾고 고칠 원칙을 안내 | [데모](https://guksu.github.io/suta/#/layout-audit) |
 
 ## 구성
 
@@ -251,7 +252,7 @@ skills/suta/                         설치되는 스킬
 
 ```text
 suta/
-├─ skills/suta/                     설치되는 스킬 — SKILL.md + 통합 검사(scripts/) + 패턴 55종(patterns/)
+├─ skills/suta/                     설치되는 스킬 — SKILL.md + 통합 검사(scripts/) + 패턴 56종(patterns/)
 ├─ .claude-plugin/                  Claude Code 마켓플레이스·플러그인 정보 (저장소 루트가 곧 플러그인, 편집 후 검사 훅 포함)
 ├─ .codex-plugin/                   Codex 플러그인 정보 (스킬 + 편집 후 검사 훅)
 ├─ .agents/plugins/                 Codex 마켓플레이스 정보

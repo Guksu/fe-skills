@@ -54,6 +54,7 @@ import { MotionAuditDemo } from './motion-audit/MotionAuditDemo'
 import { LayoutPrinciplesDemo } from './layout-principles/LayoutPrinciplesDemo'
 import { LayoutAuditDemo } from './layout-audit/LayoutAuditDemo'
 import { GlassNavDemo } from './glass-nav/GlassNavDemo'
+import { BottomNavDemo } from './bottom-nav/BottomNavDemo'
 
 export type DemoCategory = '등장과 전환' | '로딩과 진행' | '피드백' | '내비게이션' | '제스처' | '컨트롤' | '표면과 스타일' | '원칙과 검토'
 
@@ -370,7 +371,7 @@ const { targetRef, flyFrom } = useCartFly()
 
 const { registerTab, indicatorRef } = useTabIndicator({ activeIndex })
 
-<nav className="tab-bar" role="tablist">
+<nav className="bottom-nav" role="tablist">
   {tabs.map((label, i) => (
     <button key={label} ref={registerTab(i)} role="tab"
       aria-selected={i === activeIndex} onClick={() => setActive(i)}>
@@ -1157,5 +1158,37 @@ const { navRef, activeId } = useGlassNav({ mode: 'hide', spy: true }) // 'elevat
   </div>
 </header>`,
     Component: GlassNavDemo,
+  },
+  {
+    slug: 'bottom-nav',
+    title: '하단 탭 바(GNB)',
+    description: '최상위 화면 4~5개를 오가는 하단 고정 메뉴 — 개수 배지·새 소식 점, 상세에서 숨기기, 키보드가 올라오면 숨기기, 홈 표시줄(안전 영역) 피하기',
+    titleEn: 'Bottom tab bar',
+    descriptionEn: 'Fixed bottom navigation for 4–5 top-level screens: count badges and dots, hidden on detail screens and while typing, clear of the home indicator',
+    emoji: '📱',
+    category: '내비게이션',
+    usage: `import { BottomNav } from './BottomNav'
+import { shouldShowBottomNav } from './bottomNavCore'
+import { Icon } from './Icon'
+
+// 탭의 첫 화면에서만 보인다 — 상세·장바구니·주문에서는 숨는다
+const showTabs = shouldShowBottomNav({ path, tabs: ['/', '/category', '/search', '/wish', '/my'] })
+
+<BottomNav
+  path={path}
+  hidden={!showTabs}
+  items={[
+    { href: '/', label: '홈', icon: <Icon name="home" />, currentIcon: <Icon name="home" filled /> },
+    { href: '/category', label: '카테고리', icon: <Icon name="category" /> },
+    { href: '/search', label: '검색', icon: <Icon name="search" /> },
+    { href: '/wish', label: '찜', icon: <Icon name="heart" />, badge: wishCount },
+    { href: '/my', label: '마이', icon: <Icon name="user" />, badge: 'dot' },
+  ]}
+  onNavigate={({ href, event }) => {
+    event.preventDefault()
+    navigate(href)
+  }}
+/>`,
+    Component: BottomNavDemo,
   },
 ]

@@ -1,16 +1,16 @@
 # suta — full guide
 
-The short introduction and install steps are in the [README](../README.en.md). This guide covers every install option, how it works, the post-edit check, all 55 patterns, the repository layout, development and contributing.
+The short introduction and install steps are in the [README](../README.en.md). This guide covers every install option, how it works, the post-edit check, all 56 patterns, the repository layout, development and contributing.
 
 한국어: [guide.md](guide.md)
 
-**Contents** — [Overview](#overview) · [What it removes](#what-it-removes) · [Installation](#installation) · [How it works](#how-it-works) · [Post-edit check](#post-edit-check) · [55 patterns](#55-patterns) · [Layout](#layout) · [Repository structure](#repository-structure) · [Development](#development) · [Contributing](#contributing)
+**Contents** — [Overview](#overview) · [What it removes](#what-it-removes) · [Installation](#installation) · [How it works](#how-it-works) · [Post-edit check](#post-edit-check) · [56 patterns](#56-patterns) · [Layout](#layout) · [Repository structure](#repository-structure) · [Development](#development) · [Contributing](#contributing)
 
 ## Overview
 
 Hand a screen to an AI and it shows quickly. Every section is boxed into a card with a border and shadow, every gap is the same value, and gradients and badges are stuck everywhere. Every element gets `transition: all`, animations that move `height` make the page stutter, the reduced-motion setting is ignored, and buttons built from `div` can't be pressed with a keyboard. Output that looks plausible but never went through a careful hand is called **AI slop**.
 
-**suta removes the UI that AI slop produces.** Once installed, the agent reads suta every time it works on UI. It keeps to the AI-slop rules below and adapts code from 55 patterns that come with tests, accessibility and reduced-motion support. Installed as a plugin, it also runs layout and motion checks every time a file is edited.
+**suta removes the UI that AI slop produces.** Once installed, the agent reads suta every time it works on UI. It keeps to the AI-slop rules below and adapts code from 56 patterns that come with tests, accessibility and reduced-motion support. Installed as a plugin, it also runs layout and motion checks every time a file is edited.
 
 The name comes from the Korean *suta* (手打), "hand-made" — like noodles pulled by hand instead of pressed by a machine. The goal is UI finished by hand, not stamped out.
 
@@ -113,7 +113,7 @@ Paths follow each tool's documentation as of September 2026. If a tool changes, 
 
 To call it explicitly, use `/suta:suta` in Claude Code or `$suta` in Codex. To make every UI task use it, add a line such as "Follow the suta skill for UI work" to the project's `AGENTS.md` or `CLAUDE.md`.
 
-> A **skill** is a manual an AI reads. suta holds 55 patterns inside one skill and reads only the ones it needs, so it doesn't crowd the agent's skill list even next to other skills.
+> A **skill** is a manual an AI reads. suta holds 56 patterns inside one skill and reads only the ones it needs, so it doesn't crowd the agent's skill list even next to other skills.
 
 ### Post-edit check
 
@@ -130,7 +130,7 @@ Installed as a Claude Code or Codex plugin, suta runs layout and motion checks o
 - Mark an intended exception with a comment above the line that gives the reason (`/* layout-audit-ignore: tiny-text — chart axis ticks */`).
 - To turn it off, set the environment variable `SUTA_HOOK=off`. It needs Node 22.18 or later; on older versions it passes without checking. It never blocks an edit.
 
-## 55 patterns
+## 56 patterns
 
 Click a name for the manual, or the demo link on the right for the working screen.
 
@@ -183,6 +183,7 @@ Click a name for the manual, or the demo link on the right for the working scree
 | [Page transition](../skills/suta/patterns/page-transition/PATTERN.md) | Keeps the header and tab bar while transitioning screens in the direction of navigation | [Demo](https://guksu.github.io/suta/#/page-transition) |
 | [Dropdown menu](../skills/suta/patterns/dropdown-menu/PATTERN.md) | Action menu that repositions to fit the space and moves with arrow keys and first-letter typing | [Demo](https://guksu.github.io/suta/#/dropdown-menu) |
 | [Scroll-aware glass nav](../skills/suta/patterns/glass-nav/PATTERN.md) | Transparent at the top, glass once scrolled; hides on scroll down and returns on scroll up, or collapses into a single pill. Links scroll to their section and the active pill follows | [Demo](https://guksu.github.io/suta/#/glass-nav) |
+| [Bottom tab bar](../skills/suta/patterns/bottom-nav/PATTERN.md) | Fixed bottom navigation for 4–5 top-level screens: count badges and dots, hidden on detail screens and while typing, clear of the home indicator | [Demo](https://guksu.github.io/suta/#/bottom-nav) |
 
 ### Touch gestures (mobile)
 
@@ -226,8 +227,8 @@ Click a name for the manual, or the demo link on the right for the working scree
 |---|---|---|
 | [Motion principles & tokens](../skills/suta/patterns/motion-principles/PATTERN.md) | One token set of 5 durations, 5 easings, stagger and reduced-motion, plus rules for which value each kind of movement uses | [Demo](https://guksu.github.io/suta/#/motion-principles) |
 | [Motion audit](../skills/suta/patterns/motion-audit/PATTERN.md) | Scans CSS and JS for layout-property animations, missing reduced-motion, out-of-range durations and more, reports them as `file:line` and points to the pattern that fixes each | [Demo](https://guksu.github.io/suta/#/motion-audit) |
-| [Layout principles & tokens](../skills/suta/patterns/layout-principles/PATTERN.md) | 12 principles for order, hierarchy, grouping, alignment and emphasis, conventions per screen type (14, AI chat included), type/color/surface guidance (neutrals + one accent + error red), and one token set for spacing, type, weight, radius and color, shown as before/after fixes of nine typical AI screens | [Demo](https://guksu.github.io/suta/#/layout-principles) |
-| [Layout audit](../skills/suta/patterns/layout-audit/PATTERN.md) | Scans CSS, JSX and HTML for nested cards, sub-11px text, effect overuse, off-scale spacing, centered paragraphs, pastel tinted surfaces, too many hue families and more, reports them as `file:line` with the principle that fixes each | [Demo](https://guksu.github.io/suta/#/layout-audit) |
+| [Layout principles & tokens](../skills/suta/patterns/layout-principles/PATTERN.md) | 12 principles for order, hierarchy, grouping, alignment and emphasis, conventions per screen type (15, AI chat and shopping apps included, plus bottom tab bars and mobile webviews), one line-icon set, type/color/surface guidance (neutrals + one accent + error red), and one token set for spacing, type, weight, radius and color, shown as before/after fixes of nine typical AI screens | [Demo](https://guksu.github.io/suta/#/layout-principles) |
+| [Layout audit](../skills/suta/patterns/layout-audit/PATTERN.md) | Scans CSS, JSX and HTML for nested cards, sub-11px text, effect overuse, off-scale spacing, centered paragraphs, pastel tinted surfaces, too many hue families, emoji used as icons, mobile-webview pitfalls (100vh, input zoom, disabled zoom) and more, reports them as `file:line` with the principle that fixes each | [Demo](https://guksu.github.io/suta/#/layout-audit) |
 
 ## Layout
 
@@ -251,7 +252,7 @@ Pattern code can be copied one pattern at a time. Logic shared by several patter
 
 ```text
 suta/
-├─ skills/suta/                     The installed skill — SKILL.md + combined audit (scripts/) + 55 patterns (patterns/)
+├─ skills/suta/                     The installed skill — SKILL.md + combined audit (scripts/) + 56 patterns (patterns/)
 ├─ .claude-plugin/                  Claude Code marketplace and plugin info (the repo root is the plugin, with the post-edit check hook)
 ├─ .codex-plugin/                   Codex plugin info (skill + post-edit check hook)
 ├─ .agents/plugins/                 Codex marketplace info

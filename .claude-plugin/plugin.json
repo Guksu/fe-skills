@@ -1,7 +1,7 @@
 {
   "name": "suta",
-  "description": "AI 슬롭 없는 UI — UI를 만들거나 고칠 때 자동으로 읽혀, AI가 만든 티가 나는 레이아웃·모션·인터랙션·접근성 결함을 막고 검증된 UI 패턴 55종의 코드를 가져다 쓰게 한다. 파일을 고칠 때마다 레이아웃·모션 검사가 돈다. 데모: https://guksu.github.io/suta/",
-  "version": "0.7.0",
+  "description": "AI 슬롭 없는 UI — UI를 만들거나 고칠 때 자동으로 읽혀, AI가 만든 티가 나는 레이아웃·모션·인터랙션·접근성 결함을 막고 검증된 UI 패턴 56종의 코드를 가져다 쓰게 한다. 파일을 고칠 때마다 레이아웃·모션 검사가 돈다. 데모: https://guksu.github.io/suta/",
+  "version": "0.8.0",
   "author": { "name": "Guksu", "url": "https://github.com/Guksu" },
   "homepage": "https://guksu.github.io/suta/",
   "repository": "https://github.com/Guksu/suta",

@@ -36,6 +36,29 @@ describe('createSheetDrag — 바텀시트 드래그 닫기 판정', () => {
     expect(sheet.style.transform).toBe('translateY(80px)')
   })
 
+  it('누르기만 하면(움직임 8px 미만) 드래그도 포인터 잡기도 하지 않는다 — 시트 안 버튼의 클릭을 빼앗지 않는다', () => {
+    register()
+    const capture = vi.fn()
+    sheet.setPointerCapture = capture
+    const press = (type: string, y: number) => {
+      const event = new MouseEvent(type, { bubbles: true, clientY: y, button: 0 })
+      Object.defineProperty(event, 'pointerId', { value: 1 })
+      sheet.dispatchEvent(event)
+    }
+    press('pointerdown', 100)
+    press('pointermove', 104)
+    expect(capture).not.toHaveBeenCalled()
+    expect(sheet.style.transition).toBe('')
+    expect(sheet.style.transform).toBe('')
+    press('pointerup', 104)
+    expect(dismissed).toBe(0)
+    // 실제로 끌기 시작하면 그때 포인터를 잡는다
+    press('pointerdown', 100)
+    press('pointermove', 140)
+    expect(capture).toHaveBeenCalledTimes(1)
+    expect(sheet.style.transform).toBe('translateY(40px)')
+  })
+
   it('위로 끌면 0으로 클램프된다 (시트가 위로 딸려 올라가지 않음)', () => {
     register()
     pointer({ el: sheet, type: 'pointerdown', y: 100 })

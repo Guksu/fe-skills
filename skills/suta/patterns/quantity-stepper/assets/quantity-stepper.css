@@ -44,7 +44,7 @@
 }
 
 .qty-button:focus-visible {
-  outline: 2px solid var(--qty-accent, #2563eb);
+  outline: 2px solid var(--qty-accent, #1b1e24);
   outline-offset: -2px;
 }
 
@@ -73,7 +73,7 @@
 }
 
 .qty-value:focus {
-  outline: 2px solid var(--qty-accent, #2563eb);
+  outline: 2px solid var(--qty-accent, #1b1e24);
   outline-offset: -2px;
 }
 

@@ -129,7 +129,7 @@ createDropZone({
 | 받을 형식 | `accept` — `"image/*"`·`".pdf"`·`"image/png,.heic"` | 제한 없음 |
 | 용량·개수 | `maxSizeBytes`·`maxFiles` | 제한 없음 |
 | 안내 문구 | `children`으로 직접 그린다 | 기본 문구 + 제한 요약 |
-| 색 | `--upload-accent`·`--upload-border`·`--upload-error` | 파랑 / 회색 / 빨강 |
+| 색 | `--upload-accent`·`--upload-border`·`--upload-error` | 거의 검정(#1b1e24) / 회색 / 빨강 |
 | 창 전체 드롭 차단 | `blockWindowDrop` (코어) | 켜짐 |
 
 ## 주의사항

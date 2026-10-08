@@ -1,3 +1,4 @@
+// layout-audit-ignore-file: emoji-icon — 데모 자리표시(음식 사진·아이콘 대신). 사진·선 아이콘으로 바꾸는 일은 별도 작업으로 남겨 둔다
 import { useEffect, useState, type CSSProperties } from 'react'
 import { Skeleton } from '@skills/skeleton/assets/Skeleton'
 import './skeleton-demo.css'

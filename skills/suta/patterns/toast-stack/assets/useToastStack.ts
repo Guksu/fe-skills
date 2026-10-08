@@ -29,6 +29,8 @@ export const useToastStack = ({ durationMs, maxVisible, position }: UseToastStac
   )
 
   const toast = (message: string) => stackRef.current?.show(message)
+  /** 화면이 바뀔 때 부른다 — 라우터의 경로가 바뀌는 useEffect에서 */
+  const clearToasts = () => stackRef.current?.clear()
 
-  return { toast }
+  return { toast, clearToasts }
 }
