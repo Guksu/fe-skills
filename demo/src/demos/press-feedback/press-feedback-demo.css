@@ -21,7 +21,7 @@
   padding: var(--space-3) var(--space-8);
   font-weight: 700;
   background: var(--accent);
-  color: var(--color-on-accent);
+  color: #0b1220;
   border: none;
   border-radius: 12px;
 }
