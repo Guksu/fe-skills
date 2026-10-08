@@ -68,7 +68,7 @@ node scripts/benchmark/run.mjs --out <폴더>   # 퍼블리싱 벤치마크(일�
 4. **CSS 우선.** transition/animation으로 되는 것은 CSS로. JS는 측정·판정·상태만. 애니메이션은 `transform`·`opacity`만(레이아웃 속성 금지). 공개 CSS 변수 `--{패턴}-xxx` + 내부 변수 `--_xxx` 폴백 패턴.
 5. **접근성은 선택이 아니다.** 모든 패턴 CSS에 `@media (prefers-reduced-motion: reduce)` 블록. 키보드 조작·ARIA 역할 포함.
 6. **코드 컨벤션.** 화살표 함수, `useCallback`/`useMemo` 지양, 인자 2개 이상이면 named-object `({ a, b })`, `useEffect(function 명명된함수() {}, [deps])`, TypeScript strict, 한글 주석으로 "왜"를 적는다, 한글 조판 `word-break: keep-all`.
-7. **데모 콘텐츠는 국수집 테마.** 잔치국수·비빔국수·칼국수·손만두·성수동 등. 토스·당근·인스타그램·애플 앱의 실제 문구·탭 이름·구성을 복제하지 않는다. 레퍼런스 앱 언급은 PATTERN.md의 "언제 쓰는가"(관례 설명)까지만.
+7. **데모 콘텐츠는 국수집 테마.** 잔치국수·비빔국수·칼국수·손만두·성수동 등. 토스·당근·인스타그램·애플 앱의 실제 문구·탭 이름·구성을 복제하지 않는다. 레퍼런스 앱 언급은 PATTERN.md의 "언제 쓰는가"(관례 설명)까지만. 데모 안 문구는 한국어·영어 두 벌이다: 파일 위에 `const COPY = defineCopy({ ko, en })`(`demo/src/demoLang.ts`)를 두고 `COPY[useDemoLang()]`로 읽는다. 영어 메뉴 이름은 뜻을 옮긴다(Anchovy-broth noodles·Knife-cut noodles 등, 기준은 `demo/src/demos/bottom-nav/`). `demoCopy.test.tsx`가 영어 화면에 한글이 남으면 막는다.
 8. **진입 스킬과 패턴은 설치된 프로젝트에서 단독으로 완결되어야 한다.** SKILL.md·PATTERN.md는 저장소 루트의 `demo/`·`scripts/` 경로를 언급하지 않는다(설치하면 없다). 스킬 안의 `skills/suta/scripts/`는 함께 설치되므로 SKILL.md가 `scripts/audit.mjs`로 가리킨다. 다른 패턴 코드가 필요하면 import하지 않고 파일을 복사하되 첫 줄의 `@shared-core {파일} origin: {패턴}` 헤더를 유지한다(검사 스크립트가 원본과 바이트 단위로 비교).
 9. **시크릿은 읽지도 기록하지도 않는다.** `.env`·credential·키 파일을 열지 않는다.
 10. **산출물은 파일로.** 작업 기록은 `docs/worklog/YYYY-MM-DD-{주제}.md`에 `docs/templates/worklog.md` 형식(1. 개요 / 2. 작업내용 / 3. 주의사항)으로 남긴다.
@@ -81,7 +81,7 @@ node scripts/benchmark/run.mjs --out <폴더>   # 퍼블리싱 벤치마크(일�
 1. `evals/selection/{패턴}.json` — **문서보다 먼저** 쓴다(Red). 이 패턴이 골라져야 하는 요청 3개 이상(`should`: 구어체·영어 표현 포함)과 골라지면 안 되는 이웃 요청 3개 이상(`shouldNot`: 비슷한 다른 패턴의 요청). `node scripts/evalSelection.mjs {패턴}`으로 확인한다.
 2. `skills/suta/patterns/{패턴}/PATTERN.md` — frontmatter `name`(= 폴더명)·`description`. **description 규칙:** 3인칭으로 "무엇을 하는가 + 언제 쓰는가"만 적는다. 80~300자, 150~250자 권장. 첫 문장이 진입 스킬 카탈로그의 한 줄 요약이 되므로 "무엇을 구현한다."로 짧게 끝낸다. 사용자가 실제로 쓸 표현을 따옴표로 나열하고 핵심 영어 용어를 한 번 넣는다. 구현 방식 요약과 에이전트 명령문은 넣지 않는다. 본문: 언제 쓰는가 → 기술 선택(왜 이 기술인가) → 파일 표 → 사용 방법(React / 순수 JS) → 커스터마이즈 → 주의사항.
 3. `assets/` — 코어 + React 래퍼 + CSS. 접근성 포함.
-4. `demo/src/demos/{패턴}/` 데모 페이지 + `demo/src/demos/index.ts` 등록(`title`·`description`과 영어 `titleEn`·`descriptionEn` 모두, `category`는 카탈로그 묶음이 된다). 테스트는 `demo/src/tests/`.
+4. `demo/src/demos/{패턴}/` 데모 페이지 + `demo/src/demos/index.ts` 등록(`title`·`description`과 영어 `titleEn`·`descriptionEn` 모두, `category`는 카탈로그 묶음이 된다). 데모 안 문구는 `defineCopy({ ko, en })` 두 벌(규칙 7). 테스트는 `demo/src/tests/`.
 5. `npm run catalog` — 진입 스킬의 패턴 카탈로그를 다시 만든다. 손으로 고치지 않는다.
 6. 상세 안내 `docs/guide.md`와 `docs/guide.en.md`의 패턴 표에 한 행씩 더하고, `README.md`·`README.en.md`의 배지 숫자(패턴 수, tests 수)를 갱신한다 — 검사 스크립트가 두 README의 배지를 실제 수와 비교한다.
 7. 워크로그.

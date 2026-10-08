@@ -71,3 +71,9 @@
   align-self: flex-start;
   font-size: 0.9rem;
 }
+
+/* 키보드로 스크롤 상자에 들어왔음을 보인다 — 선이 상자 안쪽에 그려져 무대 밖으로 튀지 않는다 */
+.is-box:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}

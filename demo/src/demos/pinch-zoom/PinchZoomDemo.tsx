@@ -1,15 +1,47 @@
 import { useRef, useState, type CSSProperties } from 'react'
 import { PinchZoom } from '@skills/pinch-zoom/assets/PinchZoom'
 import { Icon } from '@skills/layout-principles/assets/Icon'
+import { defineCopy, useDemoLang } from '../../demoLang'
 import { DishPhoto } from '../../shared/DishPhoto'
-import type { DishId } from '../../shared/dishes'
 import './pinch-zoom-demo.css'
 
-const POSTS: { id: string; author: string; caption: string; dish: DishId }[] = [
-  { id: 'deulkkae', author: '국수공방', caption: '들깨칼국수 — 오늘 들깨 갓 볶았습니다', dish: 'deulkkae' },
-  { id: 'bibim', author: '국수공방', caption: '비빔국수, 여름 한정 매운맛', dish: 'bibim' },
-  { id: 'mandu', author: '국수공방', caption: '손만두 빚는 아침', dish: 'mandu' },
-]
+// 언어와 무관한 데이터(id·사진)는 밖에, 작성자·설명은 COPY에 둔다
+const POSTS = [
+  { id: 'deulkkae', dish: 'deulkkae' },
+  { id: 'bibim', dish: 'bibim' },
+  { id: 'mandu', dish: 'mandu' },
+] as const
+
+const COPY = defineCopy({
+  ko: {
+    author: '국수공방',
+    captions: { deulkkae: '들깨칼국수 — 오늘 들깨 갓 볶았습니다', bibim: '비빔국수, 여름 한정 매운맛', mandu: '손만두 빚는 아침' },
+    intro: '두 손가락으로 사진을 벌려 보세요.',
+    zooming: (scale: number) => `확대 중 — ${scale.toFixed(2)}×`,
+    settled: '제자리로 돌아왔습니다.',
+    controlsLabel: '제스처 옵션',
+    maxScale: '최대 배율',
+    dim: '배경 딤',
+    note: '모바일에서 사진을 두 손가락으로 벌리면 그 자리에서 커지고, 손가락을 옮기면 따라오며, 놓으면 제자리로 돌아옵니다. 데스크톱이면 아래 버튼으로 같은 제스처를 재생해 보세요.',
+    replay: '핀치 제스처 재생',
+  },
+  en: {
+    author: 'Noodle Workshop',
+    captions: {
+      deulkkae: 'Perilla knife-cut noodles. Perilla seeds roasted fresh today',
+      bibim: 'Spicy mixed noodles, extra hot for summer only',
+      mandu: 'Folding handmade dumplings this morning',
+    },
+    intro: 'Spread two fingers on a photo.',
+    zooming: (scale: number) => `Zooming: ${scale.toFixed(2)}×`,
+    settled: 'Back in place.',
+    controlsLabel: 'Gesture options',
+    maxScale: 'Max zoom',
+    dim: 'Background dim',
+    note: 'On a phone, spread two fingers on a photo. It grows right where you pinch, follows your fingers as they move, and returns to place when you let go. On a desktop, replay the same gesture with the button below.',
+    replay: 'Replay pinch gesture',
+  },
+})
 
 type T = { clientX: number; clientY: number }
 
@@ -21,9 +53,11 @@ const dispatchTouch = ({ el, type, touches }: { el: HTMLElement; type: string; t
 }
 
 export const PinchZoomDemo = () => {
+  const t = COPY[useDemoLang()]
   const [maxScale, setMaxScale] = useState(4)
   const [dim, setDim] = useState(0.8)
-  const [status, setStatus] = useState('두 손가락으로 사진을 벌려 보세요.')
+  // 문구 대신 상태를 기억한다 — 언어를 바꿔도 안내가 새 언어로 다시 그려진다
+  const [status, setStatus] = useState<{ scale: number; active: boolean } | null>(null)
   const feedRef = useRef<HTMLDivElement>(null)
   const playingRef = useRef(false)
 
@@ -64,27 +98,24 @@ export const PinchZoomDemo = () => {
 
   return (
     <div className="playground">
-      <section className="controls" aria-label="제스처 옵션">
+      <section className="controls" aria-label={t.controlsLabel}>
         <label>
           <span>
-            최대 배율 <code>maxScale</code>
+            {t.maxScale} <code>maxScale</code>
           </span>
           <input type="range" min={2} max={6} step={0.5} value={maxScale} onChange={(e) => setMaxScale(Number(e.target.value))} />
           <output>{maxScale}×</output>
         </label>
         <label>
           <span>
-            배경 딤 <code>--pinch-dim</code>
+            {t.dim} <code>--pinch-dim</code>
           </span>
           <input type="range" min={0} max={1} step={0.1} value={dim} onChange={(e) => setDim(Number(e.target.value))} />
           <output>{dim}</output>
         </label>
-        <p className="controls-note">
-          모바일에서 사진을 두 손가락으로 벌리면 그 자리에서 커지고, 손가락을 옮기면 따라오며, 놓으면 제자리로 돌아옵니다.
-          데스크톱이면 아래 버튼으로 같은 제스처를 재생해 보세요.
-        </p>
+        <p className="controls-note">{t.note}</p>
         <button type="button" onClick={replay}>
-          핀치 제스처 재생
+          {t.replay}
         </button>
       </section>
 
@@ -96,22 +127,17 @@ export const PinchZoomDemo = () => {
               <span className="pinch-post-avatar" aria-hidden="true">
                 <Icon name="bowl" />
               </span>
-              <strong>{post.author}</strong>
+              <strong>{t.author}</strong>
             </header>
-            <PinchZoom
-              maxScale={maxScale}
-              onChange={({ scale, active }) =>
-                setStatus(active ? `확대 중 — ${scale.toFixed(2)}×` : '제자리로 돌아왔습니다.')
-              }
-            >
-              <DishPhoto dish={post.dish} alt={post.caption} className="pinch-photo" />
+            <PinchZoom maxScale={maxScale} onChange={({ scale, active }) => setStatus({ scale, active })}>
+              <DishPhoto dish={post.dish} alt={t.captions[post.id]} className="pinch-photo" />
             </PinchZoom>
-            <p className="pinch-post-caption">{post.caption}</p>
+            <p className="pinch-post-caption">{t.captions[post.id]}</p>
           </article>
         ))}
       </div>
       <p className="pinch-status" aria-live="polite">
-        {status}
+        {status === null ? t.intro : status.active ? t.zooming(status.scale) : t.settled}
       </p>
     </div>
   )

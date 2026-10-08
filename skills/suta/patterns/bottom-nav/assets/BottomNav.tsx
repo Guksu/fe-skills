@@ -1,5 +1,5 @@
 import { useEffect, useState, type MouseEvent, type ReactNode } from 'react'
-import { badgeLabel, formatBadge, isCurrentTab, watchKeyboard, type TabBadge } from './bottomNavCore'
+import { badgeLabel, formatBadge, isCurrentTab, watchKeyboard, type BadgeLabels, type TabBadge } from './bottomNavCore'
 import './bottom-nav.css'
 
 export type BottomNavItem = {
@@ -18,7 +18,10 @@ type BottomNavProps = {
   path: string
   /** 상세·장바구니·주문처럼 탭 바를 두지 않는 화면이면 true(shouldShowBottomNav로 정한다) */
   hidden?: boolean
+  /** 내비게이션 이름 — 기본 '주요 메뉴' */
   label?: string
+  /** 배지를 말로 읽을 문구 — 기본은 한국어("새 항목 3개") */
+  badgeLabels?: BadgeLabels
   /** 라우터에 연결 — event.preventDefault() 뒤 라우터로 이동한다. 없으면 링크가 그대로 이동한다 */
   onNavigate?: (args: { href: string; event: MouseEvent<HTMLAnchorElement> }) => void
   /** 지금 탭을 다시 눌렀을 때 — 없으면 맨 위로 스크롤한다(앱의 관례) */
@@ -28,7 +31,7 @@ type BottomNavProps = {
 const prefersReducedMotion = () => typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
 
 /** 하단 탭 바(GNB) — 최상위 화면 사이를 오간다. 높이·안전 영역·숨김은 bottom-nav.css가 맡는다 */
-export const BottomNav = ({ items, path, hidden = false, label = '주요 메뉴', onNavigate, onReselect }: BottomNavProps) => {
+export const BottomNav = ({ items, path, hidden = false, label = '주요 메뉴', badgeLabels, onNavigate, onReselect }: BottomNavProps) => {
   const [keyboardOpen, setKeyboardOpen] = useState(false)
 
   useEffect(function hideWhileTyping() {
@@ -53,7 +56,7 @@ export const BottomNav = ({ items, path, hidden = false, label = '주요 메뉴'
         {items.map((item) => {
           const current = isCurrentTab({ href: item.href, path })
           const badge = formatBadge(item.badge)
-          const spoken = badgeLabel(item.badge)
+          const spoken = badgeLabel({ badge: item.badge, labels: badgeLabels })
           return (
             <li key={item.href} className="bottom-nav-item">
               <a className="bottom-nav-link" href={item.href} aria-current={current ? 'page' : undefined} onClick={(event) => handleClick({ href: item.href, event })}>

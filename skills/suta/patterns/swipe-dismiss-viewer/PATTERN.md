@@ -88,6 +88,7 @@ viewer.querySelector('.viewer-close').addEventListener('click', swipe.close)
 | 복귀 느낌 | `spring`(260/28 — 크리스프. 더 통통하게는 damping 20) |
 | 배경·쌓임 | `--viewer-bg`(#000), `--viewer-z`(100) |
 | 크롬 페이드 속도 | `.viewer-chrome`의 `× 3.3` — 진행도 0.3에서 완전 투명 |
+| 닫기 버튼 이름 | `closeLabel` (기본 "닫기") |
 
 ## 주의사항
 

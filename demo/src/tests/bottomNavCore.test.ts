@@ -38,10 +38,10 @@ describe('bottomNavCore — 배지', () => {
   })
 
   it('화면 낭독기용 문구는 개수와 새 소식을 말로 알린다', () => {
-    expect(badgeLabel(3)).toBe('새 항목 3개')
-    expect(badgeLabel(150)).toBe('새 항목 99개 이상')
-    expect(badgeLabel('dot')).toBe('새 소식 있음')
-    expect(badgeLabel(0)).toBeNull()
+    expect(badgeLabel({ badge: 3 })).toBe('새 항목 3개')
+    expect(badgeLabel({ badge: 150 })).toBe('새 항목 99개 이상')
+    expect(badgeLabel({ badge: 'dot' })).toBe('새 소식 있음')
+    expect(badgeLabel({ badge: 0 })).toBeNull()
   })
 })
 

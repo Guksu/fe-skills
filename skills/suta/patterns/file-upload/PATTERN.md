@@ -131,6 +131,7 @@ createDropZone({
 | 안내 문구 | `children`으로 직접 그린다 | 기본 문구 + 제한 요약 |
 | 색 | `--upload-accent`·`--upload-border`·`--upload-error` | 거의 검정(#1b1e24) / 회색 / 빨강 |
 | 창 전체 드롭 차단 | `blockWindowDrop` (코어) | 켜짐 |
+| 안내·낭독 문구 | 안내는 `children`, 진행 막대·지우기 버튼 이름은 `labels` — `{ uploading(name), remove(name) }` | 한국어 |
 
 ## 주의사항
 

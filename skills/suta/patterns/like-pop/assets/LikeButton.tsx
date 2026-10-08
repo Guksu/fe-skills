@@ -5,19 +5,23 @@ type LikeButtonProps = {
   onChange: (liked: boolean) => void
   /** 표시할 좋아요 수 (선택) */
   count?: number
+  /** 화면 낭독 문구 — 기본은 한국어. 다른 언어로 쓰면 넘긴다 */
+  labels?: { like: string; unlike: string }
   className?: string
 }
+
+const DEFAULT_LABELS = { like: '좋아요', unlike: '좋아요 취소' }
 
 /**
  * 좋아요 토글 버튼 — aria-pressed 상태에 CSS가 반응해 하트가 팝(pop)한다.
  * 상태는 밖에서 소유한다(controlled) — 서버 동기화·낙관적 갱신은 호출부 책임.
  */
-export const LikeButton = ({ liked, onChange, count, className }: LikeButtonProps) => (
+export const LikeButton = ({ liked, onChange, count, labels = DEFAULT_LABELS, className }: LikeButtonProps) => (
   <button
     type="button"
     className={className ? `like-btn ${className}` : 'like-btn'}
     aria-pressed={liked}
-    aria-label={liked ? '좋아요 취소' : '좋아요'}
+    aria-label={liked ? labels.unlike : labels.like}
     onClick={() => onChange(!liked)}
   >
     <svg className="like-heart" viewBox="0 0 24 24" aria-hidden="true">

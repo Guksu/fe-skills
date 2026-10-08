@@ -120,6 +120,7 @@ button.addEventListener('click', (event) => {
 | 저장 키 | `storageKey` | `'theme'` |
 | 전환 범위 | `scopeRef` (없으면 문서 전체) | 문서 전체 |
 | 버튼 크기·색 | `--theme-toggle-size`·`--theme-toggle-color`·`--theme-toggle-bg` | 2.25rem / 상속색 / 투명 |
+| 스위치 이름 | `label` | "다크 모드" |
 
 ## 주의사항
 

@@ -29,8 +29,13 @@
 
 .pt-title {
   flex: 1;
+  /* 긴 메뉴 이름(영어판 등)이 두 줄로 늘면 헤더 높이가 화면마다 달라진다 — 한 줄로 두고 말줄임. 전체 이름은 상세 본문에 있다 */
+  min-width: 0;
+  overflow: hidden;
   font-size: var(--text-body);
   text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .pt-stage .pt-back {

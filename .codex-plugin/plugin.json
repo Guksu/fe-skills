@@ -1,7 +1,7 @@
 {
   "name": "suta",
-  "version": "0.8.1",
-  "description": "AI 슬롭 없는 UI — UI를 만들거나 고칠 때 자동으로 읽혀, AI가 만든 티가 나는 레이아웃·모션·인터랙션·접근성 결함을 막고 검증된 UI 패턴 56종의 코드를 가져다 쓰게 한다. 파일을 고칠 때마다 레이아웃·모션 검사가 돈다. 데모: https://guksu.github.io/suta/",
+  "version": "0.9.0",
+  "description": "An agent skill that fixes the parts of a UI that look AI-made. Claude Code and Codex read it on every UI request: rules for layout, type, color and motion, code for 56 UI patterns, and a layout and motion check after each file edit. Demo: https://guksu.github.io/suta/",
   "author": { "name": "Guksu", "url": "https://github.com/Guksu" },
   "homepage": "https://guksu.github.io/suta/",
   "repository": "https://github.com/Guksu/suta",
@@ -18,8 +18,8 @@
   },
   "interface": {
     "displayName": "suta",
-    "shortDescription": "AI 슬롭 없는 UI — 레이아웃·모션·접근성 기준과 UI 패턴 56종",
-    "longDescription": "UI를 만들거나 고칠 때 AI가 만든 티가 나는 결함(카드 안 카드, 레이아웃을 흔드는 애니메이션, 동작 줄이기 설정 무시, 키보드로 못 쓰는 컴포넌트)을 막는다. 검증된 UI 패턴 56종의 코드를 가져다 쓰고, 파일을 고칠 때마다 레이아웃·모션 검사가 돈다.",
+    "shortDescription": "Rules and 56 UI patterns that fix the parts of a UI that look AI-made",
+    "longDescription": "Read on every UI request. It blocks what makes a UI look AI-made: cards inside cards, animations that shake the layout, ignored reduced-motion settings, components you cannot use with a keyboard. The agent reuses code from 56 UI patterns, and a layout and motion check runs after each file edit.",
     "developerName": "Guksu",
     "category": "Coding",
     "websiteURL": "https://guksu.github.io/suta/"

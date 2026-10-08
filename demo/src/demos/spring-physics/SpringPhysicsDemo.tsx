@@ -2,18 +2,58 @@ import { useEffect, useRef, useState, type PointerEvent } from 'react'
 import { useSpring } from '@skills/spring-physics/assets/useSpring'
 import { dampingRatio, springDuration, springToLinear } from '@skills/spring-physics/assets/spring'
 import { Icon } from '@skills/layout-principles/assets/Icon'
+import { defineCopy, useDemoLang } from '../../demoLang'
 import './spring-physics-demo.css'
 
+// 언어와 무관한 값(강성·감쇠)은 밖에, 프리셋 이름은 COPY에 id로 둔다
 const PRESETS = [
-  { name: '크리스프', stiffness: 170, damping: 26 },
-  { name: '통통', stiffness: 300, damping: 15 },
-  { name: '묵직', stiffness: 120, damping: 30 },
-  { name: '임계', stiffness: 200, damping: 28 },
-]
+  { id: 'crisp', stiffness: 170, damping: 26 },
+  { id: 'bouncy', stiffness: 300, damping: 15 },
+  { id: 'heavy', stiffness: 120, damping: 30 },
+  { id: 'critical', stiffness: 200, damping: 28 },
+] as const
+
+type NoteArgs = { ratio: number; feel: string; settleMs: number }
+
+const COPY = defineCopy({
+  ko: {
+    presets: { crisp: '크리스프', bouncy: '통통', heavy: '묵직', critical: '임계' },
+    feel: { bouncy: '튐', critical: '임계 근처', sluggish: '굼뜸' },
+    controlsLabel: '스프링 옵션',
+    stiffness: '강성',
+    damping: '감쇠',
+    note: ({ ratio, feel, settleMs }: NoteArgs) => (
+      <>
+        감쇠비 ζ = {ratio.toFixed(2)} ({feel}) · 100px 복귀 정착 약 {settleMs}ms.
+        공을 잡아 던져 보세요 — 놓는 순간 속도를 이어받습니다. 아래 회색 공은 같은 자리에서 <code>300ms ease-out</code>으로
+        돌아오는 비교용입니다.
+      </>
+    ),
+    ballLabel: '스프링 공 — 끌어서 놓기',
+    pop: 'CSS linear() 팝',
+  },
+  en: {
+    presets: { crisp: 'Crisp', bouncy: 'Bouncy', heavy: 'Heavy', critical: 'Critical' },
+    feel: { bouncy: 'bouncy', critical: 'near critical', sluggish: 'sluggish' },
+    controlsLabel: 'Spring options',
+    stiffness: 'Stiffness',
+    damping: 'Damping',
+    note: ({ ratio, feel, settleMs }: NoteArgs) => (
+      <>
+        Damping ratio ζ = {ratio.toFixed(2)} ({feel}) · settles from 100px in about {settleMs}ms.
+        Grab the ball and throw it: it keeps the speed you release it with. The gray ball below is for comparison. It
+        returns from the same spot with <code>300ms ease-out</code>.
+      </>
+    ),
+    ballLabel: 'Spring ball: drag and release',
+    pop: 'CSS linear() pop',
+  },
+})
 
 const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
 export const SpringPhysicsDemo = () => {
+  const t = COPY[useDemoLang()]
   const [stiffness, setStiffness] = useState(170)
   const [damping, setDamping] = useState(26)
   const [popped, setPopped] = useState(false)
@@ -66,6 +106,7 @@ export const SpringPhysicsDemo = () => {
   const linear = springToLinear({ config })
   const ratio = dampingRatio({ stiffness, damping, mass: 1 })
   const settleMs = springDuration({ motion: { from: 100, to: 0 }, config })
+  const feel = ratio < 0.98 ? 'bouncy' : ratio <= 1.02 ? 'critical' : 'sluggish'
 
   useEffect(
     function applyLinearToPop() {
@@ -77,17 +118,17 @@ export const SpringPhysicsDemo = () => {
 
   return (
     <div className="playground">
-      <section className="controls" aria-label="스프링 옵션">
+      <section className="controls" aria-label={t.controlsLabel}>
         <label>
           <span>
-            강성 <code>stiffness</code>
+            {t.stiffness} <code>stiffness</code>
           </span>
           <input type="range" min={50} max={500} step={10} value={stiffness} onChange={(e) => setStiffness(Number(e.target.value))} />
           <output>{stiffness}</output>
         </label>
         <label>
           <span>
-            감쇠 <code>damping</code>
+            {t.damping} <code>damping</code>
           </span>
           <input type="range" min={5} max={60} step={1} value={damping} onChange={(e) => setDamping(Number(e.target.value))} />
           <output>{damping}</output>
@@ -95,22 +136,18 @@ export const SpringPhysicsDemo = () => {
         <div className="spring-presets">
           {PRESETS.map((p) => (
             <button
-              key={p.name}
+              key={p.id}
               type="button"
               onClick={() => {
                 setStiffness(p.stiffness)
                 setDamping(p.damping)
               }}
             >
-              {p.name}
+              {t.presets[p.id]}
             </button>
           ))}
         </div>
-        <p className="controls-note">
-          감쇠비 ζ = {ratio.toFixed(2)} ({ratio < 0.98 ? '튐' : ratio <= 1.02 ? '임계 근처' : '굼뜸'}) · 100px 복귀 정착 약 {settleMs}ms.
-          공을 잡아 던져 보세요 — 놓는 순간 속도를 이어받습니다. 아래 회색 공은 같은 자리에서 <code>300ms ease-out</code>으로
-          돌아오는 비교용입니다.
-        </p>
+        <p className="controls-note">{t.note({ ratio, feel: t.feel[feel], settleMs })}</p>
       </section>
 
       <div className="spring-stage">
@@ -119,7 +156,7 @@ export const SpringPhysicsDemo = () => {
             ref={ballRef}
             className="spring-ball"
             role="slider"
-            aria-label="스프링 공 — 끌어서 놓기"
+            aria-label={t.ballLabel}
             aria-valuenow={0}
             tabIndex={0}
             onPointerDown={onPointerDown}
@@ -148,7 +185,7 @@ export const SpringPhysicsDemo = () => {
             onClick={() => setPopped((p) => !p)}
           >
             <Icon name="heart" filled={popped} />
-            CSS linear() 팝
+            {t.pop}
           </button>
           <code className="spring-linear-code">{linear.easing.slice(0, 80)}… ({linear.duration}ms)</code>
         </div>

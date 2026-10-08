@@ -126,6 +126,8 @@ export const LongPressMenu = ({ items, children, label, delayMs, className }: Lo
         data-open={open ? 'true' : 'false'}
         // 키보드 사용자는 포커스한 뒤 Shift+F10(또는 메뉴 키)으로 연다 — 브라우저가 contextmenu 이벤트를 만든다
         tabIndex={0}
+        // 메뉴를 여는 트리거라 button 역할을 준다 — 역할이 없는 div에는 aria-expanded가 허용되지 않는다
+        role="button"
         aria-haspopup="menu"
         aria-expanded={open}
         aria-controls={open ? menuId : undefined}

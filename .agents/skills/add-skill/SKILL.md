@@ -51,7 +51,8 @@ demo/src/demos/{pattern-name}/   # assets/를 import해 렌더링하는 데모 �
 2. `demo/src/demos/index.ts`의 데모 레지스트리에 등록한다(라우팅·목록·카탈로그 카테고리는 레지스트리가 단일 출처). `title`·`description`과 영어 `titleEn`·`descriptionEn` 모두.
 3. 데모는 쇼케이스다: 트리거 버튼·리플레이 등 확인 장치는 데모 쪽에 두고, assets/ 컴포넌트를 데모 편의를 위해 오염시키지 않는다.
 4. **데모 콘텐츠는 suta 고유 브랜드(국수집 테마)로 쓴다** — 토스·당근·인스타그램 등 레퍼런스 앱의 실제 UI 문구·탭 이름·구성을 복제하지 않는다. 레퍼런스 언급은 PATTERN.md의 "언제 쓰는가"(관례 설명)까지만.
-5. 로직이 있는 부분(상태 전이·옵저버·제스처)은 테스트를 먼저 쓴다(Red→Green). 순수 시각 효과에 빈 테스트를 양산하지 않는다.
+5. **데모 안 문구는 한국어·영어 두 벌이다.** 파일 위에 `const COPY = defineCopy({ ko: {...}, en: {...} })`(`demo/src/demoLang.ts`)를 두고 컴포넌트에서 `const t = COPY[useDemoLang()]`로 읽는다. 경로·가격·아이콘처럼 언어와 무관한 값은 COPY 밖에 둔다. 기준 예시는 `demo/src/demos/bottom-nav/BottomNavDemo.tsx`. 패턴이 화면 낭독 문구를 한국어로 박아 두었으면 데모에서 고치지 말고 패턴에 선택 prop(기본값 한국어)을 더한다. `npx vitest run src/tests/demoCopy.test.tsx -t {패턴}`이 영어 화면에 한글이 남았는지 본다.
+6. 로직이 있는 부분(상태 전이·옵저버·제스처)은 테스트를 먼저 쓴다(Red→Green). 순수 시각 효과에 빈 테스트를 양산하지 않는다.
 
 ### 3. 카탈로그·문서
 

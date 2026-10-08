@@ -9,6 +9,8 @@ type SwipeDismissViewerProps = {
   returnTo?: RefObject<HTMLElement | null>
   /** 복귀 애니메이션이 끝난 뒤 — 여기서 뷰어를 언마운트한다 */
   onClose: () => void
+  /** 닫기 버튼의 이름 — 기본 '닫기' */
+  closeLabel?: string
   className?: string
 }
 
@@ -18,7 +20,7 @@ const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: r
  * createSwipeDismiss의 React 래퍼 — 마운트되면 썸네일에서 열리고, 끌어내리거나 Esc·닫기 버튼으로 닫힌다.
  * open 상태는 부모가 소유한다: 열려면 마운트, onClose가 오면 언마운트.
  */
-export const SwipeDismissViewer = ({ src, alt, returnTo, onClose, className }: SwipeDismissViewerProps) => {
+export const SwipeDismissViewer = ({ src, alt, returnTo, onClose, closeLabel = '닫기', className }: SwipeDismissViewerProps) => {
   const viewerRef = useRef<HTMLDivElement>(null)
   const imageRef = useRef<HTMLImageElement>(null)
   const controllerRef = useRef<ReturnType<typeof createSwipeDismiss> | null>(null)
@@ -58,7 +60,7 @@ export const SwipeDismissViewer = ({ src, alt, returnTo, onClose, className }: S
     <div ref={viewerRef} className={className ? `viewer ${className}` : 'viewer'} role="dialog" aria-modal="true" aria-label={alt}>
       <div className="viewer-backdrop" />
       <img ref={imageRef} src={src} alt={alt} className="viewer-image" draggable={false} />
-      <button type="button" className="viewer-chrome viewer-close" aria-label="닫기" onClick={() => controllerRef.current?.close()}>
+      <button type="button" className="viewer-chrome viewer-close" aria-label={closeLabel} onClick={() => controllerRef.current?.close()}>
         ✕
       </button>
     </div>

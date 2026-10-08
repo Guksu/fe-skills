@@ -10,6 +10,8 @@ type ThemeToggleProps = {
   /** 특정 영역만 전환할 때 — 기본은 문서 전체 */
   scopeRef?: { current: HTMLElement | null }
   durationMs?: number
+  /** 스위치 이름(화면 낭독기가 "…, 스위치, 꺼짐"으로 읽는다) — 기본 '다크 모드' */
+  label?: string
   className?: string
 }
 
@@ -32,7 +34,7 @@ const MoonIcon = () => (
  * 버튼은 role="switch"다. 두 값 사이를 오가는 켜기/끄기이므로 스크린 리더가
  * "다크 모드, 스위치, 꺼짐"처럼 현재 상태까지 읽어 준다.
  */
-export const ThemeToggle = ({ storageKey, scopeRef, durationMs, className }: ThemeToggleProps) => {
+export const ThemeToggle = ({ storageKey, scopeRef, durationMs, label = '다크 모드', className }: ThemeToggleProps) => {
   const buttonRef = useRef<HTMLButtonElement>(null)
   const theme = useTheme({ storageKey, targetRef: scopeRef })
   const isDark = theme.resolved === 'dark'
@@ -61,7 +63,7 @@ export const ThemeToggle = ({ storageKey, scopeRef, durationMs, className }: The
       className={className ? `theme-toggle ${className}` : 'theme-toggle'}
       role="switch"
       aria-checked={isDark}
-      aria-label="다크 모드"
+      aria-label={label}
       data-theme-state={theme.resolved}
       onClick={onClick}
     >

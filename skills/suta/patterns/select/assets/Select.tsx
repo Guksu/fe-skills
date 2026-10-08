@@ -13,6 +13,10 @@ type SelectProps = {
   value: string | null
   onChange: (value: string) => void
   placeholder?: string
+  /** 콤보박스의 이름(예: "면 종류"). 콤보박스는 안의 글자를 이름으로 쓰지 않는다 — 없으면 placeholder가 이름이 된다 */
+  label?: string
+  /** 화면에 보이는 라벨 요소의 id — 있으면 label보다 먼저 쓴다 */
+  labelledBy?: string
   className?: string
 }
 
@@ -21,7 +25,7 @@ type SelectProps = {
  * 활성 옵션은 aria-activedescendant로만 가리킨다(옵션으로 포커스를 옮기지 않는다).
  * 키보드 판정은 selectCore.ts의 순수 함수가 담당한다.
  */
-export const Select = ({ options, value, onChange, placeholder = '선택', className }: SelectProps) => {
+export const Select = ({ options, value, onChange, placeholder = '선택', label, labelledBy, className }: SelectProps) => {
   const [open, setOpen] = useState(false)
   const [highlight, setHighlight] = useState(-1)
   const rootRef = useRef<HTMLDivElement | null>(null)
@@ -96,6 +100,8 @@ export const Select = ({ options, value, onChange, placeholder = '선택', class
         type="button"
         className="select-trigger"
         role="combobox"
+        aria-label={labelledBy ? undefined : (label ?? placeholder)}
+        aria-labelledby={labelledBy}
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-controls={`${baseId}-listbox`}

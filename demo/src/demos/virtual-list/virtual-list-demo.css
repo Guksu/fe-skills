@@ -51,6 +51,12 @@
   border-block: 1px solid var(--border);
 }
 
+/* 키보드로 스크롤 영역에 들어왔음을 보인다 — 안쪽 선이라 무대 여백에 잘리지 않는다 */
+.vl-viewport:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
 .vl-row {
   display: flex;
   align-items: center;
@@ -68,6 +74,11 @@
 
 .vl-menu {
   flex: 1;
+  /* 행 높이가 계산의 전제라 줄바꿈하지 않는다 — 좁은 화면에서 긴 메뉴 이름(영어판 등)은 말줄임 */
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .vl-price {

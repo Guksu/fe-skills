@@ -8,6 +8,8 @@ type PullToRefreshProps = {
   children: ReactNode
   /** 새로고침 판정 당김 거리 (기본 70px) */
   thresholdPx?: number
+  /** 스크롤 영역의 이름(예: "가게 소식") — 주면 이름 있는 영역(region)이 되어 화면 낭독기가 읽는다 */
+  label?: string
   className?: string
 }
 
@@ -15,7 +17,7 @@ type PullToRefreshProps = {
  * createPullToRefresh 코어의 React 래퍼 — 스크롤 영역을 감싸면
  * 최상단에서 아래로 당겼을 때 새로고침 제스처가 붙는다.
  */
-export const PullToRefresh = ({ onRefresh, children, thresholdPx, className }: PullToRefreshProps) => {
+export const PullToRefresh = ({ onRefresh, children, thresholdPx, label, className }: PullToRefreshProps) => {
   const containerRef = useRef<HTMLDivElement | null>(null)
   const contentRef = useRef<HTMLDivElement | null>(null)
   // 최신 콜백을 ref로 들고 있어 인라인 함수를 넘겨도 리스너가 재등록되지 않는다
@@ -40,7 +42,14 @@ export const PullToRefresh = ({ onRefresh, children, thresholdPx, className }: P
   )
 
   return (
-    <div ref={containerRef} className={className ? `ptr-container ${className}` : 'ptr-container'}>
+    // 스크롤 상자는 키보드로도 스크롤할 수 있어야 한다 — 초점을 받게 tabIndex를 둔다
+    <div
+      ref={containerRef}
+      className={className ? `ptr-container ${className}` : 'ptr-container'}
+      tabIndex={0}
+      role={label ? 'region' : undefined}
+      aria-label={label}
+    >
       <span className="ptr-indicator" aria-hidden="true">
         ↻
       </span>
