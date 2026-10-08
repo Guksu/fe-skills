@@ -1,6 +1,6 @@
-// layout-audit-ignore-file: emoji-icon — 데모 자리표시(음식 사진·아이콘 대신). 사진·선 아이콘으로 바꾸는 일은 별도 작업으로 남겨 둔다
 import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import { DURATION, EASE, cubicBezier, exitDuration, staggerDelay, type MotionSize } from '@skills/motion-principles/assets/motionTokens'
+import { Icon } from '@skills/layout-principles/assets/Icon'
 import '@skills/motion-principles/assets/motion-tokens.css'
 import './motion-principles-demo.css'
 
@@ -116,7 +116,7 @@ export const MotionPrinciplesDemo = () => {
               <div className="mp-track">
                 {/* layout-audit-ignore: nested-card — 이징을 비교하려고 움직이는 48px 말이다(무언가를 담는 상자가 아니다) */}
                 <div className="mp-card" data-moved={moved ? 'true' : 'false'} style={{ '--demo-ease': EASE[key] } as CSSProperties}>
-                  🍜
+                  <Icon name="bowl" />
                 </div>
               </div>
               <code className="mp-ease-value">{EASE[key]}</code>

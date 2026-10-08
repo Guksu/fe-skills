@@ -82,8 +82,12 @@
   border-bottom: 1px solid var(--card-border);
 }
 
-.tt-menu-emoji {
-  font-size: 1.25rem;
+/* 메뉴 사진 칸 — 테마가 바뀌어도 사진은 그대로다(콘텐츠) */
+.tt-menu-thumb {
+  flex: none;
+  inline-size: 40px;
+  block-size: 40px;
+  border-radius: var(--radius-control);
 }
 
 .tt-menu-name {
@@ -99,7 +103,7 @@
 .tt-stage button.tt-order:hover {
   align-self: stretch;
   border: none;
-  border-radius: 10px;
+  border-radius: var(--radius-control);
   padding: var(--space-3);
   background: var(--card-accent);
   color: #fff;

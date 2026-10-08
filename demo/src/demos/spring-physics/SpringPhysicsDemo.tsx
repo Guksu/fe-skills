@@ -1,7 +1,7 @@
-// layout-audit-ignore-file: emoji-icon — 데모 자리표시(음식 사진·아이콘 대신). 사진·선 아이콘으로 바꾸는 일은 별도 작업으로 남겨 둔다
 import { useEffect, useRef, useState, type PointerEvent } from 'react'
 import { useSpring } from '@skills/spring-physics/assets/useSpring'
 import { dampingRatio, springDuration, springToLinear } from '@skills/spring-physics/assets/spring'
+import { Icon } from '@skills/layout-principles/assets/Icon'
 import './spring-physics-demo.css'
 
 const PRESETS = [
@@ -131,12 +131,12 @@ export const SpringPhysicsDemo = () => {
               if (e.key === 'ArrowLeft') x.to(0)
             }}
           >
-            🍜
+            <Icon name="bowl" />
           </div>
         </div>
         <div className="spring-track spring-track-ghost" aria-hidden="true">
           <div ref={ghostRef} className="spring-ball spring-ball-ghost">
-            ⏱
+            <Icon name="clock" />
           </div>
         </div>
 
@@ -147,7 +147,8 @@ export const SpringPhysicsDemo = () => {
             data-popped={popped}
             onClick={() => setPopped((p) => !p)}
           >
-            {popped ? '❤️' : '🤍'} CSS linear() 팝
+            <Icon name="heart" filled={popped} />
+            CSS linear() 팝
           </button>
           <code className="spring-linear-code">{linear.easing.slice(0, 80)}… ({linear.duration}ms)</code>
         </div>

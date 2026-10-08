@@ -1,47 +1,44 @@
-// layout-audit-ignore-file: emoji-icon — 데모 자리표시(음식 사진·아이콘 대신). 사진·선 아이콘으로 바꾸는 일은 별도 작업으로 남겨 둔다
 import { useEffect, useRef, useState } from 'react'
 import { useCardExpand } from '@skills/card-expand/assets/useCardExpand'
+import { DishPhoto } from '../../shared/DishPhoto'
+import type { DishId } from '../../shared/dishes'
 import './card-expand-demo.css'
 
-type Pick = { id: string; emoji: string; title: string; subtitle: string; tone: string; price: number; story: string }
+type Pick = { id: string; dish: DishId; title: string; subtitle: string; price: number; story: string }
 
 const PICKS: Pick[] = [
   {
     id: 'janchi',
-    emoji: '🍜',
+    dish: 'janchi',
     title: '잔치국수',
     subtitle: '멸치 육수를 새벽부터 끓였습니다',
-    tone: 'warm',
     price: 8000,
     story:
       '남해 멸치와 다시마를 새벽 다섯 시부터 세 시간 우려낸 맑은 육수에 가는 소면을 말았습니다. 애호박·당근·달걀지단을 곱게 채 썰어 올리고, 양념장은 취향대로 풀어 드세요.',
   },
   {
     id: 'bibim',
-    emoji: '🌶️',
+    dish: 'bibim',
     title: '비빔국수',
     subtitle: '배를 갈아 넣은 고추장 양념',
-    tone: 'hot',
     price: 9000,
     story:
       '직접 담근 고추장에 배와 사과를 갈아 넣어 단맛을 냈습니다. 삶은 면을 찬물에 여러 번 헹궈 쫄깃하게 하고, 오이·상추·삶은 달걀 반쪽을 올립니다. 매운 정도는 주문 시 조절할 수 있습니다.',
   },
   {
     id: 'kal',
-    emoji: '🥣',
+    dish: 'bajirak',
     title: '손칼국수',
     subtitle: '오늘 아침 반죽한 면',
-    tone: 'cool',
     price: 10000,
     story:
       '아침마다 밀가루를 치대 홍두깨로 밀어 썰어 냅니다. 면에서 나온 전분이 국물을 걸쭉하게 만들어 숟가락이 계속 갑니다. 바지락을 넉넉히 넣어 시원한 맛을 더했습니다.',
   },
   {
     id: 'mandu',
-    emoji: '🥟',
+    dish: 'mandu',
     title: '손만두 한 접시',
     subtitle: '국수 옆에 6개, 든든하게',
-    tone: 'green',
     price: 7000,
     story:
       '돼지고기·두부·부추·당면을 넣어 매일 빚습니다. 찐만두 6개 한 접시. 국수와 함께 주문하면 1,000원을 빼 드립니다.',
@@ -118,12 +115,11 @@ export const CardExpandDemo = () => {
                     type="button"
                     className="ce-card"
                     data-card-id={pick.id}
-                    data-tone={pick.tone}
                     aria-expanded={expandedId === pick.id}
                     onClick={(event) => void expand({ id: pick.id, card: event.currentTarget })}
                   >
-                    <span className="ce-card-media" data-card-expand-part="media" aria-hidden="true">
-                      {pick.emoji}
+                    <span className="ce-card-media" data-card-expand-part="media">
+                      <DishPhoto dish={pick.dish} />
                     </span>
                     <span className="ce-card-text">
                       <span className="ce-card-title" data-card-expand-part="title">
@@ -140,7 +136,6 @@ export const CardExpandDemo = () => {
               <article
                 ref={detailRef}
                 className="card-expand-detail ce-detail"
-                data-tone={current.tone}
                 role="dialog"
                 aria-modal="true"
                 aria-labelledby="ce-detail-title"
@@ -149,8 +144,8 @@ export const CardExpandDemo = () => {
                   ×
                 </button>
                 <div className="card-expand-detail-scroll">
-                  <div className="ce-detail-media" data-card-expand-part="media" aria-hidden="true">
-                    {current.emoji}
+                  <div className="ce-detail-media" data-card-expand-part="media">
+                    <DishPhoto dish={current.dish} alt={current.title} />
                   </div>
                   <div className="ce-detail-content">
                     <h3 id="ce-detail-title" className="ce-detail-title" data-card-expand-part="title">

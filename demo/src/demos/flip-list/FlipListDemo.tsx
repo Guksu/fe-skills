@@ -1,16 +1,17 @@
-// layout-audit-ignore-file: emoji-icon — 데모 자리표시(음식 사진·아이콘 대신). 사진·선 아이콘으로 바꾸는 일은 별도 작업으로 남겨 둔다
 import { useState } from 'react'
 import { useFlipList } from '@skills/flip-list/assets/useFlipList'
+import { DishPhoto } from '../../shared/DishPhoto'
+import type { DishId } from '../../shared/dishes'
 import './flip-list-demo.css'
 
-type MenuItem = { name: string; emoji: string; price: number; sold: number }
+type MenuItem = { name: string; dish: DishId; price: number; sold: number }
 
 const INITIAL: MenuItem[] = [
-  { name: '얼큰 칼국수', emoji: '🍜', price: 9000, sold: 812 },
-  { name: '들깨 수제비', emoji: '🥣', price: 8500, sold: 356 },
-  { name: '냉모밀 정식', emoji: '🧊', price: 10000, sold: 421 },
-  { name: '왕만두 한 판', emoji: '🥟', price: 7000, sold: 977 },
-  { name: '지옥 비빔국수', emoji: '🌶️', price: 9500, sold: 168 },
+  { name: '얼큰 칼국수', dish: 'kalguksu', price: 9000, sold: 812 },
+  { name: '들깨 수제비', dish: 'sujebi', price: 8500, sold: 356 },
+  { name: '냉모밀 정식', dish: 'memil', price: 10000, sold: 421 },
+  { name: '왕만두 한 판', dish: 'mandu', price: 7000, sold: 977 },
+  { name: '지옥 비빔국수', dish: 'bibim', price: 9500, sold: 168 },
 ]
 
 export const FlipListDemo = () => {
@@ -41,7 +42,7 @@ export const FlipListDemo = () => {
       <ul ref={containerRef} className="flip-menu">
         {items.map((item) => (
           <li key={item.name} data-flip-id={item.name} className="flip-row">
-            <span className="flip-emoji">{item.emoji}</span>
+            <DishPhoto dish={item.dish} className="flip-thumb" />
             <strong>{item.name}</strong>
             <span className="flip-meta">
               {item.price.toLocaleString('ko-KR')}원 · {item.sold}그릇

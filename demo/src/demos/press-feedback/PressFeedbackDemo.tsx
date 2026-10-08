@@ -1,5 +1,5 @@
-// layout-audit-ignore-file: emoji-icon — 데모 자리표시(음식 사진·아이콘 대신). 사진·선 아이콘으로 바꾸는 일은 별도 작업으로 남겨 둔다
 import { useState, type CSSProperties } from 'react'
+import { DishPhoto } from '../../shared/DishPhoto'
 import '@skills/press-feedback/assets/press-feedback.css'
 import './press-feedback-demo.css'
 
@@ -41,7 +41,7 @@ export const PressFeedbackDemo = () => {
         <section className="press-cell">
           <h2>카드형 — pressable-dim</h2>
           <button type="button" className="pressable pressable-dim press-card">
-            <span>🍜</span>
+            <DishPhoto dish="kalguksu" className="press-card-photo" />
             <strong>오늘의 국수</strong>
             <small>얼큰 칼국수 9,000원</small>
           </button>

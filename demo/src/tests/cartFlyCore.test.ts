@@ -14,7 +14,7 @@ describe('flyToTarget — 고스트가 출발지에서 목적지로 날아간다
   beforeEach(() => {
     vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout', 'requestAnimationFrame', 'cancelAnimationFrame'] })
     source = withRect({ el: document.createElement('div'), top: 300, left: 100 })
-    source.textContent = '🍜'
+    source.innerHTML = '<img alt="잔치국수" src="janchi.webp">'
     target = withRect({ el: document.createElement('button'), top: 20, left: 500, width: 40, height: 40 })
     document.body.append(source, target)
     arrived = 0
@@ -30,7 +30,7 @@ describe('flyToTarget — 고스트가 출발지에서 목적지로 날아간다
     flyToTarget({ source, target, onArrive: () => (arrived += 1) })
     const ghost = document.querySelector('.fly-ghost') as HTMLElement
     expect(ghost).not.toBeNull()
-    expect(ghost.textContent).toBe('🍜')
+    expect(ghost.querySelector('img')?.alt).toBe('잔치국수')
     expect(ghost.style.left).toBe('100px')
     expect(ghost.style.top).toBe('300px')
     vi.advanceTimersByTime(50)

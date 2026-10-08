@@ -60,6 +60,14 @@
   border-bottom: 1px solid var(--border);
 }
 
+/* 메뉴 사진 칸 — 걸러진 목록의 모든 행이 같은 크기 */
+.rs-thumb {
+  flex: none;
+  inline-size: 40px;
+  block-size: 40px;
+  border-radius: var(--radius-control);
+}
+
 .rs-menu-name {
   flex: 1;
 }

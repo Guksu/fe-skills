@@ -1,6 +1,7 @@
-// layout-audit-ignore-file: emoji-icon — 데모 자리표시(음식 사진·아이콘 대신). 사진·선 아이콘으로 바꾸는 일은 별도 작업으로 남겨 둔다
 import { useState, type CSSProperties } from 'react'
 import { SegmentedControl } from '@skills/segmented-control/assets/SegmentedControl'
+import { DishPhoto } from '../../shared/DishPhoto'
+import type { DishId } from '../../shared/dishes'
 import './segmented-control-demo.css'
 
 type Noodle = 'somyeon' | 'kalguksu' | 'naengmyeon'
@@ -17,10 +18,10 @@ const ORDERS: { value: Order; label: string }[] = [
   { value: 'takeout', label: '포장' },
 ]
 
-const MENU: Record<Noodle, { emoji: string; name: string; price: number; note: string }> = {
-  somyeon: { emoji: '🍜', name: '잔치국수', price: 7000, note: '멸치 육수에 가는 소면 — 성수동 점심 기본' },
-  kalguksu: { emoji: '🥣', name: '손칼국수', price: 9000, note: '두툼한 면과 바지락 국물, 손만두 2개 포함' },
-  naengmyeon: { emoji: '🧊', name: '물냉면', price: 10000, note: '살얼음 육수 — 여름 한정, 겨자·식초 따로' },
+const MENU: Record<Noodle, { dish: DishId; name: string; price: number; note: string }> = {
+  somyeon: { dish: 'janchi', name: '잔치국수', price: 7000, note: '멸치 육수에 가는 소면 — 성수동 점심 기본' },
+  kalguksu: { dish: 'bajirak', name: '손칼국수', price: 9000, note: '두툼한 면과 바지락 국물, 손만두 2개 포함' },
+  naengmyeon: { dish: 'naengmyeon', name: '물냉면', price: 10000, note: '살얼음 육수 — 여름 한정, 겨자·식초 따로' },
 }
 
 const ORDER_NOTE: Record<Order, string> = {
@@ -71,9 +72,7 @@ export const SegmentedControlDemo = () => {
         </div>
 
         <article className="segment-card" aria-live="polite">
-          <div className="segment-card-emoji" aria-hidden="true">
-            {item.emoji}
-          </div>
+          <DishPhoto dish={item.dish} className="segment-card-photo" />
           <div className="segment-card-body">
             <strong>{item.name}</strong>
             <p>{item.note}</p>

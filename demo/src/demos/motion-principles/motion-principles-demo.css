@@ -52,7 +52,7 @@
   border-radius: 12px;
   background: var(--accent-soft);
   border: 1px solid var(--accent);
-  font-size: 1.5rem;
+  color: var(--accent);
   /* 데모의 핵심 — 같은 시간, 다른 이징. 토큰은 --motion-* 이지만 비교를 위해 카드마다 --demo-ease를 따로 준다 */
   transition: transform var(--demo-duration) var(--demo-ease);
 }

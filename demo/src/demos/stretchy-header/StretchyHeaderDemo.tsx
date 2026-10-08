@@ -1,6 +1,6 @@
-// layout-audit-ignore-file: emoji-icon — 데모 자리표시(음식 사진·아이콘 대신). 사진·선 아이콘으로 바꾸는 일은 별도 작업으로 남겨 둔다
 import { useState, type CSSProperties } from 'react'
 import { useStretchyHeader } from '@skills/stretchy-header/assets/useStretchyHeader'
+import { DISHES, photoSrc } from '../../shared/dishes'
 import './stretchy-header-demo.css'
 
 const MENU = [
@@ -23,7 +23,7 @@ const MENU = [
 export const StretchyHeaderDemo = () => {
   const [parallaxRatio, setParallaxRatio] = useState(0.5)
   const [headerHeight, setHeaderHeight] = useState(240)
-  const { containerRef, imageRef } = useStretchyHeader<HTMLDivElement, HTMLDivElement>({ headerHeight, parallaxRatio })
+  const { containerRef, imageRef } = useStretchyHeader<HTMLDivElement, HTMLImageElement>({ headerHeight, parallaxRatio })
 
   return (
     <div className="playground">
@@ -51,10 +51,16 @@ export const StretchyHeaderDemo = () => {
       <div ref={containerRef} className="stretchy-container stretchy-demo-frame">
         <div className="stretchy-header" style={{ '--stretch-height': `${headerHeight}px` } as CSSProperties}>
           <div className="stretchy-header-clip">
-            {/* 실제 사진 대신 그라디언트 + 이모지로 만든 "이미지" — img 태그를 써도 똑같이 동작한다 */}
-            <div ref={imageRef} className="stretchy-header-image stretchy-demo-image" aria-hidden="true">
-              🍜
-            </div>
+            {/* 가게 대표 사진 — 제목이 사진 위에 얹히므로 패턴의 아래쪽 스크림(그라디언트)이 대비를 맡는다 */}
+            <img
+              ref={imageRef}
+              className="stretchy-header-image"
+              src={photoSrc('kalguksu')}
+              alt=""
+              width={DISHES.kalguksu.width}
+              height={DISHES.kalguksu.height}
+              draggable={false}
+            />
           </div>
           <div className="stretchy-header-overlay">
             <h2 className="stretchy-demo-title">성수동 손칼국수</h2>

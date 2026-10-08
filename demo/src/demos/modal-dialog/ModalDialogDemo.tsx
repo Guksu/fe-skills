@@ -1,4 +1,3 @@
-// layout-audit-ignore-file: emoji-icon — 데모 자리표시(음식 사진·아이콘 대신). 사진·선 아이콘으로 바꾸는 일은 별도 작업으로 남겨 둔다
 import { useState, type CSSProperties } from 'react'
 import { Modal } from '@skills/modal-dialog/assets/Modal'
 import './modal-dialog-demo.css'
@@ -84,7 +83,7 @@ export const ModalDialogDemo = () => {
             <button type="button" onClick={() => closeWith('결제를 취소했습니다.')}>
               취소
             </button>
-            <button type="button" className="modal-demo-primary" onClick={() => closeWith('결제가 완료되었습니다 🍜')}>
+            <button type="button" className="modal-demo-primary" onClick={() => closeWith('결제가 완료되었습니다')}>
               결제
             </button>
           </div>

@@ -83,8 +83,24 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
-.gn-item-emoji {
-  font-size: 1.6rem;
+/* 메뉴 행의 사진 — 모든 행이 같은 크기(56px 정사각) */
+.gn-item-photo {
+  flex: none;
+  inline-size: 56px;
+  block-size: 56px;
+  border-radius: var(--radius-control);
+}
+
+/* 매장·주문 행 머리의 선 아이콘 — 메뉴 행의 사진(56px)과 같은 폭에 두어 글자 시작선을 맞춘다 */
+.gn-item-icon {
+  inline-size: 56px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.gnav-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
 }
 
 .gn-item div {

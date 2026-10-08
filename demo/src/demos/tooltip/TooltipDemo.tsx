@@ -1,4 +1,3 @@
-// layout-audit-ignore-file: emoji-icon — 데모 자리표시(음식 사진·아이콘 대신). 사진·선 아이콘으로 바꾸는 일은 별도 작업으로 남겨 둔다
 import { useState } from 'react'
 import { Tooltip } from '@skills/tooltip/assets/Tooltip'
 import './tooltip-demo.css'
@@ -34,7 +33,7 @@ export const TooltipDemo = () => {
           <button type="button">면 추가</button>
         </Tooltip>
         <Tooltip label="2단계 — 국물이 칼칼합니다" place="bottom" showDelayMs={delayMs}>
-          <button type="button">🌶️ 맵기</button>
+          <button type="button">맵기</button>
         </Tooltip>
         <Tooltip label="매일 아침 뽑은 생면만 씁니다" place="left" showDelayMs={delayMs}>
           <button type="button">생면</button>

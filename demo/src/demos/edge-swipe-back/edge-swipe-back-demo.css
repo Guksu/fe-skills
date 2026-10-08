@@ -84,8 +84,12 @@
   background: var(--accent-soft);
 }
 
-.esb-row-emoji {
-  font-size: 24px;
+/* 메뉴 사진 칸 — 모든 행이 같은 크기(48px 정사각) */
+.esb-row-thumb {
+  flex: none;
+  inline-size: 48px;
+  block-size: 48px;
+  border-radius: var(--radius-control);
 }
 
 .esb-row-body {
@@ -114,13 +118,12 @@
   padding-bottom: var(--space-6);
 }
 
+/* 상세 첫머리의 사진 — 폭 가득, 비율 고정(16:9) */
 .esb-detail-hero {
   align-self: stretch;
-  display: grid;
-  place-items: center;
-  block-size: 160px;
-  background: var(--surface);
-  font-size: 64px;
+  inline-size: auto;
+  block-size: auto;
+  aspect-ratio: 16 / 9;
 }
 
 .esb-detail-name {
