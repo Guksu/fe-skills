@@ -226,8 +226,8 @@ Claude Code·Codex 플러그인으로 설치하면, 에이전트가 파일을 �
 |---|---|---|
 | [모션 원칙과 토큰](../skills/suta/patterns/motion-principles/PATTERN.md) | 시간 5단계·이징 5종·스태거·reduced-motion을 토큰 한 벌로 정하고, 움직임 종류별로 어느 값을 쓸지 정한 원칙 | [데모](https://guksu.github.io/suta/#/motion-principles) |
 | [모션 검사](../skills/suta/patterns/motion-audit/PATTERN.md) | CSS·JS를 훑어 레이아웃 속성 애니메이션·reduced-motion 누락·시간 범위 밖 등을 `file:line`으로 찾고 고치는 패턴을 안내 | [데모](https://guksu.github.io/suta/#/motion-audit) |
-| [레이아웃 원칙과 토큰](../skills/suta/patterns/layout-principles/PATTERN.md) | 순서·위계·묶음·정렬·강조 원칙 12개, 화면 유형별 관례(13종), 글자·색·면 기준, 간격·글자·굵기·반경·색 토큰 한 벌, AI가 흔히 만드는 화면 8개와 고친 화면 비교 | [데모](https://guksu.github.io/suta/#/layout-principles) |
-| [레이아웃 검사](../skills/suta/patterns/layout-audit/PATTERN.md) | CSS·JSX·HTML을 훑어 카드 안 카드·11px 미만 글자·효과 남발·척도 밖 간격·문단 가운데 정렬 등을 `file:line`으로 찾고 고칠 원칙을 안내 | [데모](https://guksu.github.io/suta/#/layout-audit) |
+| [레이아웃 원칙과 토큰](../skills/suta/patterns/layout-principles/PATTERN.md) | 순서·위계·묶음·정렬·강조 원칙 12개, 화면 유형별 관례(AI 채팅 포함 14종), 글자·색·면 기준(무채색 + 강조색 하나 + 오류 빨강), 간격·글자·굵기·반경·색 토큰 한 벌, AI가 흔히 만드는 화면 9개와 고친 화면 비교 | [데모](https://guksu.github.io/suta/#/layout-principles) |
+| [레이아웃 검사](../skills/suta/patterns/layout-audit/PATTERN.md) | CSS·JSX·HTML을 훑어 카드 안 카드·11px 미만 글자·효과 남발·척도 밖 간격·문단 가운데 정렬·옅은 색 면·색 계열 과다 등을 `file:line`으로 찾고 고칠 원칙을 안내 | [데모](https://guksu.github.io/suta/#/layout-audit) |
 
 ## 구성
 

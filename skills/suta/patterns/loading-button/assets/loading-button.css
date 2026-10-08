@@ -19,7 +19,7 @@
   border: none;
   border-radius: 10px;
   padding: 0.75rem 1.4rem;
-  background: var(--loading-button-bg, #2563eb);
+  background: var(--loading-button-bg, #1b1e24);
   color: #fff;
   font: inherit;
   font-weight: 600;
@@ -35,11 +35,11 @@
 }
 
 .loading-button[data-status='success'] {
-  background: var(--loading-button-success, #16a34a);
+  background: var(--loading-button-success, #13795b);
 }
 
 .loading-button[data-status='error'] {
-  background: var(--loading-button-error, #dc2626);
+  background: var(--loading-button-error, #c8341f);
   animation: loading-button-shake 420ms cubic-bezier(0.36, 0.07, 0.19, 0.97);
 }
 

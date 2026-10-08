@@ -1,3 +1,4 @@
+/* layout-audit-ignore-file: hue-count — 검사 결과 등급(오류·경고·통과)을 구분해 보이는 도구 데모다 */
 .ma-sample-group {
   display: flex;
   flex-direction: column;

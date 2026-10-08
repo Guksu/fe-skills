@@ -97,7 +97,7 @@ button.addEventListener('click', () => action.run(placeOrder))
 | 상태별 문구 | `loadingLabel`·`successLabel`·`errorLabel` | 전송 중 / 완료 / 실패 |
 | 최소 로딩 시간 | `minLoadingMs` | 400ms |
 | 완료·실패 표시 유지 | `successHoldMs`·`errorHoldMs` | 1200ms / 1800ms |
-| 색 | `--loading-button-bg`·`--loading-button-success`·`--loading-button-error` | 파랑 / 초록 / 빨강 |
+| 색 | `--loading-button-bg`·`--loading-button-success`·`--loading-button-error` | 거의 검정 / 짙은 초록 / 빨강 — 강조색 토큰(`--color-accent`)에 연결한다 |
 | 전환 속도 | `--loading-button-duration` | 220ms |
 
 ## 주의사항

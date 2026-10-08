@@ -1,3 +1,4 @@
+/* layout-audit-ignore-file: tinted-surface — 흐림이 무엇을 뭉개는지 보이기 위한 무대 배경이다 */
 /* 데모 무대 — 흐림이 무엇을 뭉개는지 보이도록 알록달록한 배경 위에 카드 격자를 깐다.
  * 무대에 transform·filter를 두지 않는다: 백드롭이 position: fixed라 조상 transform이 있으면 화면 전체를 못 덮는다. */
 .lpm-stage {

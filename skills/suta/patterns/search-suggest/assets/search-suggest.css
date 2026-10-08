@@ -57,7 +57,7 @@
 
 /* 마우스 hover와 키보드 이동이 같은 표시를 쓴다 — 지금 무엇이 선택될지가 한 가지로만 보인다 */
 .suggest-option[data-active='true'] {
-  background: var(--suggest-active-bg, #eff6ff);
+  background: var(--suggest-active-bg, #f2f3f5);
 }
 
 /* 검색어와 일치하는 부분 — <mark>의 기본 노랑 배경을 지우고 굵기로만 구분한다 */

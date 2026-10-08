@@ -9,7 +9,7 @@
   --text-dim: #9aa1af;
   --border: #2a2f3a;
   --accent: #6ea8fe;
-  --accent-soft: rgba(110, 168, 254, 0.12);
+  --accent-soft: rgba(110, 168, 254, 0.12); /* layout-audit-ignore: tinted-surface — 어두운 셸 위의 반투명이라 옅은 면이 아니다 */
   /* 셸이 어두운 바탕이라 select·스크롤 막대 같은 기본 컨트롤도 어둡게 그린다 */
   color-scheme: dark;
 }

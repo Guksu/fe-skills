@@ -16,6 +16,8 @@
  *  spacing-off-scale   warn — 4px 격자 밖 margin·padding·gap. 파일마다 한 번 요약                           P4·P10
  *  centered-text-block warn — 문단(여러 줄 글)의 가운데 정렬                                                P6
  *  image-distort       warn — object-fit: fill·object-fill (사진이 늘어난다)                                 P9
+ *  tinted-surface      warn — 연노랑·살구·연파랑 같은 옅은 유채색 바탕(변수 정의 포함). 파일마다 한 번 요약          P5·tone
+ *  hue-count           warn — 한 파일에 유채색 계열 3종 이상(강조색 + 오류 빨강을 넘는다)                        tone
  *
  * 의도적 예외: 그 줄(또는 바로 앞 줄)에 `layout-audit-ignore: {규칙} — {이유}` 주석을 두면 그 줄의 지적을 건너뛴다.
  * 파일 전체에서 한 규칙을 끄려면 `layout-audit-ignore-file: {규칙} — {이유}`. 예외에는 반드시 이유를 적는다.
@@ -38,6 +40,7 @@ const SIZE_VARIETY = 7
 const WEIGHT_VARIETY = 4
 const RADIUS_VARIETY = 4
 const EFFECT_LIMIT = 3
+const HUE_LIMIT = 3
 const LARGE_SHADOW_BLUR_PX = 16
 const LONG_TEXT_CHARS = 40
 
@@ -134,6 +137,102 @@ const hasChromaticColor = (text: string) => {
   const NEUTRAL = /^(to|top|bottom|left|right|center|at|circle|ellipse|closest|farthest|side|corner|in|srgb|hue|longer|shorter|transparent|black|white|gray|grey|silver|currentcolor|from|repeating|linear|radial|conic|gradient)$/
   return rest.split(/[^a-z-]+/).some((word) => word.length > 2 && !word.split('-').every((part) => NEUTRAL.test(part)))
 }
+
+/* ---------------- 색 — 계열과 옅은 색 면 ---------------- */
+
+type Rgba = { r: number; g: number; b: number; a: number }
+
+const NAMED_COLORS: Record<string, string> = { red: '#ff0000', orange: '#ffa500', gold: '#ffd700', yellow: '#ffff00', green: '#008000', lime: '#00ff00', teal: '#008080', cyan: '#00ffff', blue: '#0000ff', navy: '#000080', purple: '#800080', violet: '#ee82ee', pink: '#ffc0cb', tomato: '#ff6347', coral: '#ff7f50' }
+
+const hexToRgba = (hex: string): Rgba => {
+  const full = hex.length <= 4 ? [...hex].map((c) => c + c).join('') : hex
+  const [r, g, b] = [0, 2, 4].map((i) => parseInt(full.slice(i, i + 2), 16))
+  const a = full.length === 8 ? parseInt(full.slice(6, 8), 16) / 255 : 1
+  return { r, g, b, a }
+}
+
+/** HSL → RGB(0~255) */
+const hslToRgb = (h: number, s: number, l: number) => {
+  const k = (n: number) => (n + h / 30) % 12
+  const f = (n: number) => l - s * Math.min(l, 1 - l) * Math.max(-1, Math.min(k(n) - 3, 9 - k(n), 1))
+  return { r: f(0) * 255, g: f(8) * 255, b: f(4) * 255 }
+}
+
+/** 값 안의 색 리터럴(hex·rgb·hsl·기본 색 이름) — url(…) 안은 이미지라 뺀다 */
+const colorsIn = (value: string): Rgba[] => {
+  const text = value.toLowerCase().replace(/url\([^)]*\)/g, ' ')
+  const colors: Rgba[] = []
+  for (const match of text.matchAll(/#([0-9a-f]{3,8})\b/g)) if ([3, 4, 6, 8].includes(match[1].length)) colors.push(hexToRgba(match[1]))
+  for (const match of text.matchAll(/rgba?\(([^)]*)\)/g)) {
+    const parts = match[1].split(/[\s,/]+/).filter(Boolean)
+    const [r, g, b] = parts.slice(0, 3).map((n) => (n.endsWith('%') ? parseFloat(n) * 2.55 : parseFloat(n)))
+    const alpha = parts[3] == null ? 1 : parts[3].endsWith('%') ? parseFloat(parts[3]) / 100 : parseFloat(parts[3])
+    if ([r, g, b].every(Number.isFinite)) colors.push({ r, g, b, a: Number.isFinite(alpha) ? alpha : 1 })
+  }
+  for (const match of text.matchAll(/hsla?\(([^)]*)\)/g)) {
+    const parts = match[1].split(/[\s,/]+/).filter(Boolean)
+    const [h, s, l] = parts.slice(0, 3).map((n) => parseFloat(n))
+    const alpha = parts[3] == null ? 1 : parts[3].endsWith('%') ? parseFloat(parts[3]) / 100 : parseFloat(parts[3])
+    if ([h, s, l].every(Number.isFinite)) colors.push({ ...hslToRgb(h, s / 100, l / 100), a: Number.isFinite(alpha) ? alpha : 1 })
+  }
+  for (const word of text.replace(/#[0-9a-f]+|[a-z-]*\([^)]*\)/g, ' ').split(/[^a-z]+/)) if (NAMED_COLORS[word]) colors.push(hexToRgba(NAMED_COLORS[word].slice(1)))
+  return colors
+}
+
+/** 색상각(도)·채도·명도(0~1) */
+const hslOf = ({ r, g, b }: { r: number; g: number; b: number }) => {
+  const [rn, gn, bn] = [r, g, b].map((v) => v / 255)
+  const max = Math.max(rn, gn, bn)
+  const min = Math.min(rn, gn, bn)
+  const l = (max + min) / 2
+  const d = max - min
+  if (d === 0) return { h: 0, s: 0, l }
+  const s = d / (1 - Math.abs(2 * l - 1))
+  const h = max === rn ? ((gn - bn) / d + 6) % 6 : max === gn ? (bn - rn) / d + 2 : (rn - gn) / d + 4
+  return { h: h * 60, s, l }
+}
+
+/** OKLCH — 눈으로 본 밝기(L 0~1)·채도(C)·색상각(h). HSL 채도는 흰색 근처에서 부풀어 회색(slate-200)도 색으로 잡는다 */
+const oklchOf = ({ r, g, b }: { r: number; g: number; b: number }) => {
+  const lin = (v: number) => {
+    const c = v / 255
+    return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4
+  }
+  const [lr, lg, lb] = [lin(r), lin(g), lin(b)]
+  const l = Math.cbrt(0.4122214708 * lr + 0.5363325363 * lg + 0.0514459929 * lb)
+  const m = Math.cbrt(0.2119034982 * lr + 0.6806995451 * lg + 0.1073969566 * lb)
+  const s = Math.cbrt(0.0883024619 * lr + 0.2817188376 * lg + 0.6299787005 * lb)
+  const L = 0.2104542553 * l + 0.793617785 * m - 0.0040720468 * s
+  const A = 1.9779984951 * l - 2.428592205 * m + 0.4505937099 * s
+  const B = 0.0259040371 * l + 0.7827717662 * m - 0.808675766 * s
+  return { L, C: Math.hypot(A, B), h: ((Math.atan2(B, A) * 180) / Math.PI + 360) % 360 }
+}
+
+// 회색 단계는 유채색이 아니다. slate·zinc 같은 푸른 회색(색상각 200~280)은 C 0.05까지 회색으로 본다 —
+// 디자인 시스템이 '회색'으로 쓰는 값이다. 나머지 계열은 C 0.02부터 색이다(옅은 살구 #fef2de는 C 0.03)
+const isChromatic = (color: { r: number; g: number; b: number }) => {
+  const { C, h } = oklchOf(color)
+  return h >= 200 && h <= 280 ? C >= 0.05 : C >= 0.02
+}
+
+const HUE_FAMILIES: Array<[string, number]> = [['빨강', 15], ['주황', 40], ['노랑', 65], ['초록', 165], ['청록', 195], ['파랑', 250], ['보라', 290], ['분홍', 345], ['빨강', 361]]
+const familyOf = (color: { r: number; g: number; b: number }) => {
+  const { h } = hslOf(color)
+  return HUE_FAMILIES.find(([, end]) => h < end)?.[0] ?? '빨강'
+}
+
+/** 흰 면 위에 얹었을 때의 색 — rgba(빨강, 0.08)도 옅은 분홍 면이다 */
+const overWhite = ({ r, g, b, a }: Rgba) => ({ r: r * a + 255 * (1 - a), g: g * a + 255 * (1 - a), b: b * a + 255 * (1 - a) })
+
+/** 옅은 유채색 면 — 연노랑·살구·연분홍·연민트·연파랑 바탕(밝기 0.9 이상). 옅은 색은 채도가 낮아 기준을 따로 둔다:
+ * 회색(stone·zinc)은 C 0.005 이하, Tailwind의 -50 바탕은 C 0.013~0.03이다. slate-200(C 0.0126)은 회색으로 남긴다 */
+const isTint = (color: Rgba) => {
+  const { L, C, h } = oklchOf(overWhite(color))
+  return L >= 0.9 && C >= (h >= 200 && h <= 280 ? 0.014 : 0.012)
+}
+
+const TW_HUES: Record<string, string> = { red: '빨강', rose: '빨강', orange: '주황', amber: '주황', yellow: '노랑', lime: '초록', green: '초록', emerald: '초록', teal: '청록', cyan: '청록', sky: '파랑', blue: '파랑', indigo: '파랑', violet: '보라', purple: '보라', fuchsia: '분홍', pink: '분홍' }
+const TW_COLOR = /^(bg|text|border(?:-[xytrblse])?|ring|fill|stroke|from|via|to|outline|decoration|accent|caret|divide|shadow)-([a-z]+)-(\d{2,3})(?:\/\d+)?$/
 
 const GRADIENT = /(?:repeating-)?(?:linear|radial|conic)-gradient\(/i
 
@@ -307,9 +406,20 @@ type Tally = {
   radii: Map<string, number[]>
   offScale: Array<{ line: number; px: number }>
   effects: number[]
+  tints: number[]
+  hues: Map<string, number[]>
 }
 
-const newTally = (): Tally => ({ sizes: new Map(), weights: new Map(), radii: new Map(), offScale: [], effects: [] })
+const newTally = (): Tally => ({ sizes: new Map(), weights: new Map(), radii: new Map(), offScale: [], effects: [], tints: [], hues: new Map() })
+
+/** 선언 하나의 색 — 계열은 모든 색 속성·변수에서, 옅은 면은 바탕과 변수 정의에서 센다 */
+const tallyColors = ({ prop, value, line, tally }: { prop: string; value: string; line: number; tally: Tally }) => {
+  const colors = colorsIn(value)
+  if (colors.length === 0) return
+  for (const color of colors) if (color.a >= 0.05 && isChromatic(color)) remember({ map: tally.hues, key: familyOf(color), line })
+  const surface = /^background(-color|-image)?$/.test(prop) || prop.startsWith('--')
+  if (surface && colors.some(isTint)) tally.tints.push(line)
+}
 /** 값마다 나온 줄을 모은다 — 요약 지적의 첫 줄과 관여 줄 전체(편집 후 훅용)를 함께 낸다 */
 const remember = ({ map, key, line }: { map: Map<string, number[]>; key: string; line: number }) => {
   map.set(key, [...(map.get(key) ?? []), line])
@@ -416,6 +526,7 @@ const auditCssFacts = ({ facts, boxKeys, tally, push, remBase }: { facts: BlockF
         backdropCounted = true
       }
       if (prop === 'box-shadow' && isLargeShadow(value)) tally.effects.push(line)
+      tallyColors({ prop, value, line, tally })
     }
 
     // 상자 안 상자 — 이 블록이 상자이고, 선택자의 조상 중에 상자가 있다
@@ -474,6 +585,13 @@ const auditMarkup = ({ markup, boxKeys, tally, push, remBase }: { markup: string
       }
       if (/^bg-(gradient-to-|linear-|radial|conic)/.test(base) || (/^backdrop-blur(-|$)/.test(base) && base !== 'backdrop-blur-none') || /^(drop-)?shadow-(lg|xl|2xl)$/.test(base)) tally.effects.push(line)
       if (base === 'bg-clip-text') push({ line, rule: 'gradient-text', severity: 'warn', message: '그라데이션 글자 — 강조가 아니라 장식으로 읽힌다', fix: '단색 글자에 크기·굵기로 위계를 준다. 강조색은 주 버튼 한 곳에 (P3)' })
+      const twColor = base.match(TW_COLOR)
+      if (twColor && TW_HUES[twColor[2]]) {
+        remember({ map: tally.hues, key: TW_HUES[twColor[2]], line })
+        if (twColor[1] === 'bg' && Number(twColor[3]) <= 200) tally.tints.push(line)
+      }
+      const twArbitraryColor = base.match(/^(bg|text|border|fill|stroke)-\[(#[0-9a-fA-F]{3,8}|rgba?\([^\]]*\)|hsla?\([^\]]*\))\]$/)
+      if (twArbitraryColor) tallyColors({ prop: twArbitraryColor[1] === 'bg' ? 'background' : 'color', value: twArbitraryColor[2].replace(/_/g, ' '), line, tally })
       if (base === 'object-fill') push({ line, rule: 'image-distort', severity: 'warn', message: 'object-fill — 사진이 틀에 맞춰 늘어난다', fix: 'aspect-ratio로 틀을 정하고 object-cover로 잘라 채운다 (P9)' })
     }
 
@@ -485,10 +603,12 @@ const auditMarkup = ({ markup, boxKeys, tally, push, remBase }: { markup: string
         const px = size[1] != null ? Number(size[1]) : toPx(size[3])
         if (px != null) checkTinyText({ px, line, push })
       }
+      for (const match of style.matchAll(/(background(?:Color)?|color|borderColor)\s*:\s*(["'])([^"']+)\2/g)) tallyColors({ prop: match[1].startsWith('background') ? 'background' : 'color', value: match[3], line, tally })
       const align = style.match(/textAlign\s*:\s*(["'])(\w+)\1/)?.[2]
       if (align) inlineAlign = align === 'center' ? 'center' : 'start'
     } else if (style) {
       for (const { prop, value } of declarationsOf({ body: style, line })) {
+        tallyColors({ prop, value, line, tally })
         if (prop === 'font-size') {
           const px = sizePx({ value, remBase })
           if (px != null) checkTinyText({ px, line, push })
@@ -552,9 +672,31 @@ const summarizeTally = ({ tally, push }: { tally: Tally; push: Push }) => {
     const examples = [...new Set(sorted.map((o) => Math.abs(o.px)))].slice(0, 3).map((px) => `${formatPx(px)} → ${formatPx(nearestSpace(px))}`)
     push({ line: lines[0], lines, rule: 'spacing-off-scale', severity: 'warn', message: `4px 격자 밖 간격 ${sorted.length}곳(${lines.slice(0, 8).join('·')}줄)`, fix: `척도(4·8·12·16·24·32·48·64)로 — ${examples.join(', ')} (P4·P10)` })
   }
+  if (tally.tints.length > 0) {
+    const lines = [...new Set(tally.tints)].sort((a, b) => a - b)
+    push({ line: lines[0], lines, rule: 'tinted-surface', severity: 'warn', message: `옅은 색 면 ${lines.length}곳(${lines.slice(0, 8).join('·')}줄) — 연노랑·살구·연파랑 같은 바탕은 잘 만든 앱 화면의 87%에 없다`, fix: '면은 흰 면과 옅은 회색(--color-canvas)으로 나누고, 상태는 글자·아이콘 색으로. 옅은 색 바탕은 선택 상태 하나에 강조색으로만 (tone.md)' })
+  }
+  if (tally.hues.size >= HUE_LIMIT) {
+    push({ line: firstLine(tally.hues), lines: linesOf(tally.hues), rule: 'hue-count', severity: 'warn', message: `유채색 계열 ${tally.hues.size}종(${list(tally.hues)}) — 잘 만든 서비스의 81%는 UI에 체계 색을 2종 이하로 쓴다`, fix: '무채색 + 강조색 하나(브랜드색) + 오류 빨강. 성공·주의·정보는 글자와 아이콘 모양으로 구분한다 (tone.md)' })
+  }
   if (tally.effects.length >= EFFECT_LIMIT) {
     const lines = [...tally.effects].sort((a, b) => a - b)
     push({ line: lines[0], lines: [...new Set(lines)], rule: 'effect-overuse', severity: 'warn', message: `강한 효과 ${lines.length}곳(${lines.slice(0, 8).join('·')}줄) — 그라데이션·유리·큰 그림자는 화면마다 한두 곳`, fix: '1순위 요소 한 곳에만 남기고 나머지는 단색 면·얇은 선·간격으로 (P3)' })
+  }
+}
+
+/** 예외 주석을 단 줄은 파일 단위 요약(종류 수·계열 수·척도 밖 간격)에서도 뺀다 — 로고 그림의 브랜드색처럼 이유가 적힌 값이 요약을 다시 켜지 않게 */
+const withoutIgnored = ({ tally, ignored }: { tally: Tally; ignored: Set<number> }): Tally => {
+  const keep = (lines: number[]) => lines.filter((line) => !ignored.has(line))
+  const keepMap = (map: Map<string, number[]>) => new Map([...map].map(([key, lines]) => [key, keep(lines)] as const).filter(([, lines]) => lines.length > 0))
+  return {
+    sizes: keepMap(tally.sizes),
+    weights: keepMap(tally.weights),
+    radii: keepMap(tally.radii),
+    offScale: tally.offScale.filter((o) => !ignored.has(o.line)),
+    effects: keep(tally.effects),
+    tints: keep(tally.tints),
+    hues: keepMap(tally.hues),
   }
 }
 
@@ -594,7 +736,7 @@ export const auditLayout = (sources: Source[]): Finding[] => {
     }
     auditCssFacts({ facts, boxKeys, tally, push, remBase })
     if (parts.markup) auditMarkup({ markup: parts.markup, boxKeys, tally, push, remBase })
-    summarizeTally({ tally, push })
+    summarizeTally({ tally: withoutIgnored({ tally, ignored }), push })
   }
   return sortFindings(findings)
 }

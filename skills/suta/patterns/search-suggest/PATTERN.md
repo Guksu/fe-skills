@@ -104,7 +104,7 @@ input.addEventListener('input', (event) => search.setQuery(event.target.value))
 | 기다리는 시간 | `debounceMs` | 200ms |
 | 검색 시작 길이 | `minLength` | 1글자 |
 | 패널 최대 높이 | `--suggest-max-height` | 18rem |
-| 활성 항목 배경 | `--suggest-active-bg` | 연한 파랑 |
+| 활성 항목 배경 | `--suggest-active-bg` | 옅은 회색(`--color-canvas`와 같은 값) |
 | 드롭 속도 | `--suggest-duration` | 160ms |
 
 `debounceMs`는 200ms 안팎이 무난하다 — 120ms 아래로 내리면 타이핑 중에도 요청이 나가고, 350ms를 넘기면 멈췄는데 반응이 없는 느낌이 든다.

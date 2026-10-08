@@ -1,3 +1,4 @@
+/* layout-audit-ignore-file: hue-count — 유리 효과를 보이기 위한 알록달록한 무대 배경이다 */
 /* 데모 무대 — 유리는 뒤에 무언가 있어야 보이므로, 알록달록한 배경(그라디언트 + 색 덩어리)을 스크롤 컨테이너 안에 깐다 */
 .glass-stage {
   height: 560px;

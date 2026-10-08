@@ -1,3 +1,4 @@
+/* layout-audit-ignore-file: hue-count — 검사 결과 등급(오류·경고·통과)을 구분해 보이는 도구 데모다 */
 /* layout-audit 데모 — motion-audit 데모와 같은 배치(붙여 넣기 ↔ 결과). 파일 이름 입력칸 스타일은 motion-audit 데모 CSS가 공용으로 둔다 */
 
 .la-sample-group {

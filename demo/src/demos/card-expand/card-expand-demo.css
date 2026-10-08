@@ -1,3 +1,5 @@
+/* layout-audit-ignore-file: hue-count — 그림 상자 톤은 사진 자리(콘텐츠) 색이다 */
+/* layout-audit-ignore-file: tinted-surface — 같은 이유 */
 .ce-stage {
   display: flex;
   justify-content: center;

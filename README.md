@@ -10,7 +10,7 @@ AI가 만든 티가 나는 UI를 없애는 에이전트 스킬입니다.<br>
 [![Deploy demo](https://github.com/Guksu/suta/actions/workflows/deploy-demo.yml/badge.svg)](https://github.com/Guksu/suta/actions/workflows/deploy-demo.yml)
 ![Patterns](https://img.shields.io/badge/suta-55%20patterns-6ea8fe)
 ![Dependencies](https://img.shields.io/badge/runtime%20deps-0-34c759)
-![Tests](https://img.shields.io/badge/tests-584%20passing-34c759)
+![Tests](https://img.shields.io/badge/tests-591%20passing-34c759)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 [**라이브 데모**](https://guksu.github.io/suta/) · [상세 안내](docs/guide.md) · [English](README.en.md)
@@ -88,7 +88,7 @@ npx skills add Guksu/suta --skill suta
 - [상세 안내](docs/guide.md) — 설치 전체, 동작 방식, 편집 후 검사, 패턴 55종, 개발과 기여
 - [벤치마크](docs/benchmark.md) — 일반 Claude Code와 suta 비교의 방법·전체 지표·판정 이유
 - [에이전트 작업 지침](AGENTS.md) — 이 저장소에서 일하는 코딩 에이전트용
-- 연구: [레이아웃 원칙](docs/research/2026-10-06-layout-principles.md) · [화면 유형별 관례](docs/research/2026-10-07-screen-conventions.md)
+- 연구: [레이아웃 원칙](docs/research/2026-10-06-layout-principles.md) · [화면 유형별 관례](docs/research/2026-10-07-screen-conventions.md) · [색의 수와 AI 채팅](docs/research/2026-10-08-chat-color.md)
 
 ## 라이선스
 

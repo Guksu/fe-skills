@@ -229,6 +229,85 @@ describe('auditLayout — 예외 주석과 파일 종류', () => {
   })
 })
 
+describe('auditLayout — 옅은 색 면 (tinted-surface)', () => {
+  it('연노랑·살구·연파랑 같은 옅은 유채색 바탕을 파일마다 한 번 요약해 잡는다', () => {
+    const css = [
+      ':root {',
+      '  --pointer-bg: #fcf1dc;',
+      '  --surface: #ffffff;',
+      '  --canvas: #f2f3f5;',
+      '}',
+      '.badge { background: #fff4dc; color: #9a6100; }',
+      '.notice { background-color: rgb(235, 240, 252); }',
+      '.danger { background: rgba(204, 61, 42, 0.08); }',
+      '.button { background: #1b1e24; color: #fff; }',
+    ].join('\n')
+    const findings = audit('a.css', css).filter((f) => f.rule === 'tinted-surface')
+    expect(findings).toHaveLength(1)
+    expect(findings[0].severity).toBe('warn')
+    expect(findings[0].lines).toEqual([2, 6, 7, 8])
+    expect(findings[0].fix).toContain('--color-canvas')
+  })
+
+  it('Tailwind의 옅은 색 바탕(bg-amber-50 등)도 잡고, 회색 계열과 진한 색은 조용하다', () => {
+    const text = [
+      'export const Row = () => (',
+      '  <div className="bg-gray-50">',
+      '    <span className="rounded-full bg-amber-100 text-amber-700">주의</span>',
+      '    <span className="bg-emerald-50">완료</span>',
+      '    <button className="bg-zinc-900 text-white">담기</button>',
+      '  </div>',
+      ')',
+    ].join('\n')
+    expect(audit('Row.tsx', text).find((f) => f.rule === 'tinted-surface')?.lines).toEqual([3, 4])
+  })
+
+  it('suta 토큰 파일(무채색 + 강조색 거의 검정 + 오류 빨강)은 조용하다', () => {
+    const tokens = readFileSync(resolve(process.cwd(), '../skills/suta/patterns/layout-principles/assets/layout-tokens.css'), 'utf8')
+    expect(audit('layout-tokens.css', tokens).filter((f) => f.rule === 'tinted-surface' || f.rule === 'hue-count')).toEqual([])
+  })
+})
+
+describe('auditLayout — 유채색 계열 수 (hue-count)', () => {
+  it('한 파일에 유채색 계열이 셋 이상이면 계열과 줄을 모아 한 번 알린다', () => {
+    const css = [
+      ':root {',
+      '  --brand: #f2b544;',
+      '  --danger: #cc3d2a;',
+      '  --ok: #23854a;',
+      '  --info: #3a62cf;',
+      '  --text: #1b1c20;',
+      '}',
+    ].join('\n')
+    const findings = audit('a.css', css).filter((f) => f.rule === 'hue-count')
+    expect(findings).toHaveLength(1)
+    expect(findings[0].message).toContain('4')
+    expect(findings[0].lines).toEqual([2, 3, 4, 5])
+  })
+
+  it('강조색 하나 + 오류 빨강, 다크 모드의 같은 계열 값은 둘로 센다', () => {
+    const css = [':root { --accent: #8a4b1f; --danger: #c8341f; --text: #1b1e24; }', '@media (prefers-color-scheme: dark) { :root { --accent: #d9a27a; --danger: #f2796b; } }'].join('\n')
+    expect(audit('a.css', css).filter((f) => f.rule === 'hue-count')).toEqual([])
+  })
+
+  it('예외 주석을 단 줄(로고 그림의 브랜드색 등)은 계열 수에서도 빠진다', () => {
+    const css = [
+      ':root {',
+      '  --danger: #cc3d2a;',
+      '  --logo-mark: #f2b544; /* layout-audit-ignore: hue-count — 로고 그림의 브랜드색 */',
+      '  --logo-wave: #fff4dc; /* layout-audit-ignore: hue-count — 로고 그림의 브랜드색 */',
+      '  --link: #3a62cf;',
+      '}',
+    ].join('\n')
+    expect(audit('a.css', css).filter((f) => f.rule === 'hue-count' || f.rule === 'tinted-surface')).toEqual([])
+  })
+
+  it('Tailwind 색 이름도 계열로 센다', () => {
+    const text = '<div className="text-green-600"><span className="text-amber-600">a</span><span className="border-sky-500">b</span></div>'
+    expect(audit('A.tsx', text).find((f) => f.rule === 'hue-count')?.message).toContain('3')
+  })
+})
+
 describe('auditLayout — 저장소의 패턴 코드', () => {
   it('설치되는 패턴 assets 전체에서 error가 없다', () => {
     // vitest는 demo/에서 돈다 — 정본 패턴 폴더를 그대로 훑는다

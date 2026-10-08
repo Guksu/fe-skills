@@ -1,3 +1,4 @@
+/* layout-audit-ignore-file: hue-count — 카드 테마 색은 지갑 카드(콘텐츠) 색이다 */
 /* 데모 무대 — 지갑 앱의 한 화면처럼 좁은 세로 컬럼. 카드 색은 여기서 정한다(코어 CSS는 모양·이동만 안다) */
 .wallet-stage {
   max-width: 380px;
