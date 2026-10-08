@@ -55,6 +55,14 @@
   text-align: center;
 }
 
+/* 메뉴 사진 칸 — 목록의 모든 행이 같은 크기(40px 정사각) */
+.dr-thumb {
+  flex: none;
+  inline-size: 40px;
+  block-size: 40px;
+  border-radius: var(--radius-control);
+}
+
 .dr-name {
   flex: 1;
 }

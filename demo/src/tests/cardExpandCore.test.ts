@@ -13,7 +13,7 @@ const withoutViewTransitions = () => Reflect.deleteProperty(document, 'startView
 /** 카드 하나 — 그림·제목 부위가 data-card-expand-part로 표시돼 있다 */
 const makeCard = () => {
   const card = document.createElement('div')
-  card.innerHTML = '<span data-card-expand-part="media">🍜</span><span data-card-expand-part="title">잔치국수</span>'
+  card.innerHTML = '<span data-card-expand-part="media"><img alt="" src="janchi.webp"></span><span data-card-expand-part="title">잔치국수</span>'
   document.body.appendChild(card)
   const part = (name: string) => card.querySelector<HTMLElement>(`[data-card-expand-part="${name}"]`)!
   return { card, media: part('media'), title: part('title') }
@@ -90,7 +90,7 @@ describe('runCardExpand — 이름 부여 순서와 미지원 폴백', () => {
   it('사진 찍는 순간엔 출발 요소에, 갱신 뒤엔 도착 요소에만 이름이 있고, 끝나면 전부 지워진다', async () => {
     const { card, media } = makeCard()
     const detail = document.createElement('article')
-    detail.innerHTML = '<div data-card-expand-part="media">🍜</div>'
+    detail.innerHTML = '<div data-card-expand-part="media"><img alt="잔치국수" src="janchi.webp"></div>'
     const seen: Record<string, unknown> = {}
 
     withViewTransitions((callback) => {

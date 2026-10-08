@@ -19,26 +19,12 @@
   border-radius: 50%;
   display: grid;
   place-items: center;
-  background: var(--accent-soft);
+  background: var(--border);
 }
 
 .post-image {
   aspect-ratio: 1;
-  display: grid;
-  place-content: center;
-  gap: 0.5rem;
-  text-align: center;
-  background: linear-gradient(135deg, #2a2f45, #40222e 60%, #173042);
   cursor: pointer;
-}
-
-.post-image span {
-  font-size: 4rem;
-}
-
-.post-image p {
-  margin: 0;
-  color: var(--text-dim);
 }
 
 .post-footer {

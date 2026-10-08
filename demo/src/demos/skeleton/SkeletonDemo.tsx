@@ -1,6 +1,6 @@
-// layout-audit-ignore-file: emoji-icon — 데모 자리표시(음식 사진·아이콘 대신). 사진·선 아이콘으로 바꾸는 일은 별도 작업으로 남겨 둔다
 import { useEffect, useState, type CSSProperties } from 'react'
 import { Skeleton } from '@skills/skeleton/assets/Skeleton'
+import { Icon } from '@skills/layout-principles/assets/Icon'
 import './skeleton-demo.css'
 
 export const SkeletonDemo = () => {
@@ -52,7 +52,10 @@ export const SkeletonDemo = () => {
         {PROFILES.map((profile) =>
           loaded ? (
             <article key={profile.name} className="profile-card">
-              <div className="profile-avatar">{profile.emoji}</div>
+              {/* 사람 프로필 사진 자리 — 사진이 없을 때는 무채색 원에 사람 아이콘. 사람마다 색·이모지로 구분하지 않는다(이름이 구분한다) */}
+              <div className="profile-avatar">
+                <Icon name="user" />
+              </div>
               <div className="profile-body">
                 <strong>{profile.name}</strong>
                 <p>{profile.bio}</p>
@@ -74,7 +77,7 @@ export const SkeletonDemo = () => {
 }
 
 const PROFILES = [
-  { name: '김국수', emoji: '🍜', bio: '오늘도 성수동에서 국수 한 그릇. 면은 언제나 옳다.' },
-  { name: '박칼국', emoji: '🥟', bio: '칼국수와 만두는 세트다. 반죽은 새벽에 치대야 맛있다.' },
-  { name: '이냉면', emoji: '🧊', bio: '한겨울에도 냉면파. 육수는 슬러시 직전이 정답이다.' },
+  { name: '김국수', bio: '오늘도 성수동에서 국수 한 그릇. 면은 언제나 옳다.' },
+  { name: '박칼국', bio: '칼국수와 만두는 세트다. 반죽은 새벽에 치대야 맛있다.' },
+  { name: '이냉면', bio: '한겨울에도 냉면파. 육수는 슬러시 직전이 정답이다.' },
 ]

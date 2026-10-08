@@ -23,8 +23,11 @@
 }
 
 .reveal-spacer {
-  display: grid;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
   min-height: 60vh;
   color: var(--text-dim);
   border: 1px dashed var(--border);

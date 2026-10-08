@@ -54,7 +54,7 @@ const Today = () => {
         {PICKS.map((pick) => (
           <li key={pick.id}>
             <button type="button" data-card-id={pick.id} onClick={(e) => expand({ id: pick.id, card: e.currentTarget })}>
-              <span data-card-expand-part="media">{pick.emoji}</span>
+              <img data-card-expand-part="media" src={pick.photo} alt="" />
               <span data-card-expand-part="title">{pick.title}</span>
             </button>
           </li>
@@ -65,7 +65,7 @@ const Today = () => {
         <article ref={detailRef} className="card-expand-detail" role="dialog" aria-modal="true" aria-labelledby="detail-title">
           <button type="button" className="card-expand-close" aria-label="닫기" onClick={collapse}>×</button>
           <div className="card-expand-detail-scroll">
-            <div data-card-expand-part="media">{current.emoji}</div>
+            <img data-card-expand-part="media" src={current.photo} alt={current.title} />
             <h2 id="detail-title" data-card-expand-part="title">{current.title}</h2>
             <div className="card-expand-detail-body">…소개·가격·버튼…</div>
           </div>

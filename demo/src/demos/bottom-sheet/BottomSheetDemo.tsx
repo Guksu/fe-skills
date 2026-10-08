@@ -1,13 +1,14 @@
-// layout-audit-ignore-file: emoji-icon — 데모 자리표시(음식 사진·아이콘 대신). 사진·선 아이콘으로 바꾸는 일은 별도 작업으로 남겨 둔다
 import { useState } from 'react'
 import { BottomSheet } from '@skills/bottom-sheet/assets/BottomSheet'
+import { Icon } from '@skills/layout-principles/assets/Icon'
+import type { IconName } from '@skills/layout-principles/assets/icons'
 import './bottom-sheet-demo.css'
 
-const MENU = [
-  { emoji: '🍜', label: '주문하기', hint: '오늘의 국수 메뉴 보기' },
-  { emoji: '❤️', label: '찜하기', hint: '이 가게를 찜 목록에 추가' },
-  { emoji: '📞', label: '전화 걸기', hint: '가게에 직접 문의' },
-  { emoji: '🔗', label: '공유하기', hint: '링크 복사' },
+const MENU: { icon: IconName; label: string; hint: string }[] = [
+  { icon: 'bowl', label: '주문하기', hint: '오늘의 국수 메뉴 보기' },
+  { icon: 'heart', label: '찜하기', hint: '이 가게를 찜 목록에 추가' },
+  { icon: 'phone', label: '전화 걸기', hint: '가게에 직접 문의' },
+  { icon: 'share', label: '공유하기', hint: '링크 복사' },
 ]
 
 const SNAP_OFFSETS = [0, 240]
@@ -78,7 +79,7 @@ export const BottomSheetDemo = () => {
                   setOpen(false)
                 }}
               >
-                <span className="sheet-menu-emoji">{item.emoji}</span>
+                <Icon name={item.icon} className="sheet-menu-icon" />
                 <span>
                   <strong>{item.label}</strong>
                   <small>{item.hint}</small>

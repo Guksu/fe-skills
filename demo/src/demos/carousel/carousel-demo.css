@@ -1,16 +1,22 @@
 .banner-slide {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
-  padding: 1.75rem 1.5rem;
-  min-height: 150px;
-  border-radius: 14px;
-  border: 1px solid var(--border);
-  background: linear-gradient(135deg, var(--surface), var(--accent-soft));
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  background: var(--surface);
 }
 
-.banner-emoji {
-  font-size: 2rem;
+/* 슬라이드 사진 — 모든 장이 같은 비율(16:9)이라 넘겨도 높이가 흔들리지 않는다 */
+.banner-photo {
+  aspect-ratio: 16 / 9;
+  height: auto;
+}
+
+.banner-text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-3) var(--space-4) var(--space-4);
 }
 
 .banner-slide p {
@@ -20,4 +26,11 @@
 
 .carousel-dots {
   color: var(--accent);
+}
+
+/* 자동 재생 단추 — 아이콘과 글자를 한 줄에 */
+.carousel-autoplay-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
 }

@@ -1,4 +1,3 @@
-// layout-audit-ignore-file: emoji-icon — 데모 자리표시(음식 사진·아이콘 대신). 사진·선 아이콘으로 바꾸는 일은 별도 작업으로 남겨 둔다
 import { useState } from 'react'
 import { WheelPicker } from '@skills/wheel-picker/assets/WheelPicker'
 import './wheel-picker-demo.css'
@@ -59,7 +58,7 @@ export const WheelPickerDemo = () => {
       </section>
 
       <div className="wheel-demo-stage">
-        <p className="wheel-demo-title">🍜 성수동 국수집 — 예약</p>
+        <p className="wheel-demo-title">성수동 국수집 — 예약</p>
         <div className="wheel-demo-row">
           <div className="wheel-demo-col">
             <span id="wheel-demo-hour" className="wheel-demo-label">시</span>

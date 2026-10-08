@@ -1,15 +1,16 @@
-// layout-audit-ignore-file: emoji-icon — 데모 자리표시(음식 사진·아이콘 대신). 사진·선 아이콘으로 바꾸는 일은 별도 작업으로 남겨 둔다
 import { openZoom } from '@skills/zoom-lightbox/assets/openZoom'
+import { DishPhoto } from '../../shared/DishPhoto'
+import type { DishId } from '../../shared/dishes'
 import '@skills/zoom-lightbox/assets/zoom-lightbox.css'
 import './zoom-lightbox-demo.css'
 
-const DISHES = [
-  { emoji: '🍜', name: '얼큰 칼국수', tone: 'a' },
-  { emoji: '🥟', name: '왕만두 한 판', tone: 'b' },
-  { emoji: '🧊', name: '냉모밀 정식', tone: 'c' },
-  { emoji: '🌶️', name: '지옥 비빔국수', tone: 'd' },
-  { emoji: '🥣', name: '들깨 수제비', tone: 'e' },
-  { emoji: '🍢', name: '수제 어묵탕', tone: 'f' },
+const DISHES: { dish: DishId; name: string }[] = [
+  { dish: 'kalguksu', name: '얼큰 칼국수' },
+  { dish: 'mandu', name: '왕만두 한 판' },
+  { dish: 'memil', name: '냉모밀 정식' },
+  { dish: 'bibim', name: '지옥 비빔국수' },
+  { dish: 'sujebi', name: '들깨 수제비' },
+  { dish: 'eomuk', name: '수제 어묵탕' },
 ]
 
 export const ZoomLightboxDemo = () => (
@@ -21,18 +22,21 @@ export const ZoomLightboxDemo = () => (
       </p>
     </section>
 
-    <div className="zoom-gallery">
-      {DISHES.map((dish) => (
-        <button
-          key={dish.name}
-          type="button"
-          className={`zoomable zoom-card zoom-tone-${dish.tone}`}
-          onClick={(event) => openZoom({ source: event.currentTarget })}
-        >
-          <span className="zoom-emoji">{dish.emoji}</span>
-          <strong>{dish.name}</strong>
-        </button>
+    <ul className="zoom-gallery">
+      {DISHES.map((item) => (
+        <li key={item.name} className="zoom-item">
+          {/* 커지는 것은 사진(단추)만이다 — 이름은 사진 밖 아래에 두어 확대에 따라오지 않는다 */}
+          <button
+            type="button"
+            className="zoomable zoom-card"
+            aria-label={`${item.name} 크게 보기`}
+            onClick={(event) => openZoom({ source: event.currentTarget })}
+          >
+            <DishPhoto dish={item.dish} />
+          </button>
+          <span className="zoom-name">{item.name}</span>
+        </li>
       ))}
-    </div>
+    </ul>
   </div>
 )

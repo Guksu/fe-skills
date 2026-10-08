@@ -23,8 +23,12 @@
   background: var(--surface);
 }
 
-.flip-emoji {
-  font-size: 1.4rem;
+/* 메뉴 사진 칸 — 순서가 바뀌어도 모든 행이 같은 크기 */
+.flip-thumb {
+  flex: none;
+  inline-size: 40px;
+  block-size: 40px;
+  border-radius: var(--radius-control);
 }
 
 .flip-meta {

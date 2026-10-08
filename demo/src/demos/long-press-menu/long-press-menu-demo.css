@@ -37,6 +37,9 @@
 }
 
 .lpm-card h3 {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
   margin: var(--space-1) 0 0;
   font-size: 1rem;
 }
@@ -53,16 +56,18 @@
   color: var(--accent);
 }
 
-.lpm-card-emoji {
-  font-size: 1.8rem;
-  line-height: 1;
+/* 메뉴 사진 — 모든 카드가 같은 비율(4:3) */
+.lpm-card-photo {
+  height: auto;
+  aspect-ratio: 4 / 3;
+  margin-bottom: var(--space-1);
+  border-radius: var(--radius-control);
+  /* 길게 누르는 동안 사진 끌기·저장 메뉴가 끼어들지 않게 — 카드의 user-select: none과 같은 이유 */
+  pointer-events: none;
 }
 
 .lpm-card-star {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  font-size: 0.9rem;
+  color: var(--accent);
 }
 
 .lpm-empty {

@@ -31,8 +31,12 @@
   border-bottom: 1px solid var(--border);
 }
 
-.qs-emoji {
-  font-size: 1.4rem;
+/* 장바구니 상품 사진 칸 — 모든 행이 같은 크기(48px 정사각) */
+.qs-thumb {
+  flex: none;
+  inline-size: 48px;
+  block-size: 48px;
+  border-radius: var(--radius-control);
 }
 
 .qs-body {

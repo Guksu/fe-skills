@@ -25,10 +25,11 @@ TS가 아닌 프로젝트에 복사할 때는 타입 표기를 벗겨 .js로 저
 
 ```tsx
 import { Tooltip } from './Tooltip'
+import { Icon } from './Icon' // layout-principles의 선 아이콘 한 벌
 
 const Toolbar = () => (
   <Tooltip label="장바구니에 담기" place="bottom">
-    <button type="button" aria-label="담기">🛒</button>
+    <button type="button" aria-label="담기"><Icon name="cart" /></button>
   </Tooltip>
 )
 ```
@@ -40,7 +41,7 @@ const Toolbar = () => (
 
 ```html
 <span class="tooltip-anchor">
-  <button type="button" aria-describedby="tip-cart">🛒</button>
+  <button type="button" aria-label="담기" aria-describedby="tip-cart"><!-- layout-principles icons.ts의 iconSvg({ name: 'cart' }) --></button>
   <span class="tooltip" id="tip-cart" role="tooltip" data-place="top">장바구니에 담기</span>
 </span>
 ```

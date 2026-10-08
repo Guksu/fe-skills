@@ -1,21 +1,22 @@
-// layout-audit-ignore-file: emoji-icon — 데모 자리표시(음식 사진·아이콘 대신). 사진·선 아이콘으로 바꾸는 일은 별도 작업으로 남겨 둔다
 import { useState, type CSSProperties } from 'react'
 import { flushSync } from 'react-dom'
 import { useEdgeSwipeBack } from '@skills/edge-swipe-back/assets/useEdgeSwipeBack'
 import { runPageTransition } from '@skills/page-transition/assets/runPageTransition'
+import { DishPhoto } from '../../shared/DishPhoto'
+import type { DishId } from '../../shared/dishes'
 import '@skills/page-transition/assets/page-transition.css'
 import './edge-swipe-back-demo.css'
 
 type Screen = { name: 'list' } | { name: 'detail'; id: string } | { name: 'reviews'; id: string }
 
-type Menu = { id: string; name: string; price: number; emoji: string; desc: string }
+type Menu = { id: string; name: string; price: number; dish: DishId; desc: string }
 
 const MENUS: Menu[] = [
-  { id: 'janchi', name: '잔치국수', price: 8000, emoji: '🍜', desc: '멸치·다시마 육수에 애호박 고명' },
-  { id: 'bibim', name: '비빔국수', price: 9000, emoji: '🌶️', desc: '직접 담근 고추장 양념, 배를 갈아 넣었습니다' },
-  { id: 'kal', name: '손칼국수', price: 10000, emoji: '🥣', desc: '아침에 밀어 굵기가 조금씩 다릅니다' },
-  { id: 'kong', name: '콩국수', price: 11000, emoji: '🥛', desc: '여름 한정 — 국산 백태만 씁니다' },
-  { id: 'mandu', name: '손만두', price: 7000, emoji: '🥟', desc: '아침마다 빚는 6개들이' },
+  { id: 'janchi', name: '잔치국수', price: 8000, dish: 'janchi', desc: '멸치·다시마 육수에 애호박 고명' },
+  { id: 'bibim', name: '비빔국수', price: 9000, dish: 'bibim', desc: '직접 담근 고추장 양념, 배를 갈아 넣었습니다' },
+  { id: 'kal', name: '손칼국수', price: 10000, dish: 'kalguksu', desc: '아침에 밀어 굵기가 조금씩 다릅니다' },
+  { id: 'kong', name: '콩국수', price: 11000, dish: 'kong', desc: '여름 한정 — 국산 백태만 씁니다' },
+  { id: 'mandu', name: '손만두', price: 7000, dish: 'mandu', desc: '아침마다 빚는 6개들이' },
 ]
 
 const REVIEWS = [
@@ -74,9 +75,7 @@ export const EdgeSwipeBackDemo = () => {
           {MENUS.map((item) => (
             <li key={item.id}>
               <button type="button" className="esb-row" onClick={() => push({ name: 'detail', id: item.id })}>
-                <span className="esb-row-emoji" aria-hidden="true">
-                  {item.emoji}
-                </span>
+                <DishPhoto dish={item.dish} className="esb-row-thumb" />
                 <span className="esb-row-body">
                   <span className="esb-row-name">{item.name}</span>
                   <span className="esb-row-desc">{item.desc}</span>
@@ -91,9 +90,7 @@ export const EdgeSwipeBackDemo = () => {
     if (screen.name === 'detail' && menu) {
       return (
         <article className="esb-detail">
-          <div className="esb-detail-hero" aria-hidden="true">
-            {menu.emoji}
-          </div>
+          <DishPhoto dish={menu.dish} alt={menu.name} className="esb-detail-hero" />
           <h3 className="esb-detail-name">{menu.name}</h3>
           <p className="esb-detail-price">{menu.price.toLocaleString('ko-KR')}원</p>
           <p className="esb-detail-desc">{menu.desc}</p>

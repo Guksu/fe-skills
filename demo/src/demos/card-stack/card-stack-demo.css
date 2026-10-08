@@ -48,8 +48,8 @@
   opacity: 0.9;
 }
 
-.wallet-card-emoji {
-  font-size: 1.4rem;
+.wallet-card-logo {
+  opacity: 0.85;
 }
 
 .wallet-card-title {

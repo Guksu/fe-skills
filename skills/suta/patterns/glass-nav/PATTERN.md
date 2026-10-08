@@ -42,7 +42,7 @@ const TopBar = ({ current }: { current: string }) => {
   return (
     <header ref={navRef} className="gnav">
       <div className="gnav-bar">
-        <a className="gnav-brand" href="/">🍜 국수집</a>
+        <a className="gnav-brand" href="/">국수집</a>
         <nav className="gnav-links" aria-label="주메뉴">
           <div>
             <a href="/menu" aria-current={current === 'menu' ? 'page' : undefined}>메뉴</a>

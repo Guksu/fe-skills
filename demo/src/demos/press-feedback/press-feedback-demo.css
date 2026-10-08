@@ -43,8 +43,13 @@
   text-align: left;
 }
 
-.press-card span {
-  font-size: 1.8rem;
+/* 카드 머리의 메뉴 사진 — 카드 폭에 맞춘 4:3. 누르면 카드 전체(사진 포함)가 함께 어두워진다 */
+.press-card-photo {
+  inline-size: 160px;
+  block-size: auto;
+  aspect-ratio: 4 / 3;
+  margin-bottom: var(--space-1);
+  border-radius: var(--radius-control);
 }
 
 .press-card small {

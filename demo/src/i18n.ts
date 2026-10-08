@@ -61,6 +61,13 @@ export const STRINGS = {
     copied: '복사됨 ✓',
     skillDoc: '패턴 문서 →',
     demoNote: '데모 안의 조절 라벨과 예시 콘텐츠는 한국어입니다.',
+    creditsLink: '사진·아이콘 출처',
+    creditsTitle: '사진·아이콘 출처',
+    creditsIntro: '데모의 음식 사진은 위키미디어 공용(Wikimedia Commons)에 CC0·CC BY로 공개된 사진입니다. 모두 4:3으로 잘라 줄이고 WebP로 바꿨습니다.',
+    creditsPhotos: '음식 사진',
+    creditsIcons: '선 아이콘',
+    creditsIconsBody: '선 아이콘은 suta의 아이콘 한 벌(layout-principles/assets/icons.ts)이고, 경로는 Lucide v0.469.0(ISC License, Copyright (c) Lucide Contributors 2022 — Feather에서 온 부분은 MIT, Copyright (c) 2013-2022 Cole Bemis)에서 가져왔습니다.',
+    creditsSource: '원본',
   },
   en: {
     tagline: 'UI without AI slop — pattern demos',
@@ -78,6 +85,13 @@ export const STRINGS = {
     copied: 'Copied ✓',
     skillDoc: 'Pattern doc →',
     demoNote: 'Control labels and sample content inside each demo are in Korean.',
+    creditsLink: 'Photo & icon credits',
+    creditsTitle: 'Photo & icon credits',
+    creditsIntro: 'The food photos in the demos are CC0 or CC BY images from Wikimedia Commons. Each one was cropped to 4:3, resized and converted to WebP.',
+    creditsPhotos: 'Food photos',
+    creditsIcons: 'Line icons',
+    creditsIconsBody: 'Line icons come from the suta icon set (layout-principles/assets/icons.ts), with paths from Lucide v0.469.0 (ISC License, Copyright (c) Lucide Contributors 2022; portions from Feather are MIT, Copyright (c) 2013-2022 Cole Bemis).',
+    creditsSource: 'Original',
   },
 } as const
 

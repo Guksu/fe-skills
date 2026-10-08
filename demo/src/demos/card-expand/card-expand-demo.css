@@ -1,5 +1,3 @@
-/* layout-audit-ignore-file: hue-count — 그림 상자 톤은 사진 자리(콘텐츠) 색이다 */
-/* layout-audit-ignore-file: tinted-surface — 같은 이유 */
 .ce-stage {
   display: flex;
   justify-content: center;
@@ -86,16 +84,15 @@
 
 .ce-card-media,
 .ce-detail-media {
-  display: grid;
-  place-items: center;
+  display: block;
   width: 100%;
-  background: var(--_tone, var(--accent-soft));
+  overflow: hidden;
+  background: var(--color-canvas);
 }
 
-/* 이모지는 글자가 아니라 사진 자리 그림이다 — 그래서 글자 토큰 대신 그림 크기로 정한다 */
+/* 사진 칸 — 카드는 낮게, 상세는 크게. 사진은 칸에 맞춰 잘라 채운다(.dish-photo) */
 .ce-card-media {
   height: 120px;
-  font-size: 48px;
 }
 
 .ce-card-text {
@@ -115,27 +112,9 @@
   font-size: var(--text-small);
 }
 
-/* 그림 상자 색 — 카드와 상세가 같은 톤을 써야 전환 중 배경이 튀지 않는다 */
-[data-tone='warm'] {
-  --_tone: linear-gradient(135deg, #f7d9a8, #f2b56b);
-}
-
-[data-tone='hot'] {
-  --_tone: linear-gradient(135deg, #f9b4a8, #ef6f5a);
-}
-
-[data-tone='cool'] {
-  --_tone: linear-gradient(135deg, #cfe3f6, #8fb9df);
-}
-
-[data-tone='green'] {
-  --_tone: linear-gradient(135deg, #d5ecc9, #93c98a);
-}
-
 /* 상세 */
 .ce-detail-media {
   height: 220px;
-  font-size: 96px;
 }
 
 .ce-detail-content {
