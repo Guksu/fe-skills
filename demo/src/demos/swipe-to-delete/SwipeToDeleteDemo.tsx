@@ -1,95 +1,166 @@
 import { useState, type CSSProperties } from 'react'
 import { SwipeToDelete } from '@skills/swipe-to-delete/assets/SwipeToDelete'
+import { defineCopy, useDemoLang } from '../../demoLang'
 import './swipe-to-delete-demo.css'
 
-type CartItem = { id: string; name: string; price: number }
-type Order = { id: string; title: string; date: string; total: number; later?: boolean }
+// 언어와 무관한 데이터(id·가격)는 밖에, 화면에 보이거나 읽히는 문구는 COPY 두 벌에 둔다
+const INITIAL = [
+  { id: 'myeolchi', price: 8000 },
+  { id: 'bibim', price: 9000 },
+  { id: 'deulkkae', price: 10000 },
+  { id: 'mandu', price: 7000 },
+] as const
 
-const INITIAL: CartItem[] = [
-  { id: 'myeolchi', name: '멸치국수', price: 8000 },
-  { id: 'bibim', name: '비빔국수', price: 9000 },
-  { id: 'deulkkae', name: '들깨칼국수', price: 10000 },
-  { id: 'mandu', name: '손만두 (6개)', price: 7000 },
-]
+const INITIAL_ORDERS = [
+  { id: 'o-0912', total: 23000, later: false },
+  { id: 'o-0905', total: 9000, later: false },
+  { id: 'o-0828', total: 11000, later: false },
+] as const
 
-const INITIAL_ORDERS: Order[] = [
-  { id: 'o-0912', title: '잔치국수 2 · 손만두 1', date: '9월 12일 · 성수점', total: 23000 },
-  { id: 'o-0905', title: '비빔국수 1', date: '9월 5일 · 성수점', total: 9000 },
-  { id: 'o-0828', title: '들깨칼국수 1 · 공깃밥 1', date: '8월 28일 · 포장', total: 11000 },
-]
+type CartItem = (typeof INITIAL)[number]
+type Order = { id: (typeof INITIAL_ORDERS)[number]['id']; total: number; later: boolean }
+type OrderLog = { kind: 'archive' | 'later' | 'unlater' | 'delete'; id: Order['id'] }
+
+const COPY = defineCopy({
+  ko: {
+    items: { myeolchi: '멸치국수', bibim: '비빔국수', deulkkae: '들깨칼국수', mandu: '손만두 (6개)' },
+    orders: {
+      'o-0912': { title: '잔치국수 2 · 손만두 1', date: '9월 12일 · 성수점' },
+      'o-0905': { title: '비빔국수 1', date: '9월 5일 · 성수점' },
+      'o-0828': { title: '들깨칼국수 1 · 공깃밥 1', date: '8월 28일 · 포장' },
+    },
+    price: (n: number) => `${n.toLocaleString('ko-KR')}원`,
+    controlsLabel: '제스처 옵션',
+    actionWidth: '액션 폭',
+    duration: '속도',
+    note: '행을 왼쪽으로 끌어 보세요 — 절반 이상 끌면 삭제 버튼이 열리고, 액션 폭의 2.5배 이상 끌거나 세게 튕기면 바로 삭제됩니다. 세로로 스크롤하면 행이 따라오지 않습니다(축 잠금). Tab으로 삭제 버튼에 가면 행이 열립니다. 아래 주문 내역은 액션이 세 개라 열림 폭이 액션 폭 × 3이고, 끝까지 밀면 마지막 액션(삭제)이 늘어나며 실행됩니다.',
+    cartTitle: '장바구니',
+    deleteLabel: '삭제',
+    cartEmpty: '장바구니가 비었습니다.',
+    cartSummary: ({ total, lastDeleted }: { total: string; lastDeleted?: string }) =>
+      `합계 ${total}${lastDeleted ? ` · 마지막 삭제: ${lastDeleted}` : ''}`,
+    refill: '다시 채우기',
+    ordersTitle: '주문 내역',
+    ordersSubtitle: '여러 액션 행 — 보관 · 나중에 · 삭제',
+    actions: { archive: '보관', later: '나중에', unlater: '해제', delete: '삭제' },
+    laterBadge: '나중에',
+    ordersEmpty: '주문 내역이 없습니다.',
+    orderLog: {
+      archive: (title: string) => `보관함으로 옮김: ${title}`,
+      later: (title: string) => `나중에 다시 주문: ${title}`,
+      unlater: (title: string) => `나중에 표시 해제: ${title}`,
+      delete: (title: string) => `삭제: ${title}`,
+    },
+    orderHint: '행을 밀어 세 액션을 열어 보세요',
+  },
+  en: {
+    items: {
+      myeolchi: 'Anchovy-broth noodles',
+      bibim: 'Spicy mixed noodles',
+      deulkkae: 'Perilla knife-cut noodles',
+      mandu: 'Handmade dumplings (6)',
+    },
+    orders: {
+      'o-0912': { title: 'Anchovy-broth noodles ×2 · Handmade dumplings ×1', date: 'Sep 12 · Seongsu-dong' },
+      'o-0905': { title: 'Spicy mixed noodles ×1', date: 'Sep 5 · Seongsu-dong' },
+      'o-0828': { title: 'Perilla knife-cut noodles ×1 · Rice ×1', date: 'Aug 28 · Takeout' },
+    },
+    price: (n: number) => `₩${n.toLocaleString('en-US')}`,
+    controlsLabel: 'Gesture options',
+    actionWidth: 'Action width',
+    duration: 'Speed',
+    note: 'Drag a row to the left. Past halfway, the delete button opens. Drag more than 2.5× the action width or flick hard, and the row is deleted right away. Scrolling vertically leaves the row in place (axis lock). Tab to the delete button and the row opens. The order history below has three actions, so it opens to the action width × 3. Swipe all the way and the last action (Delete) stretches and runs.',
+    cartTitle: 'Cart',
+    deleteLabel: 'Delete',
+    cartEmpty: 'Your cart is empty.',
+    cartSummary: ({ total, lastDeleted }: { total: string; lastDeleted?: string }) =>
+      `Total ${total}${lastDeleted ? ` · Last deleted: ${lastDeleted}` : ''}`,
+    refill: 'Refill',
+    ordersTitle: 'Order history',
+    ordersSubtitle: 'Multi-action rows: Archive · Later · Delete',
+    actions: { archive: 'Archive', later: 'Later', unlater: 'Unmark', delete: 'Delete' },
+    laterBadge: 'Later',
+    ordersEmpty: 'No orders yet.',
+    orderLog: {
+      archive: (title: string) => `Archived: ${title}`,
+      later: (title: string) => `Order again later: ${title}`,
+      unlater: (title: string) => `Unmarked later: ${title}`,
+      delete: (title: string) => `Deleted: ${title}`,
+    },
+    orderHint: 'Swipe a row to reveal three actions',
+  },
+})
 
 export const SwipeToDeleteDemo = () => {
-  const [items, setItems] = useState(INITIAL)
-  const [orders, setOrders] = useState(INITIAL_ORDERS)
+  const t = COPY[useDemoLang()]
+  const [items, setItems] = useState<readonly CartItem[]>(INITIAL)
+  const [orders, setOrders] = useState<Order[]>([...INITIAL_ORDERS])
   const [actionWidth, setActionWidth] = useState(88)
   const [durationMs, setDurationMs] = useState(260)
-  const [lastDeleted, setLastDeleted] = useState<string>()
-  const [orderLog, setOrderLog] = useState<string>()
+  // 문구 대신 id를 기억한다 — 언어를 바꿔도 마지막 삭제·주문 기록이 새 언어로 다시 그려진다
+  const [lastDeleted, setLastDeleted] = useState<CartItem['id']>()
+  const [orderLog, setOrderLog] = useState<OrderLog>()
 
   const vars = { '--swipe-duration': `${durationMs}ms`, '--swipe-bg': 'var(--surface)' } as CSSProperties
   const total = items.reduce((sum, item) => sum + item.price, 0)
 
   const remove = (item: CartItem) => {
     setItems((prev) => prev.filter((cartItem) => cartItem.id !== item.id))
-    setLastDeleted(item.name)
+    setLastDeleted(item.id)
   }
 
   // 여러 액션 행 — 보관·나중에는 즉시 처리(행 유지 또는 제거), 삭제는 마지막 액션이라 접힘 뒤에 불린다
   const archiveOrder = (order: Order) => {
     setOrders((prev) => prev.filter((candidate) => candidate.id !== order.id))
-    setOrderLog(`보관함으로 옮김: ${order.title}`)
+    setOrderLog({ kind: 'archive', id: order.id })
   }
   const markLater = (order: Order) => {
     setOrders((prev) => prev.map((candidate) => (candidate.id === order.id ? { ...candidate, later: !candidate.later } : candidate)))
-    setOrderLog(`${order.later ? '나중에 표시 해제' : '나중에 다시 주문'}: ${order.title}`)
+    setOrderLog({ kind: order.later ? 'unlater' : 'later', id: order.id })
   }
   const deleteOrder = (order: Order) => {
     setOrders((prev) => prev.filter((candidate) => candidate.id !== order.id))
-    setOrderLog(`삭제: ${order.title}`)
+    setOrderLog({ kind: 'delete', id: order.id })
   }
 
   return (
     <div className="playground">
-      <section className="controls" aria-label="제스처 옵션">
+      <section className="controls" aria-label={t.controlsLabel}>
         <label>
           <span>
-            액션 폭 <code>actionWidth</code>
+            {t.actionWidth} <code>actionWidth</code>
           </span>
           <input type="range" min={64} max={140} step={4} value={actionWidth} onChange={(e) => setActionWidth(Number(e.target.value))} />
           <output>{actionWidth}px</output>
         </label>
         <label>
           <span>
-            속도 <code>--swipe-duration</code>
+            {t.duration} <code>--swipe-duration</code>
           </span>
           <input type="range" min={100} max={600} step={20} value={durationMs} onChange={(e) => setDurationMs(Number(e.target.value))} />
           <output>{durationMs}ms</output>
         </label>
-        <p className="controls-note">
-          행을 왼쪽으로 끌어 보세요 — 절반 이상 끌면 삭제 버튼이 열리고, 액션 폭의 2.5배 이상 끌거나 세게 튕기면 바로
-          삭제됩니다. 세로로 스크롤하면 행이 따라오지 않습니다(축 잠금). Tab으로 삭제 버튼에 가면 행이 열립니다.
-          아래 주문 내역은 액션이 세 개라 열림 폭이 액션 폭 × 3이고, 끝까지 밀면 마지막 액션(삭제)이 늘어나며 실행됩니다.
-        </p>
+        <p className="controls-note">{t.note}</p>
       </section>
 
       <div className="swipe-stage" style={vars}>
-        <h2 className="swipe-stage-title">장바구니</h2>
+        <h2 className="swipe-stage-title">{t.cartTitle}</h2>
         <ul className="swipe-list">
           {items.map((item) => (
             <li key={item.id}>
-              <SwipeToDelete onDelete={() => remove(item)} actionWidth={actionWidth}>
+              <SwipeToDelete onDelete={() => remove(item)} actionWidth={actionWidth} actionLabel={t.deleteLabel}>
                 <div className="cart-row">
-                  <span className="cart-row-name">{item.name}</span>
-                  <span className="cart-row-price">{item.price.toLocaleString('ko-KR')}원</span>
+                  <span className="cart-row-name">{t.items[item.id]}</span>
+                  <span className="cart-row-price">{t.price(item.price)}</span>
                 </div>
               </SwipeToDelete>
             </li>
           ))}
         </ul>
-        {items.length === 0 && <p className="swipe-empty">장바구니가 비었습니다.</p>}
+        {items.length === 0 && <p className="swipe-empty">{t.cartEmpty}</p>}
         <div className="swipe-footer">
           <span aria-live="polite">
-            합계 {total.toLocaleString('ko-KR')}원{lastDeleted ? ` · 마지막 삭제: ${lastDeleted}` : ''}
+            {t.cartSummary({ total: t.price(total), lastDeleted: lastDeleted && t.items[lastDeleted] })}
           </span>
           <button
             type="button"
@@ -98,14 +169,15 @@ export const SwipeToDeleteDemo = () => {
               setLastDeleted(undefined)
             }}
           >
-            다시 채우기
+            {t.refill}
           </button>
         </div>
       </div>
 
       <div className="swipe-stage" style={vars}>
         <h2 className="swipe-stage-title">
-          주문 내역<small>여러 액션 행 — 보관 · 나중에 · 삭제</small>
+          {t.ordersTitle}
+          <small>{t.ordersSubtitle}</small>
         </h2>
         <ul className="swipe-list">
           {orders.map((order) => (
@@ -113,36 +185,36 @@ export const SwipeToDeleteDemo = () => {
               <SwipeToDelete
                 actionWidth={actionWidth}
                 actions={[
-                  { label: '보관', onClick: () => archiveOrder(order) },
-                  { label: order.later ? '해제' : '나중에', onClick: () => markLater(order), tone: 'accent' },
-                  { label: '삭제', onClick: () => deleteOrder(order), tone: 'danger' },
+                  { label: t.actions.archive, onClick: () => archiveOrder(order) },
+                  { label: order.later ? t.actions.unlater : t.actions.later, onClick: () => markLater(order), tone: 'accent' },
+                  { label: t.actions.delete, onClick: () => deleteOrder(order), tone: 'danger' },
                 ]}
               >
                 <div className="order-row">
                   <div className="order-row-title">
                     <span>
-                      {order.title}
-                      {order.later && <span className="order-row-badge">나중에</span>}
+                      {t.orders[order.id].title}
+                      {order.later && <span className="order-row-badge">{t.laterBadge}</span>}
                     </span>
-                    <span className="cart-row-price">{order.total.toLocaleString('ko-KR')}원</span>
+                    <span className="cart-row-price">{t.price(order.total)}</span>
                   </div>
-                  <span className="order-row-meta">{order.date}</span>
+                  <span className="order-row-meta">{t.orders[order.id].date}</span>
                 </div>
               </SwipeToDelete>
             </li>
           ))}
         </ul>
-        {orders.length === 0 && <p className="swipe-empty">주문 내역이 없습니다.</p>}
+        {orders.length === 0 && <p className="swipe-empty">{t.ordersEmpty}</p>}
         <div className="swipe-footer">
-          <span aria-live="polite">{orderLog ?? '행을 밀어 세 액션을 열어 보세요'}</span>
+          <span aria-live="polite">{orderLog ? t.orderLog[orderLog.kind](t.orders[orderLog.id].title) : t.orderHint}</span>
           <button
             type="button"
             onClick={() => {
-              setOrders(INITIAL_ORDERS)
+              setOrders([...INITIAL_ORDERS])
               setOrderLog(undefined)
             }}
           >
-            다시 채우기
+            {t.refill}
           </button>
         </div>
       </div>

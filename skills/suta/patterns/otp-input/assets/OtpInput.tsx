@@ -23,8 +23,12 @@ type OtpInputProps = {
   disabled?: boolean
   /** 스크린 리더가 읽을 그룹 이름 */
   label?: string
+  /** 칸마다 읽힐 이름 — position은 1부터 센다. 기본 "{label} {position}번째 자리" */
+  digitLabel?: ({ label, position }: { label: string; position: number }) => string
   ref?: Ref<OtpHandle>
 }
+
+const defaultDigitLabel = ({ label, position }: { label: string; position: number }) => `${label} ${position}번째 자리`
 
 /**
  * 인증번호 입력 — 포커스 이동·붙여넣기 분배는 createOtpInput이, 모양은 CSS가 담당한다.
@@ -42,6 +46,7 @@ export const OtpInput = ({
   autoFocus = true,
   disabled = false,
   label = '인증번호',
+  digitLabel = defaultDigitLabel,
   ref,
 }: OtpInputProps) => {
   const groupRef = useRef<HTMLDivElement>(null)
@@ -97,7 +102,7 @@ export const OtpInput = ({
           autoComplete={index === 0 ? 'one-time-code' : 'off'}
           maxLength={1}
           disabled={disabled}
-          aria-label={`${label} ${index + 1}번째 자리`}
+          aria-label={digitLabel({ label, position: index + 1 })}
           data-filled={index < filled ? 'true' : 'false'}
         />
       ))}

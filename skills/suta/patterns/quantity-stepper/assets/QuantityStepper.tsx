@@ -16,6 +16,20 @@ type QuantityStepperProps = {
    */
   onBelowMin?: () => void
   disabled?: boolean
+  /** − / + 버튼의 이름 — 그룹 이름(label)을 받아 만든다. 기본은 "{label} 줄이기·삭제·늘리기" */
+  buttonLabels?: StepperButtonLabels
+}
+
+type StepperButtonLabels = {
+  decrease: (label: string) => string
+  remove: (label: string) => string
+  increase: (label: string) => string
+}
+
+const DEFAULT_BUTTON_LABELS: StepperButtonLabels = {
+  decrease: (label) => `${label} 줄이기`,
+  remove: (label) => `${label} 삭제`,
+  increase: (label) => `${label} 늘리기`,
 }
 
 /** 소수 눈금(0.5 등)에서 부동소수 오차가 남지 않게 */
@@ -36,6 +50,7 @@ export const QuantityStepper = ({
   label = '수량',
   onBelowMin,
   disabled = false,
+  buttonLabels = DEFAULT_BUTTON_LABELS,
 }: QuantityStepperProps) => {
   const [draft, setDraft] = useState<string>()
   const inputRef = useRef<HTMLInputElement>(null)
@@ -153,7 +168,7 @@ export const QuantityStepper = ({
 
   return (
     <div className="qty" role="group" aria-label={label} data-disabled={disabled ? 'true' : undefined}>
-      <button {...buttonProps(-step)} aria-label={deleteAtMin ? `${label} 삭제` : `${label} 줄이기`}>
+      <button {...buttonProps(-step)} aria-label={deleteAtMin ? buttonLabels.remove(label) : buttonLabels.decrease(label)}>
         {deleteAtMin ? (
           // 삭제는 휴지통 선 아이콘(layout-principles 아이콘 한 벌의 trash와 같은 Lucide 경로) — 이모지는 기기마다 모양·색이 달라 버튼 한 벌이 어긋난다
           <svg className="qty-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
@@ -193,7 +208,7 @@ export const QuantityStepper = ({
         }}
       />
 
-      <button {...buttonProps(step)} aria-label={`${label} 늘리기`}>
+      <button {...buttonProps(step)} aria-label={buttonLabels.increase(label)}>
         +
       </button>
     </div>

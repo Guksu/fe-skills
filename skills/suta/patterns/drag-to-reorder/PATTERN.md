@@ -108,6 +108,7 @@ createDragReorder({
 | 비켜 주기·정착 속도 | `settleMs` + CSS `--reorder-duration` (같이 맞춘다) | 200ms |
 | 들어올린 그림자 | `--reorder-lift-shadow` | 0 12px 28px rgb(0 0 0 / 0.28) |
 | 손잡이 색 | `--reorder-handle-color` | 회색 |
+| 화면 낭독 문구 | `messages` — `{ moved({ name, to, total }), handle(label) }`. `to`는 1부터 | 한국어 |
 
 ## 주의사항
 

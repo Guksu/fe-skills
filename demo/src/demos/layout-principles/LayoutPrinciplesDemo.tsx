@@ -3,24 +3,375 @@ import { GAP, RADIUS, SPACE, TEXT, WEIGHT, groupGapOk } from '@skills/layout-pri
 import { Icon as LineIcon } from '@skills/layout-principles/assets/Icon'
 import { photoSrc } from '../../shared/dishes'
 import '@skills/layout-principles/assets/layout-tokens.css'
+import { defineCopy, useDemoLang } from '../../demoLang'
 import './layout-principles-demo.css'
 import './layout-principles-before.css'
 
 type View = 'both' | 'before' | 'after'
 
-const VIEW_LABEL: Record<View, string> = {
-  both: '나란히 비교',
-  before: '고치기 전만',
-  after: '고친 뒤만',
-}
+// 언어와 무관한 데이터(id·금액)는 밖에, 화면에 보이거나 읽히는 문구는 COPY 두 벌에 둔다
+const VIEWS: View[] = ['both', 'before', 'after']
 
 const ORDER = [
-  { name: '잔치국수', option: '보통 · 김치 추가', price: 8000 },
-  { name: '비빔국수', option: '곱빼기 · 덜 맵게', price: 9500 },
-  { name: '손만두', option: '6개', price: 6000 },
-]
-const won = (amount: number) => `${amount.toLocaleString('ko-KR')}원`
+  { id: 'janchi', price: 8000 },
+  { id: 'bibim', price: 9500 },
+  { id: 'mandu', price: 6000 },
+] as const
 const ORDER_TOTAL = ORDER.reduce((sum, item) => sum + item.price, 0)
+
+const PAY = [
+  { id: 'order', amount: ORDER_TOTAL },
+  { id: 'takeout', amount: -1000 },
+  { id: 'coupon', amount: -2000 },
+] as const
+const PAY_TOTAL = PAY.reduce((sum, row) => sum + row.amount, 0)
+
+const MENU_PRICE = 11000
+const TODAY_PRICE = 8000
+
+// 고른 맛은 id로 들고 있어야 언어를 바꿔도 선택이 유지된다
+const SPICE = ['mild', 'medium', 'hot'] as const
+type Spice = (typeof SPICE)[number]
+
+const NOTICES = ['cook', 'event'] as const
+
+type ExampleId = 'order' | 'intro' | 'pay' | 'menu' | 'photo' | 'detail' | 'settings' | 'login' | 'chat'
+type ExampleCopy = { title: string; principle: string; before: string; after: string }
+
+const COPY = defineCopy({
+  ko: {
+    view: { both: '나란히 비교', before: '고치기 전만', after: '고친 뒤만' } as Record<View, string>,
+    won: (amount: number) => `${amount.toLocaleString('ko-KR')}원`,
+    orderTitle: '주문 내역',
+    order: {
+      janchi: { name: '잔치국수', option: '보통 · 김치 추가' },
+      bibim: { name: '비빔국수', option: '곱빼기 · 덜 맵게' },
+      mandu: { name: '손만두', option: '6개' },
+    },
+    total: '합계',
+    intro: '멸치와 다시마로 여섯 시간 우린 국물에 손으로 뽑은 중면을 말았습니다. 고명은 그날 들어온 애호박과 달걀지단만 올립니다.',
+    shopName: '성수동 골목 국수집',
+    hours: '영업시간 11:00–21:00',
+    address: '성수동 2가 골목 안',
+    viewMenu: '메뉴 보기',
+    pay: { order: '주문 금액', takeout: '포장 할인', coupon: '쿠폰' },
+    payBeforeTotal: (amount: string) => `총 결제 금액은 ${amount}입니다`,
+    payKey: '결제할 금액',
+    menuName: '들깨칼국수',
+    menuDesc: '고소한 들깨 국물에 직접 민 칼국수',
+    pillPopular: '인기',
+    pillNew: 'NEW',
+    pillPick: '추천',
+    add: '담기',
+    orderNow: '바로 주문',
+    details: '자세히',
+    tags: '인기 · 새 메뉴',
+    todayTitle: '오늘의 국수',
+    todayAlt: '잔치국수 한 그릇',
+    todayDish: (price: string) => `잔치국수 ${price}`,
+    spice: { mild: '순한 맛', medium: '보통', hot: '매운맛' } as Record<Spice, string>,
+    detailBeforeLabel: '고치기 전 메뉴 상세 — 스크롤 영역',
+    detailAfterLabel: '고친 뒤 메뉴 상세 — 스크롤 영역',
+    detailAlt: '들깨칼국수 한 그릇',
+    save: '찜',
+    spiceChoose: '맵기 선택',
+    spiceLegend: '맵기',
+    detailDesc: '고소한 들깨 국물에 직접 민 칼국수. 들깨는 그날 아침에 갈아 넣습니다.',
+    saveAction: '찜하기',
+    addFor: (price: string) => `${price} 담기`,
+    notices: {
+      cook: { label: '조리 시작 알림', desc: '주문한 국수를 삶기 시작하면 알려 드려요' },
+      event: { label: '새 메뉴·쿠폰 소식', desc: '한 달에 한두 번 보내요' },
+    },
+    settings: '설정',
+    notification: '알림',
+    account: '계정',
+    logout: '로그아웃',
+    deleteAccount: '회원 탈퇴',
+    screen: '화면',
+    textSize: '글자 크기',
+    textSizeValue: '보통',
+    login: '로그인',
+    email: '이메일',
+    password: '비밀번호',
+    passwordHint: '8자 이상',
+    forgotPassword: '비밀번호 찾기',
+    socialChatBefore: '카카오로 계속하기',
+    socialPortalBefore: '네이버로 계속하기',
+    loginWelcome: '성수 국수집에 다시 오셨네요',
+    signUp: '회원가입',
+    otherLogin: '다른 방법으로 로그인',
+    socialChat: '카카오로 시작하기',
+    socialPortal: '네이버로 시작하기',
+    chatQuestion: '비 오는 날 어울리는 국수 추천해줘',
+    chatAnswer: ['비 오는 날에는 뜨끈한 국물이 좋아요.', '칼국수는 바지락 국물이 진하고, 잔치국수는 멸치 국물이 맑아요. 손만두를 곁들이면 한 끼로 넉넉해요.'],
+    chatHelper: '국수 추천 도우미',
+    chatMode: '추천 모드',
+    chatContext: '성수 국수집 · 메뉴판 12개',
+    chatTodayMenu: '오늘의 메뉴판',
+    chatAssistant: '도우미',
+    chatDone: '완료',
+    chatBusyBefore: '요청이 많아 잠시 후 다시 시도해 주세요.',
+    retry: '다시 시도',
+    chips: ['맵지 않은 거', '곱빼기', '포장'],
+    chatPlaceholderBefore: '메시지를 입력하세요',
+    pickMenu: '메뉴 고르기',
+    chatModel: '국수 도우미',
+    newChat: '새 대화',
+    history: '기록',
+    copyAnswer: '답변 복사',
+    regenerate: '다시 생성',
+    sources: '메뉴판 근거 2곳',
+    chatBusy: '요청이 많아 답하지 못했어요.',
+    detach: '빼기',
+    question: '질문',
+    chatPlaceholder: '무엇을 드시고 싶으세요?',
+    attach: '자료 첨부',
+    send: '보내기',
+    examples: {
+      order: {
+        title: '① 주문 내역',
+        principle: 'P5 상자는 마지막 수단 · P4 간격으로 묶는다',
+        before: '항목마다 카드, 카드 안에 또 상자. 간격이 모두 같고 전부 굵다.',
+        after: '선 한 줄로 행을 나누고, 이름과 옵션은 8px로 붙인다. 금액은 오른쪽 한 열.',
+      },
+      intro: {
+        title: '② 가게 소개',
+        principle: 'P6 정렬선 하나 · P8 빈 곳은 의도로만',
+        before: '여러 줄 문단까지 가운데 정렬. 줄마다 시작점이 달라 시선이 지그재그로 움직인다.',
+        after: '왼쪽 선 하나에서 시작한다. 짧은 정보는 한 줄로 모으고 세로선 하나로 나눈다.',
+      },
+      pay: {
+        title: '③ 결제 요약',
+        principle: 'P2 위계는 크기·굵기·농도로 · P6 숫자는 오른쪽 한 열',
+        before: '핵심 금액이 문장 속에 있고, 라벨과 숫자가 같은 크기·같은 굵기다.',
+        after: '금액은 자기 줄에 라벨의 2배 이상으로. 내역은 오른쪽 정렬과 같은 폭 숫자로 위아래 비교.',
+      },
+      menu: {
+        title: '④ 메뉴 카드',
+        principle: 'P3 강조는 한두 곳에만',
+        before: '그라데이션 글자, 색 배지 셋, 채운 버튼 둘, 빛나는 그림자 — 강조가 서로 시선을 나눈다.',
+        after: '채운 버튼은 주 행동 하나. 배지는 회색 글자, 보조 행동은 글자 링크.',
+      },
+      photo: {
+        title: '⑤ 오늘의 국수',
+        principle: 'P9 사진은 가리지 않고 비율을 지킨다',
+        before: '사진을 틀에 맞춰 늘이고(찌그러짐), 무늬 위에 글자를 바로 얹었다.',
+        after: '4:3 틀에 잘라 채우고(object-fit: cover), 글자는 사진 아래로 뺐다.',
+      },
+      detail: {
+        title: '⑥ 메뉴 상세',
+        principle: 'P11 익숙한 구조 · P3 강조는 한 곳 — 상세 화면의 관례',
+        before: '담기·바로 주문·찜이 모두 채운 버튼으로 내용 중간에 있다. 스크롤하면 사라지고, 가격은 작은 회색 글자다.',
+        after: '사진 → 이름 → 가격 → 옵션 순. 행동은 화면 아래에 고정한 바 하나에 모으고, 채운 버튼은 담기 하나다. 바 아래에는 홈 표시줄 높이(안전 영역)를 더한다.',
+      },
+      settings: {
+        title: '⑦ 설정',
+        principle: 'P5 면은 톤 차이로 · P2 글자 색 세 단계 · P3 강조색 하나',
+        before: '흰 바탕에 테두리·그림자 카드를 겹치고, 이름과 설명이 같은 연회색이다. 강조색은 기본 파랑이고 채운 버튼이 둘이다.',
+        after: '옅은 바탕 위 흰 묶음(테두리·그림자 없음). 구역 이름은 묶음 밖 위에 옅게, 항목 이름은 진하게, 설명은 한 단계 옅게. 강조색은 켜진 스위치에만 쓰고, 탈퇴는 옅은 글자 링크로 낮춘다.',
+      },
+      login: {
+        title: '⑧ 로그인',
+        principle: 'P3 강조색 하나를 이어 쓴다 · P11 외부 서비스 버튼은 그 서비스의 색',
+        before: '기본 파랑 버튼, 굵은 라벨, 같은 흰 윤곽선 소셜 버튼. 비밀번호 찾기는 링크로 보이지 않는 회색 글자다.',
+        after: '서비스의 강조색 하나로 주 버튼을 채운다. 링크는 밑줄로 링크답게, 소셜 버튼은 그 서비스의 색과 로고(카카오 노랑, 네이버 로고)를 같은 높이로.',
+      },
+      chat: {
+        title: '⑨ AI 채팅',
+        principle: 'P1 정보는 한 곳 · P3 색은 강조색 하나 · P11 범용 채팅 화면의 관례',
+        before: '머리 아래에 사이트·대상 줄을 쌓고, 같은 대상을 입력창에 또 보인다. 상태마다 노랑·초록 알약, 오류는 분홍 상자, 보조 버튼은 회색 채움 알약이다.',
+        after: '머리 한 줄(모델·새 대화·기록). 내 말은 회색 말풍선, 답변은 말풍선 없는 본문과 무채색 아이콘 한 줄. 첨부는 입력창 안 한 곳, 오류는 그 자리 글자 + 다시 시도. 채운 버튼은 보내기 하나다.',
+      },
+    } as Record<ExampleId, ExampleCopy>,
+    paneBefore: '고치기 전',
+    paneAfter: '고친 뒤',
+    controlsLabel: '비교 옵션',
+    viewLabel: '보기',
+    note: (
+      <>
+        왼쪽은 AI가 흔히 만드는 모습, 오른쪽은 원칙대로 고친 모습입니다. 고친 쪽은 숫자 대신 토큰(<code>--gap-item</code>·
+        <code>--text-display</code>·<code>--radius-card</code> 등)만 씁니다. 레이아웃은 꾸미는 일이 아니라 순서를 정하는 일입니다.
+      </>
+    ) as ReactNode,
+    tokensTitle: '토큰 한 벌',
+    groupRule: ({ inside, between, ok }: { inside: number; between: number; ok: boolean }) =>
+      `묶음 안 ${inside}px ≤ 묶음 사이 ${between}px의 절반 — ${ok ? '간격만으로 묶음이 보인다' : '묶음이 안 보인다'}`,
+    spaceTitle: '간격 --space-*',
+    textTitle: '글자 --text-*',
+    textSample: '국수',
+    weightRadiusTitle: '굵기 --weight-* · 반경 --radius-*',
+    weightSample: '칼국수',
+  },
+  en: {
+    view: { both: 'Side by side', before: 'Before only', after: 'After only' },
+    // 음수 금액은 기호를 ₩ 앞에 둔다(-₩1,000)
+    won: (amount: number) => `${amount < 0 ? '-' : ''}₩${Math.abs(amount).toLocaleString('en-US')}`,
+    orderTitle: 'Your order',
+    order: {
+      janchi: { name: 'Anchovy-broth noodles', option: 'Regular · Extra kimchi' },
+      bibim: { name: 'Spicy mixed noodles', option: 'Large · Less spicy' },
+      mandu: { name: 'Handmade dumplings', option: '6 pieces' },
+    },
+    total: 'Total',
+    intro: 'Anchovy and kelp broth simmered for six hours, poured over hand-pulled medium wheat noodles. Topped only with that day’s zucchini and thin egg strips.',
+    shopName: 'Seongsu-dong Alley Noodle House',
+    hours: 'Open 11:00–21:00',
+    address: 'Down an alley, Seongsu-dong 2-ga',
+    viewMenu: 'See menu',
+    pay: { order: 'Subtotal', takeout: 'Takeout discount', coupon: 'Coupon' },
+    payBeforeTotal: (amount: string) => `Your total payment is ${amount}`,
+    payKey: 'Total to pay',
+    menuName: 'Perilla knife-cut noodles',
+    menuDesc: 'Hand-rolled knife-cut noodles in nutty perilla broth',
+    pillPopular: 'Popular',
+    pillNew: 'NEW',
+    pillPick: 'Top pick',
+    add: 'Add',
+    orderNow: 'Order now',
+    details: 'Details',
+    tags: 'Popular · New',
+    todayTitle: 'Today’s noodles',
+    todayAlt: 'A bowl of anchovy-broth noodles',
+    todayDish: (price: string) => `Anchovy-broth noodles ${price}`,
+    spice: { mild: 'Mild', medium: 'Medium', hot: 'Hot' },
+    detailBeforeLabel: 'Before: menu detail, scrollable',
+    detailAfterLabel: 'After: menu detail, scrollable',
+    detailAlt: 'A bowl of perilla knife-cut noodles',
+    save: 'Save',
+    spiceChoose: 'Choose spice level',
+    spiceLegend: 'Spice level',
+    detailDesc: 'Hand-rolled knife-cut noodles in nutty perilla broth. We grind the perilla seeds fresh every morning.',
+    saveAction: 'Save',
+    addFor: (price: string) => `Add for ${price}`,
+    notices: {
+      cook: { label: 'Cooking started', desc: 'We’ll tell you when your noodles go in the pot' },
+      event: { label: 'New menu and coupons', desc: 'Once or twice a month' },
+    },
+    settings: 'Settings',
+    notification: 'Notifications',
+    account: 'Account',
+    logout: 'Log out',
+    deleteAccount: 'Delete account',
+    screen: 'Display',
+    textSize: 'Text size',
+    textSizeValue: 'Medium',
+    login: 'Log in',
+    email: 'Email',
+    password: 'Password',
+    passwordHint: 'At least 8 characters',
+    forgotPassword: 'Forgot password',
+    socialChatBefore: 'Continue with Kakao',
+    socialPortalBefore: 'Continue with Naver',
+    loginWelcome: 'Welcome back to Seongsu Noodle House',
+    signUp: 'Sign up',
+    otherLogin: 'Or log in with',
+    socialChat: 'Continue with Kakao',
+    socialPortal: 'Continue with Naver',
+    chatQuestion: 'Recommend noodles for a rainy day',
+    chatAnswer: ['A hot broth is best on a rainy day.', 'Knife-cut noodles come in a rich clam broth, and anchovy-broth noodles in a clear one. Add handmade dumplings for a filling meal.'],
+    chatHelper: 'Noodle advisor',
+    chatMode: 'Advice mode',
+    chatContext: 'Seongsu Noodle House · 12 menu items',
+    chatTodayMenu: 'Today’s menu',
+    chatAssistant: 'Advisor',
+    chatDone: 'Done',
+    chatBusyBefore: 'Too many requests. Please try again later.',
+    retry: 'Try again',
+    chips: ['Not spicy', 'Large', 'Takeout'],
+    chatPlaceholderBefore: 'Type a message',
+    pickMenu: 'Pick a dish',
+    chatModel: 'Noodle advisor',
+    newChat: 'New chat',
+    history: 'History',
+    copyAnswer: 'Copy answer',
+    regenerate: 'Regenerate',
+    sources: '2 menu sources',
+    chatBusy: 'Too many requests, so I couldn’t answer.',
+    detach: 'Remove',
+    question: 'Question',
+    chatPlaceholder: 'What would you like to eat?',
+    attach: 'Attach file',
+    send: 'Send',
+    examples: {
+      order: {
+        title: '① Your order',
+        principle: 'P5 Boxes are the last resort · P4 Group with spacing',
+        before: 'A card for every item, and another box inside each card. Every gap is the same and everything is bold.',
+        after: 'One line divides the rows, and each name sits 8px above its options. Amounts form one column on the right.',
+      },
+      intro: {
+        title: '② About the shop',
+        principle: 'P6 One alignment line · P8 Empty space only on purpose',
+        before: 'Even the multi-line paragraph is centered. Every line starts at a different point, so the eye zigzags.',
+        after: 'Everything starts from one left edge. Short facts share one line, split by a single vertical rule.',
+      },
+      pay: {
+        title: '③ Payment summary',
+        principle: 'P2 Hierarchy through size, weight and shade · P6 Numbers in one right column',
+        before: 'The key amount is buried in a sentence, and labels and numbers share the same size and weight.',
+        after: 'The amount gets its own line, at least twice the label size. The breakdown is right-aligned with fixed-width digits, so values compare top to bottom.',
+      },
+      menu: {
+        title: '④ Menu card',
+        principle: 'P3 Accent in only one or two places',
+        before: 'Gradient text, three colored badges, two filled buttons and a glowing shadow. The accents fight for attention.',
+        after: 'One filled button for the main action. Badges become gray text, and the secondary action is a text link.',
+      },
+      photo: {
+        title: '⑤ Today’s noodles',
+        principle: 'P9 Don’t cover photos, keep their ratio',
+        before: 'The photo is stretched to fit the frame (distorted), and text sits right on the busy pattern.',
+        after: 'The photo is cropped to fill a 4:3 frame (object-fit: cover), and the text moves below it.',
+      },
+      detail: {
+        title: '⑥ Menu detail',
+        principle: 'P11 Familiar structure · P3 One accent: the detail screen convention',
+        before: 'Add, Order now and Save are all filled buttons in the middle of the content. They scroll away, and the price is small gray text.',
+        after: 'Photo, name, price, then options. Actions sit in one bar fixed to the bottom, and Add is the only filled button. The bar adds the home indicator height (safe area) below it.',
+      },
+      settings: {
+        title: '⑦ Settings',
+        principle: 'P5 Surfaces by tone · P2 Three text shades · P3 One accent color',
+        before: 'Cards with borders and shadows stack on white, and names and descriptions share the same light gray. The accent is default blue, with two filled buttons.',
+        after: 'White groups on a pale background, with no borders or shadows. Section names sit faintly above each group, item names are dark, and descriptions are one step lighter. The accent appears only on switches that are on, and Delete account drops to a faint text link.',
+      },
+      login: {
+        title: '⑧ Log in',
+        principle: 'P3 Carry one accent color · P11 Third-party buttons wear their own color',
+        before: 'Default blue button, bold labels and identical white outlined social buttons. Forgot password is gray text that doesn’t look like a link.',
+        after: 'The main button uses the service’s one accent color. Links are underlined so they read as links. Social buttons use each provider’s own color and logo (Kakao’s yellow, Naver’s logo) at the same height.',
+      },
+      chat: {
+        title: '⑨ AI chat',
+        principle: 'P1 Info in one place · P3 One accent color · P11 The common chat screen convention',
+        before: 'Site and context rows pile up under the header, and the same context shows again in the input. Every status gets a yellow or green pill, errors get a pink box, and secondary buttons are gray filled pills.',
+        after: 'A one-line header (model, new chat, history). Your messages are gray bubbles, and answers are plain text with one row of neutral icons. Attachments live in one place inside the input, and an error is text in place plus Try again. Send is the only filled button.',
+      },
+    },
+    paneBefore: 'Before',
+    paneAfter: 'After',
+    controlsLabel: 'Comparison options',
+    viewLabel: 'View',
+    note: (
+      <>
+        Left is what AI tends to make. Right is the same screen fixed by the principles, using only tokens (<code>--gap-item</code>,{' '}
+        <code>--text-display</code>, <code>--radius-card</code> and more) instead of raw numbers. Layout is not decoration. It is deciding what comes first.
+      </>
+    ),
+    tokensTitle: 'One token set',
+    groupRule: ({ inside, between, ok }: { inside: number; between: number; ok: boolean }) =>
+      `${inside}px inside a group ≤ half of ${between}px between groups: ${ok ? 'spacing alone shows the groups' : 'the groups do not show'}`,
+    spaceTitle: 'Spacing --space-*',
+    textTitle: 'Text --text-*',
+    // 가장 큰 견본(40px)이 견본 칸을 넘지 않게 짧은 글자로 보인다
+    textSample: 'Aa',
+    weightRadiusTitle: 'Weight --weight-* · Radius --radius-*',
+    weightSample: 'Noodles',
+  },
+})
+
+const useCopy = () => COPY[useDemoLang()]
 
 /* 사진 위 글자 비교에는 무늬가 많은 실제 음식 사진을 쓴다 — 사진 위에 바로 얹은 글자가 왜 안 읽히는지 보인다 */
 const PHOTO = photoSrc('janchi')
@@ -28,232 +379,257 @@ const DETAIL_PHOTO = photoSrc('deulkkae')
 
 /* ---- ① 주문 내역 — 상자 대신 간격(P5·P4) ---- */
 
-const OrderBefore = () => (
-  <div className="lp-b-stack">
-    <p className="lp-b-title">주문 내역</p>
-    {ORDER.map((item) => (
-      <div key={item.name} className="lp-b-card">
-        <p className="lp-b-strong">{item.name}</p>
-        <p className="lp-b-strong">{item.option}</p>
-        {/* layout-audit-ignore: nested-card — 고치기 전 예시: 카드 안에 상자를 또 넣은 모습 */}
-        <div className="lp-b-inner-box">{won(item.price)}</div>
-      </div>
-    ))}
-    <div className="lp-b-card">
-      {/* layout-audit-ignore: nested-card — 고치기 전 예시 */}
-      <div className="lp-b-inner-box">합계 {won(ORDER_TOTAL)}</div>
-    </div>
-  </div>
-)
-
-const OrderAfter = () => (
-  <div className="lp-a-order">
-    <p className="lp-a-title">주문 내역</p>
-    <ul className="lp-a-rows">
+const OrderBefore = () => {
+  const t = useCopy()
+  return (
+    <div className="lp-b-stack">
+      <p className="lp-b-title">{t.orderTitle}</p>
       {ORDER.map((item) => (
-        <li key={item.name} className="lp-a-row">
-          <div className="lp-a-row-text">
-            <span className="lp-a-name">{item.name}</span>
-            <span className="lp-a-sub">{item.option}</span>
-          </div>
-          <span className="lp-a-amount">{won(item.price)}</span>
-        </li>
+        <div key={item.id} className="lp-b-card">
+          <p className="lp-b-strong">{t.order[item.id].name}</p>
+          <p className="lp-b-strong">{t.order[item.id].option}</p>
+          {/* layout-audit-ignore: nested-card — 고치기 전 예시: 카드 안에 상자를 또 넣은 모습 */}
+          <div className="lp-b-inner-box">{t.won(item.price)}</div>
+        </div>
       ))}
-    </ul>
-    <div className="lp-a-total">
-      <span>합계</span>
-      <span className="lp-a-amount">{won(ORDER_TOTAL)}</span>
+      <div className="lp-b-card">
+        {/* layout-audit-ignore: nested-card — 고치기 전 예시 */}
+        <div className="lp-b-inner-box">
+          {t.total} {t.won(ORDER_TOTAL)}
+        </div>
+      </div>
     </div>
-  </div>
-)
+  )
+}
+
+const OrderAfter = () => {
+  const t = useCopy()
+  return (
+    <div className="lp-a-order">
+      <p className="lp-a-title">{t.orderTitle}</p>
+      <ul className="lp-a-rows">
+        {ORDER.map((item) => (
+          <li key={item.id} className="lp-a-row">
+            <div className="lp-a-row-text">
+              <span className="lp-a-name">{t.order[item.id].name}</span>
+              <span className="lp-a-sub">{t.order[item.id].option}</span>
+            </div>
+            <span className="lp-a-amount">{t.won(item.price)}</span>
+          </li>
+        ))}
+      </ul>
+      <div className="lp-a-total">
+        <span>{t.total}</span>
+        <span className="lp-a-amount">{t.won(ORDER_TOTAL)}</span>
+      </div>
+    </div>
+  )
+}
 
 /* ---- ② 가게 소개 — 정렬선 하나(P6·P8) ---- */
 
-const INTRO = '멸치와 다시마로 여섯 시간 우린 국물에 손으로 뽑은 중면을 말았습니다. 고명은 그날 들어온 애호박과 달걀지단만 올립니다.'
+const IntroBefore = () => {
+  const t = useCopy()
+  return (
+    <div className="lp-b-center">
+      <p className="lp-b-title">{t.shopName}</p>
+      <p className="lp-b-text">{t.intro}</p>
+      <p className="lp-b-text">{t.hours}</p>
+      <p className="lp-b-text">{t.address}</p>
+      <button type="button" className="lp-b-fill">
+        {t.viewMenu}
+      </button>
+    </div>
+  )
+}
 
-const IntroBefore = () => (
-  <div className="lp-b-center">
-    <p className="lp-b-title">성수동 골목 국수집</p>
-    <p className="lp-b-text">{INTRO}</p>
-    <p className="lp-b-text">영업시간 11:00–21:00</p>
-    <p className="lp-b-text">성수동 2가 골목 안</p>
-    <button type="button" className="lp-b-fill">
-      메뉴 보기
-    </button>
-  </div>
-)
-
-const IntroAfter = () => (
-  <div className="lp-a-intro">
-    <p className="lp-a-title">성수동 골목 국수집</p>
-    <p className="lp-a-body">{INTRO}</p>
-    <p className="lp-a-meta">
-      <span>11:00–21:00</span>
-      <span aria-hidden="true" className="lp-a-divider" />
-      <span>성수동 2가 골목 안</span>
-    </p>
-    <button type="button" className="lp-a-primary">
-      메뉴 보기
-    </button>
-  </div>
-)
+const IntroAfter = () => {
+  const t = useCopy()
+  return (
+    <div className="lp-a-intro">
+      <p className="lp-a-title">{t.shopName}</p>
+      <p className="lp-a-body">{t.intro}</p>
+      <p className="lp-a-meta">
+        <span>11:00–21:00</span>
+        <span aria-hidden="true" className="lp-a-divider" />
+        <span>{t.address}</span>
+      </p>
+      <button type="button" className="lp-a-primary">
+        {t.viewMenu}
+      </button>
+    </div>
+  )
+}
 
 /* ---- ③ 결제 요약 — 숫자 위계와 영수증 정렬(P2·P6) ---- */
 
-const PAY = [
-  { label: '주문 금액', amount: ORDER_TOTAL },
-  { label: '포장 할인', amount: -1000 },
-  { label: '쿠폰', amount: -2000 },
-]
-const PAY_TOTAL = PAY.reduce((sum, row) => sum + row.amount, 0)
-
-const PayBefore = () => (
-  <div className="lp-b-stack">
-    <p className="lp-b-strong">총 결제 금액은 {won(PAY_TOTAL)}입니다</p>
-    {PAY.map((row) => (
-      <p key={row.label} className="lp-b-strong">
-        {row.label}: {won(row.amount)}
-      </p>
-    ))}
-  </div>
-)
-
-const PayAfter = () => (
-  <div className="lp-a-pay">
-    <div className="lp-a-key">
-      <span className="lp-a-sub">결제할 금액</span>
-      <span className="lp-a-display">{won(PAY_TOTAL)}</span>
-    </div>
-    <dl className="lp-a-receipt">
+const PayBefore = () => {
+  const t = useCopy()
+  return (
+    <div className="lp-b-stack">
+      <p className="lp-b-strong">{t.payBeforeTotal(t.won(PAY_TOTAL))}</p>
       {PAY.map((row) => (
-        <div key={row.label} className="lp-a-receipt-row">
-          <dt>{row.label}</dt>
-          <dd className="lp-a-amount">{won(row.amount)}</dd>
-        </div>
+        <p key={row.id} className="lp-b-strong">
+          {t.pay[row.id]}: {t.won(row.amount)}
+        </p>
       ))}
-    </dl>
-  </div>
-)
+    </div>
+  )
+}
+
+const PayAfter = () => {
+  const t = useCopy()
+  return (
+    <div className="lp-a-pay">
+      <div className="lp-a-key">
+        <span className="lp-a-sub">{t.payKey}</span>
+        <span className="lp-a-display">{t.won(PAY_TOTAL)}</span>
+      </div>
+      <dl className="lp-a-receipt">
+        {PAY.map((row) => (
+          <div key={row.id} className="lp-a-receipt-row">
+            <dt>{t.pay[row.id]}</dt>
+            <dd className="lp-a-amount">{t.won(row.amount)}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  )
+}
 
 /* ---- ④ 메뉴 카드 — 강조는 한 곳(P3) ---- */
 
-const MenuBefore = () => (
-  <div className="lp-b-menu">
-    <p className="lp-b-gradient-text">들깨칼국수</p>
-    <div className="lp-b-badges">
-      <span className="lp-b-pill lp-b-pill-red">인기</span>
-      <span className="lp-b-pill lp-b-pill-green">NEW</span>
-      <span className="lp-b-pill lp-b-pill-blue">추천</span>
+const MenuBefore = () => {
+  const t = useCopy()
+  return (
+    <div className="lp-b-menu">
+      <p className="lp-b-gradient-text">{t.menuName}</p>
+      <div className="lp-b-badges">
+        <span className="lp-b-pill lp-b-pill-red">{t.pillPopular}</span>
+        <span className="lp-b-pill lp-b-pill-green">{t.pillNew}</span>
+        <span className="lp-b-pill lp-b-pill-blue">{t.pillPick}</span>
+      </div>
+      <p className="lp-b-text">{t.menuDesc}</p>
+      <div className="lp-b-actions">
+        <button type="button" className="lp-b-fill">
+          {t.add}
+        </button>
+        <button type="button" className="lp-b-fill">
+          {t.orderNow}
+        </button>
+      </div>
     </div>
-    <p className="lp-b-text">고소한 들깨 국물에 직접 민 칼국수</p>
-    <div className="lp-b-actions">
-      <button type="button" className="lp-b-fill">
-        담기
-      </button>
-      <button type="button" className="lp-b-fill">
-        바로 주문
-      </button>
-    </div>
-  </div>
-)
+  )
+}
 
-const MenuAfter = () => (
-  <div className="lp-a-menu">
-    <div className="lp-a-menu-text">
-      <span className="lp-a-name">들깨칼국수</span>
-      <span className="lp-a-sub">고소한 들깨 국물에 직접 민 칼국수</span>
-      <span className="lp-a-tags">인기 · 새 메뉴</span>
+const MenuAfter = () => {
+  const t = useCopy()
+  return (
+    <div className="lp-a-menu">
+      <div className="lp-a-menu-text">
+        <span className="lp-a-name">{t.menuName}</span>
+        <span className="lp-a-sub">{t.menuDesc}</span>
+        <span className="lp-a-tags">{t.tags}</span>
+      </div>
+      <span className="lp-a-price">{t.won(MENU_PRICE)}</span>
+      <div className="lp-a-actions">
+        <button type="button" className="lp-a-primary">
+          {t.add}
+        </button>
+        <button type="button" className="lp-a-link">
+          {t.details}
+        </button>
+      </div>
     </div>
-    <span className="lp-a-price">{won(11000)}</span>
-    <div className="lp-a-actions">
-      <button type="button" className="lp-a-primary">
-        담기
-      </button>
-      <button type="button" className="lp-a-link">
-        자세히
-      </button>
-    </div>
-  </div>
-)
+  )
+}
 
 /* ---- ⑤ 오늘의 국수 — 사진은 가리지 않고 비율을 지킨다(P9) ---- */
 
-const PhotoBefore = () => (
-  <div className="lp-b-photo">
-    <img className="lp-b-photo-img" src={PHOTO} alt="잔치국수 한 그릇" width={480} height={360} />
-    <div className="lp-b-photo-text">
-      <p>오늘의 국수</p>
-      <p>잔치국수 8,000원</p>
+const PhotoBefore = () => {
+  const t = useCopy()
+  return (
+    <div className="lp-b-photo">
+      <img className="lp-b-photo-img" src={PHOTO} alt={t.todayAlt} width={480} height={360} />
+      <div className="lp-b-photo-text">
+        <p>{t.todayTitle}</p>
+        <p>{t.todayDish(t.won(TODAY_PRICE))}</p>
+      </div>
     </div>
-  </div>
-)
+  )
+}
 
-const PhotoAfter = () => (
-  <figure className="lp-a-photo">
-    <img className="lp-a-photo-img" src={PHOTO} alt="잔치국수 한 그릇" width={480} height={360} />
-    <figcaption className="lp-a-photo-text">
-      <span className="lp-a-sub">오늘의 국수</span>
-      <span className="lp-a-name">잔치국수 {won(8000)}</span>
-    </figcaption>
-  </figure>
-)
+const PhotoAfter = () => {
+  const t = useCopy()
+  return (
+    <figure className="lp-a-photo">
+      <img className="lp-a-photo-img" src={PHOTO} alt={t.todayAlt} width={480} height={360} />
+      <figcaption className="lp-a-photo-text">
+        <span className="lp-a-sub">{t.todayTitle}</span>
+        <span className="lp-a-name">{t.todayDish(t.won(TODAY_PRICE))}</span>
+      </figcaption>
+    </figure>
+  )
+}
 
 /* ---- ⑥ 메뉴 상세 — 화면 유형의 관례: 행동은 하단 고정 바 하나(P11·P3) ---- */
 
-const SPICE = ['순한 맛', '보통', '매운맛']
-
-const DetailBefore = () => (
-  <div className="lp-b-detail" tabIndex={0} aria-label="고치기 전 메뉴 상세 — 스크롤 영역">
-    <div className="lp-b-card">
-      <img className="lp-b-detail-photo" src={DETAIL_PHOTO} alt="들깨칼국수 한 그릇" width={480} height={360} />
+const DetailBefore = () => {
+  const t = useCopy()
+  return (
+    <div className="lp-b-detail" tabIndex={0} aria-label={t.detailBeforeLabel}>
+      <div className="lp-b-card">
+        <img className="lp-b-detail-photo" src={DETAIL_PHOTO} alt={t.detailAlt} width={480} height={360} />
+      </div>
+      <div className="lp-b-center">
+        <p className="lp-b-title">{t.menuName}</p>
+        <p className="lp-b-text">{t.won(MENU_PRICE)}</p>
+      </div>
+      <div className="lp-b-actions">
+        <button type="button" className="lp-b-fill">
+          {t.add}
+        </button>
+        <button type="button" className="lp-b-fill">
+          {t.orderNow}
+        </button>
+        <button type="button" className="lp-b-fill">
+          {t.save}
+        </button>
+      </div>
+      <div className="lp-b-card">
+        <p className="lp-b-strong">{t.spiceChoose}</p>
+        {SPICE.map((spice) => (
+          // layout-audit-ignore: nested-card — 고치기 전 예시: 선택지마다 상자
+          <div key={spice} className="lp-b-inner-box">
+            {t.spice[spice]}
+          </div>
+        ))}
+      </div>
+      <p className="lp-b-text">{t.detailDesc}</p>
     </div>
-    <div className="lp-b-center">
-      <p className="lp-b-title">들깨칼국수</p>
-      <p className="lp-b-text">{won(11000)}</p>
-    </div>
-    <div className="lp-b-actions">
-      <button type="button" className="lp-b-fill">
-        담기
-      </button>
-      <button type="button" className="lp-b-fill">
-        바로 주문
-      </button>
-      <button type="button" className="lp-b-fill">
-        찜
-      </button>
-    </div>
-    <div className="lp-b-card">
-      <p className="lp-b-strong">맵기 선택</p>
-      {SPICE.map((spice) => (
-        // layout-audit-ignore: nested-card — 고치기 전 예시: 선택지마다 상자
-        <div key={spice} className="lp-b-inner-box">
-          {spice}
-        </div>
-      ))}
-    </div>
-    <p className="lp-b-text">고소한 들깨 국물에 직접 민 칼국수. 들깨는 그날 아침에 갈아 넣습니다.</p>
-  </div>
-)
+  )
+}
 
 const DetailAfter = () => {
-  const [spice, setSpice] = useState(SPICE[1])
+  const t = useCopy()
+  const [spice, setSpice] = useState<Spice>('medium')
 
   return (
     <div className="lp-a-detail">
-      <div className="lp-a-detail-scroll" tabIndex={0} aria-label="고친 뒤 메뉴 상세 — 스크롤 영역">
-        <img className="lp-a-detail-photo" src={DETAIL_PHOTO} alt="들깨칼국수 한 그릇" width={480} height={360} />
+      <div className="lp-a-detail-scroll" tabIndex={0} aria-label={t.detailAfterLabel}>
+        <img className="lp-a-detail-photo" src={DETAIL_PHOTO} alt={t.detailAlt} width={480} height={360} />
         <div className="lp-a-detail-body">
           <div className="lp-a-detail-head">
-            <span className="lp-a-sub">성수동 골목 국수집</span>
-            <span className="lp-a-detail-name">들깨칼국수</span>
-            <span className="lp-a-display">{won(11000)}</span>
-            <span className="lp-a-sub">고소한 들깨 국물에 직접 민 칼국수. 들깨는 그날 아침에 갈아 넣습니다.</span>
+            <span className="lp-a-sub">{t.shopName}</span>
+            <span className="lp-a-detail-name">{t.menuName}</span>
+            <span className="lp-a-display">{t.won(MENU_PRICE)}</span>
+            <span className="lp-a-sub">{t.detailDesc}</span>
           </div>
           <fieldset className="lp-a-options">
-            <legend className="lp-a-options-title">맵기</legend>
+            <legend className="lp-a-options-title">{t.spiceLegend}</legend>
             {SPICE.map((option) => (
               <label key={option} className="lp-a-option">
-                <span>{option}</span>
+                <span>{t.spice[option]}</span>
                 <input type="radio" name="lp-spice" value={option} checked={spice === option} onChange={() => setSpice(option)} />
               </label>
             ))}
@@ -261,11 +637,11 @@ const DetailAfter = () => {
         </div>
       </div>
       <div className="lp-a-buybar">
-        <button type="button" className="lp-a-icon-button" aria-label="찜하기">
+        <button type="button" className="lp-a-icon-button" aria-label={t.saveAction}>
           <LineIcon name="heart" />
         </button>
         <button type="button" className="lp-a-buy">
-          {won(11000)} 담기
+          {t.addFor(t.won(MENU_PRICE))}
         </button>
       </div>
     </div>
@@ -274,89 +650,88 @@ const DetailAfter = () => {
 
 /* ---- ⑦ 설정 — 면 두 단계·글자 색 세 단계·강조색 하나(P5·P2·P3) ---- */
 
-const NOTICES = [
-  { id: 'cook', label: '조리 시작 알림', desc: '주문한 국수를 삶기 시작하면 알려 드려요' },
-  { id: 'event', label: '새 메뉴·쿠폰 소식', desc: '한 달에 한두 번 보내요' },
-]
-
-const SettingsBefore = () => (
-  <div className="lp-b-settings">
-    <p className="lp-b-title">설정</p>
-    <div className="lp-b-plain-card">
-      <p className="lp-b-strong">알림</p>
-      {NOTICES.map((notice, index) => (
-        <div key={notice.id} className="lp-b-setting-row">
-          <div>
-            <p className="lp-b-faint">{notice.label}</p>
-            <p className="lp-b-faint">{notice.desc}</p>
+const SettingsBefore = () => {
+  const t = useCopy()
+  return (
+    <div className="lp-b-settings">
+      <p className="lp-b-title">{t.settings}</p>
+      <div className="lp-b-plain-card">
+        <p className="lp-b-strong">{t.notification}</p>
+        {NOTICES.map((id, index) => (
+          <div key={id} className="lp-b-setting-row">
+            <div>
+              <p className="lp-b-faint">{t.notices[id].label}</p>
+              <p className="lp-b-faint">{t.notices[id].desc}</p>
+            </div>
+            <span className="lp-b-toggle" data-on={index === 0 || undefined} aria-hidden="true" />
           </div>
-          <span className="lp-b-toggle" data-on={index === 0 || undefined} aria-hidden="true" />
-        </div>
-      ))}
+        ))}
+      </div>
+      <div className="lp-b-plain-card">
+        <p className="lp-b-strong">{t.account}</p>
+        <button type="button" className="lp-b-blue-fill">
+          {t.logout}
+        </button>
+        <button type="button" className="lp-b-blue-fill">
+          {t.deleteAccount}
+        </button>
+      </div>
     </div>
-    <div className="lp-b-plain-card">
-      <p className="lp-b-strong">계정</p>
-      <button type="button" className="lp-b-blue-fill">
-        로그아웃
-      </button>
-      <button type="button" className="lp-b-blue-fill">
-        회원 탈퇴
-      </button>
-    </div>
-  </div>
-)
+  )
+}
 
 const SettingsAfter = () => {
+  const t = useCopy()
   const [enabled, setEnabled] = useState<Record<string, boolean>>({ cook: true, event: false })
 
   return (
     <div className="lp-t-page">
-      <p className="lp-t-title">설정</p>
+      <p className="lp-t-title">{t.settings}</p>
       <p className="lp-t-group-label" id="lp-t-notice">
-        알림
+        {t.notification}
       </p>
       <ul className="lp-t-group" aria-labelledby="lp-t-notice">
-        {NOTICES.map((notice) => (
-          <li key={notice.id}>
+        {NOTICES.map((id) => (
+          <li key={id}>
             <label className="lp-t-row">
               <span className="lp-t-row-text">
-                <span className="lp-t-label">{notice.label}</span>
-                <span className="lp-t-desc">{notice.desc}</span>
+                <span className="lp-t-label">{t.notices[id].label}</span>
+                <span className="lp-t-desc">{t.notices[id].desc}</span>
               </span>
               <input
                 type="checkbox"
                 role="switch"
                 className="lp-t-switch"
-                checked={enabled[notice.id]}
-                onChange={(e) => setEnabled((prev) => ({ ...prev, [notice.id]: e.target.checked }))}
+                checked={enabled[id]}
+                onChange={(e) => setEnabled((prev) => ({ ...prev, [id]: e.target.checked }))}
               />
             </label>
           </li>
         ))}
       </ul>
       <p className="lp-t-group-label" id="lp-t-screen">
-        화면
+        {t.screen}
       </p>
       <ul className="lp-t-group" aria-labelledby="lp-t-screen">
         <li>
           <button type="button" className="lp-t-row lp-t-row-button">
-            <span className="lp-t-label">글자 크기</span>
+            <span className="lp-t-label">{t.textSize}</span>
             <span className="lp-t-value">
-              보통
+              {t.textSizeValue}
               <span aria-hidden="true" className="lp-t-chevron" />
             </span>
           </button>
         </li>
       </ul>
-      <ul className="lp-t-group" aria-label="계정">
+      <ul className="lp-t-group" aria-label={t.account}>
         <li>
           <button type="button" className="lp-t-row lp-t-row-button">
-            <span className="lp-t-label">로그아웃</span>
+            <span className="lp-t-label">{t.logout}</span>
           </button>
         </li>
       </ul>
       <button type="button" className="lp-t-quiet">
-        회원 탈퇴
+        {t.deleteAccount}
       </button>
     </div>
   )
@@ -364,107 +739,115 @@ const SettingsAfter = () => {
 
 /* ---- ⑧ 로그인 — 강조색 하나를 이어 쓰고, 외부 서비스 버튼은 그 서비스의 색(P3·P11) ---- */
 
-const LoginBefore = () => (
-  <div className="lp-b-login">
-    <p className="lp-b-title">로그인</p>
-    <p className="lp-b-strong">이메일</p>
-    <span className="lp-b-input">name@example.com</span>
-    <p className="lp-b-strong">비밀번호</p>
-    <span className="lp-b-input">8자 이상</span>
-    <p className="lp-b-faint">비밀번호 찾기</p>
-    <button type="button" className="lp-b-blue-fill">
-      로그인
-    </button>
-    <button type="button" className="lp-b-outline">
-      카카오로 계속하기
-    </button>
-    <button type="button" className="lp-b-outline">
-      네이버로 계속하기
-    </button>
-  </div>
-)
+const LoginBefore = () => {
+  const t = useCopy()
+  return (
+    <div className="lp-b-login">
+      <p className="lp-b-title">{t.login}</p>
+      <p className="lp-b-strong">{t.email}</p>
+      <span className="lp-b-input">name@example.com</span>
+      <p className="lp-b-strong">{t.password}</p>
+      <span className="lp-b-input">{t.passwordHint}</span>
+      <p className="lp-b-faint">{t.forgotPassword}</p>
+      <button type="button" className="lp-b-blue-fill">
+        {t.login}
+      </button>
+      <button type="button" className="lp-b-outline">
+        {t.socialChatBefore}
+      </button>
+      <button type="button" className="lp-b-outline">
+        {t.socialPortalBefore}
+      </button>
+    </div>
+  )
+}
 
-const LoginAfter = () => (
-  <form className="lp-t-page lp-t-login" onSubmit={(e) => e.preventDefault()}>
-    <p className="lp-t-title">성수 국수집에 다시 오셨네요</p>
-    <label className="lp-t-field">
-      <span className="lp-t-field-label">이메일</span>
-      <input className="lp-t-input" type="email" placeholder="name@example.com" autoComplete="email" />
-    </label>
-    <label className="lp-t-field">
-      <span className="lp-t-field-label">비밀번호</span>
-      <input className="lp-t-input" type="password" placeholder="8자 이상" autoComplete="current-password" />
-    </label>
-    <button type="submit" className="lp-t-primary">
-      로그인
-    </button>
-    <p className="lp-t-links">
-      <a href="#/layout-principles">비밀번호 찾기</a>
-      <span aria-hidden="true" className="lp-t-links-divider" />
-      <a href="#/layout-principles">회원가입</a>
-    </p>
-    <p className="lp-t-desc lp-t-social-label">다른 방법으로 로그인</p>
-    <button type="button" className="lp-t-social" data-brand="kakao">
-      <svg aria-hidden="true" viewBox="0 0 24 24" className="lp-t-social-mark">
-        <path d="M12 4C7 4 3 7.1 3 11c0 2.5 1.7 4.7 4.2 5.9l-.9 3.3c-.1.3.3.6.6.4l3.9-2.6c.4 0 .8.1 1.2.1 5 0 9-3.1 9-7s-4-7.1-9-7.1z" />
-      </svg>
-      카카오로 시작하기
-    </button>
-    <button type="button" className="lp-t-social" data-brand="naver">
-      <svg aria-hidden="true" viewBox="0 0 24 24" className="lp-t-social-mark">
-        <path d="M14.6 12.4 9.1 4.5H4.5v15h4.9v-7.9l5.5 7.9h4.6v-15h-4.9z" />
-      </svg>
-      네이버로 시작하기
-    </button>
-  </form>
-)
+const LoginAfter = () => {
+  const t = useCopy()
+  return (
+    <form className="lp-t-page lp-t-login" onSubmit={(e) => e.preventDefault()}>
+      <p className="lp-t-title">{t.loginWelcome}</p>
+      <label className="lp-t-field">
+        <span className="lp-t-field-label">{t.email}</span>
+        <input className="lp-t-input" type="email" placeholder="name@example.com" autoComplete="email" />
+      </label>
+      <label className="lp-t-field">
+        <span className="lp-t-field-label">{t.password}</span>
+        <input className="lp-t-input" type="password" placeholder={t.passwordHint} autoComplete="current-password" />
+      </label>
+      <button type="submit" className="lp-t-primary">
+        {t.login}
+      </button>
+      <p className="lp-t-links">
+        <a href="#/layout-principles">{t.forgotPassword}</a>
+        <span aria-hidden="true" className="lp-t-links-divider" />
+        <a href="#/layout-principles">{t.signUp}</a>
+      </p>
+      <p className="lp-t-desc lp-t-social-label">{t.otherLogin}</p>
+      <button type="button" className="lp-t-social" data-brand="kakao">
+        <svg aria-hidden="true" viewBox="0 0 24 24" className="lp-t-social-mark">
+          <path d="M12 4C7 4 3 7.1 3 11c0 2.5 1.7 4.7 4.2 5.9l-.9 3.3c-.1.3.3.6.6.4l3.9-2.6c.4 0 .8.1 1.2.1 5 0 9-3.1 9-7s-4-7.1-9-7.1z" />
+        </svg>
+        {t.socialChat}
+      </button>
+      <button type="button" className="lp-t-social" data-brand="naver">
+        <svg aria-hidden="true" viewBox="0 0 24 24" className="lp-t-social-mark">
+          <path d="M14.6 12.4 9.1 4.5H4.5v15h4.9v-7.9l5.5 7.9h4.6v-15h-4.9z" />
+        </svg>
+        {t.socialPortal}
+      </button>
+    </form>
+  )
+}
 
 /* ---- ⑨ AI 채팅 — 머리 한 줄·정보는 한 곳·무채색 + 강조색 하나(P1·P3·P11) ---- */
 
-const CHAT_QUESTION = '비 오는 날 어울리는 국수 추천해줘'
-const CHAT_ANSWER = ['비 오는 날에는 뜨끈한 국물이 좋아요.', '칼국수는 바지락 국물이 진하고, 잔치국수는 멸치 국물이 맑아요. 손만두를 곁들이면 한 끼로 넉넉해요.']
-
-const ChatBefore = () => (
-  <div className="lp-b-chat">
-    <div className="lp-b-chat-bar">
-      <span className="lp-b-avatar">N</span>
-      <span className="lp-b-strong">국수 추천 도우미</span>
-      <span className="lp-b-pill-amber">추천 모드</span>
+const ChatBefore = () => {
+  const t = useCopy()
+  return (
+    <div className="lp-b-chat">
+      <div className="lp-b-chat-bar">
+        <span className="lp-b-avatar">N</span>
+        <span className="lp-b-strong">{t.chatHelper}</span>
+        <span className="lp-b-pill-amber">{t.chatMode}</span>
+      </div>
+      <div className="lp-b-chat-bar lp-b-chat-sub">{t.chatContext}</div>
+      <div className="lp-b-chat-bar lp-b-chat-sub">
+        <span className="lp-b-pill-amber">M1</span> {t.chatTodayMenu}
+      </div>
+      <p className="lp-b-bubble-me">{t.chatQuestion}</p>
+      <div className="lp-b-answer">
+        <p className="lp-b-answer-head">
+          <span className="lp-b-avatar">N</span> {t.chatAssistant} <span className="lp-b-pill-green">{t.chatDone}</span>
+        </p>
+        <p className="lp-b-faint">{t.chatAnswer.join(' ')}</p>
+      </div>
+      <div className="lp-b-error">
+        <p className="lp-b-strong">{t.chatBusyBefore}</p>
+        <button type="button" className="lp-b-gray-pill">
+          {t.retry}
+        </button>
+      </div>
+      <div className="lp-b-chips">
+        {t.chips.map((chip) => (
+          <span key={chip} className="lp-b-gray-pill">
+            {chip}
+          </span>
+        ))}
+      </div>
+      <div className="lp-b-composer">
+        {/* layout-audit-ignore: nested-card — 일부러 AI 슬롭으로 만든 '전' 화면(입력창 안 색 상자) */}
+        <p className="lp-b-attach">
+          <span className="lp-b-pill-amber">M1</span> {t.chatTodayMenu}
+        </p>
+        <span className="lp-b-faint">{t.chatPlaceholderBefore}</span>
+        <button type="button" className="lp-b-gray-pill">
+          {t.pickMenu}
+        </button>
+      </div>
     </div>
-    <div className="lp-b-chat-bar lp-b-chat-sub">성수 국수집 · 메뉴판 12개</div>
-    <div className="lp-b-chat-bar lp-b-chat-sub">
-      <span className="lp-b-pill-amber">M1</span> 오늘의 메뉴판
-    </div>
-    <p className="lp-b-bubble-me">{CHAT_QUESTION}</p>
-    <div className="lp-b-answer">
-      <p className="lp-b-answer-head">
-        <span className="lp-b-avatar">N</span> 도우미 <span className="lp-b-pill-green">완료</span>
-      </p>
-      <p className="lp-b-faint">{CHAT_ANSWER.join(' ')}</p>
-    </div>
-    <div className="lp-b-error">
-      <p className="lp-b-strong">요청이 많아 잠시 후 다시 시도해 주세요.</p>
-      <button type="button" className="lp-b-gray-pill">
-        다시 시도
-      </button>
-    </div>
-    <div className="lp-b-chips">
-      <span className="lp-b-gray-pill">맵지 않은 거</span>
-      <span className="lp-b-gray-pill">곱빼기</span>
-      <span className="lp-b-gray-pill">포장</span>
-    </div>
-    <div className="lp-b-composer">
-      {/* layout-audit-ignore: nested-card — 일부러 AI 슬롭으로 만든 '전' 화면(입력창 안 색 상자) */}
-      <p className="lp-b-attach">
-        <span className="lp-b-pill-amber">M1</span> 오늘의 메뉴판
-      </p>
-      <span className="lp-b-faint">메시지를 입력하세요</span>
-      <button type="button" className="lp-b-gray-pill">
-        메뉴 고르기
-      </button>
-    </div>
-  </div>
-)
+  )
+}
 
 const Icon = ({ d }: { d: string }) => (
   <svg aria-hidden="true" viewBox="0 0 24 24" className="lp-t-icon">
@@ -482,45 +865,46 @@ const ICON = {
 }
 
 const ChatAfter = () => {
+  const t = useCopy()
   const [text, setText] = useState('')
   const [attached, setAttached] = useState(true)
 
   return (
-    <section className="lp-t-chat" aria-label="국수 추천 도우미">
+    <section className="lp-t-chat" aria-label={t.chatHelper}>
       <header className="lp-t-chat-head">
         <button type="button" className="lp-t-model">
-          국수 도우미
+          {t.chatModel}
           <Icon d={ICON.chevron} />
         </button>
         <span className="lp-t-chat-actions">
-          <button type="button" className="lp-t-icon-button" aria-label="새 대화">
+          <button type="button" className="lp-t-icon-button" aria-label={t.newChat}>
             <Icon d={ICON.newChat} />
           </button>
-          <button type="button" className="lp-t-icon-button" aria-label="기록">
+          <button type="button" className="lp-t-icon-button" aria-label={t.history}>
             <Icon d={ICON.history} />
           </button>
         </span>
       </header>
       <div className="lp-t-chat-log">
-        <p className="lp-t-bubble">{CHAT_QUESTION}</p>
+        <p className="lp-t-bubble">{t.chatQuestion}</p>
         <article className="lp-t-answer">
-          {CHAT_ANSWER.map((line) => (
+          {t.chatAnswer.map((line) => (
             <p key={line}>{line}</p>
           ))}
           <p className="lp-t-answer-foot">
-            <button type="button" className="lp-t-icon-button" aria-label="답변 복사">
+            <button type="button" className="lp-t-icon-button" aria-label={t.copyAnswer}>
               <Icon d={ICON.copy} />
             </button>
-            <button type="button" className="lp-t-icon-button" aria-label="다시 생성">
+            <button type="button" className="lp-t-icon-button" aria-label={t.regenerate}>
               <Icon d={ICON.retry} />
             </button>
-            <span className="lp-t-desc">메뉴판 근거 2곳</span>
+            <span className="lp-t-desc">{t.sources}</span>
           </p>
         </article>
         <p className="lp-t-chat-error" role="status">
-          <span className="lp-t-error-text">요청이 많아 답하지 못했어요.</span>
+          <span className="lp-t-error-text">{t.chatBusy}</span>
           <button type="button" className="lp-t-text-button">
-            다시 시도
+            {t.retry}
           </button>
         </p>
       </div>
@@ -528,21 +912,21 @@ const ChatAfter = () => {
         {attached && (
           <p className="lp-t-attach">
             <Icon d={ICON.attach} />
-            오늘의 메뉴판
+            {t.chatTodayMenu}
             <button type="button" className="lp-t-text-button" onClick={() => setAttached(false)}>
-              빼기
+              {t.detach}
             </button>
           </p>
         )}
         <label className="lp-t-composer-row">
-          <span className="lp-t-sr">질문</span>
-          <textarea className="lp-t-composer-input" rows={1} placeholder="무엇을 드시고 싶으세요?" value={text} onChange={(e) => setText(e.target.value)} />
+          <span className="lp-t-sr">{t.question}</span>
+          <textarea className="lp-t-composer-input" rows={1} placeholder={t.chatPlaceholder} value={text} onChange={(e) => setText(e.target.value)} />
         </label>
         <span className="lp-t-composer-row lp-t-composer-tools">
-          <button type="button" className="lp-t-icon-button" aria-label="자료 첨부" onClick={() => setAttached(true)}>
+          <button type="button" className="lp-t-icon-button" aria-label={t.attach} onClick={() => setAttached(true)}>
             <Icon d={ICON.attach} />
           </button>
-          <button type="submit" className="lp-t-send" aria-label="보내기" disabled={text.trim() === ''}>
+          <button type="submit" className="lp-t-send" aria-label={t.send} disabled={text.trim() === ''}>
             <Icon d={ICON.send} />
           </button>
         </span>
@@ -551,97 +935,18 @@ const ChatAfter = () => {
   )
 }
 
-type Example = { id: string; title: string; principle: string; before: string; after: string; Before: () => ReactNode; After: () => ReactNode; flush?: boolean; light?: boolean }
+type Example = { id: ExampleId; Before: () => ReactNode; After: () => ReactNode; flush?: boolean; light?: boolean }
 
 const EXAMPLES: Example[] = [
-  {
-    id: 'order',
-    title: '① 주문 내역',
-    principle: 'P5 상자는 마지막 수단 · P4 간격으로 묶는다',
-    before: '항목마다 카드, 카드 안에 또 상자. 간격이 모두 같고 전부 굵다.',
-    after: '선 한 줄로 행을 나누고, 이름과 옵션은 8px로 붙인다. 금액은 오른쪽 한 열.',
-    Before: OrderBefore,
-    After: OrderAfter,
-  },
-  {
-    id: 'intro',
-    title: '② 가게 소개',
-    principle: 'P6 정렬선 하나 · P8 빈 곳은 의도로만',
-    before: '여러 줄 문단까지 가운데 정렬. 줄마다 시작점이 달라 시선이 지그재그로 움직인다.',
-    after: '왼쪽 선 하나에서 시작한다. 짧은 정보는 한 줄로 모으고 세로선 하나로 나눈다.',
-    Before: IntroBefore,
-    After: IntroAfter,
-  },
-  {
-    id: 'pay',
-    title: '③ 결제 요약',
-    principle: 'P2 위계는 크기·굵기·농도로 · P6 숫자는 오른쪽 한 열',
-    before: '핵심 금액이 문장 속에 있고, 라벨과 숫자가 같은 크기·같은 굵기다.',
-    after: '금액은 자기 줄에 라벨의 2배 이상으로. 내역은 오른쪽 정렬과 같은 폭 숫자로 위아래 비교.',
-    Before: PayBefore,
-    After: PayAfter,
-  },
-  {
-    id: 'menu',
-    title: '④ 메뉴 카드',
-    principle: 'P3 강조는 한두 곳에만',
-    before: '그라데이션 글자, 색 배지 셋, 채운 버튼 둘, 빛나는 그림자 — 강조가 서로 시선을 나눈다.',
-    after: '채운 버튼은 주 행동 하나. 배지는 회색 글자, 보조 행동은 글자 링크.',
-    Before: MenuBefore,
-    After: MenuAfter,
-  },
-  {
-    id: 'photo',
-    title: '⑤ 오늘의 국수',
-    principle: 'P9 사진은 가리지 않고 비율을 지킨다',
-    before: '사진을 틀에 맞춰 늘이고(찌그러짐), 무늬 위에 글자를 바로 얹었다.',
-    after: '4:3 틀에 잘라 채우고(object-fit: cover), 글자는 사진 아래로 뺐다.',
-    Before: PhotoBefore,
-    After: PhotoAfter,
-  },
-  {
-    id: 'detail',
-    title: '⑥ 메뉴 상세',
-    principle: 'P11 익숙한 구조 · P3 강조는 한 곳 — 상세 화면의 관례',
-    before: '담기·바로 주문·찜이 모두 채운 버튼으로 내용 중간에 있다. 스크롤하면 사라지고, 가격은 작은 회색 글자다.',
-    after: '사진 → 이름 → 가격 → 옵션 순. 행동은 화면 아래에 고정한 바 하나에 모으고, 채운 버튼은 담기 하나다. 바 아래에는 홈 표시줄 높이(안전 영역)를 더한다.',
-    Before: DetailBefore,
-    After: DetailAfter,
-    flush: true,
-  },
-  {
-    id: 'settings',
-    title: '⑦ 설정',
-    principle: 'P5 면은 톤 차이로 · P2 글자 색 세 단계 · P3 강조색 하나',
-    before: '흰 바탕에 테두리·그림자 카드를 겹치고, 이름과 설명이 같은 연회색이다. 강조색은 기본 파랑이고 채운 버튼이 둘이다.',
-    after: '옅은 바탕 위 흰 묶음(테두리·그림자 없음). 구역 이름은 묶음 밖 위에 옅게, 항목 이름은 진하게, 설명은 한 단계 옅게. 강조색은 켜진 스위치에만 쓰고, 탈퇴는 옅은 글자 링크로 낮춘다.',
-    Before: SettingsBefore,
-    After: SettingsAfter,
-    flush: true,
-    light: true,
-  },
-  {
-    id: 'login',
-    title: '⑧ 로그인',
-    principle: 'P3 강조색 하나를 이어 쓴다 · P11 외부 서비스 버튼은 그 서비스의 색',
-    before: '기본 파랑 버튼, 굵은 라벨, 같은 흰 윤곽선 소셜 버튼. 비밀번호 찾기는 링크로 보이지 않는 회색 글자다.',
-    after: '서비스의 강조색 하나로 주 버튼을 채운다. 링크는 밑줄로 링크답게, 소셜 버튼은 그 서비스의 색과 로고(카카오 노랑, 네이버 로고)를 같은 높이로.',
-    Before: LoginBefore,
-    After: LoginAfter,
-    flush: true,
-    light: true,
-  },
-  {
-    id: 'chat',
-    title: '⑨ AI 채팅',
-    principle: 'P1 정보는 한 곳 · P3 색은 강조색 하나 · P11 범용 채팅 화면의 관례',
-    before: '머리 아래에 사이트·대상 줄을 쌓고, 같은 대상을 입력창에 또 보인다. 상태마다 노랑·초록 알약, 오류는 분홍 상자, 보조 버튼은 회색 채움 알약이다.',
-    after: '머리 한 줄(모델·새 대화·기록). 내 말은 회색 말풍선, 답변은 말풍선 없는 본문과 무채색 아이콘 한 줄. 첨부는 입력창 안 한 곳, 오류는 그 자리 글자 + 다시 시도. 채운 버튼은 보내기 하나다.',
-    Before: ChatBefore,
-    After: ChatAfter,
-    flush: true,
-    light: true,
-  },
+  { id: 'order', Before: OrderBefore, After: OrderAfter },
+  { id: 'intro', Before: IntroBefore, After: IntroAfter },
+  { id: 'pay', Before: PayBefore, After: PayAfter },
+  { id: 'menu', Before: MenuBefore, After: MenuAfter },
+  { id: 'photo', Before: PhotoBefore, After: PhotoAfter },
+  { id: 'detail', Before: DetailBefore, After: DetailAfter, flush: true },
+  { id: 'settings', Before: SettingsBefore, After: SettingsAfter, flush: true, light: true },
+  { id: 'login', Before: LoginBefore, After: LoginAfter, flush: true, light: true },
+  { id: 'chat', Before: ChatBefore, After: ChatAfter, flush: true, light: true },
 ]
 
 const Pane = ({ label, note, tone, flush = false, light = false, children }: { label: string; note: string; tone: 'before' | 'after'; flush?: boolean; light?: boolean; children: ReactNode }) => (
@@ -655,58 +960,57 @@ const Pane = ({ label, note, tone, flush = false, light = false, children }: { l
 )
 
 export const LayoutPrinciplesDemo = () => {
+  const t = useCopy()
   const [view, setView] = useState<View>('both')
 
   return (
     <div className="playground">
-      <section className="controls" aria-label="비교 옵션">
+      <section className="controls" aria-label={t.controlsLabel}>
         <label>
-          <span>보기</span>
+          <span>{t.viewLabel}</span>
           <select value={view} onChange={(e) => setView(e.target.value as View)}>
-            {(Object.keys(VIEW_LABEL) as View[]).map((key) => (
+            {VIEWS.map((key) => (
               <option key={key} value={key}>
-                {VIEW_LABEL[key]}
+                {t.view[key]}
               </option>
             ))}
           </select>
         </label>
-        <p className="controls-note">
-          왼쪽은 AI가 흔히 만드는 모습, 오른쪽은 원칙대로 고친 모습입니다. 고친 쪽은 숫자 대신 토큰(<code>--gap-item</code>·
-          <code>--text-display</code>·<code>--radius-card</code> 등)만 씁니다. 레이아웃은 꾸미는 일이 아니라 순서를 정하는 일입니다.
-        </p>
+        <p className="controls-note">{t.note}</p>
       </section>
 
-      {EXAMPLES.map((example) => (
-        <section key={example.id} className="lp-example" aria-labelledby={`lp-${example.id}`}>
-          <div className="lp-example-head">
-            <h2 id={`lp-${example.id}`}>{example.title}</h2>
-            <p>{example.principle}</p>
-          </div>
-          <div className="lp-compare" data-view={view}>
-            {view !== 'after' && (
-              <Pane label="고치기 전" note={example.before} tone="before" flush={example.flush} light={example.light}>
-                <example.Before />
-              </Pane>
-            )}
-            {view !== 'before' && (
-              <Pane label="고친 뒤" note={example.after} tone="after" flush={example.flush} light={example.light}>
-                <example.After />
-              </Pane>
-            )}
-          </div>
-        </section>
-      ))}
+      {EXAMPLES.map((example) => {
+        const copy = t.examples[example.id]
+        return (
+          <section key={example.id} className="lp-example" aria-labelledby={`lp-${example.id}`}>
+            <div className="lp-example-head">
+              <h2 id={`lp-${example.id}`}>{copy.title}</h2>
+              <p>{copy.principle}</p>
+            </div>
+            <div className="lp-compare" data-view={view}>
+              {view !== 'after' && (
+                <Pane label={t.paneBefore} note={copy.before} tone="before" flush={example.flush} light={example.light}>
+                  <example.Before />
+                </Pane>
+              )}
+              {view !== 'before' && (
+                <Pane label={t.paneAfter} note={copy.after} tone="after" flush={example.flush} light={example.light}>
+                  <example.After />
+                </Pane>
+              )}
+            </div>
+          </section>
+        )
+      })}
 
       <section className="lp-example" aria-labelledby="lp-tokens">
         <div className="lp-example-head">
-          <h2 id="lp-tokens">토큰 한 벌</h2>
-          <p>
-            묶음 안 {GAP.item}px ≤ 묶음 사이 {GAP.group}px의 절반 — {groupGapOk({ inside: GAP.item, between: GAP.group }) ? '간격만으로 묶음이 보인다' : '묶음이 안 보인다'}
-          </p>
+          <h2 id="lp-tokens">{t.tokensTitle}</h2>
+          <p>{t.groupRule({ inside: GAP.item, between: GAP.group, ok: groupGapOk({ inside: GAP.item, between: GAP.group }) })}</p>
         </div>
         <div className="lp-tokens">
           <div className="lp-token-group">
-            <p className="lp-token-title">간격 --space-*</p>
+            <p className="lp-token-title">{t.spaceTitle}</p>
             <ul className="lp-token-list">
               {Object.entries(SPACE).map(([step, px]) => (
                 <li key={step} className="lp-token-row">
@@ -718,13 +1022,13 @@ export const LayoutPrinciplesDemo = () => {
             </ul>
           </div>
           <div className="lp-token-group">
-            <p className="lp-token-title">글자 --text-*</p>
+            <p className="lp-token-title">{t.textTitle}</p>
             <ul className="lp-token-list">
               {Object.entries(TEXT).map(([name, px]) => (
                 <li key={name} className="lp-token-row">
                   <code>--text-{name}</code>
                   <span className="lp-type-sample" style={{ fontSize: `${px}px` }}>
-                    국수
+                    {t.textSample}
                   </span>
                   <span className="lp-token-value">{px}px</span>
                 </li>
@@ -732,13 +1036,13 @@ export const LayoutPrinciplesDemo = () => {
             </ul>
           </div>
           <div className="lp-token-group">
-            <p className="lp-token-title">굵기 --weight-* · 반경 --radius-*</p>
+            <p className="lp-token-title">{t.weightRadiusTitle}</p>
             <ul className="lp-token-list">
               {Object.entries(WEIGHT).map(([name, weight]) => (
                 <li key={name} className="lp-token-row">
                   <code>--weight-{name}</code>
                   <span className="lp-type-sample" style={{ fontWeight: weight }}>
-                    칼국수
+                    {t.weightSample}
                   </span>
                   <span className="lp-token-value">{weight}</span>
                 </li>

@@ -60,6 +60,7 @@ createPullToRefresh({
 | 최대 당김 | `maxPx` (기본 threshold×2 — 고무줄이 점근하는 한계) |
 | 인디케이터 모양 | `.ptr-indicator` 내용물 교체 — 진행률은 `--pull-progress`로 온다 |
 | 복귀 속도 | `--ptr-duration` (기본 300ms) |
+| 영역 이름 | `label` — 주면 스크롤 상자가 이름 있는 영역(region)이 된다. 상자는 늘 키보드 초점을 받는다(`tabIndex=0`) |
 
 ## 주의사항
 

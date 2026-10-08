@@ -13,6 +13,18 @@ type UseDragReorderOptions = {
   settleMs?: number
   /** 안내 문구에 쓸 항목 이름 — 없으면 번호만 읽힌다 */
   describe?: (id: string) => string
+  /** 화면 낭독 문구 — 이동 알림과 손잡이 이름. 기본은 한국어. to는 1부터 센다 */
+  messages?: ReorderMessages
+}
+
+type ReorderMessages = {
+  moved: ({ name, to, total }: { name?: string; to: number; total: number }) => string
+  handle: (label: string) => string
+}
+
+const DEFAULT_MESSAGES: ReorderMessages = {
+  moved: ({ name, to, total }) => `${name ? `${name} — ` : ''}${total}개 중 ${to}번째로 이동`,
+  handle: (label) => `${label} 순서 바꾸기 — 위아래 방향키로 이동`,
 }
 
 /**
@@ -28,6 +40,7 @@ export const useDragReorder = <T extends HTMLElement = HTMLElement>({
   liftScale,
   settleMs,
   describe,
+  messages = DEFAULT_MESSAGES,
 }: UseDragReorderOptions) => {
   const containerRef = useRef<T | null>(null)
   const [draggingId, setDraggingId] = useState<string | null>(null)
@@ -37,6 +50,8 @@ export const useDragReorder = <T extends HTMLElement = HTMLElement>({
   onReorderRef.current = onReorder
   const describeRef = useRef(describe)
   describeRef.current = describe
+  const messagesRef = useRef(messages)
+  messagesRef.current = messages
 
   useEffect(
     function bindReorder() {
@@ -51,7 +66,7 @@ export const useDragReorder = <T extends HTMLElement = HTMLElement>({
         onReorder: (detail) => {
           onReorderRef.current(detail)
           const name = describeRef.current?.(detail.id)
-          setAnnouncement(`${name ? `${name} — ` : ''}${detail.total}개 중 ${detail.to + 1}번째로 이동`)
+          setAnnouncement(messagesRef.current.moved({ name, to: detail.to + 1, total: detail.total }))
         },
       })
       return controller.destroy
@@ -67,7 +82,7 @@ export const useDragReorder = <T extends HTMLElement = HTMLElement>({
     getHandleProps: ({ label }: { label: string }) => ({
       type: 'button' as const,
       'data-reorder-handle': '',
-      'aria-label': `${label} 순서 바꾸기 — 위아래 방향키로 이동`,
+      'aria-label': messages.handle(label),
     }),
   }
 }

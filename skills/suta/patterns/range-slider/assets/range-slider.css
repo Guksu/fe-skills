@@ -7,7 +7,7 @@
 
 .range-root {
   --_h: var(--range-height, 6px);
-  --_thumb: var(--range-thumb-size, 22px);
+  --_thumb: var(--range-thumb-size, 24px); /* WCAG 2.2 누르는 영역 최소 24px — 손잡이가 곧 누르는 영역이다 */
   position: relative;
   height: var(--_thumb);
   display: flex;

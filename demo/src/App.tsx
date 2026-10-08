@@ -1,8 +1,15 @@
 import { useEffect, useState } from 'react'
+import { Icon } from '@skills/layout-principles/assets/Icon'
+import { DemoLangContext } from './demoLang'
 import { CATEGORIES, demos, type DemoEntry } from './demos'
 import { CATEGORY_LABEL, STRINGS, useLang, type Lang } from './i18n'
-import { DISHES, type DishId } from './shared/dishes'
+import { DISHES, type DishId, dishName } from './shared/dishes'
 import { DishPhoto } from './shared/DishPhoto'
+
+const REPO_URL = 'https://github.com/Guksu/suta'
+const INSTALL_COMMANDS = '/plugin marketplace add Guksu/suta\n/plugin install suta@suta'
+// 결과 메시지를 검사 코어가 만들어 한국어로만 나오는 데모 — 영어 화면에서 이 둘에만 안내를 붙인다
+const KOREAN_OUTPUT_DEMOS = new Set(['layout-audit', 'motion-audit'])
 
 const slugFromHash = () => window.location.hash.replace(/^#\/?/, '')
 
@@ -27,6 +34,15 @@ export const App = () => {
     return () => window.removeEventListener('hashchange', onHashChange)
   }, [])
 
+  useEffect(
+    function revealCurrentNavItem() {
+      // 주소로 바로 들어오면(#/bottom-nav) 현재 항목이 사이드바 아래쪽 밖에 있다. 넓은 화면에서만 — 좁은 화면은 목록이 접혀 있다
+      if (!window.matchMedia('(min-width: 721px)').matches) return
+      document.querySelector('#pattern-nav [aria-current="page"]')?.scrollIntoView({ block: 'nearest' })
+    },
+    [slug],
+  )
+
   const active = demos.find((demo) => demo.slug === slug)
 
   return (
@@ -43,25 +59,31 @@ export const App = () => {
         <p className="tagline">{t.tagline}</p>
         <button type="button" className="nav-toggle" aria-expanded={menuOpen} aria-controls="pattern-nav" onClick={() => setMenuOpen((open) => !open)}>
           <span>{t.menu(demos.length)}</span>
-          <span aria-hidden="true">{menuOpen ? '▴' : '▾'}</span>
+          <Icon name="chevron-down" size={20} className="nav-toggle-icon" />
         </button>
         <nav id="pattern-nav" aria-label={t.navLabel}>
-          {CATEGORIES.map((category) => (
+          {CATEGORIES.map((category, index) => (
             <div key={category} className="nav-group">
-              <span className="nav-group-title">{CATEGORY_LABEL[lang][category]}</span>
-              {demos
-                .filter((demo) => demo.category === category)
-                .map((demo) => (
-                  <a key={demo.slug} href={`#/${demo.slug}`} data-active={demo.slug === slug ? 'true' : 'false'}>
-                    {titleOf({ demo, lang })}
-                  </a>
-                ))}
+              <p className="nav-group-title" id={`nav-group-${index}`}>
+                {CATEGORY_LABEL[lang][category]}
+              </p>
+              <ul className="nav-list" aria-labelledby={`nav-group-${index}`}>
+                {demos
+                  .filter((demo) => demo.category === category)
+                  .map((demo) => (
+                    <li key={demo.slug}>
+                      <a href={`#/${demo.slug}`} aria-current={demo.slug === slug ? 'page' : undefined}>
+                        {titleOf({ demo, lang })}
+                      </a>
+                    </li>
+                  ))}
+              </ul>
             </div>
           ))}
         </nav>
         <footer>
-          <a href="https://github.com/Guksu/suta" target="_blank" rel="noreferrer">
-            GitHub
+          <a href={REPO_URL} target="_blank" rel="noreferrer">
+            {t.github}
           </a>
           <a href="#/credits">{t.creditsLink}</a>
         </footer>
@@ -73,26 +95,8 @@ export const App = () => {
   )
 }
 
-const DemoPage = ({ demo, lang }: { demo: DemoEntry; lang: Lang }) => {
-  const t = STRINGS[lang]
-  return (
-    <>
-      <header className="demo-header">
-        <h1>{titleOf({ demo, lang })}</h1>
-        <p>{descriptionOf({ demo, lang })}</p>
-        <code>skills/suta/patterns/{demo.slug}/</code>
-        {lang === 'en' && <p className="demo-lang-note">{t.demoNote}</p>}
-      </header>
-      {/* 데모 내부는 한국어 콘텐츠 — 스크린 리더가 언어를 바꿔 읽도록 lang을 명시한다 */}
-      <div lang="ko">
-        <demo.Component />
-      </div>
-      <UsageBlock demo={demo} lang={lang} />
-    </>
-  )
-}
-
-const UsageBlock = ({ demo, lang }: { demo: DemoEntry; lang: Lang }) => {
+/** 복사 단추 — 누르면 잠깐 "복사됨"으로 바뀐다. 사용 예시와 홈의 설치 명령이 함께 쓴다 */
+const CopyButton = ({ text, lang }: { text: string; lang: Lang }) => {
   const [copied, setCopied] = useState(false)
   const t = STRINGS[lang]
 
@@ -107,7 +111,7 @@ const UsageBlock = ({ demo, lang }: { demo: DemoEntry; lang: Lang }) => {
 
   const copy = async () => {
     try {
-      await navigator.clipboard.writeText(demo.usage)
+      await navigator.clipboard.writeText(text)
       setCopied(true)
     } catch {
       // 클립보드 권한이 없으면 선택 복사로 대신한다 — 코드는 화면에 이미 있다
@@ -115,23 +119,48 @@ const UsageBlock = ({ demo, lang }: { demo: DemoEntry; lang: Lang }) => {
   }
 
   return (
+    <button type="button" onClick={copy}>
+      {copied ? t.copied : t.copy}
+    </button>
+  )
+}
+
+const DemoPage = ({ demo, lang }: { demo: DemoEntry; lang: Lang }) => {
+  const t = STRINGS[lang]
+  return (
+    <>
+      <header className="demo-header">
+        <h1>{titleOf({ demo, lang })}</h1>
+        <p>{descriptionOf({ demo, lang })}</p>
+        <code>skills/suta/patterns/{demo.slug}/</code>
+        {lang === 'en' && KOREAN_OUTPUT_DEMOS.has(demo.slug) && <p className="demo-lang-note">{t.auditNote}</p>}
+      </header>
+      {/* 데모 안 문구는 각 데모가 두 벌(defineCopy) 가진다 — 고른 언어를 내려 주고 lang도 맞춘다 */}
+      <DemoLangContext.Provider value={lang}>
+        <div lang={lang}>
+          <demo.Component />
+        </div>
+      </DemoLangContext.Provider>
+      <UsageBlock demo={demo} lang={lang} />
+    </>
+  )
+}
+
+const UsageBlock = ({ demo, lang }: { demo: DemoEntry; lang: Lang }) => {
+  const t = STRINGS[lang]
+  return (
     <section className="usage" aria-label={t.usage}>
       <div className="usage-head">
         <h2>{t.usage}</h2>
         <div className="usage-actions">
-          <button type="button" onClick={copy}>
-            {copied ? t.copied : t.copy}
-          </button>
-          <a
-            href={`https://github.com/Guksu/suta/blob/main/skills/suta/patterns/${demo.slug}/PATTERN.md`}
-            target="_blank"
-            rel="noreferrer"
-          >
+          <CopyButton text={demo.usage} lang={lang} />
+          <a href={`${REPO_URL}/blob/main/skills/suta/patterns/${demo.slug}/PATTERN.md`} target="_blank" rel="noreferrer">
             {t.skillDoc}
           </a>
         </div>
       </div>
-      <pre className="usage-code">
+      {/* 긴 줄은 가로로 스크롤된다 — 키보드로도 스크롤할 수 있게 초점을 받는다 */}
+      <pre className="usage-code" tabIndex={0} aria-label={t.usage}>
         <code>{demo.usage}</code>
       </pre>
     </section>
@@ -153,6 +182,24 @@ const Home = ({ lang }: { lang: Lang }) => {
     <section className="home">
       <h1>suta</h1>
       <p className="home-intro">{t.homeIntro(demos.length)}</p>
+      <p className="home-links">
+        <a href={REPO_URL} target="_blank" rel="noreferrer">
+          {t.github}
+        </a>
+        <a href={`${REPO_URL}/blob/main/${lang === 'en' ? 'README.en.md' : 'README.md'}`} target="_blank" rel="noreferrer">
+          {t.readme}
+        </a>
+      </p>
+      <section className="home-install" aria-labelledby="home-install-title">
+        <div className="usage-head">
+          <h2 id="home-install-title">{t.installTitle}</h2>
+          <CopyButton text={INSTALL_COMMANDS} lang={lang} />
+        </div>
+        <pre className="usage-code">
+          <code>{INSTALL_COMMANDS}</code>
+        </pre>
+        <p className="home-install-note">{t.installNote}</p>
+      </section>
       <div className="home-search">
         <input
           type="search"
@@ -173,10 +220,8 @@ const Home = ({ lang }: { lang: Lang }) => {
               {group.map((demo) => (
                 <li key={demo.slug}>
                   <a href={`#/${demo.slug}`}>
-                    <span className="demo-card-body">
-                      <strong>{titleOf({ demo, lang })}</strong>
-                      <span>{descriptionOf({ demo, lang })}</span>
-                    </span>
+                    <strong>{titleOf({ demo, lang })}</strong>
+                    <span>{descriptionOf({ demo, lang })}</span>
                   </a>
                 </li>
               ))}
@@ -200,12 +245,12 @@ const Credits = ({ lang }: { lang: Lang }) => {
       <h2>{t.creditsPhotos}</h2>
       <ul className="credits-list">
         {ids.map((id) => {
-          const { name, credit } = DISHES[id]
+          const { credit } = DISHES[id]
           return (
             <li key={id}>
               <DishPhoto dish={id} className="credits-thumb" />
               <span className="credits-body">
-                <strong lang="ko">{name}</strong>
+                <strong>{dishName({ id, lang })}</strong>
                 <span>
                   {credit.author} ·{' '}
                   <a href={credit.licenseUrl} target="_blank" rel="noreferrer">

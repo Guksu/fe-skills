@@ -3,32 +3,16 @@
  * 데모 사이트도 suta 검사(skills/suta/scripts/audit.mjs)를 통과하는 것이 기준이다. */
 
 :root {
-  --bg: #0f1115;
-  --surface: #171a21;
-  --text: #e8eaf0;
-  --text-dim: #9aa1af;
-  --border: #2a2f3a;
-  --accent: #6ea8fe;
-  --accent-soft: rgba(110, 168, 254, 0.12); /* layout-audit-ignore: tinted-surface — 어두운 셸 위의 반투명이라 옅은 면이 아니다 */
-  /* 셸이 어두운 바탕이라 select·스크롤 막대 같은 기본 컨트롤도 어둡게 그린다 */
-  color-scheme: dark;
-  /* 패턴의 기본 강조색은 거의 검정(설치한 프로젝트에서 프레임워크 기본 파랑이 새지 않게)이다.
-   * 데모 사이트는 어두운 셸 위에서 보이도록 사이트 강조색 계열을 패턴 공개 변수에 한 번에 연결한다 */
-  --demo-pattern-accent: #2563eb;
-  --ring-color: var(--demo-pattern-accent);
-  --lpm-focus: var(--demo-pattern-accent);
-  --menu-focus: var(--demo-pattern-accent);
-  --otp-accent: var(--demo-pattern-accent);
-  --upload-accent: var(--demo-pattern-accent);
-  --qty-accent: var(--demo-pattern-accent);
-  --check-accent: var(--demo-pattern-accent);
-  --select-accent: var(--demo-pattern-accent);
-  --suggest-accent: var(--demo-pattern-accent);
-  --field-accent: var(--demo-pattern-accent);
-  --segment-focus-color: var(--demo-pattern-accent);
-  --swipe-action-accent-bg: var(--demo-pattern-accent);
-  --range-accent: var(--demo-pattern-accent);
-  --switch-on-bg: var(--demo-pattern-accent);
+  /* 셸 색은 suta 색 역할 토큰(layout-tokens.css)에 연결한다 — 데모 CSS가 이 짧은 이름을 쓰므로 이름은 그대로 둔다.
+   * 패턴 강조색은 따로 연결하지 않는다. 데모가 설치했을 때와 같은 기본값(거의 검정)을 보여 주게 */
+  --bg: var(--color-surface);
+  --surface: var(--color-canvas);
+  --text: var(--color-text);
+  --text-dim: var(--color-text-secondary);
+  --border: var(--color-line);
+  --accent: var(--color-accent);
+  --accent-soft: var(--color-canvas);
+  color-scheme: light;
 }
 
 * {
@@ -43,6 +27,8 @@ body {
   font-size: var(--text-body);
   word-break: keep-all;
   line-height: var(--leading-body);
+  /* 라디오·체크박스·슬라이더 같은 네이티브 컨트롤도 브라우저 기본 파랑 대신 강조색을 쓴다(상속된다) */
+  accent-color: var(--accent);
 }
 
 button {
@@ -60,8 +46,8 @@ button {
 }
 
 button:hover {
-  border-color: var(--accent);
-  background: var(--accent-soft);
+  border-color: var(--color-text-tertiary);
+  background: var(--surface);
 }
 
 /* 데모 공용 음식 사진(shared/DishPhoto.tsx) — 틀(부모)이 크기·비율을 정하고 사진은 잘라 채운다.
@@ -79,14 +65,14 @@ button:hover {
  * 좁은 화면에서 화면 밖으로 밀려난다 */
 .layout {
   display: grid;
-  grid-template-columns: 240px minmax(0, 1fr);
+  grid-template-columns: 256px minmax(0, 1fr);
   min-height: 100vh;
   min-height: 100dvh;
 }
 
 .sidebar {
   border-right: 1px solid var(--border);
-  padding: var(--space-6);
+  padding: var(--space-6) var(--space-4) var(--space-6) var(--space-6);
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
@@ -129,11 +115,20 @@ button:hover {
   display: none;
 }
 
+.nav-toggle-icon {
+  transition: transform var(--motion-duration-fast) var(--motion-ease-out);
+}
+
+.nav-toggle[aria-expanded='true'] .nav-toggle-icon {
+  transform: rotate(180deg);
+}
+
 .sidebar nav {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--gap-group);
   margin-top: var(--space-4);
+  padding-bottom: var(--space-4);
   overflow-y: auto;
   /* 스크롤은 되되 막대는 감춘다 — 좁은 사이드바에서 막대가 소음이다 */
   scrollbar-width: none;
@@ -143,40 +138,54 @@ button:hover {
   display: none;
 }
 
-.nav-group {
-  display: flex;
-  flex-direction: column;
-  /* 항목 사이는 붙이고(2px) 묶음 사이(16px)로만 나눈다 — 묶음이 간격만으로 읽힌다 */
-  gap: 2px;
-}
-
+/* 묶음 제목과 항목은 크기가 아니라 밝기·굵기·들여쓰기로 나눈다.
+ * 제목: 주 글자색·600 / 항목: 보조 글자색·400, 왼쪽 세로선 안쪽으로 들여 쓴다 */
 .nav-group-title {
-  font-size: var(--text-caption);
-  font-weight: var(--weight-semibold);
-  letter-spacing: 0.06em;
-  color: var(--text-dim);
-  padding: 0 var(--space-3) var(--space-1);
-}
-
-.sidebar nav a {
-  color: var(--text-dim);
-  text-decoration: none;
-  padding: var(--space-2) var(--space-3);
-  border-radius: var(--radius-control);
+  margin: 0 0 var(--space-2);
   font-size: var(--text-small);
-  transition:
-    background-color var(--motion-duration-instant) var(--motion-ease-out),
-    color var(--motion-duration-instant) var(--motion-ease-out);
-}
-
-.sidebar nav a:hover {
-  background: var(--surface);
+  font-weight: var(--weight-semibold);
   color: var(--text);
 }
 
-.sidebar nav a[data-active='true'] {
-  background: var(--accent-soft);
-  color: var(--accent);
+.nav-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-left: 1px solid var(--border);
+}
+
+.nav-list a {
+  display: block;
+  /* 세로선 위에 현재 항목 표시(2px)를 겹쳐 그리려고 항목을 선 위로 1px 당긴다 */
+  margin-left: -1px;
+  padding: var(--space-1) var(--space-3) var(--space-1) var(--space-4);
+  color: var(--text-dim);
+  text-decoration: none;
+  font-size: var(--text-small);
+  line-height: var(--leading-body);
+  /* 현재 항목을 사이드바 안으로 끌어올 때 위아래에 묶음 제목 한 줄만큼 여유를 둔다 */
+  scroll-margin-block: var(--space-12);
+  transition:
+    color var(--motion-duration-instant) var(--motion-ease-out),
+    box-shadow var(--motion-duration-instant) var(--motion-ease-out);
+}
+
+.nav-list a:hover {
+  color: var(--text);
+  box-shadow: inset 1px 0 0 var(--color-text-tertiary);
+}
+
+/* 현재 항목 — 글자는 진하게, 세로선은 그 자리만 2px 강조색. 그림자로 그려 행이 밀리지 않는다 */
+.nav-list a[aria-current='page'] {
+  color: var(--text);
+  font-weight: var(--weight-semibold);
+  box-shadow: inset 2px 0 0 var(--accent);
+}
+
+.nav-list a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+  border-radius: var(--radius-control);
 }
 
 .sidebar footer {
@@ -236,6 +245,48 @@ button:hover {
   max-width: var(--measure);
 }
 
+.home-links {
+  display: flex;
+  gap: var(--space-4);
+  margin: var(--space-4) 0 0;
+}
+
+.home-links a {
+  color: var(--text);
+  font-weight: var(--weight-semibold);
+}
+
+/* 설치 명령 — 데모 페이지의 사용 예시와 같은 틀(.usage-head·.usage-code)을 쓴다 */
+.home-install {
+  margin-top: var(--space-6);
+  max-width: 560px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+}
+
+.home-install h2 {
+  margin: 0;
+  font-size: var(--text-body);
+}
+
+.home-install .usage-code {
+  background: var(--surface);
+}
+
+.usage-code:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.home-install-note {
+  margin: 0;
+  padding: var(--space-3) var(--space-4);
+  border-top: 1px solid var(--border);
+  font-size: var(--text-small);
+  color: var(--text-dim);
+}
+
 .home-search {
   display: flex;
   align-items: center;
@@ -285,33 +336,27 @@ button:hover {
 
 .demo-list a {
   display: flex;
-  gap: var(--space-3);
-  align-items: flex-start;
+  flex-direction: column;
+  gap: var(--space-1);
   height: 100%;
   padding: var(--space-4);
   border: 1px solid var(--border);
   border-radius: var(--radius-card);
-  background: var(--surface);
+  background: var(--bg);
   color: var(--text);
   text-decoration: none;
   transition: border-color var(--motion-duration-instant) var(--motion-ease-out);
 }
 
 .demo-list a:hover {
-  border-color: var(--accent);
+  border-color: var(--color-text-tertiary);
 }
 
-.demo-card-body {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-1);
-}
-
-.demo-card-body strong {
+.demo-list strong {
   font-weight: var(--weight-semibold);
 }
 
-.demo-card-body span {
+.demo-list span {
   color: var(--text-dim);
   font-size: var(--text-small);
 }
@@ -570,7 +615,7 @@ button:hover {
   }
 
   /* 손가락으로 누르는 목록 — 행 높이를 누르는 영역 하한(44px)에 맞춘다 */
-  .sidebar nav a {
+  .nav-list a {
     display: flex;
     align-items: center;
     min-height: var(--tap-min);
@@ -584,7 +629,8 @@ button:hover {
 @media (prefers-reduced-motion: reduce) {
   /* 시간 토큰이 이미 줄어들지만, 셸의 색 전환도 즉시 바뀌게 명시한다 */
   button,
-  .sidebar nav a,
+  .nav-list a,
+  .nav-toggle-icon,
   .demo-list a {
     transition-duration: 1ms;
   }

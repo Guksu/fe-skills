@@ -67,7 +67,7 @@
 .wallet-card-footer {
   margin-top: 4px;
   font-size: 0.8rem;
-  opacity: 0.8;
+  /* 카드 색 위의 작은 글자라 흐리게 하지 않는다 — 0.8이면 대비가 4.5:1 아래로 떨어진다 */
 }
 
 .wallet-card[data-theme='points'] {
@@ -75,7 +75,7 @@
 }
 
 .wallet-card[data-theme='coupon'] {
-  background: #c24f30;
+  background: #b0442a;
 }
 
 .wallet-card[data-theme='prepaid'] {

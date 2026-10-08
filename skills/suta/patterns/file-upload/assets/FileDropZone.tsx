@@ -23,10 +23,14 @@ type FileDropZoneProps = {
   accept?: string
   maxSizeBytes?: number
   maxFiles?: number
-  /** 영역 안에 그릴 안내 문구 */
+  /** 영역 안에 그릴 안내 문구 — 기본 안내(한국어)를 바꿀 때도 여기에 넘긴다 */
   children?: ReactNode
   disabled?: boolean
+  /** 화면 낭독 문구 — 진행 막대와 지우기 버튼의 이름. 기본은 한국어 */
+  labels?: { uploading: (name: string) => string; remove: (name: string) => string }
 }
+
+const DEFAULT_LABELS = { uploading: (name: string) => `${name} 업로드`, remove: (name: string) => `${name} 지우기` }
 
 const isImage = (file: File) => file.type.startsWith('image/')
 
@@ -48,6 +52,7 @@ export const FileDropZone = ({
   maxFiles,
   children,
   disabled = false,
+  labels = DEFAULT_LABELS,
 }: FileDropZoneProps) => {
   const zoneRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -161,7 +166,7 @@ export const FileDropZone = ({
                   <span
                     className="upload-progress"
                     role="progressbar"
-                    aria-label={`${item.file.name} 업로드`}
+                    aria-label={labels.uploading(item.file.name)}
                     aria-valuenow={Math.round(item.progress)}
                     aria-valuemin={0}
                     aria-valuemax={100}
@@ -171,7 +176,7 @@ export const FileDropZone = ({
                 )}
               </span>
 
-              <button type="button" className="upload-remove" aria-label={`${item.file.name} 지우기`} onClick={() => onRemove(item.id)}>
+              <button type="button" className="upload-remove" aria-label={labels.remove(item.file.name)} onClick={() => onRemove(item.id)}>
                 ✕
               </button>
             </li>

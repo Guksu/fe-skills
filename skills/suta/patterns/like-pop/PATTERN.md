@@ -75,6 +75,7 @@ createDoubleTap({
 | 버스트 크기 | `--burst-size` (기본 96px) |
 | 더블탭 판정 시간 | `thresholdMs` (기본 300ms — 시스템 더블클릭 관례) |
 | 이동 허용치 | `maxDistancePx` (기본 24px — 넘으면 스와이프로 보고 무시) |
+| 화면 낭독 문구 | `labels` — `{ like, unlike }` (기본 "좋아요"·"좋아요 취소". 다른 언어면 넘긴다) |
 
 ## 주의사항
 

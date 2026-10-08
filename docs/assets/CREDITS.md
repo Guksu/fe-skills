@@ -1,4 +1,6 @@
-# 이미지 출처
+# 이미지 출처 · Image credits
+
+[English](#english) · 아래 표는 두 언어가 함께 씁니다.
 
 ## as-is-to-be.jpg
 
@@ -24,6 +26,17 @@ README의 비교 이미지다. 같은 요청으로 만든 쇼핑 앱 화면을 3
 | kong-guksu-2.jpg | [Korean_noodles-Kongguksu-01.jpg](https://commons.wikimedia.org/wiki/File:Korean_noodles-Kongguksu-01.jpg) | egg (Hong, Yun Seon) | CC BY 2.0 |
 
 사진은 화면 틀에 맞게 잘리고 줄어들었다. 그 밖에는 바꾸지 않았다.
+
+데모 사이트의 공유 미리보기 이미지(`demo/public/og.jpg`)는 이 비교 이미지와 같은 파일이라 같은 라이선스를 따른다.
+
+### English
+
+`as-is-to-be.jpg` is the comparison image in the README: the same shopping-app request built without suta (top row) and with suta (bottom row), captured at 390px. The method is in the [mobile webview e-commerce study](../research/2026-10-08-commerce-webview.md) (Korean).
+
+- The food photos inside the screens come from Wikimedia Commons. The 12 photos used in the test project are listed in the table above; each screen shows some of them.
+- Some photos are CC BY-SA, so the comparison image is licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). The code in this repository is MIT.
+- The photos were cropped and scaled to fit the screen frames. Nothing else was changed.
+- The demo site's link-preview image (`demo/public/og.jpg`) is the same file under the same license.
 
 ## benchmark-compare.jpg
 

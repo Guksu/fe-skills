@@ -137,6 +137,7 @@ watchKeyboard({ onChange: (open) => setHidden(open) })
 | 넓은 화면 | `--bottom-nav-max-width` — 모바일 화면을 넓은 창에서 열 때 본문 열 폭에 맞춘다 | 없음(폭 가득) |
 | 숨김 속도 | `--bottom-nav-duration` — 나타남 250ms, 숨김은 그 3/4 | 250ms |
 | 겹침 순서 | `--bottom-nav-z` | 50 |
+| 낭독 문구 | `label`(내비게이션 이름), `badgeLabels` — `{ count(n), overflow, dot }` | "주요 메뉴" / "새 항목 3개" |
 
 현재 탭 색은 프로젝트 강조색(`--color-accent`)에 연결한다. 탭 바에 배경색을 채우거나 칸마다 다른 색을 주지 않는다.
 

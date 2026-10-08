@@ -42,11 +42,26 @@ export const formatBadge = (badge: TabBadge): string | null => {
   return badge > 99 ? '99+' : String(badge)
 }
 
-/** 화면 낭독기에 읽힐 배지 문구 — 숫자만 읽으면 무슨 수인지 모른다 */
-export const badgeLabel = (badge: TabBadge): string | null => {
-  if (badge === 'dot') return '새 소식 있음'
+export type BadgeLabels = {
+  /** 숫자 배지 — "새 항목 3개" */
+  count: (n: number) => string
+  /** 99를 넘을 때 */
+  overflow: string
+  /** 점 배지 */
+  dot: string
+}
+
+export const DEFAULT_BADGE_LABELS: BadgeLabels = {
+  count: (n) => `새 항목 ${n}개`,
+  overflow: '새 항목 99개 이상',
+  dot: '새 소식 있음',
+}
+
+/** 화면 낭독기에 읽힐 배지 문구 — 숫자만 읽으면 무슨 수인지 모른다. 다른 언어면 labels를 넘긴다 */
+export const badgeLabel = ({ badge, labels = DEFAULT_BADGE_LABELS }: { badge: TabBadge; labels?: BadgeLabels }): string | null => {
+  if (badge === 'dot') return labels.dot
   if (badge == null || badge <= 0) return null
-  return badge > 99 ? '새 항목 99개 이상' : `새 항목 ${badge}개`
+  return badge > 99 ? labels.overflow : labels.count(badge)
 }
 
 // 글자를 받지 않는 입력 — 초점이 가도 화면 키보드가 올라오지 않는다

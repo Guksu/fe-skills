@@ -94,6 +94,7 @@ const otp = createOtpInput({
 | 허용 문자 | `isAllowed` (코어 옵션) — 영문 코드면 `(c) => /[0-9A-Za-z]/.test(c)` | 숫자만 |
 | 칸 크기·간격 | `--otp-cell-size`·`--otp-gap` | 3rem / 0.5rem |
 | 색 | `--otp-accent`·`--otp-border`·`--otp-error`·`--otp-bg` | 거의 검정(#1b1e24) / 회색 / 빨강 / 흰색 |
+| 칸 이름 | `digitLabel({ label, position })` — position은 1부터 | "{label} {position}번째 자리" |
 
 ## 주의사항
 

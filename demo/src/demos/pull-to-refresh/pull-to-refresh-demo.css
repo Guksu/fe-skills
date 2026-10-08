@@ -28,3 +28,9 @@
   color: var(--text-dim);
   font-size: 0.8rem;
 }
+
+/* 키보드로 피드 상자에 들어왔음을 보인다 — 선이 상자 안쪽에 그려져 둥근 테두리와 겹치지 않는다 */
+.feed-frame:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}

@@ -109,6 +109,7 @@ window.addEventListener('scroll', () => setOpen(false), true)
 
 ## 주의사항
 
+- **트리거에는 `role="button"`을 준다.** 역할이 없는 `div`에는 `aria-expanded`·`aria-haspopup`이 허용되지 않아 화면 낭독기가 메뉴가 있다는 것을 알리지 못한다. React 래퍼는 이미 그렇게 그린다.
 - **트리거·백드롭·메뉴는 같은 부모 아래 형제여야 한다.** 원본 카드를 백드롭 위로 띄우는 방법이 z-index(카드 41 > 백드롭 40)인데, 이 비교는 같은 stacking context 안에서만 성립한다. 메뉴를 포털로 `body`에 보내면 카드 조상에 `transform`·`opacity`·`filter` 하나만 있어도 카드가 백드롭 밑으로 가라앉는다. React 래퍼는 이미 그렇게 그린다.
 - **백드롭은 `position: fixed`** — 조상에 `transform`·`filter`·`will-change`가 있으면 fixed 기준이 그 조상으로 바뀌어 화면 전체를 못 덮는다. 격자 컨테이너에 그런 속성을 두지 마라.
 - 카드의 `touch-action: manipulation`·`-webkit-touch-callout: none`·`user-select: none`은 터치 브라우저의 기본 길게누르기(링크 미리보기·이미지 저장·텍스트 선택)를 막는다 — 제거 금지. 카드 안 텍스트를 사용자가 복사해야 한다면 이 패턴이 맞지 않는다.

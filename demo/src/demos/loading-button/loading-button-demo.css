@@ -7,8 +7,6 @@
   border: 1px solid var(--border);
   border-radius: 12px;
   background: var(--surface);
-  /* 데모 셸이 어두운 바탕이라 패턴 기본값(거의 검정) 대신 셸의 강조색 계열을 공개 변수로 넘긴다 */
-  --loading-button-bg: #2563eb;
 }
 
 .lb-stage-title {
