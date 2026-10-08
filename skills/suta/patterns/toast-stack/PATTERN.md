@@ -65,4 +65,6 @@ document.querySelector('#save').addEventListener('click', () => {
 - 같은 이유로 중요한 오류를 토스트로만 알리지 마라 — 사라지고 나면 복구 경로가 없다.
 - **reduced-motion 대응 내장** — 이동·확대 없이 페이드만 남는다. 라이브 영역이라 스크린 리더 전달은 모션과 무관하게 동작한다.
 - 스택 이동(transform) 값은 코어가 관리한다 — CSS에서 `.toast-item`에 transform을 덮어쓰지 마라. 등장 방향을 바꾸고 싶으면 `translate` 속성을 쓴다(상단 모드가 그렇게 한다).
+- **화면이 바뀌면 토스트를 비운다** — 앞 화면의 "담았어요"가 다음 화면(장바구니)까지 따라오면 엉뚱한 알림이 된다. 라우터의 경로가 바뀔 때 `clearToasts()`(코어는 `clear()`)를 부른다.
+- 하단 탭 바(`bottom-nav`)나 하단 고정 바가 있는 화면에서는 그 위에 띄운다 — `.toast-region { bottom: calc(24px + var(--bottom-nav-height, 56px) + env(safe-area-inset-bottom)) }`.
 - 상단 모드는 상단 바·안전 영역과 겹친다 — 필요하면 `.toast-region[data-position="top"] { top: calc(24px + env(safe-area-inset-top)) }`로 내린다.

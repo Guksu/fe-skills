@@ -78,7 +78,7 @@ button.addEventListener('pointercancel', held.stop)
 | 범위·눈금 | `min`·`max`·`step` | 1 / 99 / 1 |
 | 반복 시작까지 | `delayMs` (코어) | 400ms |
 | 반복 간격·가속 | `intervalMs`·`acceleration`·`minIntervalMs` (코어) | 160ms / 0.82배 / 45ms |
-| 높이·색 | `--qty-height`·`--qty-bg`·`--qty-border`·`--qty-accent` | 2.5rem / 흰색 / 회색 / 파랑 |
+| 높이·색 | `--qty-height`·`--qty-bg`·`--qty-border`·`--qty-accent` | 2.5rem / 흰색 / 회색 / 거의 검정(#1b1e24) |
 | 숫자 칸 너비 | `--qty-value-width` | 3rem |
 
 ## 주의사항

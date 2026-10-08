@@ -45,25 +45,42 @@ export const createSheetDrag = ({
   // 드래그 중 시트 안 텍스트가 끌려 선택되는 부작용을 막는다
   const preventSelection = (event: Event) => event.preventDefault()
 
+  // 누른 뒤 이만큼 움직여야 끌기로 본다. 누르는 순간 포인터를 잡으면 브라우저가 뒤따르는 click을
+  // 시트로 넘겨서 시트 안 버튼(담기·바로 구매)이 눌리지 않는다
+  const DRAG_SLOP_PX = 8
+  let pressed = false
+  let pointerId: number | null = null
+
   const onPointerDown = (event: PointerEvent | MouseEvent) => {
     if ('button' in event && event.button !== 0) return
-    dragging = true
+    pressed = true
     startY = event.clientY
     lastY = event.clientY
     lastTime = Date.now()
     velocity = 0
+    pointerId = 'pointerId' in event ? event.pointerId : null
+    // 누른 채 움직이는 동안 시트 안 글자가 선택되지 않게 — click에는 영향이 없다
+    document.addEventListener('selectstart', preventSelection)
+  }
+
+  /** 실제로 끌기 시작한 순간 — 여기서 transition을 끄고 포인터를 잡는다 */
+  const beginDrag = () => {
+    dragging = true
     deltaY = 0
     baseOffset = Number(/translateY\((-?\d+(?:\.\d+)?)px\)/.exec(sheet.style.transform)?.[1] ?? 0)
     sheet.style.transition = 'none'
-    document.addEventListener('selectstart', preventSelection)
     // 포인터가 요소 밖으로 나가도 move/up을 계속 받는다 (jsdom 등 미지원 환경 가드)
-    if ('pointerId' in event && typeof handle.setPointerCapture === 'function') {
-      handle.setPointerCapture(event.pointerId)
+    if (pointerId != null && typeof handle.setPointerCapture === 'function') {
+      handle.setPointerCapture(pointerId)
     }
   }
 
   const onPointerMove = (event: PointerEvent | MouseEvent) => {
-    if (!dragging) return
+    if (!pressed) return
+    if (!dragging) {
+      if (Math.abs(event.clientY - startY) < DRAG_SLOP_PX) return
+      beginDrag()
+    }
     const now = Date.now()
     if (now > lastTime) velocity = (event.clientY - lastY) / (now - lastTime)
     lastY = event.clientY
@@ -76,9 +93,10 @@ export const createSheetDrag = ({
   }
 
   const onPointerUp = () => {
+    if (pressed) document.removeEventListener('selectstart', preventSelection)
+    pressed = false
     if (!dragging) return
     dragging = false
-    document.removeEventListener('selectstart', preventSelection)
     sheet.style.transition = ''
 
     if (snaps) {

@@ -18,6 +18,10 @@
  *  image-distort       warn — object-fit: fill·object-fill (사진이 늘어난다)                                 P9
  *  tinted-surface      warn — 연노랑·살구·연파랑 같은 옅은 유채색 바탕(변수 정의 포함). 파일마다 한 번 요약          P5·tone
  *  hue-count           warn — 한 파일에 유채색 계열 3종 이상(강조색 + 오류 빨강을 넘는다)                        tone
+ *  emoji-icon          warn — 아이콘·사진 자리의 이모지(그림 문자). 글자 기호(★ ✓ ×)와 주석은 뺀다. 파일마다 한 번 요약       tone
+ *  viewport-height     warn — 100vh·h-screen에 dvh·svh 짝이 없다(모바일 브라우저·웹뷰에서 아래가 잘린다)          웹뷰
+ *  input-zoom          warn — 16px 미만 글자 입력칸(iOS가 초점을 받을 때 화면을 확대한다)                       웹뷰
+ *  zoom-disabled       warn — viewport의 user-scalable=no·maximum-scale=1(확대를 막는다, WCAG 1.4.4)            접근성
  *
  * 의도적 예외: 그 줄(또는 바로 앞 줄)에 `layout-audit-ignore: {규칙} — {이유}` 주석을 두면 그 줄의 지적을 건너뛴다.
  * 파일 전체에서 한 규칙을 끄려면 `layout-audit-ignore-file: {규칙} — {이유}`. 예외에는 반드시 이유를 적는다.
@@ -43,6 +47,11 @@ const EFFECT_LIMIT = 3
 const HUE_LIMIT = 3
 const LARGE_SHADOW_BLUR_PX = 16
 const LONG_TEXT_CHARS = 40
+// iOS 사파리·WKWebView는 글자가 16px 미만인 입력칸에 초점이 가면 화면을 확대한다
+const INPUT_ZOOM_PX = 16
+
+// 그림 문자로 그려지는 이모지만 — ★ ✓ × → © ™ 같은 글자 기호는 뺀다(기본 표시가 글자인 문자는 변형 선택자 U+FE0F가 붙을 때만)
+const EMOJI = /\p{Emoji_Presentation}|\p{Extended_Pictographic}️/gu
 
 /* ---------------- 파일을 CSS 부분과 마크업 부분으로 나눈다 (줄 번호 보존) ---------------- */
 
@@ -408,9 +417,10 @@ type Tally = {
   effects: number[]
   tints: number[]
   hues: Map<string, number[]>
+  emoji: Map<string, number[]>
 }
 
-const newTally = (): Tally => ({ sizes: new Map(), weights: new Map(), radii: new Map(), offScale: [], effects: [], tints: [], hues: new Map() })
+const newTally = (): Tally => ({ sizes: new Map(), weights: new Map(), radii: new Map(), offScale: [], effects: [], tints: [], hues: new Map(), emoji: new Map() })
 
 /** 선언 하나의 색 — 계열은 모든 색 속성·변수에서, 옅은 면은 바탕과 변수 정의에서 센다 */
 const tallyColors = ({ prop, value, line, tally }: { prop: string; value: string; line: number; tally: Tally }) => {
@@ -462,6 +472,45 @@ const remBaseOf = (facts: BlockFacts[]) => {
   return 16
 }
 
+/* ---------------- 모바일 웹뷰 — 높이 단위·입력칸 확대 ---------------- */
+
+const FULL_VIEWPORT = /^100vh(\s*!important)?$/i
+const DYNAMIC_VIEWPORT = /\d(?:dvh|svh|lvh)\b/i
+const HEIGHT_PROP = /^(?:min-|max-)?(?:height|block-size)$/
+
+const viewportHeightFinding = (line: number): Omit<Finding, 'file'> => ({
+  line,
+  rule: 'viewport-height',
+  severity: 'warn',
+  message: '100vh — 모바일 브라우저·웹뷰에서는 주소창·도구 막대 높이까지 포함해 아래가 잘리거나 넘친다',
+  fix: '100dvh(지금 보이는 높이)나 100svh(가장 작은 높이)로. 옛 브라우저용 100vh는 앞 줄에 남긴다(min-height: 100vh; min-height: 100dvh;)',
+})
+
+const inputZoomFinding = ({ line, px }: { line: number; px: number }): Omit<Finding, 'file'> => ({
+  line,
+  rule: 'input-zoom',
+  severity: 'warn',
+  message: `입력칸 글자 ${formatPx(px)} — iOS 사파리·웹뷰는 16px 미만 입력칸에 초점이 가면 화면을 확대한다`,
+  fix: '입력칸 글자는 16px(--text-body) 이상. 작아 보이게 하려면 칸 높이·여백을 줄인다. maximum-scale=1로 확대를 막지 않는다',
+})
+
+// 글자를 받지 않는 입력(체크·라디오·슬라이더·파일·버튼)은 확대와 관계없다
+const NON_TEXT_INPUT = /^(?:checkbox|radio|range|color|file|submit|button|reset|image|hidden)$/i
+const NON_TEXT_INPUT_ATTR = /\[type\s*=\s*["']?(?:checkbox|radio|range|color|file|submit|button|reset|image|hidden)\b/i
+const INPUT_CLASS = /(?:^|[-_])(?:input|textarea|textfield|text-field)$/i
+
+/** 마우스·넓은 화면에서만 적용되는 묶음(@media (pointer: fine)·(hover: hover)·(min-width: 768px 이상)) — 터치 기기의 확대와 관계없다 */
+const isDesktopOnly = (selector: string) =>
+  [...selector.matchAll(/@media[^{]*/gi)].some(([group]) => /pointer\s*:\s*fine|hover\s*:\s*hover/i.test(group) || Number(group.match(/min-width\s*:\s*(\d+)px/i)?.[1] ?? 0) >= 768)
+
+/** 선택자가 글자 입력칸 자체를 가리키는가 — input·textarea·select 태그, 이름이 input·textarea로 끝나는 클래스. placeholder는 확대와 관계없다 */
+const isInputSelector = (selector: string) => {
+  const lastToken = selector.replace(/\s*([>+~])\s*/g, ' $1 ').trim().split(/\s+/).pop() ?? ''
+  if (NON_TEXT_INPUT_ATTR.test(lastToken) || /::?(?:-webkit-input-)?placeholder/i.test(lastToken)) return false
+  const { last } = anatomyOf(selector)
+  return (last.tag != null && /^(?:input|textarea|select)$/.test(last.tag)) || last.classes.some((c) => INPUT_CLASS.test(c))
+}
+
 // 아이콘 글꼴의 font-size는 글자가 아니라 아이콘 크기다 — 작은 글자·글자 크기 종류에서 뺀다
 const ICON_SELECTOR = /icon|glyph|(?:^|[\s.#>+~])fa(?:-|$|[\s.:#[])|material-(?:symbols|icons)|(?:^|[\s.])(?:bi|ri)-/i
 
@@ -476,6 +525,9 @@ const auditCssFacts = ({ facts, boxKeys, tally, push, remBase }: { facts: BlockF
     const { block, decls } = fact
     const hidden = isVisuallyHidden(fact)
     const icon = ICON_SELECTOR.test(block.fullSelector)
+    const input = !isDesktopOnly(block.selector) && splitTopLevel(block.fullSelector).some(isInputSelector)
+    // 같은 블록에 dvh·svh 짝이 있으면 100vh는 옛 브라우저용 대비 값이다
+    const dynamicHeights = new Set(decls.filter((d) => DYNAMIC_VIEWPORT.test(d.value)).map((d) => d.prop))
     let clipReported = false
     let backdropCounted = false
 
@@ -484,14 +536,18 @@ const auditCssFacts = ({ facts, boxKeys, tally, push, remBase }: { facts: BlockF
         if (icon) continue
         const px = sizePx({ value, remBase })
         if (px != null && !hidden) checkTinyText({ px, line, push })
+        if (px != null && input && px < INPUT_ZOOM_PX) push(inputZoomFinding({ line, px }))
         if (!RESET_VALUES.test(value.trim()) && value.trim() !== '0') remember({ map: tally.sizes, key: lengthKey(value), line })
       } else if (prop === 'font') {
         const size = value.match(/(?:^|\s)(\d*\.?\d+(?:px|rem))(?=\s*\/|\s)/i)?.[1]
         if (size && !icon) {
           const px = pxOf({ value: size, remBase })
           if (px != null && !hidden) checkTinyText({ px, line, push })
+          if (px != null && input && px < INPUT_ZOOM_PX) push(inputZoomFinding({ line, px }))
           remember({ map: tally.sizes, key: lengthKey(size), line })
         }
+      } else if (HEIGHT_PROP.test(prop) && FULL_VIEWPORT.test(value.trim())) {
+        if (!dynamicHeights.has(prop)) push(viewportHeightFinding(line))
       } else if (prop === 'font-weight') {
         const raw = unwrapVar(value).toLowerCase()
         if (!RESET_VALUES.test(raw) && !/^(bolder|lighter)$/.test(raw)) remember({ map: tally.weights, key: String(WEIGHT_NAMES[raw] ?? raw), line })
@@ -558,6 +614,29 @@ const auditMarkup = ({ markup, boxKeys, tally, push, remBase }: { markup: string
     const plain = tokens.filter((token) => !token.includes(':')).map((token) => token.replace(/^!/, ''))
     const style = attrValue({ attrs: tag.attrs, name: /(?:^|\s)style\s*=\s*/ }) ?? ''
     const isJsxStyle = /^\s*\{/.test(style)
+    const lowerTag = tag.name.toLowerCase()
+
+    // 확대를 막는 viewport — 글자를 키워 읽어야 하는 사람이 읽을 수 없다(WCAG 1.4.4)
+    if (lowerTag === 'meta' && /^viewport$/i.test(attrValue({ attrs: tag.attrs, name: /(?:^|\s)name\s*=\s*/ }) ?? '')) {
+      const content = attrValue({ attrs: tag.attrs, name: /(?:^|\s)content\s*=\s*/ }) ?? ''
+      if (/user-scalable\s*=\s*(?:no|0)\b/i.test(content) || /maximum-scale\s*=\s*(?:0?\.\d+|1(?:\.0+)?)(?![\d.])/i.test(content)) {
+        push({ line, rule: 'zoom-disabled', severity: 'warn', message: '확대를 막은 viewport(user-scalable=no·maximum-scale=1) — 글자를 키워야 읽을 수 있는 사람이 읽지 못한다', fix: 'width=device-width, initial-scale=1, viewport-fit=cover만 둔다. 입력칸 확대가 문제면 입력칸 글자를 16px 이상으로 (WCAG 1.4.4)' })
+      }
+    }
+    const isTextInput = /^(?:input|textarea|select)$/.test(lowerTag) && !NON_TEXT_INPUT.test(attrValue({ attrs: tag.attrs, name: /(?:^|\s)type\s*=\s*/ }) ?? '')
+
+    // 높이 — h-screen(100vh)은 dvh·svh 짝이 같은 요소에 없으면 알린다
+    if (plain.some((c) => /^(?:min-|max-)?h-screen$/.test(c)) && !bases.some((b) => /^(?:min-|max-)?h-(?:dvh|svh|lvh)$/.test(b))) push(viewportHeightFinding(line))
+    // 입력칸 글자 — 접두사 없는 크기 클래스만(md:text-base 같은 넓은 화면 값은 모바일 확대와 관계없다)
+    if (isTextInput) {
+      const sizes = plain.map((c) => {
+        const arbitrary = c.match(/^text-\[([^\]]+)\]$/)
+        if (arbitrary) return twArbitraryPx(arbitrary[1])
+        return /^text-(xs|sm|base|lg|[2-9]?xl)$/.test(c) ? TW_SIZE[c.slice(5)] : null
+      })
+      const px = sizes.filter((size): size is number => size != null).at(-1)
+      if (px != null && px < INPUT_ZOOM_PX) push(inputZoomFinding({ line, px }))
+    }
 
     // 글자 크기
     for (const base of bases) {
@@ -602,7 +681,9 @@ const auditMarkup = ({ markup, boxKeys, tally, push, remBase }: { markup: string
       if (size) {
         const px = size[1] != null ? Number(size[1]) : toPx(size[3])
         if (px != null) checkTinyText({ px, line, push })
+        if (px != null && isTextInput && px < INPUT_ZOOM_PX) push(inputZoomFinding({ line, px }))
       }
+      if (/(?:height|minHeight|maxHeight)\s*:\s*(["'])100vh\1/.test(style) && !/\d(?:dvh|svh|lvh)/.test(style)) push(viewportHeightFinding(line))
       for (const match of style.matchAll(/(background(?:Color)?|color|borderColor)\s*:\s*(["'])([^"']+)\2/g)) tallyColors({ prop: match[1].startsWith('background') ? 'background' : 'color', value: match[3], line, tally })
       const align = style.match(/textAlign\s*:\s*(["'])(\w+)\1/)?.[2]
       if (align) inlineAlign = align === 'center' ? 'center' : 'start'
@@ -612,7 +693,9 @@ const auditMarkup = ({ markup, boxKeys, tally, push, remBase }: { markup: string
         if (prop === 'font-size') {
           const px = sizePx({ value, remBase })
           if (px != null) checkTinyText({ px, line, push })
+          if (px != null && isTextInput && px < INPUT_ZOOM_PX) push(inputZoomFinding({ line, px }))
         }
+        if (HEIGHT_PROP.test(prop) && FULL_VIEWPORT.test(value.trim()) && !/\d(?:dvh|svh|lvh)/.test(style)) push(viewportHeightFinding(line))
         if (prop === 'text-align') inlineAlign = /center/i.test(value) ? 'center' : 'start'
       }
     }
@@ -679,6 +762,11 @@ const summarizeTally = ({ tally, push }: { tally: Tally; push: Push }) => {
   if (tally.hues.size >= HUE_LIMIT) {
     push({ line: firstLine(tally.hues), lines: linesOf(tally.hues), rule: 'hue-count', severity: 'warn', message: `유채색 계열 ${tally.hues.size}종(${list(tally.hues)}) — 잘 만든 서비스의 81%는 UI에 체계 색을 2종 이하로 쓴다`, fix: '무채색 + 강조색 하나(브랜드색) + 오류 빨강. 성공·주의·정보는 글자와 아이콘 모양으로 구분한다 (tone.md)' })
   }
+  if (tally.emoji.size > 0) {
+    const lines = linesOf(tally.emoji)
+    const count = [...tally.emoji.values()].flat().length
+    push({ line: lines[0], lines, rule: 'emoji-icon', severity: 'warn', message: `이모지 ${count}개(${lines.length}줄, ${[...tally.emoji.keys()].slice(0, 5).join(' ')}) — 아이콘·사진 자리의 이모지는 기기마다 모양이 다르고 AI가 만든 화면의 표시다`, fix: '같은 크기·같은 선 굵기의 선 아이콘 한 벌(layout-principles/assets/icons.ts)로. 사진이 없으면 같은 비율의 옅은 바탕 칸 (tone.md)' })
+  }
   if (tally.effects.length >= EFFECT_LIMIT) {
     const lines = [...tally.effects].sort((a, b) => a - b)
     push({ line: lines[0], lines: [...new Set(lines)], rule: 'effect-overuse', severity: 'warn', message: `강한 효과 ${lines.length}곳(${lines.slice(0, 8).join('·')}줄) — 그라데이션·유리·큰 그림자는 화면마다 한두 곳`, fix: '1순위 요소 한 곳에만 남기고 나머지는 단색 면·얇은 선·간격으로 (P3)' })
@@ -697,7 +785,15 @@ const withoutIgnored = ({ tally, ignored }: { tally: Tally; ignored: Set<number>
     effects: keep(tally.effects),
     tints: keep(tally.tints),
     hues: keepMap(tally.hues),
+    emoji: keepMap(tally.emoji),
   }
+}
+
+/** 마크업(주석을 지운 JSX·HTML)의 이모지 — 줄마다 모은다 */
+const collectEmoji = ({ markup, tally }: { markup: string; tally: Tally }) => {
+  markup.split('\n').forEach((text, index) => {
+    for (const match of text.matchAll(EMOJI)) remember({ map: tally.emoji, key: match[0], line: index + 1 })
+  })
 }
 
 /** 상자로 정의된 CSS 클래스·요소 — 모든 소스에서 모은다(CSS 파일의 .card를 TSX의 className="card"가 쓰는 경우) */
@@ -735,7 +831,10 @@ export const auditLayout = (sources: Source[]): Finding[] => {
       if (!ignored.has(finding.line) && !fileIgnored.has(finding.rule)) findings.push({ file: source.file, ...finding })
     }
     auditCssFacts({ facts, boxKeys, tally, push, remBase })
-    if (parts.markup) auditMarkup({ markup: parts.markup, boxKeys, tally, push, remBase })
+    if (parts.markup) {
+      auditMarkup({ markup: parts.markup, boxKeys, tally, push, remBase })
+      collectEmoji({ markup: parts.markup, tally })
+    }
     summarizeTally({ tally: withoutIgnored({ tally, ignored }), push })
   }
   return sortFindings(findings)

@@ -18,7 +18,7 @@
 
 .controls input[type='text'] {
   font: inherit;
-  font-size: 0.85rem;
+  font-size: 1rem;
   color: var(--text);
   background: var(--surface);
   border: 1px solid var(--border);
@@ -37,7 +37,8 @@
   min-height: 420px;
   padding: 1rem;
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 0.8rem;
+  /* 터치 기기에서는 16px — 16px 미만 입력칸은 iOS가 초점을 받을 때 화면을 확대한다. 마우스 화면만 작게 */
+  font-size: 1rem;
   line-height: 1.5;
   color: var(--text);
   background: var(--bg);
@@ -102,4 +103,14 @@
 
 .ma-fix {
   color: var(--text-dim);
+}
+
+@media (pointer: fine) {
+  .ma-input {
+    font-size: 0.8rem;
+  }
+
+  .controls input[type='text'] {
+    font-size: 0.85rem;
+  }
 }

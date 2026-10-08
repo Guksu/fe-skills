@@ -48,7 +48,7 @@ const OrderForm = () => {
 |------|------|
 | 패널 드롭 속도 | `--select-duration` (기본 200ms) |
 | 배경·테두리 | `--select-bg`(#fff)·`--select-border`(#d4d9e1) |
-| 하이라이트·선택 색 | `--select-highlight`(#f1f5f9)·`--select-accent`(#1d4ed8) |
+| 하이라이트·선택 색 | `--select-highlight`(#f1f5f9)·`--select-accent`(#1b1e24) |
 | 패널 최대 높이 | `--select-panel-max-height` (기본 240px — 넘으면 패널 안 스크롤) |
 | 최소 폭 | `--select-min-width` (기본 200px) |
 

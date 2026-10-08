@@ -146,7 +146,11 @@ export const FileDropZone = ({
                 <img className="upload-thumb" src={previews.get(item.id)} alt="" />
               ) : (
                 <span className="upload-thumb upload-thumb-icon" aria-hidden="true">
-                  📄
+                  {/* 미리보기가 없는 파일 — 이모지는 기기마다 모양이 달라 선 아이콘을 쓴다 */}
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" />
+                    <path d="M14 3v5h5" />
+                  </svg>
                 </span>
               )}
 

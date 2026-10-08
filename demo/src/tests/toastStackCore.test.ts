@@ -29,6 +29,17 @@ describe('createToastStack — 토스트 쌓기·자동 소멸·재배치', () =
     expect(toast.dataset.state).toBe('entered')
   })
 
+  it('clear()는 떠 있는 토스트를 모두 내보낸다 — 화면이 바뀔 때 앞 화면의 알림이 따라오지 않게', () => {
+    stack.show('장바구니에 담았어요')
+    stack.show('찜했어요')
+    stack.clear()
+    for (const toast of toasts()) expect(toast.dataset.state).toBe('exiting')
+    vi.advanceTimersByTime(700)
+    expect(toasts()).toHaveLength(0)
+    stack.show('새 화면의 알림')
+    expect(toasts()).toHaveLength(1)
+  })
+
   it('새 토스트가 오면 기존 토스트가 높이+간격만큼 위로 밀린다', () => {
     stack.show('첫 번째')
     stack.show('두 번째')

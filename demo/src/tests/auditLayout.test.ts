@@ -308,6 +308,83 @@ describe('auditLayout — 유채색 계열 수 (hue-count)', () => {
   })
 })
 
+describe('auditLayout — 이모지 아이콘 (emoji-icon)', () => {
+  it('아이콘·사진 자리의 이모지를 파일마다 한 번 요약해 잡는다', () => {
+    const text = [
+      'const TABS = [',
+      "  { to: '/', label: '홈', icon: '🏠' },",
+      "  { to: '/cart', label: '장바구니', icon: '🛒' },",
+      ']',
+      'export const Empty = () => <p>찜한 상품이 없어요 ❤️</p>',
+    ].join('\n')
+    const findings = audit('Tabs.tsx', text).filter((f) => f.rule === 'emoji-icon')
+    expect(findings).toHaveLength(1)
+    expect(findings[0].severity).toBe('warn')
+    expect(findings[0].lines).toEqual([2, 3, 5])
+    expect(findings[0].fix).toContain('icons.ts')
+  })
+
+  it('글자 기호(★ ✓ × → © ™)와 주석 속 이모지는 조용하다', () => {
+    const text = [
+      '// 🍜 데모용 주석',
+      'export const Rate = () => <span>★ 4.8 · ✓ 확인 · × 닫기 → 다음 © 2026 suta™</span>',
+    ].join('\n')
+    expect(audit('Rate.tsx', text).filter((f) => f.rule === 'emoji-icon')).toEqual([])
+  })
+
+  it('HTML 마크업의 이모지도 센다', () => {
+    expect(audit('index.html', '<button aria-label="검색">🔍</button>').find((f) => f.rule === 'emoji-icon')?.lines).toEqual([1])
+  })
+})
+
+describe('auditLayout — 모바일 웹뷰 (viewport-height·input-zoom·zoom-disabled)', () => {
+  it('100vh 높이는 바뀌는 높이 단위(dvh·svh)가 같은 블록에 없으면 알린다', () => {
+    const css = [
+      '.page { min-height: 100vh; }',
+      '.sheet { max-height: 100vh; max-height: 100dvh; }',
+      '.hero { height: 50vh; }',
+    ].join('\n')
+    const findings = audit('a.css', css).filter((f) => f.rule === 'viewport-height')
+    expect(findings.map((f) => f.line)).toEqual([1])
+    expect(findings[0].fix).toContain('100dvh')
+  })
+
+  it('Tailwind h-screen·min-h-screen도 dvh·svh 짝이 없으면 알린다', () => {
+    const text = ['export const A = () => (', '  <main className="min-h-screen">', '    <div className="h-screen h-dvh" />', '  </main>', ')'].join('\n')
+    expect(audit('A.tsx', text).filter((f) => f.rule === 'viewport-height').map((f) => f.line)).toEqual([2])
+  })
+
+  it('16px 미만 입력칸 글자를 잡는다 — iOS가 초점을 받을 때 화면을 확대한다', () => {
+    const css = [
+      'input, textarea { font-size: 14px; }',
+      '.search-input { font-size: 0.875rem; }',
+      'input[type="checkbox"] { font-size: 12px; }',
+      '.field-label { font-size: 14px; }',
+      'select { font-size: 16px; }',
+      '@media (pointer: fine) { .code-input { font-size: 0.8rem; } }',
+    ].join('\n')
+    const findings = audit('a.css', css).filter((f) => f.rule === 'input-zoom')
+    expect(findings.map((f) => f.line)).toEqual([1, 2])
+    expect(findings[0].severity).toBe('warn')
+  })
+
+  it('JSX 입력칸의 작은 글자 클래스(text-sm·text-[13px])도 잡는다', () => {
+    const text = ['export const S = () => (', '  <form>', '    <input className="h-10 text-sm" />', '    <textarea className="text-base" />', '    <button className="text-sm">검색</button>', '  </form>', ')'].join('\n')
+    expect(audit('S.tsx', text).filter((f) => f.rule === 'input-zoom').map((f) => f.line)).toEqual([3])
+  })
+
+  it('확대를 막는 viewport 설정(user-scalable=no·maximum-scale=1)을 잡는다', () => {
+    const html = [
+      '<head>',
+      '  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />',
+      '</head>',
+    ].join('\n')
+    const findings = audit('index.html', html).filter((f) => f.rule === 'zoom-disabled')
+    expect(findings.map((f) => f.line)).toEqual([2])
+    expect(audit('ok.html', '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />').filter((f) => f.rule === 'zoom-disabled')).toEqual([])
+  })
+})
+
 describe('auditLayout — 저장소의 패턴 코드', () => {
   it('설치되는 패턴 assets 전체에서 error가 없다', () => {
     // vitest는 demo/에서 돈다 — 정본 패턴 폴더를 그대로 훑는다

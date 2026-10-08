@@ -31,7 +31,7 @@
   width: var(--_w);
   height: var(--_h);
   border-radius: 999px;
-  background: var(--switch-off-bg, #94a3b8);
+  background: var(--switch-off-bg, #868b94);
   transition: background var(--_duration) ease;
 }
 
@@ -48,7 +48,7 @@
 }
 
 .switch-input:checked + .switch-track {
-  background: var(--switch-on-bg, #34c759);
+  background: var(--switch-on-bg, #1b1e24);
 }
 
 .switch-input:checked + .switch-track .switch-thumb {
@@ -65,7 +65,7 @@
 }
 
 .switch-input:focus-visible + .switch-track {
-  outline: 2px solid var(--switch-on-bg, #34c759);
+  outline: 2px solid var(--switch-on-bg, #1b1e24);
   outline-offset: 2px;
 }
 

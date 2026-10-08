@@ -97,11 +97,16 @@ export const createToastStack = ({
     return () => dismiss(record)
   }
 
+  // 화면(라우트)이 바뀔 때 부른다 — 앞 화면의 알림("담았어요")이 다음 화면까지 따라오지 않게 모두 내보낸다
+  const clear = () => {
+    for (const record of [...alive]) dismiss(record)
+  }
+
   const destroy = () => {
     alive.forEach((record) => clearTimeout(record.autoTimer))
     alive = []
     region.remove()
   }
 
-  return { show, destroy }
+  return { show, clear, destroy }
 }

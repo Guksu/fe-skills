@@ -1,6 +1,6 @@
 ---
 name: layout-audit
-description: CSS·JSX·HTML에서 AI가 흔히 만드는 레이아웃 문제를 file:line으로 찾는 정적 검사 도구(layout audit)다. 11px 미만 글자, 카드 안 카드, 그라데이션·유리 효과 남발, 그라데이션 글자, 글자 크기·굵기·반경 종류 과다, 4px 척도 밖 간격, 문단 가운데 정렬, 늘어난 사진, 연노랑·살구 같은 옅은 색 면, 색 계열 과다를 잡는다. "레이아웃 검사해줘, 디자인 규칙 점검, 카드 안 카드 잡아줘, 스타일 코드 리뷰, layout lint" 요청에 쓴다.
+description: CSS·JSX·HTML에서 AI가 흔히 만드는 레이아웃 문제를 file:line으로 찾는 정적 검사 도구(layout audit)다. 11px 미만 글자, 카드 안 카드, 효과 남발, 글자 크기·굵기·반경 종류 과다, 4px 척도 밖 간격, 문단 가운데 정렬, 늘어난 사진, 옅은 색 면, 색 계열 과다, 이모지 아이콘, 모바일 웹뷰의 100vh·입력칸 확대·확대 막기를 잡는다. "레이아웃 검사해줘, 디자인 규칙 점검, 카드 안 카드 잡아줘, 스타일 코드 리뷰, layout lint" 요청에 쓴다.
 ---
 
 # layout-audit — 레이아웃 검사
@@ -17,7 +17,7 @@ description: CSS·JSX·HTML에서 AI가 흔히 만드는 레이아웃 문제를 
 
 | 파일 | 층 | 복사 대상 |
 |------|-----|----------|
-| `assets/auditLayout.ts` | 코어 — 규칙 12개, `auditLayout(sources)` → `Finding[]`, `formatFindings`, `summarize` | 모든 프로젝트 |
+| `assets/auditLayout.ts` | 코어 — 규칙 16개, `auditLayout(sources)` → `Finding[]`, `formatFindings`, `summarize` | 모든 프로젝트 |
 | `assets/auditCore.ts` | 공통 코어 — 결과 형식, CSS 블록 자르기, 예외 주석 | 함께 복사 |
 | `assets/layoutTokens.ts` | 간격 척도·글자 하한 — `layout-principles`와 같은 파일 | 함께 복사 |
 | `assets/audit.mjs` | CLI — 폴더 재귀, `--json`, `--warn-only`, error가 있으면 exit 1 | Node 22.18+ |
@@ -74,6 +74,10 @@ console.log(formatFindings(findings))
 | `image-distort` | warn | `object-fit: fill`·`object-fill` | P9 |
 | `tinted-surface` | warn | 옅은 유채색 바탕(연노랑·살구·연분홍·연민트·연파랑) — CSS `background`·변수 정의, Tailwind `bg-{색}-50~200`, 인라인 스타일. 반투명 색은 흰 면 위에 얹은 색으로 판정한다. OKLCH 밝기 0.9 이상 + 채도 0.012 이상이 기준이고, slate 같은 푸른 회색은 회색으로 둔다. 파일마다 한 번 요약 | P5·`tone.md` |
 | `hue-count` | warn | 한 파일의 유채색 계열(빨강·주황·노랑·초록·청록·파랑·보라·분홍) 3종 이상 — 모든 색 속성·변수 정의·Tailwind 색 이름에서 센다. 다크 모드의 같은 계열은 하나로 센다 | `tone.md` |
+| `emoji-icon` | warn | JSX·HTML에 그림으로 그려지는 이모지(🏠 🛒 ❤️). 아이콘·사진 자리의 이모지는 기기마다 모양이 달라 AI가 만든 화면의 표시다. ★ ✓ × → © 같은 글자 기호와 주석은 뺀다. 파일마다 한 번 요약 | `tone.md` |
+| `viewport-height` | warn | `height`·`min-height`·`max-height: 100vh`와 Tailwind `h-screen`·`min-h-screen` — 같은 블록·요소에 `dvh`·`svh` 짝이 없을 때. 모바일 브라우저·웹뷰에서 아래가 잘린다 | 웹뷰 |
+| `input-zoom` | warn | 글자 입력칸(`input`·`textarea`·`select`, 이름이 `input`·`textarea`로 끝나는 클래스, Tailwind `text-sm`을 단 입력칸)의 16px 미만 글자. iOS는 초점이 갈 때 화면을 확대한다. 체크·라디오·버튼 입력, placeholder, `@media (pointer: fine)`·넓은 화면 묶음은 뺀다 | 웹뷰 |
+| `zoom-disabled` | warn | viewport 메타의 `user-scalable=no`·`maximum-scale=1` — 글자를 키워 읽어야 하는 사람이 읽을 수 없다(WCAG 1.4.4) | 접근성 |
 
 ## 의도적 예외
 
