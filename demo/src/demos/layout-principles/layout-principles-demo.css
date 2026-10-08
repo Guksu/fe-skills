@@ -380,7 +380,8 @@
   border-radius: var(--radius-control);
   background: none;
   color: var(--text);
-  font-size: var(--text-heading);
+  display: grid;
+  place-items: center;
 }
 
 .lp-a-icon-button:hover {

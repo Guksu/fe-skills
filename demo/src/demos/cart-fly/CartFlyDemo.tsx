@@ -1,12 +1,15 @@
 import { useRef, useState } from 'react'
 import { useCartFly } from '@skills/cart-fly/assets/useCartFly'
+import { Icon } from '../../shared/Icon'
+import { DishPhoto } from '../../shared/DishPhoto'
+import type { DishId } from '../../shared/dishes'
 import './cart-fly-demo.css'
 
-const PRODUCTS = [
-  { name: '얼큰 칼국수', emoji: '🍜', price: 9000 },
-  { name: '왕만두 한 판', emoji: '🥟', price: 7000 },
-  { name: '냉모밀 정식', emoji: '🧊', price: 10000 },
-  { name: '수제 어묵탕', emoji: '🍢', price: 6000 },
+const PRODUCTS: { name: string; dish: DishId; price: number }[] = [
+  { name: '얼큰 칼국수', dish: 'kalguksu', price: 9000 },
+  { name: '왕만두 한 판', dish: 'mandu', price: 7000 },
+  { name: '냉모밀 정식', dish: 'memil', price: 10000 },
+  { name: '수제 어묵탕', dish: 'eomuk', price: 6000 },
 ]
 
 type Arc = 'horizontal-first' | 'vertical-first'
@@ -52,7 +55,8 @@ export const CartFlyDemo = () => {
 
       <div className="cart-bar">
         <button ref={targetRef} type="button" className="cart-button" aria-label={`장바구니 ${count}개`}>
-          🛒 장바구니
+          <Icon name="cart" />
+          장바구니
           {count > 0 && (
             <span key={bumpKey} className="cart-badge">
               {count}
@@ -70,7 +74,8 @@ export const CartFlyDemo = () => {
             }}
             className="cart-card"
           >
-            <span className="cart-thumb">{product.emoji}</span>
+            {/* 날아가는 고스트는 이 사진을 복제한다(.cart-thumb) — 사진이 그대로 장바구니로 들어간다 */}
+            <DishPhoto dish={product.dish} className="cart-thumb" />
             <strong>{product.name}</strong>
             <span className="cart-price">{product.price.toLocaleString('ko-KR')}원</span>
             <button type="button" onClick={() => addToCart(product.name)}>

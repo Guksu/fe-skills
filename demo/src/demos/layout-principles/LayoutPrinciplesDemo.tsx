@@ -1,5 +1,7 @@
 import { useState, type CSSProperties, type ReactNode } from 'react'
 import { GAP, RADIUS, SPACE, TEXT, WEIGHT, groupGapOk } from '@skills/layout-principles/assets/layoutTokens'
+import { Icon as LineIcon } from '../../shared/Icon'
+import { photoSrc } from '../../shared/dishes'
 import '@skills/layout-principles/assets/layout-tokens.css'
 import './layout-principles-demo.css'
 import './layout-principles-before.css'
@@ -20,12 +22,9 @@ const ORDER = [
 const won = (amount: number) => `${amount.toLocaleString('ko-KR')}원`
 const ORDER_TOTAL = ORDER.reduce((sum, item) => sum + item.price, 0)
 
-/** 실제 사진 대신 쓰는 SVG — 일부러 무늬를 많이 넣어 글자를 얹으면 읽기 어렵게 만든다 */
-const photoUrl = () => {
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="480" height="360" viewBox="0 0 480 360"><defs><radialGradient id="g" cx="0.5" cy="0.45" r="0.7"><stop offset="0" stop-color="#f4d9a8"/><stop offset="0.6" stop-color="#c98a4b"/><stop offset="1" stop-color="#6b3f1f"/></radialGradient></defs><rect width="480" height="360" fill="url(#g)"/><circle cx="240" cy="190" r="128" fill="#f8f1e4" stroke="#8a5a2b" stroke-width="10"/><text x="240" y="205" font-size="150" text-anchor="middle" dominant-baseline="middle">🍜</text><text x="70" y="80" font-size="56">🥢</text><text x="400" y="300" font-size="48">🌶️</text><text x="390" y="90" font-size="44">🥚</text><text x="80" y="300" font-size="44">🧅</text></svg>`
-  return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`
-}
-const PHOTO = photoUrl()
+/* 사진 위 글자 비교에는 무늬가 많은 실제 음식 사진을 쓴다 — 사진 위에 바로 얹은 글자가 왜 안 읽히는지 보인다 */
+const PHOTO = photoSrc('janchi')
+const DETAIL_PHOTO = photoSrc('deulkkae')
 
 /* ---- ① 주문 내역 — 상자 대신 간격(P5·P4) ---- */
 
@@ -206,7 +205,7 @@ const SPICE = ['순한 맛', '보통', '매운맛']
 const DetailBefore = () => (
   <div className="lp-b-detail" tabIndex={0} aria-label="고치기 전 메뉴 상세 — 스크롤 영역">
     <div className="lp-b-card">
-      <img className="lp-b-detail-photo" src={PHOTO} alt="들깨칼국수 한 그릇" width={480} height={360} />
+      <img className="lp-b-detail-photo" src={DETAIL_PHOTO} alt="들깨칼국수 한 그릇" width={480} height={360} />
     </div>
     <div className="lp-b-center">
       <p className="lp-b-title">들깨칼국수</p>
@@ -242,7 +241,7 @@ const DetailAfter = () => {
   return (
     <div className="lp-a-detail">
       <div className="lp-a-detail-scroll" tabIndex={0} aria-label="고친 뒤 메뉴 상세 — 스크롤 영역">
-        <img className="lp-a-detail-photo" src={PHOTO} alt="들깨칼국수 한 그릇" width={480} height={360} />
+        <img className="lp-a-detail-photo" src={DETAIL_PHOTO} alt="들깨칼국수 한 그릇" width={480} height={360} />
         <div className="lp-a-detail-body">
           <div className="lp-a-detail-head">
             <span className="lp-a-sub">성수동 골목 국수집</span>
@@ -263,7 +262,7 @@ const DetailAfter = () => {
       </div>
       <div className="lp-a-buybar">
         <button type="button" className="lp-a-icon-button" aria-label="찜하기">
-          ♡
+          <LineIcon name="heart" />
         </button>
         <button type="button" className="lp-a-buy">
           {won(11000)} 담기

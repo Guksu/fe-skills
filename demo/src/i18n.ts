@@ -61,6 +61,13 @@ export const STRINGS = {
     copied: '복사됨 ✓',
     skillDoc: '패턴 문서 →',
     demoNote: '데모 안의 조절 라벨과 예시 콘텐츠는 한국어입니다.',
+    creditsLink: '사진·아이콘 출처',
+    creditsTitle: '사진·아이콘 출처',
+    creditsIntro: '데모의 음식 사진은 위키미디어 공용(Wikimedia Commons)에 CC0·CC BY로 공개된 사진입니다. 모두 4:3으로 잘라 줄이고 WebP로 바꿨습니다.',
+    creditsPhotos: '음식 사진',
+    creditsIcons: '선 아이콘',
+    creditsIconsBody: '선 아이콘은 Feather Icons(MIT License, Copyright (c) 2013-2017 Cole Bemis)의 모양을 따랐습니다. 국수 그릇 아이콘은 직접 그렸습니다.',
+    creditsSource: '원본',
   },
   en: {
     tagline: 'UI without AI slop — pattern demos',
@@ -78,6 +85,13 @@ export const STRINGS = {
     copied: 'Copied ✓',
     skillDoc: 'Pattern doc →',
     demoNote: 'Control labels and sample content inside each demo are in Korean.',
+    creditsLink: 'Photo & icon credits',
+    creditsTitle: 'Photo & icon credits',
+    creditsIntro: 'The food photos in the demos are CC0 or CC BY images from Wikimedia Commons. Each one was cropped to 4:3, resized and converted to WebP.',
+    creditsPhotos: 'Food photos',
+    creditsIcons: 'Line icons',
+    creditsIconsBody: 'Line icons follow the shapes of Feather Icons (MIT License, Copyright (c) 2013-2017 Cole Bemis). The noodle bowl icon was drawn for this site.',
+    creditsSource: 'Original',
   },
 } as const
 

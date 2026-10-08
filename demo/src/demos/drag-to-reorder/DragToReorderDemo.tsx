@@ -1,15 +1,17 @@
 import { useState, type CSSProperties } from 'react'
 import { useDragReorder } from '@skills/drag-to-reorder/assets/useDragReorder'
+import { DishPhoto } from '../../shared/DishPhoto'
+import type { DishId } from '../../shared/dishes'
 import './drag-to-reorder-demo.css'
 
-type Menu = { id: string; name: string; price: number; emoji: string }
+type Menu = { id: string; name: string; price: number; dish: DishId }
 
 const INITIAL: Menu[] = [
-  { id: 'myeolchi', name: '멸치국수', price: 8000, emoji: '🍜' },
-  { id: 'bibim', name: '비빔국수', price: 9000, emoji: '🌶️' },
-  { id: 'deulkkae', name: '들깨칼국수', price: 10000, emoji: '🥣' },
-  { id: 'kong', name: '콩국수', price: 11000, emoji: '🥛' },
-  { id: 'mandu', name: '손만두', price: 7000, emoji: '🥟' },
+  { id: 'myeolchi', name: '멸치국수', price: 8000, dish: 'myeolchi' },
+  { id: 'bibim', name: '비빔국수', price: 9000, dish: 'bibim' },
+  { id: 'deulkkae', name: '들깨칼국수', price: 10000, dish: 'deulkkae' },
+  { id: 'kong', name: '콩국수', price: 11000, dish: 'kong' },
+  { id: 'mandu', name: '손만두', price: 7000, dish: 'mandu' },
 ]
 
 export const DragToReorderDemo = () => {
@@ -76,9 +78,8 @@ export const DragToReorderDemo = () => {
                 ⠿
               </button>
               <span className="dr-rank">{index + 1}</span>
-              <span className="dr-name">
-                {menu.emoji} {menu.name}
-              </span>
+              <DishPhoto dish={menu.dish} className="dr-thumb" />
+              <span className="dr-name">{menu.name}</span>
               <span className="dr-price">{menu.price.toLocaleString('ko-KR')}원</span>
             </li>
           ))}

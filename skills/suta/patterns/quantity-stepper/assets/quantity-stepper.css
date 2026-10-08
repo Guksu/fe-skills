@@ -18,6 +18,12 @@
   opacity: 0.5;
 }
 
+/* 삭제 상태의 휴지통 아이콘 — 글자(−)와 같은 자리, 가운데에 */
+.qty-icon {
+  display: block;
+  margin: 0 auto;
+}
+
 .qty-button {
   width: var(--_h);
   height: 100%;

@@ -83,7 +83,7 @@ export const ModalDialogDemo = () => {
             <button type="button" onClick={() => closeWith('결제를 취소했습니다.')}>
               취소
             </button>
-            <button type="button" className="modal-demo-primary" onClick={() => closeWith('결제가 완료되었습니다 🍜')}>
+            <button type="button" className="modal-demo-primary" onClick={() => closeWith('결제가 완료되었습니다')}>
               결제
             </button>
           </div>

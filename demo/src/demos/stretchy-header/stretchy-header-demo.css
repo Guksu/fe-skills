@@ -12,16 +12,6 @@
 }
 
 /* 사진 대용 — 그라디언트 위에 큰 이모지. 늘어날 때 무늬가 커지는 것이 보이도록 방사형 하이라이트를 둔다 */
-.stretchy-demo-image {
-  display: grid;
-  place-items: center;
-  font-size: 7rem;
-  line-height: 1;
-  background:
-    radial-gradient(circle at 30% 25%, rgba(255, 255, 255, 0.28), transparent 45%),
-    linear-gradient(160deg, #f0a35a 0%, #d9633a 55%, #7a2e1f 100%);
-}
-
 .stretchy-demo-title {
   margin: 0;
   font-size: 1.6rem;

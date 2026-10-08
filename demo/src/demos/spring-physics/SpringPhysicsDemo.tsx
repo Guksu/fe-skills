@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type PointerEvent } from 'react'
 import { useSpring } from '@skills/spring-physics/assets/useSpring'
 import { dampingRatio, springDuration, springToLinear } from '@skills/spring-physics/assets/spring'
+import { Icon } from '../../shared/Icon'
 import './spring-physics-demo.css'
 
 const PRESETS = [
@@ -130,12 +131,12 @@ export const SpringPhysicsDemo = () => {
               if (e.key === 'ArrowLeft') x.to(0)
             }}
           >
-            🍜
+            <Icon name="bowl" />
           </div>
         </div>
         <div className="spring-track spring-track-ghost" aria-hidden="true">
           <div ref={ghostRef} className="spring-ball spring-ball-ghost">
-            ⏱
+            <Icon name="clock" />
           </div>
         </div>
 
@@ -146,7 +147,8 @@ export const SpringPhysicsDemo = () => {
             data-popped={popped}
             onClick={() => setPopped((p) => !p)}
           >
-            {popped ? '❤️' : '🤍'} CSS linear() 팝
+            <Icon name="heart" filled={popped} />
+            CSS linear() 팝
           </button>
           <code className="spring-linear-code">{linear.easing.slice(0, 80)}… ({linear.duration}ms)</code>
         </div>

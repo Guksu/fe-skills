@@ -1,6 +1,8 @@
 import { useState, type CSSProperties } from 'react'
 import { LikeButton } from '@skills/like-pop/assets/LikeButton'
 import { DoubleTapArea } from '@skills/like-pop/assets/DoubleTapArea'
+import { Icon } from '../../shared/Icon'
+import { DishPhoto } from '../../shared/DishPhoto'
 import './like-pop-demo.css'
 
 export const LikePopDemo = () => {
@@ -50,13 +52,15 @@ export const LikePopDemo = () => {
 
       <article className="post-card" style={vars}>
         <header className="post-header">
-          <span className="post-avatar">🍜</span>
+          {/* 가게 계정의 프로필 — 로고(국수 그릇)를 무채색 원에 */}
+          <span className="post-avatar">
+            <Icon name="bowl" />
+          </span>
           <strong>guksu_official</strong>
         </header>
         <DoubleTapArea onDoubleTap={() => setLiked(true)} thresholdMs={thresholdMs}>
           <div className="post-image">
-            <span>🍜</span>
-            <p>성수동 국수 맛집</p>
+            <DishPhoto dish="janchi" alt="잔치국수 한 그릇 — 성수동 국수 맛집" />
           </div>
         </DoubleTapArea>
         <footer className="post-footer">

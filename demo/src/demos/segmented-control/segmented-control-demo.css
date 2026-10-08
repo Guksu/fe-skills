@@ -43,15 +43,12 @@
   min-height: 120px;
 }
 
-.segment-card-emoji {
-  width: 48px;
-  height: 48px;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  background: var(--accent-soft);
-  font-size: 1.5rem;
-  flex-shrink: 0;
+/* 고른 메뉴의 사진 — 선택이 바뀌어도 같은 자리·같은 크기(72px 정사각) */
+.segment-card-photo {
+  flex: none;
+  inline-size: 72px;
+  block-size: 72px;
+  border-radius: var(--radius-control);
 }
 
 .segment-card-body {

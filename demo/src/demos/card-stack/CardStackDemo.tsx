@@ -1,6 +1,7 @@
 import { useState, type CSSProperties } from 'react'
 import { CardStack } from '@skills/card-stack/assets/CardStack'
 import type { StackState } from '@skills/card-stack/assets/stackLayout'
+import { Icon } from '../../shared/Icon'
 import './card-stack-demo.css'
 
 type WalletCard = {
@@ -8,16 +9,15 @@ type WalletCard = {
   theme: 'points' | 'coupon' | 'prepaid' | 'regular'
   kind: string
   title: string
-  emoji: string
   body: string
   footer: string
 }
 
 const WALLET: WalletCard[] = [
-  { id: 'points', theme: 'points', kind: '적립 카드', title: '면 한 그릇, 도장 하나', emoji: '🍜', body: '도장 7 / 10', footer: '10개 모으면 잔치국수 한 그릇' },
-  { id: 'coupon', theme: 'coupon', kind: '쿠폰', title: '손만두 1인분 무료', emoji: '🥟', body: '칼국수 주문 시 사용 가능', footer: '유효기간 10월 31일까지' },
-  { id: 'prepaid', theme: 'prepaid', kind: '선불 카드', title: '국수집 선불 잔액', emoji: '💳', body: '32,000원', footer: '충전 5만원마다 5천원 덤' },
-  { id: 'regular', theme: 'regular', kind: '단골 카드', title: '성수동 단골 3년차', emoji: '🥢', body: '방문 128회', footer: '단골 전용 — 육수 리필 무제한' },
+  { id: 'points', theme: 'points', kind: '적립 카드', title: '면 한 그릇, 도장 하나', body: '도장 7 / 10', footer: '10개 모으면 잔치국수 한 그릇' },
+  { id: 'coupon', theme: 'coupon', kind: '쿠폰', title: '손만두 1인분 무료', body: '칼국수 주문 시 사용 가능', footer: '유효기간 10월 31일까지' },
+  { id: 'prepaid', theme: 'prepaid', kind: '선불 카드', title: '국수집 선불 잔액', body: '32,000원', footer: '충전 5만원마다 5천원 덤' },
+  { id: 'regular', theme: 'regular', kind: '단골 카드', title: '성수동 단골 3년차', body: '방문 128회', footer: '단골 전용 — 육수 리필 무제한' },
 ]
 
 const MODE_LABEL: Record<StackState['mode'], string> = {
@@ -41,9 +41,8 @@ export const CardStackDemo = () => {
       <div className="wallet-card" data-theme={card.theme}>
         <div className="wallet-card-head">
           <span className="wallet-card-kind">{card.kind}</span>
-          <span className="wallet-card-emoji" aria-hidden="true">
-            {card.emoji}
-          </span>
+          {/* 머리 오른쪽은 발급처 로고 자리 — 네 장 모두 같은 가게라 같은 그릇 표시를 둔다 */}
+          <Icon name="bowl" className="wallet-card-logo" />
         </div>
         <strong className="wallet-card-title">{card.title}</strong>
         <span className="wallet-card-body">{card.body}</span>

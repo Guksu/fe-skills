@@ -36,7 +36,8 @@
   height: 48px;
   border-radius: 50%;
   background: var(--accent);
-  font-size: 1.5rem;
+  /* 공 위 아이콘은 짙은 바탕색 — 밝은 강조색 공에서 또렷하다 */
+  color: var(--bg);
   cursor: grab;
   touch-action: none;
   user-select: none;
@@ -55,6 +56,7 @@
 
 .spring-ball-ghost {
   background: #475569;
+  color: var(--text);
   cursor: default;
 }
 
@@ -72,7 +74,15 @@
 }
 
 .spring-pop {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
   transform: scale(1);
+}
+
+/* 켜지면 같은 하트를 채운다 — 색은 오류 빨강이 아니라 강조색(좋아요는 경고가 아니다) */
+.spring-pop[data-popped='true'] .icon {
+  color: var(--accent);
 }
 
 .spring-pop[data-popped='true'] {

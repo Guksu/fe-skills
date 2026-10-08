@@ -25,6 +25,7 @@ CSS 파일은 없다 — 고스트 스타일은 코어가 인라인으로 관리
 ```tsx
 import { useState } from 'react'
 import { useCartFly } from './useCartFly'
+import { CartIcon } from './icons' // 프로젝트의 선 아이콘 한 벌(인라인 SVG) — 이모지로 대신하지 않는다
 
 const Shop = () => {
   const [count, setCount] = useState(0)
@@ -38,10 +39,10 @@ const Shop = () => {
   return (
     <>
       <button ref={targetRef} type="button" aria-label={`장바구니 ${count}개`}>
-        🛒 {count}
+        <CartIcon /> {count}
       </button>
       <div className="product-card">
-        <span>🍜</span>
+        <img src="/photos/janchi.webp" alt="잔치국수" width={96} height={96} />
         <button type="button" onClick={addToCart}>담기</button>
       </div>
     </>

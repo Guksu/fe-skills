@@ -1,11 +1,14 @@
 import { useRef, useState, type CSSProperties } from 'react'
 import { PinchZoom } from '@skills/pinch-zoom/assets/PinchZoom'
+import { Icon } from '../../shared/Icon'
+import { DishPhoto } from '../../shared/DishPhoto'
+import type { DishId } from '../../shared/dishes'
 import './pinch-zoom-demo.css'
 
-const POSTS = [
-  { id: 'deulkkae', author: '국수공방', caption: '들깨칼국수 — 오늘 들깨 갓 볶았습니다', tone: 'linear-gradient(135deg, #f6d365, #fda085)', emoji: '🍜' },
-  { id: 'bibim', author: '국수공방', caption: '비빔국수, 여름 한정 매운맛', tone: 'linear-gradient(135deg, #f093fb, #f5576c)', emoji: '🌶️' },
-  { id: 'mandu', author: '국수공방', caption: '손만두 빚는 아침', tone: 'linear-gradient(135deg, #a1c4fd, #c2e9fb)', emoji: '🥟' },
+const POSTS: { id: string; author: string; caption: string; dish: DishId }[] = [
+  { id: 'deulkkae', author: '국수공방', caption: '들깨칼국수 — 오늘 들깨 갓 볶았습니다', dish: 'deulkkae' },
+  { id: 'bibim', author: '국수공방', caption: '비빔국수, 여름 한정 매운맛', dish: 'bibim' },
+  { id: 'mandu', author: '국수공방', caption: '손만두 빚는 아침', dish: 'mandu' },
 ]
 
 type T = { clientX: number; clientY: number }
@@ -89,7 +92,10 @@ export const PinchZoomDemo = () => {
         {POSTS.map((post) => (
           <article key={post.id} className="pinch-post">
             <header className="pinch-post-header">
-              <span className="pinch-post-avatar" aria-hidden="true" />
+              {/* 가게 계정의 프로필 — 로고(국수 그릇)를 무채색 원에 */}
+              <span className="pinch-post-avatar" aria-hidden="true">
+                <Icon name="bowl" />
+              </span>
               <strong>{post.author}</strong>
             </header>
             <PinchZoom
@@ -98,9 +104,7 @@ export const PinchZoomDemo = () => {
                 setStatus(active ? `확대 중 — ${scale.toFixed(2)}×` : '제자리로 돌아왔습니다.')
               }
             >
-              <div className="pinch-photo" style={{ background: post.tone }} role="img" aria-label={post.caption}>
-                <span aria-hidden="true">{post.emoji}</span>
-              </div>
+              <DishPhoto dish={post.dish} alt={post.caption} className="pinch-photo" />
             </PinchZoom>
             <p className="pinch-post-caption">{post.caption}</p>
           </article>

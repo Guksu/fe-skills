@@ -1,17 +1,19 @@
 import { useEffect, useRef, useState } from 'react'
 import { usePageStack } from '@skills/page-transition/assets/usePageStack'
+import { DishPhoto } from '../../shared/DishPhoto'
+import type { DishId } from '../../shared/dishes'
 import './page-transition-demo.css'
 
 type Screen = { name: 'list' } | { name: 'detail'; id: string } | { name: 'reviews'; id: string }
 
-type Menu = { id: string; name: string; price: number; emoji: string; desc: string }
+type Menu = { id: string; name: string; price: number; dish: DishId; desc: string }
 
 const MENUS: Menu[] = [
-  { id: 'myeolchi', name: '멸치국수', price: 8000, emoji: '🍜', desc: '남해 멸치로 3시간 우린 맑은 육수' },
-  { id: 'bibim', name: '비빔국수', price: 9000, emoji: '🌶️', desc: '직접 담근 고추장 양념에 배를 갈아 넣었습니다' },
-  { id: 'deulkkae', name: '들깨칼국수', price: 10000, emoji: '🥣', desc: '거피 들깨를 그날 갈아 씁니다' },
-  { id: 'kong', name: '콩국수', price: 11000, emoji: '🥛', desc: '여름 한정 — 국산 백태만 씁니다' },
-  { id: 'mandu', name: '손만두', price: 7000, emoji: '🥟', desc: '아침마다 빚는 6개들이' },
+  { id: 'myeolchi', name: '멸치국수', price: 8000, dish: 'myeolchi', desc: '남해 멸치로 3시간 우린 맑은 육수' },
+  { id: 'bibim', name: '비빔국수', price: 9000, dish: 'bibim', desc: '직접 담근 고추장 양념에 배를 갈아 넣었습니다' },
+  { id: 'deulkkae', name: '들깨칼국수', price: 10000, dish: 'deulkkae', desc: '거피 들깨를 그날 갈아 씁니다' },
+  { id: 'kong', name: '콩국수', price: 11000, dish: 'kong', desc: '여름 한정 — 국산 백태만 씁니다' },
+  { id: 'mandu', name: '손만두', price: 7000, dish: 'mandu', desc: '아침마다 빚는 6개들이' },
 ]
 
 const REVIEWS = [
@@ -94,9 +96,7 @@ export const PageTransitionDemo = () => {
                   {MENUS.map((item) => (
                     <li key={item.id}>
                       <button type="button" className="pt-row" onClick={() => stack.push({ name: 'detail', id: item.id })}>
-                        <span className="pt-row-emoji" aria-hidden="true">
-                          {item.emoji}
-                        </span>
+                        <DishPhoto dish={item.dish} className="pt-row-thumb" />
                         <span className="pt-row-body">
                           <span className="pt-row-name">{item.name}</span>
                           <span className="pt-row-desc">{item.desc}</span>
@@ -111,9 +111,7 @@ export const PageTransitionDemo = () => {
 
               {screen.name === 'detail' && menu && (
                 <article className="pt-detail">
-                  <div className="pt-detail-hero" aria-hidden="true">
-                    {menu.emoji}
-                  </div>
+                  <DishPhoto dish={menu.dish} alt={menu.name} className="pt-detail-hero" />
                   <h3 className="pt-detail-name">{menu.name}</h3>
                   <p className="pt-detail-price">{menu.price.toLocaleString('ko-KR')}원</p>
                   <p className="pt-detail-desc">{menu.desc}</p>

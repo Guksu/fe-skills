@@ -1,16 +1,19 @@
 import { useState, type CSSProperties } from 'react'
 import { LongPressMenu } from '@skills/long-press-menu/assets/LongPressMenu'
+import { Icon } from '../../shared/Icon'
+import { DishPhoto } from '../../shared/DishPhoto'
+import type { DishId } from '../../shared/dishes'
 import './long-press-menu-demo.css'
 
-type MenuItem = { id: string; emoji: string; name: string; desc: string; price: string }
+type MenuItem = { id: string; dish: DishId; name: string; desc: string; price: string }
 
 const MENU: MenuItem[] = [
-  { id: 'janchi', emoji: '🍜', name: '잔치국수', desc: '멸치 육수에 소면', price: '7,000원' },
-  { id: 'bibim', emoji: '🌶️', name: '비빔국수', desc: '새콤한 양념·오이·달걀', price: '8,000원' },
-  { id: 'kal', emoji: '🥣', name: '칼국수', desc: '새벽에 치댄 손반죽', price: '8,500원' },
-  { id: 'mandu', emoji: '🥟', name: '손만두', desc: '고기·김치 반반 6알', price: '6,000원' },
-  { id: 'kong', emoji: '🥛', name: '콩국수', desc: '여름 한정 · 고소한 콩물', price: '9,000원' },
-  { id: 'yeol', emoji: '🔥', name: '열무국수', desc: '살얼음 열무김치 국물', price: '8,000원' },
+  { id: 'janchi', dish: 'janchi', name: '잔치국수', desc: '멸치 육수에 소면', price: '7,000원' },
+  { id: 'bibim', dish: 'bibim', name: '비빔국수', desc: '새콤한 양념·오이·달걀', price: '8,000원' },
+  { id: 'kal', dish: 'kalguksu', name: '칼국수', desc: '새벽에 치댄 손반죽', price: '8,500원' },
+  { id: 'mandu', dish: 'mandu', name: '손만두', desc: '고기·김치 반반 6알', price: '6,000원' },
+  { id: 'kong', dish: 'kong', name: '콩국수', desc: '여름 한정 · 고소한 콩물', price: '9,000원' },
+  { id: 'bajirak', dish: 'bajirak', name: '바지락칼국수', desc: '바지락 듬뿍 · 시원한 국물', price: '9,500원' },
 ]
 
 export const LongPressMenuDemo = () => {
@@ -61,11 +64,15 @@ export const LongPressMenuDemo = () => {
               label={`${item.name} 동작`}
               delayMs={delayMs}
               items={[
-                { label: '🛒 장바구니 담기', onSelect: () => setLastAction(`${item.name} 장바구니 담기`) },
-                { label: favorites.includes(item.id) ? '💔 즐겨찾기 해제' : '⭐ 즐겨찾기', onSelect: () => toggleFavorite(item) },
-                { label: '💬 리뷰 보기', onSelect: () => setLastAction(`${item.name} 리뷰 보기`) },
+                { label: <><Icon name="cart" /> 장바구니 담기</>, onSelect: () => setLastAction(`${item.name} 장바구니 담기`) },
                 {
-                  label: '🙈 숨기기',
+                  // 해제는 채운 별로 지금 상태를 보인다 — 같은 모양을 채우고 비우는 것으로 켜짐·꺼짐을 구분한다
+                  label: favorites.includes(item.id) ? <><Icon name="star" filled /> 즐겨찾기 해제</> : <><Icon name="star" /> 즐겨찾기</>,
+                  onSelect: () => toggleFavorite(item),
+                },
+                { label: <><Icon name="message" /> 리뷰 보기</>, onSelect: () => setLastAction(`${item.name} 리뷰 보기`) },
+                {
+                  label: <><Icon name="eye-off" /> 숨기기</>,
                   destructive: true,
                   onSelect: () => {
                     setHidden([...hidden, item.id])
@@ -76,15 +83,16 @@ export const LongPressMenuDemo = () => {
             >
               {/* layout-audit-ignore: nested-card — 무대는 흐려질 배경이고, 카드는 길게 눌러 떠오르는 주인공이다 */}
               <article className="lpm-card">
-                <span className="lpm-card-emoji" aria-hidden="true">
-                  {item.emoji}
-                </span>
-                {favorites.includes(item.id) && (
-                  <span className="lpm-card-star" aria-label="즐겨찾기">
-                    ⭐
-                  </span>
-                )}
-                <h3>{item.name}</h3>
+                <DishPhoto dish={item.dish} className="lpm-card-photo" />
+                {/* 즐겨찾기 표시는 사진 위가 아니라 이름 옆에 — 사진마다 밝기가 달라 위에 얹으면 안 보일 때가 있다 */}
+                <h3>
+                  {item.name}
+                  {favorites.includes(item.id) && (
+                    <span className="lpm-card-star" role="img" aria-label="즐겨찾기">
+                      <Icon name="star" filled />
+                    </span>
+                  )}
+                </h3>
                 <p>{item.desc}</p>
                 <strong>{item.price}</strong>
               </article>

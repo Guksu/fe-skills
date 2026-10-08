@@ -1,6 +1,9 @@
 import { useRef, useState, type CSSProperties } from 'react'
 import { useGlassNav } from '@skills/glass-nav/assets/useGlassNav'
 import type { NavMode } from '@skills/glass-nav/assets/navScrollCore'
+import { Icon } from '../../shared/Icon'
+import { DishPhoto } from '../../shared/DishPhoto'
+import type { DishId } from '../../shared/dishes'
 import './glass-nav-demo.css'
 
 const MODES: Array<{ value: NavMode; label: string; hint: string }> = [
@@ -9,15 +12,15 @@ const MODES: Array<{ value: NavMode; label: string; hint: string }> = [
   { value: 'compact', label: '알약 축소', hint: '탭 바를 알약 하나로 줄인다' },
 ]
 
-const MENU = [
-  { emoji: '🍜', name: '잔치국수', desc: '멸치 육수에 소면. 고명은 애호박·계란·김.', price: '7,000원' },
-  { emoji: '🌶️', name: '비빔국수', desc: '새콤한 양념에 오이·삶은 달걀.', price: '8,000원' },
-  { emoji: '🥟', name: '칼국수 + 만두', desc: '새벽에 치댄 반죽. 손만두 4알.', price: '9,500원' },
-  { emoji: '🧊', name: '물냉면', desc: '살얼음 육수. 여름 한정.', price: '10,000원' },
-  { emoji: '🥛', name: '콩국수', desc: '국산 백태만 씁니다.', price: '11,000원' },
-  { emoji: '🥣', name: '들깨칼국수', desc: '거피 들깨를 그날 갈아 씁니다.', price: '10,000원' },
-  { emoji: '🍲', name: '만두국', desc: '손만두 6알, 사골 육수.', price: '9,000원' },
-  { emoji: '🍚', name: '공기밥', desc: '국물에 말아 드세요.', price: '1,000원' },
+const MENU: { dish: DishId; name: string; desc: string; price: string }[] = [
+  { dish: 'janchi', name: '잔치국수', desc: '멸치 육수에 소면. 고명은 애호박·계란·김.', price: '7,000원' },
+  { dish: 'bibim', name: '비빔국수', desc: '새콤한 양념에 오이·삶은 달걀.', price: '8,000원' },
+  { dish: 'kalguksu', name: '칼국수 + 만두', desc: '새벽에 치댄 반죽. 손만두 4알.', price: '9,500원' },
+  { dish: 'naengmyeon', name: '물냉면', desc: '살얼음 육수. 여름 한정.', price: '10,000원' },
+  { dish: 'kong', name: '콩국수', desc: '국산 백태만 씁니다.', price: '11,000원' },
+  { dish: 'deulkkae', name: '들깨칼국수', desc: '거피 들깨를 그날 갈아 씁니다.', price: '10,000원' },
+  { dish: 'manduguk', name: '만두국', desc: '손만두 6알, 사골 육수.', price: '9,000원' },
+  { dish: 'rice', name: '공기밥', desc: '국물에 말아 드세요.', price: '1,000원' },
 ]
 
 const STORES = [
@@ -95,7 +98,8 @@ export const GlassNavDemo = () => {
         <header ref={navRef} className="gnav" data-mode={mode}>
           <div className="gnav-bar">
             <a className="gnav-brand" href="#/glass-nav">
-              🍜 국수집
+              <Icon name="bowl" />
+              국수집
             </a>
             <nav className="gnav-links" aria-label="주메뉴">
               <div>
@@ -122,9 +126,7 @@ export const GlassNavDemo = () => {
           <ul className="gn-list" aria-label="메뉴 목록">
             {MENU.map((item) => (
               <li key={item.name} className="gn-item">
-                <span className="gn-item-emoji" aria-hidden="true">
-                  {item.emoji}
-                </span>
+                <DishPhoto dish={item.dish} className="gn-item-photo" />
                 <div>
                   <strong>{item.name}</strong>
                   <p>{item.desc}</p>
@@ -140,9 +142,7 @@ export const GlassNavDemo = () => {
           <ul className="gn-list" aria-label="매장 목록">
             {STORES.map((store) => (
               <li key={store.name} className="gn-item">
-                <span className="gn-item-emoji" aria-hidden="true">
-                  📍
-                </span>
+                <Icon name="map-pin" className="gn-item-icon" />
                 <div>
                   <strong>{store.name}</strong>
                   <p>{store.desc}</p>
@@ -158,9 +158,7 @@ export const GlassNavDemo = () => {
           <ul className="gn-list" aria-label="주문 목록">
             {ORDERS.map((order) => (
               <li key={order.date} className="gn-item">
-                <span className="gn-item-emoji" aria-hidden="true">
-                  🧾
-                </span>
+                <Icon name="receipt" className="gn-item-icon" />
                 <div>
                   <strong>{order.date}</strong>
                   <p>{order.items}</p>

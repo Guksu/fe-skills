@@ -4,7 +4,8 @@
   aspect-ratio: 9 / 14;
   border-radius: 16px;
   overflow: hidden;
-  background: linear-gradient(160deg, #2a2f45, #173042 55%, #40222e);
+  /* 스토리 화면은 검정 바탕 — 사진이 주인공이고 틀은 물러난다 */
+  background: #0b0c0f;
   padding: 12px;
   user-select: none;
   touch-action: manipulation;
@@ -16,15 +17,21 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  gap: 0.5rem;
-  text-align: center;
-  padding: 2rem;
+  gap: var(--space-4);
   pointer-events: none;
 }
 
-.story-emoji {
-  font-size: 3.5rem;
+/* 장면 사진 — 모든 장이 같은 비율(4:3)이라 넘겨도 글 위치가 흔들리지 않는다 */
+.story-photo {
+  height: auto;
+  aspect-ratio: 4 / 3;
+}
+
+.story-text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: 0 var(--space-4);
 }
 
 .story-scene p {
@@ -35,6 +42,8 @@
 .story-paused {
   position: absolute;
   bottom: 1.25rem;
+  left: 50%;
+  translate: -50% 0;
   font-style: normal;
   font-size: 0.8rem;
   color: var(--text-dim);

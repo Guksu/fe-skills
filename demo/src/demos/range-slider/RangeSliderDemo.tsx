@@ -1,20 +1,22 @@
 import { useState, type CSSProperties } from 'react'
 import { RangeSlider, type RangeValue } from '@skills/range-slider/assets/RangeSlider'
+import { DishPhoto } from '../../shared/DishPhoto'
+import type { DishId } from '../../shared/dishes'
 import './range-slider-demo.css'
 
-type Menu = { id: string; name: string; price: number; emoji: string }
+type Menu = { id: string; name: string; price: number; dish: DishId }
 
 const MENUS: Menu[] = [
-  { id: 'mandu', name: '손만두', price: 7000, emoji: '🥟' },
-  { id: 'myeolchi', name: '멸치국수', price: 8000, emoji: '🍜' },
-  { id: 'janchi', name: '잔치국수', price: 8000, emoji: '🎊' },
-  { id: 'sujebi', name: '수제비', price: 8500, emoji: '🥔' },
-  { id: 'bibim', name: '비빔국수', price: 9000, emoji: '🌶️' },
-  { id: 'mandu-guk', name: '만둣국', price: 9000, emoji: '🍲' },
-  { id: 'deulkkae', name: '들깨칼국수', price: 10000, emoji: '🥣' },
-  { id: 'naengmyeon', name: '물냉면', price: 10000, emoji: '❄️' },
-  { id: 'kong', name: '콩국수', price: 11000, emoji: '🥛' },
-  { id: 'kalguksu', name: '바지락칼국수', price: 11000, emoji: '🐚' },
+  { id: 'mandu', name: '손만두', price: 7000, dish: 'mandu' },
+  { id: 'myeolchi', name: '멸치국수', price: 8000, dish: 'myeolchi' },
+  { id: 'janchi', name: '잔치국수', price: 8000, dish: 'janchi' },
+  { id: 'sujebi', name: '수제비', price: 8500, dish: 'sujebi' },
+  { id: 'bibim', name: '비빔국수', price: 9000, dish: 'bibim' },
+  { id: 'mandu-guk', name: '만둣국', price: 9000, dish: 'manduguk' },
+  { id: 'deulkkae', name: '들깨칼국수', price: 10000, dish: 'deulkkae' },
+  { id: 'naengmyeon', name: '물냉면', price: 10000, dish: 'naengmyeon' },
+  { id: 'kong', name: '콩국수', price: 11000, dish: 'kong' },
+  { id: 'kalguksu', name: '바지락칼국수', price: 11000, dish: 'bajirak' },
 ]
 
 const won = (value: number) => `${value.toLocaleString('ko-KR')}원`
@@ -95,7 +97,7 @@ export const RangeSliderDemo = () => {
         <ul className="rs-menus">
           {matched.map((menu) => (
             <li key={menu.id} className="rs-menu">
-              <span aria-hidden="true">{menu.emoji}</span>
+              <DishPhoto dish={menu.dish} className="rs-thumb" />
               <span className="rs-menu-name">{menu.name}</span>
               <span className="rs-menu-price">{won(menu.price)}</span>
             </li>

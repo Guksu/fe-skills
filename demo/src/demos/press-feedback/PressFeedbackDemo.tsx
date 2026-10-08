@@ -1,4 +1,5 @@
 import { useState, type CSSProperties } from 'react'
+import { DishPhoto } from '../../shared/DishPhoto'
 import '@skills/press-feedback/assets/press-feedback.css'
 import './press-feedback-demo.css'
 
@@ -40,7 +41,7 @@ export const PressFeedbackDemo = () => {
         <section className="press-cell">
           <h2>카드형 — pressable-dim</h2>
           <button type="button" className="pressable pressable-dim press-card">
-            <span>🍜</span>
+            <DishPhoto dish="kalguksu" className="press-card-photo" />
             <strong>오늘의 국수</strong>
             <small>얼큰 칼국수 9,000원</small>
           </button>

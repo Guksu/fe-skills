@@ -1,12 +1,14 @@
 import { useState } from 'react'
 import { useStoryProgress } from '@skills/story-progress/assets/useStoryProgress'
+import { DishPhoto } from '../../shared/DishPhoto'
+import type { DishId } from '../../shared/dishes'
 import './story-progress-demo.css'
 
-const SCENES = [
-  { emoji: '🌅', title: '새벽 4시', copy: '육수를 올리는 시간. 멸치와 다시마가 먼저 출근합니다.' },
-  { emoji: '🫸', title: '오전 9시', copy: '반죽을 치댑니다. 오늘 면발의 탄력이 여기서 정해집니다.' },
-  { emoji: '🍜', title: '정오', copy: '첫 그릇이 나갑니다. 오늘도 곱빼기 비율이 높습니다.' },
-  { emoji: '🌙', title: '밤 9시', copy: '솥을 씻으며 마감. 내일의 육수를 계획합니다.' },
+const SCENES: { dish: DishId; title: string; copy: string }[] = [
+  { dish: 'broth', title: '새벽 4시', copy: '육수를 올리는 시간. 멸치와 다시마가 먼저 출근합니다.' },
+  { dish: 'dough', title: '오전 9시', copy: '반죽을 밀어 썹니다. 오늘 면발의 굵기가 여기서 정해집니다.' },
+  { dish: 'janchi', title: '정오', copy: '첫 그릇이 나갑니다. 오늘도 곱빼기 비율이 높습니다.' },
+  { dish: 'bajirak', title: '밤 9시', copy: '마지막 손님의 바지락칼국수. 솥을 씻으며 내일 육수를 계획합니다.' },
 ]
 
 export const StoryProgressDemo = () => {
@@ -66,9 +68,12 @@ export const StoryProgressDemo = () => {
           ))}
         </div>
         <div className="story-scene">
-          <span className="story-emoji">{scene.emoji}</span>
-          <strong>{scene.title}</strong>
-          <p>{scene.copy}</p>
+          {/* 가로 사진은 세로 화면 가운데에 폭 가득 두고(스토리의 관례), 글은 사진 밖 아래에 둔다 */}
+          <DishPhoto key={scene.title} dish={scene.dish} alt={scene.copy} className="story-photo" />
+          <div className="story-text">
+            <strong>{scene.title}</strong>
+            <p>{scene.copy}</p>
+          </div>
           {holding && <em className="story-paused">일시정지</em>}
         </div>
         <button type="button" className="story-nav story-nav-prev" aria-label="이전 장면" onClick={story.prev} />

@@ -1,5 +1,8 @@
 import { useRef, useState, type CSSProperties } from 'react'
 import { Glass } from '@skills/glass-surface/assets/Glass'
+import { Icon } from '../../shared/Icon'
+import { DishPhoto } from '../../shared/DishPhoto'
+import type { DishId } from '../../shared/dishes'
 import './glass-surface-demo.css'
 
 type Tone = 'light' | 'dark'
@@ -68,7 +71,10 @@ export const GlassSurfaceDemo = () => {
 
       <div className="glass-stage" style={vars} data-tone={tone}>
         <Glass as="header" variant="nav" tone={tone} opaque={opaque} aria-label="국수집 상단 바">
-          <strong className="glass-brand">🍜 국수집</strong>
+          <strong className="glass-brand">
+            <Icon name="bowl" />
+            국수집
+          </strong>
           <nav className="glass-links" aria-label="주메뉴">
             <a href="#/glass-surface" aria-current="page">
               메뉴
@@ -86,9 +92,7 @@ export const GlassSurfaceDemo = () => {
           <div className="glass-cards">
             {MENU.map((item) => (
               <Glass key={item.name} as="article" variant="card" tone={tone} opaque={opaque} interactive>
-                <span className="glass-card-emoji" aria-hidden="true">
-                  {item.emoji}
-                </span>
+                <DishPhoto dish={item.dish} className="glass-card-photo" />
                 <h3>{item.name}</h3>
                 <p>{item.desc}</p>
                 <strong className="glass-card-price">{item.price}</strong>
@@ -97,11 +101,9 @@ export const GlassSurfaceDemo = () => {
           </div>
 
           <div className="glass-tiles" aria-hidden="true">
-            {TILES.map((emoji, index) => (
-              // layout-audit-ignore: nested-card — 타일은 유리 뒤에 비칠 사진 자리다(유리의 흐림을 보여 주는 배경)
-              <span key={index} className="glass-tile">
-                {emoji}
-              </span>
+            {/* 유리 뒤로 지나갈 사진 — 흐림이 무엇을 뭉개는지 보이도록 색과 무늬가 많은 음식 사진을 깐다 */}
+            {TILES.map((dish, index) => (
+              <DishPhoto key={index} dish={dish} className="glass-tile" />
             ))}
           </div>
 
@@ -131,10 +133,11 @@ export const GlassSurfaceDemo = () => {
   )
 }
 
-const MENU = [
-  { emoji: '🍜', name: '잔치국수', desc: '멸치 육수에 소면. 고명은 애호박·계란·김.', price: '7,000원' },
-  { emoji: '🌶️', name: '비빔국수', desc: '새콤한 양념에 오이·삶은 달걀. 여름 한정 아님.', price: '8,000원' },
-  { emoji: '🥟', name: '칼국수 + 만두', desc: '새벽에 치댄 반죽. 손만두 4알이 따라온다.', price: '9,500원' },
+const MENU: { dish: DishId; name: string; desc: string; price: string }[] = [
+  { dish: 'janchi', name: '잔치국수', desc: '멸치 육수에 소면. 고명은 애호박·계란·김.', price: '7,000원' },
+  { dish: 'bibim', name: '비빔국수', desc: '새콤한 양념에 오이·삶은 달걀. 여름 한정 아님.', price: '8,000원' },
+  { dish: 'kalguksu', name: '칼국수 + 만두', desc: '새벽에 치댄 반죽. 손만두 4알이 따라온다.', price: '9,500원' },
 ]
 
-const TILES = ['🍜', '🥢', '🧅', '🥚', '🌿', '🍋', '🧊', '🥬', '🍤', '🧄', '🥕', '🌽', '🍜', '🥟', '🌶️', '🥢', '🧅', '🥚', '🌿', '🍋', '🧊', '🥬', '🍤', '🧄']
+const TILE_SET: DishId[] = ['bibim', 'janchi', 'gamjajeon', 'naengmyeon', 'eomuk', 'kong', 'geotjeori', 'mandu', 'memil', 'kalguksu', 'manduguk', 'sujebi']
+const TILES = [...TILE_SET, ...TILE_SET]

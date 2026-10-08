@@ -154,7 +154,14 @@ export const QuantityStepper = ({
   return (
     <div className="qty" role="group" aria-label={label} data-disabled={disabled ? 'true' : undefined}>
       <button {...buttonProps(-step)} aria-label={deleteAtMin ? `${label} 삭제` : `${label} 줄이기`}>
-        {deleteAtMin ? '🗑' : '−'}
+        {deleteAtMin ? (
+          // 삭제는 휴지통 선 아이콘 — 이모지는 글꼴마다 모양·색이 달라 버튼 한 벌이 어긋난다
+          <svg className="qty-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
+            <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+          </svg>
+        ) : (
+          '−'
+        )}
       </button>
 
       <input

@@ -145,8 +145,12 @@ export const FileDropZone = ({
               {previews.has(item.id) ? (
                 <img className="upload-thumb" src={previews.get(item.id)} alt="" />
               ) : (
+                // 미리보기가 없는 파일은 같은 크기의 옅은 칸에 문서 선 아이콘 — 이모지로 대신하지 않는다
                 <span className="upload-thumb upload-thumb-icon" aria-hidden="true">
-                  📄
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" focusable="false">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                    <path d="M14 2v6h6" />
+                  </svg>
                 </span>
               )}
 

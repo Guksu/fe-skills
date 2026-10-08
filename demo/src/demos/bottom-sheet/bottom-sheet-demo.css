@@ -45,8 +45,9 @@
   border: none;
 }
 
-.sheet-menu-emoji {
-  font-size: 1.4rem;
+/* 행 머리의 선 아이콘 — 이름보다 한 단계 옅게 둬서 눈이 글자로 먼저 간다 */
+.sheet-menu-icon {
+  color: var(--text-dim);
 }
 
 .sheet-menu strong {

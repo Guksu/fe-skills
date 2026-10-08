@@ -1,20 +1,22 @@
 import { useState, type CSSProperties, type ReactNode } from 'react'
 import { useSearchSuggest } from '@skills/search-suggest/assets/useSearchSuggest'
+import { DishPhoto } from '../../shared/DishPhoto'
+import type { DishId } from '../../shared/dishes'
 import './search-suggest-demo.css'
 
-type Menu = { id: string; name: string; price: number; emoji: string }
+type Menu = { id: string; name: string; price: number; dish: DishId }
 
 const MENUS: Menu[] = [
-  { id: 'myeolchi', name: '멸치국수', price: 8000, emoji: '🍜' },
-  { id: 'bibim', name: '비빔국수', price: 9000, emoji: '🌶️' },
-  { id: 'deulkkae', name: '들깨칼국수', price: 10000, emoji: '🥣' },
-  { id: 'kong', name: '콩국수', price: 11000, emoji: '🥛' },
-  { id: 'janchi', name: '잔치국수', price: 8000, emoji: '🎊' },
-  { id: 'kalguksu', name: '바지락칼국수', price: 11000, emoji: '🐚' },
-  { id: 'mandu', name: '손만두', price: 7000, emoji: '🥟' },
-  { id: 'mandu-guk', name: '만둣국', price: 9000, emoji: '🍲' },
-  { id: 'sujebi', name: '수제비', price: 8500, emoji: '🥔' },
-  { id: 'naengmyeon', name: '물냉면', price: 10000, emoji: '❄️' },
+  { id: 'myeolchi', name: '멸치국수', price: 8000, dish: 'myeolchi' },
+  { id: 'bibim', name: '비빔국수', price: 9000, dish: 'bibim' },
+  { id: 'deulkkae', name: '들깨칼국수', price: 10000, dish: 'deulkkae' },
+  { id: 'kong', name: '콩국수', price: 11000, dish: 'kong' },
+  { id: 'janchi', name: '잔치국수', price: 8000, dish: 'janchi' },
+  { id: 'kalguksu', name: '바지락칼국수', price: 11000, dish: 'bajirak' },
+  { id: 'mandu', name: '손만두', price: 7000, dish: 'mandu' },
+  { id: 'mandu-guk', name: '만둣국', price: 9000, dish: 'manduguk' },
+  { id: 'sujebi', name: '수제비', price: 8500, dish: 'sujebi' },
+  { id: 'naengmyeon', name: '물냉면', price: 10000, dish: 'naengmyeon' },
 ]
 
 const escapeRegExp = (text: string) => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
@@ -92,7 +94,7 @@ export const SearchSuggestDemo = () => {
               {search.status === 'error' && <li className="suggest-message">불러오지 못했습니다</li>}
               {search.items.map((menu, index) => (
                 <li key={menu.id} {...search.getOptionProps(index)} className="suggest-option">
-                  <span aria-hidden="true">{menu.emoji}</span>
+                  <DishPhoto dish={menu.dish} className="ss-thumb" />
                   <span className="ss-option-name">{highlight({ text: menu.name, query: search.query })}</span>
                   <span className="ss-option-price">{menu.price.toLocaleString('ko-KR')}원</span>
                 </li>
@@ -103,7 +105,7 @@ export const SearchSuggestDemo = () => {
 
         <div className="ss-footer">
           <span>서버 요청 {requests}회</span>
-          <span>{picked ? `선택: ${picked.emoji} ${picked.name}` : '아직 고르지 않았습니다'}</span>
+          <span>{picked ? `선택: ${picked.name}` : '아직 고르지 않았습니다'}</span>
           <button type="button" onClick={() => setRequests(0)}>
             요청 수 초기화
           </button>

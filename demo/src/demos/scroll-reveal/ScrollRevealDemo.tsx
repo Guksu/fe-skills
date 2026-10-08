@@ -1,5 +1,6 @@
 import { useState, type CSSProperties } from 'react'
 import { ScrollReveal } from '@skills/scroll-reveal/assets/ScrollReveal'
+import { Icon } from '../../shared/Icon'
 import '@skills/scroll-reveal/assets/scroll-reveal.css'
 import './scroll-reveal-demo.css'
 
@@ -90,7 +91,10 @@ export const ScrollRevealDemo = () => {
           </button>
           <p>아래로 스크롤하세요 — 섹션이 뷰포트에 들어올 때 순차 공개됩니다.</p>
         </div>
-        <div className="reveal-spacer">⬇ 스크롤</div>
+        <div className="reveal-spacer">
+          <Icon name="arrow-down" />
+          스크롤
+        </div>
         {CARDS.map((title, index) => (
           <ScrollReveal key={title} threshold={threshold} delayMs={(index % 2) * staggerMs}>
             <article className="reveal-card">

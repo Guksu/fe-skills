@@ -1,13 +1,15 @@
 import { useState, type CSSProperties } from 'react'
 import { QuantityStepper } from '@skills/quantity-stepper/assets/QuantityStepper'
+import { DishPhoto } from '../../shared/DishPhoto'
+import type { DishId } from '../../shared/dishes'
 import './quantity-stepper-demo.css'
 
-type CartItem = { id: string; name: string; price: number; emoji: string; count: number }
+type CartItem = { id: string; name: string; price: number; dish: DishId; count: number }
 
 const INITIAL: CartItem[] = [
-  { id: 'myeolchi', name: '멸치국수', price: 8000, emoji: '🍜', count: 2 },
-  { id: 'bibim', name: '비빔국수', price: 9000, emoji: '🌶️', count: 1 },
-  { id: 'mandu', name: '손만두', price: 7000, emoji: '🥟', count: 1 },
+  { id: 'myeolchi', name: '멸치국수', price: 8000, dish: 'myeolchi', count: 2 },
+  { id: 'bibim', name: '비빔국수', price: 9000, dish: 'bibim', count: 1 },
+  { id: 'mandu', name: '손만두', price: 7000, dish: 'mandu', count: 1 },
 ]
 
 export const QuantityStepperDemo = () => {
@@ -58,9 +60,7 @@ export const QuantityStepperDemo = () => {
         <ul className="qs-list">
           {items.map((item) => (
             <li key={item.id} className="qs-row">
-              <span className="qs-emoji" aria-hidden="true">
-                {item.emoji}
-              </span>
+              <DishPhoto dish={item.dish} className="qs-thumb" />
               <span className="qs-body">
                 <strong className="qs-name">{item.name}</strong>
                 <span className="qs-unit">{item.price.toLocaleString('ko-KR')}원</span>

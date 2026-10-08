@@ -33,7 +33,7 @@ export const TooltipDemo = () => {
           <button type="button">면 추가</button>
         </Tooltip>
         <Tooltip label="2단계 — 국물이 칼칼합니다" place="bottom" showDelayMs={delayMs}>
-          <button type="button">🌶️ 맵기</button>
+          <button type="button">맵기</button>
         </Tooltip>
         <Tooltip label="매일 아침 뽑은 생면만 씁니다" place="left" showDelayMs={delayMs}>
           <button type="button">생면</button>

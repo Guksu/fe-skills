@@ -1,11 +1,13 @@
 import { useRef, useState } from 'react'
 import { ThemeToggle } from '@skills/theme-toggle/assets/ThemeToggle'
+import { DishPhoto } from '../../shared/DishPhoto'
+import type { DishId } from '../../shared/dishes'
 import './theme-toggle-demo.css'
 
-const MENUS = [
-  { id: 'myeolchi', name: '멸치국수', price: 8000, emoji: '🍜' },
-  { id: 'bibim', name: '비빔국수', price: 9000, emoji: '🌶️' },
-  { id: 'deulkkae', name: '들깨칼국수', price: 10000, emoji: '🥣' },
+const MENUS: { id: string; name: string; price: number; dish: DishId }[] = [
+  { id: 'myeolchi', name: '멸치국수', price: 8000, dish: 'myeolchi' },
+  { id: 'bibim', name: '비빔국수', price: 9000, dish: 'bibim' },
+  { id: 'deulkkae', name: '들깨칼국수', price: 10000, dish: 'deulkkae' },
 ]
 
 export const ThemeToggleDemo = () => {
@@ -43,9 +45,7 @@ export const ThemeToggleDemo = () => {
           <ul className="tt-menus">
             {MENUS.map((menu) => (
               <li key={menu.id} className="tt-menu">
-                <span className="tt-menu-emoji" aria-hidden="true">
-                  {menu.emoji}
-                </span>
+                <DishPhoto dish={menu.dish} className="tt-menu-thumb" />
                 <span className="tt-menu-name">{menu.name}</span>
                 <span className="tt-menu-price">{menu.price.toLocaleString('ko-KR')}원</span>
               </li>

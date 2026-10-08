@@ -13,6 +13,14 @@
   max-width: 420px;
 }
 
+/* 제안 행의 메뉴 사진 — 모든 행이 같은 크기. 패널 안이라 목록보다 작게(32px) */
+.ss-thumb {
+  flex: none;
+  inline-size: 32px;
+  block-size: 32px;
+  border-radius: var(--radius-control);
+}
+
 .ss-option-name {
   flex: 1;
 }

@@ -58,7 +58,7 @@ export const WheelPickerDemo = () => {
       </section>
 
       <div className="wheel-demo-stage">
-        <p className="wheel-demo-title">🍜 성수동 국수집 — 예약</p>
+        <p className="wheel-demo-title">성수동 국수집 — 예약</p>
         <div className="wheel-demo-row">
           <div className="wheel-demo-col">
             <span id="wheel-demo-hour" className="wheel-demo-label">시</span>

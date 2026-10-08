@@ -47,6 +47,23 @@ button:hover {
   background: var(--accent-soft);
 }
 
+/* 데모 공용 선 아이콘(shared/Icon.tsx) — 글자 옆에서 줄어들지 않고, 글자 색을 따른다.
+ * :where()로 우선순위를 0으로 둔다 — 이 파일은 데모 CSS보다 늦게 실리므로, 그냥 클래스로 두면 데모의 같은 우선순위 규칙을 덮는다 */
+:where(.icon) {
+  flex: none;
+  display: block;
+}
+
+/* 데모 공용 음식 사진(shared/DishPhoto.tsx) — 틀(부모)이 크기·비율을 정하고 사진은 잘라 채운다.
+ * 불러오는 동안은 옅은 바탕 칸이 자리를 지킨다. 우선순위 0인 이유는 위와 같다 */
+:where(.dish-photo) {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: var(--color-canvas);
+}
+
 /* 셸 격자 — 본문 열은 minmax(0, 1fr). 그냥 1fr이면 열의 최소 폭이 내용의 최소 폭(긴 코드 한 줄 등)이 되어
  * 좁은 화면에서 화면 밖으로 밀려난다 */
 .layout {
@@ -128,10 +145,6 @@ button:hover {
   padding: 0 var(--space-3) var(--space-1);
 }
 
-.nav-emoji {
-  margin-right: var(--space-2);
-}
-
 .sidebar nav a {
   color: var(--text-dim);
   text-decoration: none;
@@ -155,6 +168,9 @@ button:hover {
 
 .sidebar footer {
   margin-top: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
 }
 
 .sidebar footer a {
@@ -272,11 +288,6 @@ button:hover {
   border-color: var(--accent);
 }
 
-.demo-card-emoji {
-  font-size: var(--text-title);
-  line-height: var(--leading-tight);
-}
-
 .demo-card-body {
   display: flex;
   flex-direction: column;
@@ -295,6 +306,59 @@ button:hover {
 .home-empty {
   color: var(--text-dim);
   margin-top: var(--space-8);
+}
+
+/* --- 사진·아이콘 출처(#/credits) — 목록 행은 상자 없이 간격과 얇은 선으로 --- */
+.credits h2 {
+  font-size: var(--text-small);
+  font-weight: var(--weight-semibold);
+  color: var(--text-dim);
+  margin: var(--space-8) 0 var(--space-3);
+}
+
+.credits-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.credits-list li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--border);
+}
+
+/* 출처 목록의 사진 칸 — 같은 비율(1:1)·같은 크기 */
+.credits-thumb {
+  flex: none;
+  inline-size: 48px;
+  block-size: 48px;
+  border-radius: var(--radius-control);
+}
+
+.credits-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.credits-body > span {
+  color: var(--text-dim);
+  font-size: var(--text-small);
+  overflow-wrap: anywhere;
+}
+
+.credits-body a {
+  color: var(--text-dim);
+}
+
+.credits-note {
+  margin: 0;
+  max-width: var(--measure);
+  color: var(--text-dim);
 }
 
 /* --- 데모 페이지 하단: 사용 예시 --- */

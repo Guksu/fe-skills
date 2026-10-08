@@ -27,7 +27,7 @@ export const FormShakeErrorDemo = () => {
     setPhoneError(nextPhoneError)
 
     if (!nextNameError && !nextPhoneError) {
-      setLog(`${name}님, 예약이 접수되었습니다 🍜`)
+      setLog(`${name}님, 예약이 접수되었습니다`)
       return
     }
     setLog('입력을 확인해 주세요.')

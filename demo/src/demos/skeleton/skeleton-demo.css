@@ -22,8 +22,8 @@
   border-radius: 50%;
   display: grid;
   place-items: center;
-  font-size: 1.5rem;
-  background: var(--accent-soft);
+  color: var(--text-dim);
+  background: var(--border);
   flex-shrink: 0;
 }
 

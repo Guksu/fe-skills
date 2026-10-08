@@ -1,24 +1,12 @@
 import { useRef, useState } from 'react'
 import { SwipeDismissViewer } from '@skills/swipe-dismiss-viewer/assets/SwipeDismissViewer'
+import { DISHES, photoSrc, type DishId } from '../../shared/dishes'
 import './swipe-dismiss-viewer-demo.css'
 
-type Photo = { id: string; alt: string; tone: string; emoji: string }
+type Photo = { id: DishId; alt: string }
 
-const PHOTOS: Photo[] = [
-  { id: 'deulkkae', alt: '들깨칼국수', tone: '#f6d365,#fda085', emoji: '🍜' },
-  { id: 'bibim', alt: '비빔국수', tone: '#f093fb,#f5576c', emoji: '🌶️' },
-  { id: 'kong', alt: '콩국수', tone: '#fdfbfb,#ebedee', emoji: '🥛' },
-  { id: 'mandu', alt: '손만두', tone: '#a1c4fd,#c2e9fb', emoji: '🥟' },
-  { id: 'jeon', alt: '감자전', tone: '#fbc2eb,#a6c1ee', emoji: '🥞' },
-  { id: 'kimchi', alt: '겉절이', tone: '#ff9a9e,#fecfef', emoji: '🥬' },
-]
-
-/** 사진 대신 쓰는 SVG 데이터 URL — 외부 이미지 없이 데모를 돌린다 */
-const svgFor = ({ tone, emoji, size }: { tone: string; emoji: string; size: number }) => {
-  const [a, b] = tone.split(',')
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient></defs><rect width="100%" height="100%" fill="url(#g)"/><text x="50%" y="55%" font-size="${size * 0.4}" text-anchor="middle" dominant-baseline="middle">${emoji}</text></svg>`
-  return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`
-}
+// 썸네일과 크게 보기가 같은 사진 파일을 쓴다 — 열 때 썸네일에서 이어 커지므로 다른 그림이면 튄다
+const PHOTOS: Photo[] = (['deulkkae', 'bibim', 'kong', 'mandu', 'gamjajeon', 'geotjeori'] as const).map((id) => ({ id, alt: DISHES[id].name }))
 
 export const SwipeDismissViewerDemo = () => {
   const [openId, setOpenId] = useState<string | null>(null)
@@ -52,7 +40,9 @@ export const SwipeDismissViewerDemo = () => {
                 ref={(el) => {
                   thumbs.current[photo.id] = el
                 }}
-                src={svgFor({ tone: photo.tone, emoji: photo.emoji, size: 240 })}
+                src={photoSrc(photo.id)}
+                width={DISHES[photo.id].width}
+                height={DISHES[photo.id].height}
                 alt={photo.alt}
                 draggable={false}
               />
@@ -66,7 +56,7 @@ export const SwipeDismissViewerDemo = () => {
 
       {open && (
         <SwipeDismissViewer
-          src={svgFor({ tone: open.tone, emoji: open.emoji, size: 900 })}
+          src={photoSrc(open.id)}
           alt={open.alt}
           returnTo={{ current: thumbs.current[open.id] }}
           onClose={() => {

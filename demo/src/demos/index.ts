@@ -65,7 +65,6 @@ export type DemoEntry = {
   /** 영어 제목·설명 — 데모 사이트의 언어 토글용. docs/guide.en.md 패턴 표와 같은 문구 */
   titleEn: string
   descriptionEn: string
-  emoji: string
   category: DemoCategory
   /** 패턴 문서의 대표 사용 예시 — 데모 페이지의 "사용 예시" 코드 블록에 그대로 노출·복사된다 */
   usage: string
@@ -82,7 +81,6 @@ export const demos: DemoEntry[] = [
     description: '모달·토스트처럼 나타나고 사라지는 요소의 전환 — 퇴장까지 CSS로',
     titleEn: 'Enter/exit animation',
     descriptionEn: 'CSS animations when an element appears or disappears',
-    emoji: '🎭',
     category: '등장과 전환',
     usage: `import { Presence } from './Presence'
 import './enter-exit.css'
@@ -102,7 +100,6 @@ const Toast = ({ open, message }) => (
     description: '스크롤로 뷰포트에 들어올 때 콘텐츠를 순차 공개',
     titleEn: 'Scroll reveal',
     descriptionEn: 'Content appears in sequence as you scroll',
-    emoji: '📜',
     category: '등장과 전환',
     usage: `import { ScrollReveal } from './ScrollReveal'
 import './scroll-reveal.css'
@@ -120,7 +117,6 @@ import './scroll-reveal.css'
     description: '스크롤하면 큰 제목이 밀려 나가고 고정 바에 컴팩트 제목이 나타남',
     titleEn: 'Sticky header transition',
     descriptionEn: 'When the large title scrolls away, the fixed header shows a small title',
-    emoji: '📌',
     category: '등장과 전환',
     usage: `import { useStickyHeader } from './useStickyHeader'
 
@@ -138,7 +134,6 @@ const { headerRef, sentinelRef } = useStickyHeader()
     description: '정렬·재배치 시 항목이 순간이동 대신 미끄러져 이동',
     titleEn: 'List reorder (FLIP)',
     descriptionEn: 'Items move smoothly when the list order changes',
-    emoji: '🔀',
     category: '등장과 전환',
     usage: `import { useFlipList } from './useFlipList'
 
@@ -157,7 +152,6 @@ const { containerRef } = useFlipList()
     description: '썸네일이 화면 중앙으로 커지는 공유 요소 전환',
     titleEn: 'Zoom lightbox',
     descriptionEn: 'Opens by scaling from the thumbnail position to the center of the screen',
-    emoji: '🔍',
     category: '등장과 전환',
     usage: `import { openZoom } from './openZoom'
 import './zoom-lightbox.css'
@@ -175,7 +169,6 @@ import './zoom-lightbox.css'
     description: '로딩 중 콘텐츠 자리를 잡아주는 뼈대 + 반짝임',
     titleEn: 'Skeleton shimmer',
     descriptionEn: 'Placeholder bones with a shimmer that hold the content area while loading',
-    emoji: '💀',
     category: '로딩과 진행',
     usage: `import { Skeleton } from './Skeleton'
 
@@ -191,7 +184,6 @@ import './zoom-lightbox.css'
     description: '잔액·포인트가 목표값까지 굴러 올라가는 연출',
     titleEn: 'Count-up numbers',
     descriptionEn: 'Balances, points and other numbers step toward a target value',
-    emoji: '🔢',
     category: '로딩과 진행',
     usage: `import { CountUp } from './CountUp'
 
@@ -209,7 +201,6 @@ import './zoom-lightbox.css'
     description: '자동 재생 구간 진행바 — 길게 눌러 멈춤, 탭으로 이동',
     titleEn: 'Story progress',
     descriptionEn: 'Story progress bars, long-press to pause, tap to move',
-    emoji: '⏯️',
     category: '로딩과 진행',
     usage: `import { useStoryProgress } from './useStoryProgress'
 
@@ -233,7 +224,6 @@ const story = useStoryProgress({ count: scenes.length, durationMs: 4000 })
     description: '제출 버튼이 스스로 진행 상태를 보여줌 — 연타해도 요청은 한 번만',
     titleEn: 'Loading button',
     descriptionEn: 'Shows sending and done states and prevents duplicate submits',
-    emoji: '⏳',
     category: '로딩과 진행',
     usage: `import { LoadingButton } from './LoadingButton'
 
@@ -252,7 +242,6 @@ const story = useStoryProgress({ count: scenes.length, durationMs: 4000 })
     description: '목록 끝에 닿기 전에 다음 페이지를 미리 불러옴 — 중복 호출·실패 폭주 차단',
     titleEn: 'Infinite scroll',
     descriptionEn: 'Loads the next page before the end of the list and prevents duplicate items',
-    emoji: '♾️',
     category: '로딩과 진행',
     usage: `import { useInfiniteScroll } from './useInfiniteScroll'
 
@@ -274,7 +263,6 @@ const feed = useInfiniteScroll({
     description: '항목이 5만 개여도 화면에 보이는 20여 개만 그림 — DOM 수는 그대로',
     titleEn: 'Virtual list',
     descriptionEn: 'Renders mainly the visible items to handle long lists',
-    emoji: '🪟',
     category: '로딩과 진행',
     usage: `import { useVirtualList } from './useVirtualList'
 
@@ -298,7 +286,6 @@ const list = useVirtualList({ itemCount: orders.length, itemHeight: ITEM_HEIGHT 
     description: '버튼이 눌리는 순간 움츠렸다 스프링처럼 복귀 (CSS-only)',
     titleEn: 'Press feedback',
     descriptionEn: 'Shrinks on press and restores on release',
-    emoji: '👆',
     category: '피드백',
     usage: `<!-- CSS만 복사하면 끝 — 클래스를 붙인다 -->
 <button class="pressable">주문하기</button>
@@ -312,7 +299,6 @@ const list = useVirtualList({ itemCount: orders.length, itemHeight: ITEM_HEIGHT 
     description: '하단에 알림이 쌓이고 각자 시간이 되면 사라짐',
     titleEn: 'Toast stack',
     descriptionEn: 'Stacks multiple notifications at the bottom or top banner position and closes each after its own duration',
-    emoji: '🍞',
     category: '피드백',
     usage: `import { useToastStack } from './useToastStack'
 
@@ -327,7 +313,6 @@ const { toast } = useToastStack()
     description: '하트 토글 팝과 더블탭 하트 버스트',
     titleEn: 'Like pop',
     descriptionEn: 'Pop effect on heart click or photo double-tap',
-    emoji: '❤️',
     category: '피드백',
     usage: `import { LikeButton } from './LikeButton'
 import { DoubleTapArea } from './DoubleTapArea'
@@ -344,13 +329,12 @@ import { DoubleTapArea } from './DoubleTapArea'
     description: '담기를 누르면 상품이 장바구니로 포물선을 그리며 날아감',
     titleEn: 'Cart fly',
     descriptionEn: 'Product flies into the cart icon',
-    emoji: '🛒',
     category: '피드백',
     usage: `import { useCartFly } from './useCartFly'
 
 const { targetRef, flyFrom } = useCartFly()
 
-<button ref={targetRef}>🛒 {count}</button>
+<button ref={targetRef}><CartIcon /> {count}</button>
 <button onClick={() => flyFrom({
   source: thumbnailEl,
   arc: 'horizontal-first', // 'vertical-first'면 r자 궤적
@@ -364,7 +348,6 @@ const { targetRef, flyFrom } = useCartFly()
     description: '활성 탭 밑줄이 미끄러져 이동',
     titleEn: 'Tab indicator slide',
     descriptionEn: 'Underline slides smoothly to the selected tab',
-    emoji: '🗂️',
     category: '내비게이션',
     usage: `import { useTabIndicator } from './useTabIndicator'
 
@@ -387,7 +370,6 @@ const { registerTab, indicatorRef } = useTabIndicator({ activeIndex })
     description: '스와이프 스냅 배너·카드 슬라이더 (CSS scroll-snap)',
     titleEn: 'Snap carousel',
     descriptionEn: 'Slider that snaps to card boundaries when swiped sideways',
-    emoji: '🎠',
     category: '내비게이션',
     usage: `import { useCarousel } from './useCarousel'
 
@@ -406,7 +388,6 @@ const { trackRef, activeIndex, goTo } = useCarousel()
     description: '아래에서 올라오는 시트 — 드래그로 끌어내려 닫기',
     titleEn: 'Bottom sheet',
     descriptionEn: 'Opens a sheet from the bottom; drag to resize or close',
-    emoji: '📋',
     category: '제스처',
     usage: `import { BottomSheet } from './BottomSheet'
 
@@ -421,7 +402,6 @@ const { trackRef, activeIndex, goTo } = useCarousel()
     description: '최상단에서 끌어내려 갱신 — 고무줄 저항과 스피너',
     titleEn: 'Pull to refresh',
     descriptionEn: 'Pull the top of the list to refresh, with resistance',
-    emoji: '🔄',
     category: '제스처',
     usage: `import { PullToRefresh } from './PullToRefresh'
 
@@ -436,7 +416,6 @@ const { trackRef, activeIndex, goTo } = useCarousel()
     description: '≡가 X로 모핑하는 버튼 + 옆에서 밀려 나오는 드로어',
     titleEn: 'Hamburger menu',
     descriptionEn: 'Morphs the menu icon into a close icon and shows the panel',
-    emoji: '🍔',
     category: '내비게이션',
     usage: `import { HamburgerButton, Drawer } from './HamburgerMenu'
 
@@ -452,7 +431,6 @@ const { trackRef, activeIndex, goTo } = useCarousel()
     description: '들어갈 때는 오른쪽에서 덮고 뒤로 갈 때는 반대로 — 헤더·탭바는 제자리, 스크롤은 복원',
     titleEn: 'Page transition',
     descriptionEn: 'Keeps the header and tab bar while transitioning screens in the direction of navigation',
-    emoji: '📱',
     category: '내비게이션',
     usage: `import { usePageStack } from './usePageStack'
 
@@ -474,7 +452,6 @@ const stack = usePageStack({ initial: { name: 'list' } })
     description: '⋯ 버튼의 액션 메뉴 — 아래가 좁으면 위로 뒤집히고, 방향키·첫 글자로 이동',
     titleEn: 'Dropdown menu',
     descriptionEn: 'Action menu that repositions to fit the space and moves with arrow keys and first-letter typing',
-    emoji: '⋯',
     category: '내비게이션',
     usage: `import { DropdownMenu } from './DropdownMenu'
 
@@ -494,12 +471,11 @@ const stack = usePageStack({ initial: { name: 'list' } })
     description: '호버는 지연 후·포커스는 즉시 떠오르는 말풍선 — 4방향 배치',
     titleEn: 'Tooltip',
     descriptionEn: 'Shows on mouse or keyboard input and positions by available space',
-    emoji: '💬',
     category: '피드백',
     usage: `import { Tooltip } from './Tooltip'
 
 <Tooltip label="장바구니에 담기" place="bottom">
-  <button type="button" aria-label="담기">🛒</button>
+  <button type="button" aria-label="담기"><CartIcon /></button>
 </Tooltip>`,
     Component: TooltipDemo,
   },
@@ -509,7 +485,6 @@ const stack = usePageStack({ initial: { name: 'list' } })
     description: '패널이 드롭되는 셀렉트 — 키보드 내비게이션·ARIA 콤보박스 내장',
     titleEn: 'Custom select',
     descriptionEn: 'Dropdown with keyboard control and screen reader support',
-    emoji: '🔽',
     category: '컨트롤',
     usage: `import { Select } from './Select'
 
@@ -527,7 +502,6 @@ const stack = usePageStack({ initial: { name: 'list' } })
     description: 'JS 측정 없는 높이 애니메이션 — grid-template-rows 0fr↔1fr',
     titleEn: 'Accordion',
     descriptionEn: 'Expand and collapse content with a CSS height transition',
-    emoji: '🪗',
     category: '컨트롤',
     usage: `import { Accordion } from './Accordion'
 
@@ -542,7 +516,6 @@ const stack = usePageStack({ initial: { name: 'list' } })
     description: '썸 슬라이드 + 누름 스퀴시 — 네이티브 체크박스 기반이라 접근성 공짜',
     titleEn: 'Toggle switch',
     descriptionEn: 'On/off switch built on a native checkbox',
-    emoji: '🎚️',
     category: '컨트롤',
     usage: `import { Switch } from './Switch'
 
@@ -555,7 +528,6 @@ const stack = usePageStack({ initial: { name: 'list' } })
     description: '라벨이 플레이스홀더 자리에서 떠오르는 입력 — 판정은 CSS만으로',
     titleEn: 'Floating label input',
     descriptionEn: 'Moves the placeholder text to a top label based on input state',
-    emoji: '🏷️',
     category: '컨트롤',
     usage: `import { TextField } from './TextField'
 
@@ -568,7 +540,6 @@ const stack = usePageStack({ initial: { name: 'list' } })
     description: '백드롭 페이드 + 패널 스케일 진입 — 네이티브 dialog라 포커스 트랩·Esc 공짜',
     titleEn: 'Modal dialog',
     descriptionEn: 'Open and close on the native <dialog>, with Esc key and focus handling',
-    emoji: '🪟',
     category: '등장과 전환',
     usage: `import { Modal } from './Modal'
 
@@ -584,7 +555,6 @@ const stack = usePageStack({ initial: { name: 'list' } })
     description: '체크마크가 획으로 그려지고 라디오 도트가 튀어 맺힘 — 네이티브 input 기반',
     titleEn: 'Checkbox · Radio',
     descriptionEn: 'Animates the check mark and radio dot to match the selected state',
-    emoji: '☑️',
     category: '컨트롤',
     usage: `import { Checkbox } from './Checkbox'
 import { Radio } from './Radio'
@@ -599,7 +569,6 @@ import { Radio } from './Radio'
     description: '치면 다음 칸으로, 지우면 앞 칸으로 — 복사한 6자리는 칸마다 하나씩 나뉨',
     titleEn: 'OTP input',
     descriptionEn: 'Moves between cells on type and delete, supports pasting a code',
-    emoji: '🔢',
     category: '컨트롤',
     usage: `import { OtpInput, type OtpHandle } from './OtpInput'
 
@@ -621,7 +590,6 @@ const otp = useRef<OtpHandle>(null)
     description: '입력이 멈춘 뒤 한 번만 요청 — 늦게 온 옛 응답이 최신 목록을 덮지 않음',
     titleEn: 'Search suggestions',
     descriptionEn: 'Searches when typing pauses and keeps stale responses from overwriting the latest results',
-    emoji: '🔎',
     category: '컨트롤',
     usage: `import { useSearchSuggest } from './useSearchSuggest'
 
@@ -652,7 +620,6 @@ const search = useSearchSuggest({
     description: '두 손잡이로 가격대를 고름 — 서로를 지나치지 않고, 겹쳐도 잡힘',
     titleEn: 'Range slider',
     descriptionEn: 'Range input with two handles for minimum and maximum',
-    emoji: '🎚️',
     category: '컨트롤',
     usage: `import { RangeSlider } from './RangeSlider'
 
@@ -676,7 +643,6 @@ const [price, setPrice] = useState({ lower: 8000, upper: 20000 })
     description: '− / + 로 수량 조절 — 누르고 있으면 점점 빨라지고, 1에서 −는 삭제로',
     titleEn: 'Quantity stepper',
     descriptionEn: 'Adjust quantity with buttons, long-press to accelerate, switches to delete at the minimum',
-    emoji: '🔢',
     category: '컨트롤',
     usage: `import { QuantityStepper } from './QuantityStepper'
 
@@ -696,7 +662,6 @@ const [price, setPrice] = useState({ lower: 8000, upper: 20000 })
     description: '끌어다 놓으면 테두리가 살아나고 미리보기·진행률이 붙음 — 거절엔 이유가 따라옴',
     titleEn: 'File upload',
     descriptionEn: 'File drop, preview and progress display, rejection reasons',
-    emoji: '📎',
     category: '컨트롤',
     usage: `import { FileDropZone } from './FileDropZone'
 
@@ -717,7 +682,6 @@ const [price, setPrice] = useState({ lower: 8000, upper: 20000 })
     description: '틀린 입력을 좌우로 흔들고 에러 메시지가 밀려 올라옴 — 재시작 보장',
     titleEn: 'Form shake error',
     descriptionEn: 'Shakes fields with input errors and shows the error message',
-    emoji: '🚫',
     category: '피드백',
     usage: `import { useShake, FieldError } from './ShakeField'
 
@@ -734,7 +698,6 @@ const field = useShake<HTMLInputElement>()
     description: '왼쪽으로 밀면 삭제 버튼, 끝까지 밀면 바로 삭제 — 행 높이가 접히며 사라짐',
     titleEn: 'Swipe to delete',
     descriptionEn: 'Swipe sideways to reveal action buttons (a single delete, or several: archive, later, delete); swiping all the way runs the last action',
-    emoji: '🗑️',
     category: '제스처',
     usage: `import { SwipeToDelete } from './SwipeToDelete'
 
@@ -753,7 +716,6 @@ const field = useShake<HTMLInputElement>()
     description: '두 손가락으로 벌리면 그 자리에서 커지고 놓으면 제자리로 — 인스타 피드 관례',
     titleEn: 'Feed pinch zoom',
     descriptionEn: 'Two-finger zoom on a photo, restores on release',
-    emoji: '🤏',
     category: '제스처',
     usage: `import { PinchZoom } from './PinchZoom'
 
@@ -768,7 +730,6 @@ const field = useShake<HTMLInputElement>()
     description: 'duration 대신 강성·감쇠로 — 던진 속도를 이어받고 도중에 목표가 바뀌어도 끊기지 않음',
     titleEn: 'Spring physics motion',
     descriptionEn: 'Motion that carries drag velocity and settles like a spring',
-    emoji: '🪀',
     category: '등장과 전환',
     usage: `import { useSpring } from './useSpring'
 
@@ -784,7 +745,6 @@ const x = useSpring({ onUpdate: (v) => { el.current.style.transform = \`translat
     description: '누른 지점에서 원이 퍼지며 테마가 덮임 — 선택 기억·기기 설정 따라가기',
     titleEn: 'Dark mode toggle',
     descriptionEn: 'Circular theme transition from the press point, saves the choice and follows the device setting',
-    emoji: '🌗',
     category: '등장과 전환',
     usage: `import { ThemeToggle } from './ThemeToggle'
 
@@ -807,7 +767,6 @@ const x = useSpring({ onUpdate: (v) => { el.current.style.transform = \`translat
     description: '이미지를 끌면 작아지며 뒤가 비치고, 놓으면 썸네일 자리로 스프링 복귀 — iOS 사진·인스타 관례',
     titleEn: 'Swipe-dismiss viewer',
     descriptionEn: 'Drag a photo down to shrink and close it, returning to its original position',
-    emoji: '🖼️',
     category: '제스처',
     usage: `import { SwipeDismissViewer } from './SwipeDismissViewer'
 
@@ -827,7 +786,6 @@ const x = useSpring({ onUpdate: (v) => { el.current.style.transform = \`translat
     description: '손잡이를 끌면 항목이 떠오르고 지나친 항목이 자리를 비켜 줌 — 방향키로도 이동',
     titleEn: 'Drag to reorder',
     descriptionEn: 'Reorder a list by drag or arrow keys',
-    emoji: '🧲',
     category: '제스처',
     usage: `import { useDragReorder } from './useDragReorder'
 
@@ -849,7 +807,6 @@ const reorder = useDragReorder({ onReorder: move })
     description: '뒤 배경이 흐릿하게 비치는 반투명 유리 카드·GNB·모달 — 흐림을 못 쓰면 불투명 판으로 자동 전환',
     titleEn: 'Glassmorphism surface',
     descriptionEn: 'Translucent card, nav bar or modal with a blurred backdrop; falls back to an opaque surface when blur is unsupported',
-    emoji: '🪟',
     category: '표면과 스타일',
     usage: `import { Glass } from './Glass'
 
@@ -869,7 +826,6 @@ const reorder = useDragReorder({ onReorder: move })
     description: '선택 칸 뒤로 알약 배경이 미끄러지는 iOS 세그먼트 — 네이티브 라디오 그룹이라 방향키·스크린 리더 공짜',
     titleEn: 'Segmented control',
     descriptionEn: 'Pill background slides behind the selected segment, built on a native radio group',
-    emoji: '🎛️',
     category: '컨트롤',
     usage: `import { SegmentedControl } from './SegmentedControl'
 
@@ -889,7 +845,6 @@ const [order, setOrder] = useState('dine-in')
     description: 'iOS 드럼처럼 굴려서 고르는 원통형 선택기 — 가운데 스냅·3D 기울기·페이드, 클릭·키보드 병행',
     titleEn: 'Wheel picker',
     descriptionEn: 'Drum picker that scrolls vertically and snaps to the center cell, with 3D tilt, click and keyboard',
-    emoji: '🎡',
     category: '컨트롤',
     usage: `import { useState } from 'react'
 import { WheelPicker } from './WheelPicker'
@@ -908,7 +863,6 @@ const ReservationHour = () => {
     description: '길게 누르면 항목이 떠오르고 뒤가 흐려지며 옆에 메뉴 — 데스크톱은 우클릭, iOS 홈 화면 관례',
     titleEn: 'Long-press menu',
     descriptionEn: 'Long-press or right-click lifts the item, blurs the background and shows an action menu beside it',
-    emoji: '👆',
     category: '제스처',
     usage: `import { LongPressMenu } from './LongPressMenu'
 
@@ -930,7 +884,6 @@ const ReservationHour = () => {
     description: '누른 카드가 제자리에서 자라나 상세 화면이 되고, 닫으면 그 자리로 줄어든다 — 그림·제목은 따로 이어져 움직인다',
     titleEn: 'Card expand',
     descriptionEn: 'Shared-element transition: the pressed card grows in place into a detail screen and shrinks back on close',
-    emoji: '🃏',
     category: '등장과 전환',
     usage: `import { useCardExpand } from './useCardExpand'
 
@@ -939,14 +892,14 @@ const { expandedId, expand, collapse } = useCardExpand({ containerRef, detailRef
 <div ref={containerRef} className="card-expand-container">
   <ul inert={expandedId !== null}>
     <button data-card-id={pick.id} onClick={(e) => expand({ id: pick.id, card: e.currentTarget })}>
-      <span data-card-expand-part="media">{pick.emoji}</span>
+      <img data-card-expand-part="media" src={pick.photo} alt="" />
       <span data-card-expand-part="title">{pick.title}</span>
     </button>
   </ul>
   {current && (
     <article ref={detailRef} className="card-expand-detail" role="dialog">
       <button className="card-expand-close" onClick={collapse}>×</button>
-      <div data-card-expand-part="media">{current.emoji}</div>
+      <img data-card-expand-part="media" src={current.photo} alt={current.title} />
       <h2 data-card-expand-part="title">{current.title}</h2>
     </article>
   )}
@@ -959,7 +912,6 @@ const { expandedId, expand, collapse } = useCardExpand({ containerRef, detailRef
     description: '애플워치 활동 링처럼 원이 채워지는 진행 표시 — 값이 바뀌면 CSS transition으로 따라가고 3중 링·무한 로딩 지원',
     titleEn: 'Progress ring',
     descriptionEn: 'SVG circle fills by value; three nested rings, over-target display, indeterminate loading',
-    emoji: '⭕',
     category: '로딩과 진행',
     usage: `import { ProgressRing } from './ProgressRing'
 import { ActivityRings } from './ActivityRings'
@@ -983,7 +935,6 @@ import { ActivityRings } from './ActivityRings'
     description: '애플 지갑식 카드 스택 — 겹침에서 펼치고, 하나를 고르면 맨 위로 올라오고 나머지는 아래로 내려가 겹친다',
     titleEn: 'Card stack',
     descriptionEn: 'Stacked cards fan out vertically on press; the chosen card moves to the top and the rest fold beneath it',
-    emoji: '🗂️',
     category: '등장과 전환',
     usage: `import { CardStack } from './CardStack'
 
@@ -1002,7 +953,6 @@ const CARDS = [
     description: '위로 스크롤하면 이미지가 느리게 밀리며 어두워지고, 맨 위에서 당기면 늘어났다 돌아옴',
     titleEn: 'Stretchy image header',
     descriptionEn: 'Large image header scrolls at a slower rate and darkens, and stretches then snaps back when pulled at the top',
-    emoji: '🖼️',
     category: '등장과 전환',
     usage: `import { useStretchyHeader } from './useStretchyHeader'
 
@@ -1025,7 +975,6 @@ const { containerRef, imageRef } = useStretchyHeader({ headerHeight: 240 })
     description: '왼쪽 가장자리를 끌면 현재 화면이 손가락을 따라 밀리고 이전 화면이 따라 나온다 — 놓으면 거리·속도로 판정해 스프링으로 가거나 되돌아온다',
     titleEn: 'Edge swipe back',
     descriptionEn: 'Drag from the left edge to pull in the previous screen; on release, distance and velocity decide whether to go back',
-    emoji: '👈',
     category: '제스처',
     usage: `import { useEdgeSwipeBack } from './useEdgeSwipeBack'
 
@@ -1047,7 +996,6 @@ const { containerRef, screenRef, underlayRef, dimRef } = useEdgeSwipeBack({
     description: '앱 전체의 시간·이징·스태거·reduced-motion 기준을 토큰 한 벌로 — 이징을 나란히 비교하고 시간 단계를 골라 본다',
     titleEn: 'Motion principles & tokens',
     descriptionEn: 'One token set of 5 durations, 5 easings, stagger and reduced-motion, plus rules for which value each kind of movement uses',
-    emoji: '📐',
     category: '원칙과 검토',
     usage: `/* motion-tokens.css를 전역에서 불러온 뒤, 스킬들의 공개 변수를 토큰에 연결 */
 :root {
@@ -1071,7 +1019,6 @@ const { containerRef, screenRef, underlayRef, dimRef } = useEdgeSwipeBack({
     description: 'CSS·JS를 훑어 레이아웃 속성 애니메이션·reduced-motion 누락·시간 범위 밖 같은 문제를 file:line으로 찾고 고치는 법을 알려줌',
     titleEn: 'Motion audit',
     descriptionEn: 'Scans CSS and JS for layout-property animations, missing reduced-motion, out-of-range durations and more, reports them as file:line and points to the skill that fixes each',
-    emoji: '🔍',
     category: '원칙과 검토',
     usage: `# 폴더 전체 검사 — error가 있으면 exit 1
 node tools/motion-audit/audit.mjs src/
@@ -1090,7 +1037,6 @@ console.log(formatFindings(findings))
     description: '순서·위계·묶음·정렬·강조 원칙 12개, 화면 유형별 관례, 간격·글자·색·반경 토큰 한 벌 — AI가 흔히 만드는 화면 9개(설정·로그인·AI 채팅 포함)와 고친 화면을 나란히 비교',
     titleEn: 'Layout principles & tokens',
     descriptionEn: '12 principles for order, hierarchy, grouping, alignment and emphasis, conventions per screen type, and one token set for spacing, type, color and radius, shown as before/after fixes of nine typical AI screens (settings, login and AI chat included)',
-    emoji: '📏',
     category: '원칙과 검토',
     usage: `/* layout-tokens.css를 전역에서 불러온 뒤, 숫자 대신 토큰만 쓴다 */
 .order-row {
@@ -1117,7 +1063,6 @@ console.log(formatFindings(findings))
     description: 'CSS·JSX·HTML을 훑어 카드 안 카드·11px 미만 글자·효과 남발·척도 밖 간격·문단 가운데 정렬 같은 레이아웃 문제를 file:line으로 찾고 고치는 법을 알려줌',
     titleEn: 'Layout audit',
     descriptionEn: 'Scans CSS, JSX and HTML for nested cards, sub-11px text, effect overuse, off-scale spacing, centered paragraphs and more, reports them as file:line with the principle that fixes each',
-    emoji: '🧐',
     category: '원칙과 검토',
     usage: `# 폴더 전체 검사 — error가 있으면 exit 1
 node tools/layout-audit/audit.mjs src/
@@ -1136,7 +1081,6 @@ console.log(formatFindings(findings))
     description: '맨 위에서는 투명, 내려가면 유리로 — 아래로 스크롤하면 숨고 올리면 나타나거나, 링크가 접혀 알약 하나로 줄어듦. 링크를 누르면 그 섹션으로 이동하고 활성 알약이 따라옴',
     titleEn: 'Scroll-aware glass nav',
     descriptionEn: 'Transparent at the top, glass once scrolled; hides on scroll down and returns on scroll up, or collapses into a single pill. Links scroll to their section and the active pill follows',
-    emoji: '🧭',
     category: '내비게이션',
     usage: `import { useGlassNav } from './useGlassNav'
 
@@ -1145,7 +1089,7 @@ const { navRef, activeId } = useGlassNav({ mode: 'hide', spy: true }) // 'elevat
 
 <header ref={navRef} className="gnav">
   <div className="gnav-bar">
-    <a className="gnav-brand" href="/">🍜 국수집</a>
+    <a className="gnav-brand" href="/">국수집</a>
     <nav className="gnav-links" aria-label="주메뉴">
       <div>
         <span className="gnav-pill" aria-hidden="true" />

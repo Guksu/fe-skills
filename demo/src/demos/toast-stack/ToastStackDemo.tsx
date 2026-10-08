@@ -2,13 +2,8 @@ import { useRef, useState } from 'react'
 import { useToastStack } from '@skills/toast-stack/assets/useToastStack'
 import './toast-stack-demo.css'
 
-const MESSAGES = [
-  '저장되었습니다 ✓',
-  '장바구니에 담았습니다 🛒',
-  '주문이 접수되었습니다 🍜',
-  '찜 목록에 추가했습니다 ❤️',
-  '링크를 복사했습니다 🔗',
-]
+// 토스트는 문장 하나로 결과를 알린다 — 끝에 이모지를 붙여 꾸미지 않는다
+const MESSAGES = ['저장되었습니다', '장바구니에 담았습니다', '주문이 접수되었습니다', '찜 목록에 추가했습니다', '링크를 복사했습니다']
 
 type Position = 'bottom' | 'top'
 

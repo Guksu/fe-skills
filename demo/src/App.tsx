@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { CATEGORIES, demos, type DemoEntry } from './demos'
 import { CATEGORY_LABEL, STRINGS, useLang, type Lang } from './i18n'
+import { DISHES, type DishId } from './shared/dishes'
+import { DishPhoto } from './shared/DishPhoto'
 
 const slugFromHash = () => window.location.hash.replace(/^#\/?/, '')
 
@@ -51,7 +53,6 @@ export const App = () => {
                 .filter((demo) => demo.category === category)
                 .map((demo) => (
                   <a key={demo.slug} href={`#/${demo.slug}`} data-active={demo.slug === slug ? 'true' : 'false'}>
-                    <span className="nav-emoji">{demo.emoji}</span>
                     {titleOf({ demo, lang })}
                   </a>
                 ))}
@@ -62,9 +63,12 @@ export const App = () => {
           <a href="https://github.com/Guksu/suta" target="_blank" rel="noreferrer">
             GitHub
           </a>
+          <a href="#/credits">{t.creditsLink}</a>
         </footer>
       </aside>
-      <main className="content">{active ? <DemoPage demo={active} lang={lang} /> : <Home lang={lang} />}</main>
+      <main className="content">
+        {active ? <DemoPage demo={active} lang={lang} /> : slug === 'credits' ? <Credits lang={lang} /> : <Home lang={lang} />}
+      </main>
     </div>
   )
 }
@@ -74,9 +78,7 @@ const DemoPage = ({ demo, lang }: { demo: DemoEntry; lang: Lang }) => {
   return (
     <>
       <header className="demo-header">
-        <h1>
-          <span aria-hidden="true">{demo.emoji}</span> {titleOf({ demo, lang })}
-        </h1>
+        <h1>{titleOf({ demo, lang })}</h1>
         <p>{descriptionOf({ demo, lang })}</p>
         <code>skills/suta/patterns/{demo.slug}/</code>
         {lang === 'en' && <p className="demo-lang-note">{t.demoNote}</p>}
@@ -171,9 +173,6 @@ const Home = ({ lang }: { lang: Lang }) => {
               {group.map((demo) => (
                 <li key={demo.slug}>
                   <a href={`#/${demo.slug}`}>
-                    <span className="demo-card-emoji" aria-hidden="true">
-                      {demo.emoji}
-                    </span>
                     <span className="demo-card-body">
                       <strong>{titleOf({ demo, lang })}</strong>
                       <span>{descriptionOf({ demo, lang })}</span>
@@ -186,6 +185,44 @@ const Home = ({ lang }: { lang: Lang }) => {
         )
       })}
       {visible.length === 0 && <p className="home-empty">{t.noMatch(query)}</p>}
+    </section>
+  )
+}
+
+/** 사진·아이콘 출처 — CC BY는 저작자·라이선스·원본·변경 사실을 사이트에서 보이게 적어야 한다 */
+const Credits = ({ lang }: { lang: Lang }) => {
+  const t = STRINGS[lang]
+  const ids = Object.keys(DISHES) as DishId[]
+  return (
+    <section className="credits">
+      <h1>{t.creditsTitle}</h1>
+      <p className="home-intro">{t.creditsIntro}</p>
+      <h2>{t.creditsPhotos}</h2>
+      <ul className="credits-list">
+        {ids.map((id) => {
+          const { name, credit } = DISHES[id]
+          return (
+            <li key={id}>
+              <DishPhoto dish={id} className="credits-thumb" />
+              <span className="credits-body">
+                <strong lang="ko">{name}</strong>
+                <span>
+                  {credit.author} ·{' '}
+                  <a href={credit.licenseUrl} target="_blank" rel="noreferrer">
+                    {credit.license}
+                  </a>{' '}
+                  ·{' '}
+                  <a href={credit.source} target="_blank" rel="noreferrer">
+                    {t.creditsSource}: {credit.file}
+                  </a>
+                </span>
+              </span>
+            </li>
+          )
+        })}
+      </ul>
+      <h2>{t.creditsIcons}</h2>
+      <p className="credits-note">{t.creditsIconsBody}</p>
     </section>
   )
 }
