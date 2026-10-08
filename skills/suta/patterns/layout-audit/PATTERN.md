@@ -1,6 +1,6 @@
 ---
 name: layout-audit
-description: CSS·JSX·HTML에서 AI가 흔히 만드는 레이아웃 문제를 file:line으로 찾는 정적 검사 도구(layout audit)다. 11px 미만 글자, 카드 안 카드, 그라데이션·유리 효과 남발, 그라데이션 글자, 글자 크기·굵기·반경 종류 과다, 4px 척도 밖 간격, 문단 가운데 정렬, 늘어난 사진을 잡는다. "레이아웃 검사해줘, 디자인 규칙 점검, 카드 안 카드 잡아줘, 스타일 코드 리뷰, layout lint" 요청에 쓴다.
+description: CSS·JSX·HTML에서 AI가 흔히 만드는 레이아웃 문제를 file:line으로 찾는 정적 검사 도구(layout audit)다. 11px 미만 글자, 카드 안 카드, 그라데이션·유리 효과 남발, 그라데이션 글자, 글자 크기·굵기·반경 종류 과다, 4px 척도 밖 간격, 문단 가운데 정렬, 늘어난 사진, 연노랑·살구 같은 옅은 색 면, 색 계열 과다를 잡는다. "레이아웃 검사해줘, 디자인 규칙 점검, 카드 안 카드 잡아줘, 스타일 코드 리뷰, layout lint" 요청에 쓴다.
 ---
 
 # layout-audit — 레이아웃 검사
@@ -17,7 +17,7 @@ description: CSS·JSX·HTML에서 AI가 흔히 만드는 레이아웃 문제를 
 
 | 파일 | 층 | 복사 대상 |
 |------|-----|----------|
-| `assets/auditLayout.ts` | 코어 — 규칙 10개, `auditLayout(sources)` → `Finding[]`, `formatFindings`, `summarize` | 모든 프로젝트 |
+| `assets/auditLayout.ts` | 코어 — 규칙 12개, `auditLayout(sources)` → `Finding[]`, `formatFindings`, `summarize` | 모든 프로젝트 |
 | `assets/auditCore.ts` | 공통 코어 — 결과 형식, CSS 블록 자르기, 예외 주석 | 함께 복사 |
 | `assets/layoutTokens.ts` | 간격 척도·글자 하한 — `layout-principles`와 같은 파일 | 함께 복사 |
 | `assets/audit.mjs` | CLI — 폴더 재귀, `--json`, `--warn-only`, error가 있으면 exit 1 | Node 22.18+ |
@@ -72,10 +72,12 @@ console.log(formatFindings(findings))
 | `spacing-off-scale` | warn | 4px 격자 밖 margin·padding·gap(1·2px 선 두께는 허용). 파일마다 한 번 요약하고 가까운 척도를 제안한다 | P4·P10 |
 | `centered-text-block` | warn | 문단의 가운데 정렬 — CSS는 문단·설명류 선택자, JSX·HTML은 `text-center` 안에서 글자로 적힌 부분이 40자 이상인 `<p>`(`{설명}` 같은 식은 길이를 몰라 세지 않는다) | P6 |
 | `image-distort` | warn | `object-fit: fill`·`object-fill` | P9 |
+| `tinted-surface` | warn | 옅은 유채색 바탕(연노랑·살구·연분홍·연민트·연파랑) — CSS `background`·변수 정의, Tailwind `bg-{색}-50~200`, 인라인 스타일. 반투명 색은 흰 면 위에 얹은 색으로 판정한다. OKLCH 밝기 0.9 이상 + 채도 0.012 이상이 기준이고, slate 같은 푸른 회색은 회색으로 둔다. 파일마다 한 번 요약 | P5·`tone.md` |
+| `hue-count` | warn | 한 파일의 유채색 계열(빨강·주황·노랑·초록·청록·파랑·보라·분홍) 3종 이상 — 모든 색 속성·변수 정의·Tailwind 색 이름에서 센다. 다크 모드의 같은 계열은 하나로 센다 | `tone.md` |
 
 ## 의도적 예외
 
-규칙이 틀린 게 아니라 이 자리에서는 감수하는 게 맞을 때가 있다. 차트 축 눈금의 작은 글자, 유리 효과가 목적인 컴포넌트가 그 예다. 그 줄이나 바로 앞 줄에 이유를 붙여 예외를 선언한다.
+규칙이 틀린 게 아니라 이 자리에서는 감수하는 게 맞을 때가 있다. 차트 축 눈금의 작은 글자, 유리 효과가 목적인 컴포넌트, 외부 서비스 고유 색(카카오 노랑 버튼), 콘텐츠 색(사진 자리·카드 테마)이 그 예다. 그 줄이나 바로 앞 줄에 이유를 붙여 예외를 선언한다.
 
 ```css
 .axis-tick {

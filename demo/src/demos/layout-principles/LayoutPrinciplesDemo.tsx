@@ -420,6 +420,138 @@ const LoginAfter = () => (
   </form>
 )
 
+/* ---- ⑨ AI 채팅 — 머리 한 줄·정보는 한 곳·무채색 + 강조색 하나(P1·P3·P11) ---- */
+
+const CHAT_QUESTION = '비 오는 날 어울리는 국수 추천해줘'
+const CHAT_ANSWER = ['비 오는 날에는 뜨끈한 국물이 좋아요.', '칼국수는 바지락 국물이 진하고, 잔치국수는 멸치 국물이 맑아요. 손만두를 곁들이면 한 끼로 넉넉해요.']
+
+const ChatBefore = () => (
+  <div className="lp-b-chat">
+    <div className="lp-b-chat-bar">
+      <span className="lp-b-avatar">N</span>
+      <span className="lp-b-strong">국수 추천 도우미</span>
+      <span className="lp-b-pill-amber">추천 모드</span>
+    </div>
+    <div className="lp-b-chat-bar lp-b-chat-sub">성수 국수집 · 메뉴판 12개</div>
+    <div className="lp-b-chat-bar lp-b-chat-sub">
+      <span className="lp-b-pill-amber">M1</span> 오늘의 메뉴판
+    </div>
+    <p className="lp-b-bubble-me">{CHAT_QUESTION}</p>
+    <div className="lp-b-answer">
+      <p className="lp-b-answer-head">
+        <span className="lp-b-avatar">N</span> 도우미 <span className="lp-b-pill-green">완료</span>
+      </p>
+      <p className="lp-b-faint">{CHAT_ANSWER.join(' ')}</p>
+    </div>
+    <div className="lp-b-error">
+      <p className="lp-b-strong">요청이 많아 잠시 후 다시 시도해 주세요.</p>
+      <button type="button" className="lp-b-gray-pill">
+        다시 시도
+      </button>
+    </div>
+    <div className="lp-b-chips">
+      <span className="lp-b-gray-pill">맵지 않은 거</span>
+      <span className="lp-b-gray-pill">곱빼기</span>
+      <span className="lp-b-gray-pill">포장</span>
+    </div>
+    <div className="lp-b-composer">
+      {/* layout-audit-ignore: nested-card — 일부러 AI 슬롭으로 만든 '전' 화면(입력창 안 색 상자) */}
+      <p className="lp-b-attach">
+        <span className="lp-b-pill-amber">M1</span> 오늘의 메뉴판
+      </p>
+      <span className="lp-b-faint">메시지를 입력하세요</span>
+      <button type="button" className="lp-b-gray-pill">
+        메뉴 고르기
+      </button>
+    </div>
+  </div>
+)
+
+const Icon = ({ d }: { d: string }) => (
+  <svg aria-hidden="true" viewBox="0 0 24 24" className="lp-t-icon">
+    <path d={d} />
+  </svg>
+)
+const ICON = {
+  chevron: 'm6 9 6 6 6-6',
+  newChat: 'M12 5v14M5 12h14',
+  history: 'M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5M12 7v5l3 2',
+  copy: 'M9 9h10v10H9zM5 15V5h10',
+  retry: 'M4 4v6h6M20 20v-6h-6M5.5 15a7 7 0 0 0 12.6 2M18.5 9A7 7 0 0 0 5.9 7',
+  attach: 'm21 11-8.6 8.6a5 5 0 0 1-7-7L14 3.9a3.3 3.3 0 0 1 4.7 4.7L10 17.2a1.7 1.7 0 0 1-2.4-2.4l8-8',
+  send: 'M12 19V5M5 12l7-7 7 7',
+}
+
+const ChatAfter = () => {
+  const [text, setText] = useState('')
+  const [attached, setAttached] = useState(true)
+
+  return (
+    <section className="lp-t-chat" aria-label="국수 추천 도우미">
+      <header className="lp-t-chat-head">
+        <button type="button" className="lp-t-model">
+          국수 도우미
+          <Icon d={ICON.chevron} />
+        </button>
+        <span className="lp-t-chat-actions">
+          <button type="button" className="lp-t-icon-button" aria-label="새 대화">
+            <Icon d={ICON.newChat} />
+          </button>
+          <button type="button" className="lp-t-icon-button" aria-label="기록">
+            <Icon d={ICON.history} />
+          </button>
+        </span>
+      </header>
+      <div className="lp-t-chat-log">
+        <p className="lp-t-bubble">{CHAT_QUESTION}</p>
+        <article className="lp-t-answer">
+          {CHAT_ANSWER.map((line) => (
+            <p key={line}>{line}</p>
+          ))}
+          <p className="lp-t-answer-foot">
+            <button type="button" className="lp-t-icon-button" aria-label="답변 복사">
+              <Icon d={ICON.copy} />
+            </button>
+            <button type="button" className="lp-t-icon-button" aria-label="다시 생성">
+              <Icon d={ICON.retry} />
+            </button>
+            <span className="lp-t-desc">메뉴판 근거 2곳</span>
+          </p>
+        </article>
+        <p className="lp-t-chat-error" role="status">
+          <span className="lp-t-error-text">요청이 많아 답하지 못했어요.</span>
+          <button type="button" className="lp-t-text-button">
+            다시 시도
+          </button>
+        </p>
+      </div>
+      <form className="lp-t-composer" onSubmit={(e) => e.preventDefault()}>
+        {attached && (
+          <p className="lp-t-attach">
+            <Icon d={ICON.attach} />
+            오늘의 메뉴판
+            <button type="button" className="lp-t-text-button" onClick={() => setAttached(false)}>
+              빼기
+            </button>
+          </p>
+        )}
+        <label className="lp-t-composer-row">
+          <span className="lp-t-sr">질문</span>
+          <textarea className="lp-t-composer-input" rows={1} placeholder="무엇을 드시고 싶으세요?" value={text} onChange={(e) => setText(e.target.value)} />
+        </label>
+        <span className="lp-t-composer-row lp-t-composer-tools">
+          <button type="button" className="lp-t-icon-button" aria-label="자료 첨부" onClick={() => setAttached(true)}>
+            <Icon d={ICON.attach} />
+          </button>
+          <button type="submit" className="lp-t-send" aria-label="보내기" disabled={text.trim() === ''}>
+            <Icon d={ICON.send} />
+          </button>
+        </span>
+      </form>
+    </section>
+  )
+}
+
 type Example = { id: string; title: string; principle: string; before: string; after: string; Before: () => ReactNode; After: () => ReactNode; flush?: boolean; light?: boolean }
 
 const EXAMPLES: Example[] = [
@@ -497,6 +629,17 @@ const EXAMPLES: Example[] = [
     after: '서비스의 강조색 하나로 주 버튼을 채운다. 링크는 밑줄로 링크답게, 소셜 버튼은 그 서비스의 색과 로고(카카오 노랑, 네이버 로고)를 같은 높이로.',
     Before: LoginBefore,
     After: LoginAfter,
+    flush: true,
+    light: true,
+  },
+  {
+    id: 'chat',
+    title: '⑨ AI 채팅',
+    principle: 'P1 정보는 한 곳 · P3 색은 강조색 하나 · P11 범용 채팅 화면의 관례',
+    before: '머리 아래에 사이트·대상 줄을 쌓고, 같은 대상을 입력창에 또 보인다. 상태마다 노랑·초록 알약, 오류는 분홍 상자, 보조 버튼은 회색 채움 알약이다.',
+    after: '머리 한 줄(모델·새 대화·기록). 내 말은 회색 말풍선, 답변은 말풍선 없는 본문과 무채색 아이콘 한 줄. 첨부는 입력창 안 한 곳, 오류는 그 자리 글자 + 다시 시도. 채운 버튼은 보내기 하나다.',
+    Before: ChatBefore,
+    After: ChatAfter,
     flush: true,
     light: true,
   },

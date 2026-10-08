@@ -10,7 +10,7 @@ Install it once and Claude Code or Codex reads it automatically whenever they bu
 [![Deploy demo](https://github.com/Guksu/suta/actions/workflows/deploy-demo.yml/badge.svg)](https://github.com/Guksu/suta/actions/workflows/deploy-demo.yml)
 ![Patterns](https://img.shields.io/badge/suta-55%20patterns-6ea8fe)
 ![Dependencies](https://img.shields.io/badge/runtime%20deps-0-34c759)
-![Tests](https://img.shields.io/badge/tests-584%20passing-34c759)
+![Tests](https://img.shields.io/badge/tests-591%20passing-34c759)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 [**Live demo**](https://guksu.github.io/suta/) · [Full guide](docs/guide.en.md) · [한국어](README.md)
@@ -88,7 +88,7 @@ Ask as you normally would. Say "build a login screen" or "polish this button ani
 - [Full guide](docs/guide.en.md) — every install option, how it works, the post-edit check, 55 patterns, development and contributing
 - [Benchmark](docs/benchmark.en.md) — method, all metrics and the judges' reasons for plain Claude Code vs suta
 - [Agent instructions](AGENTS.md) — for coding agents working in this repository
-- Research (Korean): [Layout principles](docs/research/2026-10-06-layout-principles.md) · [Screen conventions](docs/research/2026-10-07-screen-conventions.md)
+- Research (Korean): [Layout principles](docs/research/2026-10-06-layout-principles.md) · [Screen conventions](docs/research/2026-10-07-screen-conventions.md) · [Color count and AI chat](docs/research/2026-10-08-chat-color.md)
 
 ## License
 

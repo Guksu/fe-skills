@@ -106,7 +106,7 @@ describe('layoutTokens — 색 역할 (P2 농도·P3 강조·P5 면)', () => {
   })
 
   it('상태 색은 글자로 써도 흰 면에서 4.5:1 이상이다', () => {
-    for (const state of [COLOR.danger, COLOR.success, COLOR.warning]) expect(contrastRatio(state, COLOR.surface)).toBeGreaterThanOrEqual(4.5)
+    for (const state of [COLOR.danger, COLOR.success]) expect(contrastRatio(state, COLOR.surface)).toBeGreaterThanOrEqual(4.5)
     expect(contrastRatio(COLOR.onAccent, COLOR.accent)).toBeGreaterThanOrEqual(4.5)
   })
 

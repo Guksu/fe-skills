@@ -1,3 +1,5 @@
+/* layout-audit-ignore-file: hue-count — 일부러 AI 슬롭으로 만든 '전' 화면이다 */
+/* layout-audit-ignore-file: tinted-surface — 같은 이유 */
 /* layout-principles 데모 — "고치기 전" 예시(.lp-b-*). AI가 흔히 만드는 모습을 일부러 재현하므로 원칙을 어긴다.
  * 검사기가 이 예시를 지적하지 않도록 파일 단위로 규칙을 끈다. "고친 뒤" 쪽(layout-principles-demo.css)은 끄지 않는다.
  * layout-audit-ignore-file: nested-card — 카드 안 상자를 보여 주는 예시
@@ -246,4 +248,123 @@
   background: #ffffff;
   color: #111827;
   font-weight: 700;
+}
+
+/* ⑨ AI 채팅 — 고치기 전: 머리 아래 정보 줄 둘, 같은 대상을 입력창에 또, 상태마다 색 알약, 분홍 오류 상자, 회색 채움 알약 버튼 */
+.lp-b-chat {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px;
+  background: #ffffff;
+  color: #111827;
+  font-size: 13px;
+}
+
+.lp-b-chat-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.lp-b-chat-sub {
+  color: #6b7280;
+}
+
+.lp-b-avatar {
+  display: inline-grid;
+  place-items: center;
+  inline-size: 20px;
+  block-size: 20px;
+  border-radius: 6px;
+  background: #ea7a3c;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.lp-b-pill-amber {
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: #fef3c7;
+  color: #b45309;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.lp-b-pill-green {
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: #dcfce7;
+  color: #16a34a;
+  font-size: 11px;
+}
+
+.lp-b-bubble-me {
+  align-self: flex-end;
+  margin: 0;
+  padding: 8px 12px;
+  border-radius: 14px;
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.lp-b-answer-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 4px;
+  font-weight: 700;
+}
+
+.lp-b-error {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 10px;
+  background: #fde8e8;
+}
+
+.lp-b-gray-pill {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 999px;
+  background: #f3f4f6;
+  color: #374151;
+  font: inherit;
+}
+
+.lp-b-error .lp-b-gray-pill {
+  background: #ffffff;
+}
+
+.lp-b-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.lp-b-composer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 14px;
+}
+
+.lp-b-attach {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  padding: 6px 8px;
+  align-self: stretch;
+  border-radius: 8px;
+  background: #fff7e6;
 }

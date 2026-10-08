@@ -7,6 +7,8 @@
   border: 1px solid var(--border);
   border-radius: 12px;
   background: var(--surface);
+  /* 데모 셸이 어두운 바탕이라 패턴 기본값(거의 검정) 대신 셸의 강조색 계열을 공개 변수로 넘긴다 */
+  --loading-button-bg: #2563eb;
 }
 
 .lb-stage-title {
@@ -28,7 +30,7 @@
  * 진행·완료·실패 색은 스킬 쪽 규칙이 이미 더 강하므로 idle일 때만 되돌리면 된다 */
 .lb-stage .loading-button[data-status='idle']:hover,
 .lb-stage .loading-button[data-status='loading']:hover {
-  background: #2563eb;
+  background: var(--loading-button-bg);
 }
 
 .lb-counters {

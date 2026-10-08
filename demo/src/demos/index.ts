@@ -1087,9 +1087,9 @@ console.log(formatFindings(findings))
   {
     slug: 'layout-principles',
     title: '레이아웃 원칙과 토큰',
-    description: '순서·위계·묶음·정렬·강조 원칙 12개, 화면 유형별 관례, 간격·글자·굵기·반경 토큰 한 벌 — AI가 흔히 만드는 화면 6개와 고친 화면을 나란히 비교',
+    description: '순서·위계·묶음·정렬·강조 원칙 12개, 화면 유형별 관례, 간격·글자·색·반경 토큰 한 벌 — AI가 흔히 만드는 화면 9개(설정·로그인·AI 채팅 포함)와 고친 화면을 나란히 비교',
     titleEn: 'Layout principles & tokens',
-    descriptionEn: '12 principles for order, hierarchy, grouping, alignment and emphasis, conventions per screen type, and one token set for spacing, type, weight and radius, shown as before/after fixes of six typical AI screens',
+    descriptionEn: '12 principles for order, hierarchy, grouping, alignment and emphasis, conventions per screen type, and one token set for spacing, type, color and radius, shown as before/after fixes of nine typical AI screens (settings, login and AI chat included)',
     emoji: '📏',
     category: '원칙과 검토',
     usage: `/* layout-tokens.css를 전역에서 불러온 뒤, 숫자 대신 토큰만 쓴다 */
