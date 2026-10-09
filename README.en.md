@@ -1,21 +1,15 @@
-<div align="center">
-
 # suta
 
-An agent skill that fixes the parts of a UI that look AI-made.<br>
-Install it in Claude Code or Codex, and they read it every time they build UI.
+A skill for building UI with Claude Code or Codex. It provides layout, color and motion guidelines, plus code for 56 UI patterns.
 
 [![Deploy demo](https://github.com/Guksu/suta/actions/workflows/deploy-demo.yml/badge.svg)](https://github.com/Guksu/suta/actions/workflows/deploy-demo.yml)
 ![Patterns](https://img.shields.io/badge/suta-56%20patterns-1b1e24)
-![Dependencies](https://img.shields.io/badge/runtime%20deps-0-555555)
 ![Tests](https://img.shields.io/badge/tests-633%20passing-555555)
 [![License: MIT](https://img.shields.io/badge/license-MIT-555555)](LICENSE)
 
-[**Live demo**](https://guksu.github.io/suta/) · [Full guide](docs/guide.en.md) · [한국어](README.md)
+[Live demo](https://guksu.github.io/suta/) · [Installation](#installation) · [Full guide](docs/guide.en.md) · [한국어](README.md)
 
-</div>
-
-## AS-IS / TO-BE
+## Screen comparisons
 
 We gave Claude Code the requests below. One side had nothing installed. The other side had only suta installed. Model and settings were the same.
 
@@ -29,17 +23,17 @@ From left: home, product list, product detail, cart, my page, settings. Captured
 
 We ran it once without suta and four times with suta 0.8. The bottom row is the third of the four runs. The table compares the two rows in the image.
 
-| | AS-IS (without suta) | TO-BE (with suta) |
+| | Without suta | With suta |
 |---|---|---|
 | Color | Orange on the banner, categories, badges, stars and buttons | One brown accent. Only the discount rate is red |
 | Icons | Emoji | Line icons of one size and stroke |
-| Product cards | Orange BEST, NEW and "popular" pills | Discount rate, price and rating only |
-| Home | No way to search | A search field at the top |
+| Product cards | BEST, NEW and "popular" badges | Discount rate, price and rating |
+| Home | No search field | A search field at the top |
 | Detail bottom bar | Four controls: wish, quantity, add to cart, buy | Wish and Buy. Options and quantity are picked in a sheet that opens from Buy |
-| Bottom tabs (GNB) | Cart is a tab, so the cart screen pins both the tab bar and the order button | Cart is an icon in the header. Tabs are hidden on detail and cart |
+| Bottom tabs | The cart screen pins both the tab bar and the order button | Cart is an icon on the right of the header. Tabs are hidden on detail and cart |
 | Accessibility violations (axe, 6 screens) | 111 color-contrast issues | 0 |
 
-All four suta runs had the home search field, the cart in the header, tabs hidden on detail and cart, the purchase sheet and one set of line icons. Three of the four used a dark green accent instead of brown, and axe found 0 to 2 violations per run. Build time went from 2.3 minutes to 5 to 7 minutes. Method and per-run results are in the [mobile webview e-commerce study](docs/research/2026-10-08-commerce-webview.md) (Korean).
+All four suta runs included a home search field, a cart icon in the header and a purchase sheet, and hid the bottom tabs on detail and cart screens. Three used a dark green accent, and the axe accessibility checker found 0 to 2 violations per run. Generation time increased from 2.3 minutes to 5 to 7 minutes. See the [method and per-run results](docs/research/2026-10-08-commerce-webview.md) (Korean).
 
 ### Desktop: stock trading website
 
@@ -47,34 +41,30 @@ All four suta runs had the home search field, the cart in the header, tabs hidde
 
 ![Stock trading websites built from the same request. Top row without suta (AS-IS), bottom row with suta (TO-BE). Left: home, right: stock detail](docs/assets/securities-as-is-to-be.jpg)
 
-Left is the home screen, right is the stock detail screen. Both are the first screen at 1440px wide. The stock names and prices are made-up data.
+Left is the home screen, right is the stock detail screen, captured at 1440px wide. Stock names and prices are sample data.
 
 We ran it four times without suta and twice with suta 0.10. The image shows the first run of each condition. The table covers all 7 screens.
 
 | | Without suta (4 runs) | With suta 0.10 (2 runs) |
 |---|---|---|
 | Accessibility violations (axe, 1440px) | 63 to 277, mostly color contrast | 0 |
-| Rising-price red | `#e8383d` and similar, 4.1:1 on white | `#d0262d`, 4.5:1 or more |
+| Rising-price color | `#e8383d` and similar, 4.1:1 contrast on white | `#d0262d`, at least 4.5:1 contrast |
 | Order button within the first screen | 2 of 4 runs | Both runs |
 | Search field in the header | All 4 runs | Both runs (with a `/` shortcut hint) |
 | Fixed sell/buy bar on the mobile stock detail | None | Both runs |
-| Build time and cost | 3 to 4.4 minutes, $0.54 to $0.75 | 7.4 to 14.5 minutes, $1.51 to $1.72 |
+| Generation time and cost | 3 to 4.4 minutes, $0.54 to $0.75 | 7.4 to 14.5 minutes, $1.51 to $1.72 |
 
-For each screen we showed a model the two results without labels and asked which was better. There were 14 pairs, each judged twice with the order swapped, so 28 judgments per judge. The judge that is the same model that built the pages picked suta 23 times. A different model picked suta 24 times. Only the search screen was split 2:2. With just 14 pairs, these numbers do not generalize far.
+Two models compared 14 pairs of screens without knowing which used suta. Each pair was shown twice with the order reversed. The judges selected suta in 23 and 24 of their 28 comparisons. One judge was the same model used to generate the screens. These model judgments on a small sample do not establish a general quality difference.
 
-On the first try with suta 0.9, contrast was already fine, but the order panel sat below the first screen and the header had no search field. Version 0.10 added conventions taken from 10 stock trading websites. Method and per-run results are in the [stock trading website study](docs/research/2026-10-09-securities-web.md) (Korean).
+Version 0.10 added order panel and search field placement guidelines based on 10 stock trading websites. See the [stock trading website study](docs/research/2026-10-09-securities-web.md) (Korean) for the method and comparison with the previous version.
 
 ## How it works
 
-suta has three parts.
+The agent reads the [skill document](skills/suta/SKILL.md) for the workflow and layout, color and motion guidelines. These cover reducing repetitive cards, unnecessary decoration and inconsistent spacing and type sizes, and choosing a layout suited to the screen's purpose.
 
-1. The entry skill (`skills/suta/SKILL.md`) is what the agent reads on every UI request. It holds the order of work, the things not to do, and the spacing, type and color values.
-2. The 56 patterns (`skills/suta/patterns/`) are docs and code for UI such as a bottom sheet, bottom tabs or toasts. The agent picks the ones it needs and copies the code into the project. They have no runtime dependencies.
-3. The post-edit check runs only when suta is installed as a plugin. It runs layout and motion checks every time a file is edited, and the agent gets back only the problems on the lines it just changed.
+The [56 patterns](skills/suta/patterns/) include documentation and code for bottom sheets, bottom tabs, toasts and other UI. The agent copies the code it needs into the project. Pattern code requires no additional runtime libraries. The implementation guidelines also cover keyboard use, screen readers and reduced motion.
 
-The instructions and pattern docs are written in Korean. You can still ask in English. In a single check with the request "Build a settings screen for a mobile web app", Claude Code loaded suta, built the screen with English copy, fixed the one warning from the post-edit check and answered in English.
-
-The name comes from the Korean *suta* (手打), "hand-made", as in noodles pulled by hand instead of pressed by a machine.
+When installed as a plugin, suta checks layout and motion after edits and reports issues on changed lines to the agent. The skill and pattern documentation are written in Korean. One recorded check used an English request and produced English UI copy and a reply in English.
 
 ## Installation
 
@@ -102,15 +92,15 @@ The install script, install folders and moving from the old version are in the [
 
 ## Usage
 
-Ask as you normally would. Say "build a login screen" or "polish this button animation", and the agent reads suta and picks the patterns that fit.
+After installation, ask for a task such as "build a login screen" or "polish this button animation". The agent uses suta to select the relevant patterns.
 
 You can try the 56 patterns in the [live demo](https://guksu.github.io/suta/). The list is in the [full guide](docs/guide.en.md#56-patterns).
 
 ## Benchmark
 
-We wrote requests for 8 screen types (detail, form, settings, dashboard, landing, cart, list, interaction) and gave each to both sides twice. The resulting pages were measured in a browser. Below is round 2, measured with suta 0.6.0.
+Requests for eight screen types—detail, form, settings, dashboard, landing, cart, list and interaction—were run twice per condition. The table shows round 2 results: browser measurements of pages generated with suta 0.6.0 and without suta.
 
-| 16 pages (lower is better) | Plain Claude Code | With suta |
+| 16 pages per condition | Without suta | With suta 0.6.0 |
 |---|---|---|
 | Accessibility violations (axe, total) | 87 | 13 |
 | Boxes nested in boxes (total) | 41 | 1 |
@@ -120,35 +110,19 @@ We wrote requests for 8 screen types (detail, form, settings, dashboard, landing
 | Pages that scroll sideways at 320px | 2 | 0 |
 | Pages whose primary button is blue, indigo or violet | 10 | 0 |
 
-On the suta side the most-used text size is 16px. That matches the median of reference websites measured the same way.
+The table includes both accessibility findings and counts of decorative elements. Fewer colors or decorations alone do not establish better design quality.
 
-We also showed a model the two pages without labels and asked which was better, with "tie" as an option. The judge that is the same model that built the pages picked suta 11 times out of 32. A different model picked suta 19 times. There were no ties. The two judges disagree, so these numbers do not say which side looks better.
+In comparisons with the installation condition hidden, two judge models selected suta in 11 and 19 of 32 comparisons. One judge was the same model used to generate the screens; neither chose a tie. Their preferences differed, so the results did not establish a visual preference for either condition.
 
-The median time per page went from 61 to 103 seconds. Method, the judges' reasons and limitations are in the [benchmark doc](docs/benchmark.en.md).
-
-## What it prevents
-
-AI slop is output that looks AI-made. suta makes the agent keep to the rules below and reuse code from 56 patterns whenever it builds UI.
-
-| What AI often builds | With suta |
-|---|---|
-| Every screen on the same template, every section in a card | Each screen type starts from its own skeleton. Groups are made with spacing and thin lines |
-| Random spacing, type and radius values, 9px text | Values come only from tokens (scales). Text is 12px or larger |
-| The framework's default blue as the accent, and a pastel per status | One accent plus error red |
-| Gradients, badges and filled buttons everywhere | Emphasis in one or two places per screen |
-| Emoji as icons | One set of line icons with the same size and stroke |
-| `transition: all`, animating height | Only `transform` and `opacity` move, with durations sized to the motion |
-| Keyboard, screen readers and reduced motion ignored | Every pattern supports accessibility and reduced motion |
-
-The full list is in the [full guide, "What it removes"](docs/guide.en.md#what-it-removes).
+Median generation time per page increased from 61 to 103 seconds. See the [benchmark document](docs/benchmark.en.md) for the method and full results.
 
 ## Limitations
 
-- Each comparison ran only once or twice per condition. Running the same condition again changes the screen structure.
+- Experiments used one to four runs per condition. Results vary even with the same request.
 - The rule values come from 1,104 screens of 31 Korean apps and 19 reference websites. Conventions elsewhere may differ.
 - The agent reads more, so it takes longer and costs more. In the e-commerce test, 2.3 minutes and $0.39 became 5 to 7 minutes and $1.35 to $1.55.
-- The agent never sees the screens it builds. Static checks cannot catch bugs that only show when rendered, such as a component that never loads its styles or a button that does not respond.
-- All tests used the default model of Claude Code only.
+- Static checks alone cannot reliably detect missing styles or unresponsive buttons. The UI still needs to be checked in a browser.
+- Screen generation experiments used only Claude Code's default model.
 
 ## Learn more
 
