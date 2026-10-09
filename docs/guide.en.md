@@ -232,9 +232,9 @@ Each name links to the pattern's manual, which is written in Korean. The demo li
 The layout principles pattern contains these parts.
 
 - 12 principles for order, hierarchy, grouping, alignment and emphasis.
-- Conventions for 15 screen types, including AI chat and shopping apps, plus conventions for bottom tab bars and mobile webviews.
+- Conventions for 16 screen types, including AI chat, shopping apps and stock trading, plus conventions for bottom tab bars and mobile webviews.
 - One set of line icons.
-- Guidance on type, color and surfaces: neutrals, one accent and an error red.
+- Guidance on type, color and surfaces: neutrals, one accent and an error red, plus a separate rise/fall pair for market data.
 - One token set for spacing, type, weight, radius and color.
 - Before and after versions of nine typical AI-made screens.
 

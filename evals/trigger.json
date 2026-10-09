@@ -16,7 +16,9 @@
     "화면 색이랑 폰트 크기가 AI가 만든 티 나, 좀 다듬어줘",
     "AI 채팅 사이드 패널 UI 다듬어줘",
     "모바일 웹뷰에 쓰는 쇼핑몰 홈·상품 상세·장바구니 화면 구현해줘",
-    "하단 GNB 있는 앱 화면 만들어줘"
+    "하단 GNB 있는 앱 화면 만들어줘",
+    "증권 플랫폼 웹사이트 만들어줘, 시세랑 주문 화면 있어야 해",
+    "build the UI for a stock trading screen with a watchlist and an order panel"
   ],
   "shouldNot": [
     "주문 API 엔드포인트 추가해줘",

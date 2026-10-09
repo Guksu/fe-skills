@@ -110,6 +110,15 @@ describe('layoutTokens — 색 역할 (P2 농도·P3 강조·P5 면)', () => {
     expect(contrastRatio(COLOR.onAccent, COLOR.accent)).toBeGreaterThanOrEqual(4.5)
   })
 
+  it('등락 색(상승·하락)은 흰 면과 옅은 바탕에서 4.5:1 이상이고, 흰 글자를 얹어도(매수·매도 버튼) 4.5:1 이상이다', () => {
+    for (const tone of [COLOR.rise, COLOR.fall]) {
+      for (const ground of [COLOR.surface, COLOR.canvas]) expect(contrastRatio(tone, ground)).toBeGreaterThanOrEqual(4.5)
+      expect(contrastRatio(COLOR.onAccent, tone)).toBeGreaterThanOrEqual(4.5)
+    }
+    // 오류 빨강과 다른 값이다 — 시세가 오른 것을 오류처럼 보이게 하지 않는다
+    expect(COLOR.rise).not.toBe(COLOR.danger)
+  })
+
   it('옅은 바탕은 흰 면과 구별되지만 선·글자보다 약하다 — 면은 톤 차이로 나눈다', () => {
     const canvas = contrastRatio(COLOR.canvas, COLOR.surface)
     expect(canvas).toBeGreaterThanOrEqual(1.05)

@@ -8,7 +8,7 @@ Install it in Claude Code or Codex, and they read it every time they build UI.
 [![Deploy demo](https://github.com/Guksu/suta/actions/workflows/deploy-demo.yml/badge.svg)](https://github.com/Guksu/suta/actions/workflows/deploy-demo.yml)
 ![Patterns](https://img.shields.io/badge/suta-56%20patterns-1b1e24)
 ![Dependencies](https://img.shields.io/badge/runtime%20deps-0-555555)
-![Tests](https://img.shields.io/badge/tests-628%20passing-555555)
+![Tests](https://img.shields.io/badge/tests-633%20passing-555555)
 [![License: MIT](https://img.shields.io/badge/license-MIT-555555)](LICENSE)
 
 [**Live demo**](https://guksu.github.io/suta/) · [Full guide](docs/guide.en.md) · [한국어](README.md)
@@ -17,7 +17,9 @@ Install it in Claude Code or Codex, and they read it every time they build UI.
 
 ## AS-IS / TO-BE
 
-We gave Claude Code the request below. One side had nothing installed. The other side had only suta installed. Model and settings were the same.
+We gave Claude Code the requests below. One side had nothing installed. The other side had only suta installed. Model and settings were the same.
+
+### Mobile webview: e-commerce
 
 > Build the e-commerce screens for a mobile webview: home, product list, product detail, my page, cart, settings, and a GNB (bottom navigation). *(Translated from the original Korean request.)*
 
@@ -38,6 +40,29 @@ We ran it once without suta and four times with suta 0.8. The bottom row is the 
 | Accessibility violations (axe, 6 screens) | 111 color-contrast issues | 0 |
 
 All four suta runs had the home search field, the cart in the header, tabs hidden on detail and cart, the purchase sheet and one set of line icons. Three of the four used a dark green accent instead of brown, and axe found 0 to 2 violations per run. Build time went from 2.3 minutes to 5 to 7 minutes. Method and per-run results are in the [mobile webview e-commerce study](docs/research/2026-10-08-commerce-webview.md) (Korean).
+
+### Desktop: stock trading website
+
+> Build a stock trading platform website. It needs home (market overview), stock detail (chart, order book, order), my assets, watchlist, search, trade history, settings and a GNB. *(Translated from the original Korean request.)*
+
+![Stock trading websites built from the same request. Top row without suta (AS-IS), bottom row with suta (TO-BE). Left: home, right: stock detail](docs/assets/securities-as-is-to-be.jpg)
+
+Left is the home screen, right is the stock detail screen. Both are the first screen at 1440px wide. The stock names and prices are made-up data.
+
+We ran it four times without suta and twice with suta 0.10. The image shows the first run of each condition. The table covers all 7 screens.
+
+| | Without suta (4 runs) | With suta 0.10 (2 runs) |
+|---|---|---|
+| Accessibility violations (axe, 1440px) | 63 to 277, mostly color contrast | 0 |
+| Rising-price red | `#e8383d` and similar, 4.1:1 on white | `#d0262d`, 4.5:1 or more |
+| Order button within the first screen | 2 of 4 runs | Both runs |
+| Search field in the header | All 4 runs | Both runs (with a `/` shortcut hint) |
+| Fixed sell/buy bar on the mobile stock detail | None | Both runs |
+| Build time and cost | 3 to 4.4 minutes, $0.54 to $0.75 | 7.4 to 14.5 minutes, $1.51 to $1.72 |
+
+For each screen we showed a model the two results without labels and asked which was better. There were 14 pairs, each judged twice with the order swapped, so 28 judgments per judge. The judge that is the same model that built the pages picked suta 23 times. A different model picked suta 24 times. Only the search screen was split 2:2. With just 14 pairs, these numbers do not generalize far.
+
+On the first try with suta 0.9, contrast was already fine, but the order panel sat below the first screen and the header had no search field. Version 0.10 added conventions taken from 10 stock trading websites. Method and per-run results are in the [stock trading website study](docs/research/2026-10-09-securities-web.md) (Korean).
 
 ## How it works
 
@@ -130,7 +155,7 @@ The full list is in the [full guide, "What it removes"](docs/guide.en.md#what-it
 - [Full guide](docs/guide.en.md): every install option, how it works, the post-edit check, 56 patterns, development and contributing
 - [Benchmark](docs/benchmark.en.md): method, all metrics and the judges' reasons for plain Claude Code vs suta
 - [Agent instructions](AGENTS.md) (Korean): for coding agents working in this repository
-- Research (Korean): [Layout principles](docs/research/2026-10-06-layout-principles.md) · [Screen conventions](docs/research/2026-10-07-screen-conventions.md) · [Color count and AI chat](docs/research/2026-10-08-chat-color.md) · [Mobile webview e-commerce](docs/research/2026-10-08-commerce-webview.md)
+- Research (Korean): [Layout principles](docs/research/2026-10-06-layout-principles.md) · [Screen conventions](docs/research/2026-10-07-screen-conventions.md) · [Color count and AI chat](docs/research/2026-10-08-chat-color.md) · [Mobile webview e-commerce](docs/research/2026-10-08-commerce-webview.md) · [Stock trading website](docs/research/2026-10-09-securities-web.md)
 
 ## License
 
