@@ -120,10 +120,27 @@ export const ICONS = {
 
 export type IconName = keyof typeof ICONS
 
+/** 채운 모양에서 바탕색으로 남길 안쪽 선(도형 순번) — 채움과 같은 색이면 손잡이·문이 묻혀 덩어리로 보인다.
+ * 바탕이 흰 면이 아니면 아이콘을 감싼 요소에 `--icon-cutout`을 그 바탕색으로 둔다 */
+export const FILL_CUTOUTS: Partial<Record<IconName, number[]>> = {
+  home: [0],
+  bag: [1, 2],
+}
+export const CUTOUT_STYLE = 'var(--icon-cutout, #fff)'
+
+/** 그리는 순서 — 채울 때는 안쪽 선을 맨 뒤로 보낸다(정의에서 앞에 있으면 나중에 칠한 외곽이 덮는다) */
+export const drawOrder = ({ name, filled }: { name: IconName; filled: boolean }) => {
+  const cutouts = filled ? (FILL_CUTOUTS[name] ?? []) : []
+  const nodes = ICONS[name].map((node, index) => ({ node, index, cutout: cutouts.includes(index) }))
+  return [...nodes.filter((item) => !item.cutout), ...nodes.filter((item) => item.cutout)]
+}
+
 /** SVG 문자열 — 순수 JS·서버 렌더용. 뜻이 있는 아이콘(글자 없이 혼자 쓰는 버튼)은 label을 주고, 옆에 글자가 있으면 비워 숨긴다.
  * filled는 닫힌 모양(home·heart·star·user·bell·bag)에만 — 선택된 탭·눌린 찜처럼 상태를 채움으로 보일 때 쓴다 */
 export const iconSvg = ({ name, size = 24, strokeWidth = 1.75, label, filled = false }: { name: IconName; size?: number; strokeWidth?: number; label?: string; filled?: boolean }) => {
-  const body = ICONS[name].map(([tag, attrs]) => `<${tag} ${Object.entries(attrs).map(([key, value]) => `${key}="${value}"`).join(' ')}/>`).join('')
+  const body = drawOrder({ name, filled })
+    .map(({ node: [tag, attrs], cutout }) => `<${tag} ${Object.entries(attrs).map(([key, value]) => `${key}="${value}"`).join(' ')}${cutout ? ` style="stroke:${CUTOUT_STYLE};fill:none"` : ''}/>`)
+    .join('')
   const a11y = label ? `role="img" aria-label="${label.replace(/"/g, '&quot;')}"` : 'aria-hidden="true"'
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="${filled ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="${strokeWidth}" stroke-linecap="round" stroke-linejoin="round" focusable="false" ${a11y}>${body}</svg>`
 }

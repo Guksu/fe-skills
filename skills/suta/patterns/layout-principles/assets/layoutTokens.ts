@@ -38,6 +38,8 @@ export const COLOR = {
   onAccent: '#ffffff',
   danger: '#c8341f',
   success: '#13795b',
+  rise: '#d0262d',
+  fall: '#1b64da',
 } as const
 
 /** 크기의 하한·상한 */

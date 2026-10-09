@@ -262,7 +262,7 @@ describe('auditLayout — 옅은 색 면 (tinted-surface)', () => {
     expect(audit('Row.tsx', text).find((f) => f.rule === 'tinted-surface')?.lines).toEqual([3, 4])
   })
 
-  it('suta 토큰 파일(무채색 + 강조색 거의 검정 + 오류 빨강)은 조용하다', () => {
+  it('suta 토큰 파일(무채색 + 강조색 거의 검정 + 오류 빨강 + 등락 색 짝)은 조용하다', () => {
     const tokens = readFileSync(resolve(process.cwd(), '../skills/suta/patterns/layout-principles/assets/layout-tokens.css'), 'utf8')
     expect(audit('layout-tokens.css', tokens).filter((f) => f.rule === 'tinted-surface' || f.rule === 'hue-count')).toEqual([])
   })
@@ -300,6 +300,28 @@ describe('auditLayout — 유채색 계열 수 (hue-count)', () => {
       '}',
     ].join('\n')
     expect(audit('a.css', css).filter((f) => f.rule === 'hue-count' || f.rule === 'tinted-surface')).toEqual([])
+  })
+
+  it('등락 색 짝(이름에 rise·fall·up·down)은 시세의 의미 색이라 강조색 + 오류 빨강과 따로 센다', () => {
+    const css = [
+      ':root {',
+      '  --color-accent: #1f6b4f;',
+      '  --color-danger: #c8341f;',
+      '  --color-rise: #d0262d;',
+      '  --color-fall: #1b64da;',
+      '  --price-up: #d0262d;',
+      '  --price-down: #1b64da;',
+      '}',
+      '.change.up { color: var(--color-rise); }',
+    ].join('\n')
+    expect(audit('a.css', css).filter((f) => f.rule === 'hue-count')).toEqual([])
+  })
+
+  it('등락 이름이 아닌 변수의 파랑은 그대로 계열로 센다', () => {
+    const css = [':root {', '  --color-accent: #1f6b4f;', '  --color-danger: #c8341f;', '  --color-rise: #d0262d;', '  --link: #1b64da;', '}'].join('\n')
+    const findings = audit('a.css', css).filter((f) => f.rule === 'hue-count')
+    expect(findings).toHaveLength(1)
+    expect(findings[0].lines).toEqual([2, 3, 5])
   })
 
   it('Tailwind 색 이름도 계열로 센다', () => {

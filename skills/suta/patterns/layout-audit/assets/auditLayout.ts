@@ -17,7 +17,7 @@
  *  centered-text-block warn — 문단(여러 줄 글)의 가운데 정렬                                                P6
  *  image-distort       warn — object-fit: fill·object-fill (사진이 늘어난다)                                 P9
  *  tinted-surface      warn — 연노랑·살구·연파랑 같은 옅은 유채색 바탕(변수 정의 포함). 파일마다 한 번 요약          P5·tone
- *  hue-count           warn — 한 파일에 유채색 계열 3종 이상(강조색 + 오류 빨강을 넘는다)                        tone
+ *  hue-count           warn — 한 파일에 유채색 계열 3종 이상(강조색 + 오류 빨강을 넘는다). 등락 색 변수(--*-rise·fall 등)는 뺀다   tone
  *  emoji-icon          warn — 아이콘·사진 자리의 이모지(그림 문자). 글자 기호(★ ✓ ×)와 주석은 뺀다. 파일마다 한 번 요약       tone
  *  viewport-height     warn — 100vh·h-screen에 dvh·svh 짝이 없다(모바일 브라우저·웹뷰에서 아래가 잘린다)          웹뷰
  *  input-zoom          warn — 16px 미만 글자 입력칸(iOS가 초점을 받을 때 화면을 확대한다)                       웹뷰
@@ -422,11 +422,15 @@ type Tally = {
 
 const newTally = (): Tally => ({ sizes: new Map(), weights: new Map(), radii: new Map(), offScale: [], effects: [], tints: [], hues: new Map(), emoji: new Map() })
 
-/** 선언 하나의 색 — 계열은 모든 색 속성·변수에서, 옅은 면은 바탕과 변수 정의에서 센다 */
+/** 등락 색 짝을 정의하는 변수 — 시세·손익의 상승·하락 색은 강조색·오류 빨강과 따로 센다(tone.md 2절) */
+const TREND_VAR = /^--(?:[\w-]*-)?(rise|fall|up|down|gain|loss|bull|bear)(?:-[\w-]*)?$/
+
+/** 선언 하나의 색 — 계열은 모든 색 속성·변수에서(등락 색 변수는 빼고), 옅은 면은 바탕과 변수 정의에서 센다 */
 const tallyColors = ({ prop, value, line, tally }: { prop: string; value: string; line: number; tally: Tally }) => {
   const colors = colorsIn(value)
   if (colors.length === 0) return
-  for (const color of colors) if (color.a >= 0.05 && isChromatic(color)) remember({ map: tally.hues, key: familyOf(color), line })
+  const trend = TREND_VAR.test(prop)
+  for (const color of colors) if (!trend && color.a >= 0.05 && isChromatic(color)) remember({ map: tally.hues, key: familyOf(color), line })
   const surface = /^background(-color|-image)?$/.test(prop) || prop.startsWith('--')
   if (surface && colors.some(isTint)) tally.tints.push(line)
 }
@@ -760,7 +764,7 @@ const summarizeTally = ({ tally, push }: { tally: Tally; push: Push }) => {
     push({ line: lines[0], lines, rule: 'tinted-surface', severity: 'warn', message: `옅은 색 면 ${lines.length}곳(${lines.slice(0, 8).join('·')}줄) — 연노랑·살구·연파랑 같은 바탕은 잘 만든 앱 화면의 87%에 없다`, fix: '면은 흰 면과 옅은 회색(--color-canvas)으로 나누고, 상태는 글자·아이콘 색으로. 옅은 색 바탕은 선택 상태 하나에 강조색으로만 (tone.md)' })
   }
   if (tally.hues.size >= HUE_LIMIT) {
-    push({ line: firstLine(tally.hues), lines: linesOf(tally.hues), rule: 'hue-count', severity: 'warn', message: `유채색 계열 ${tally.hues.size}종(${list(tally.hues)}) — 잘 만든 서비스의 81%는 UI에 체계 색을 2종 이하로 쓴다`, fix: '무채색 + 강조색 하나(브랜드색) + 오류 빨강. 성공·주의·정보는 글자와 아이콘 모양으로 구분한다 (tone.md)' })
+    push({ line: firstLine(tally.hues), lines: linesOf(tally.hues), rule: 'hue-count', severity: 'warn', message: `유채색 계열 ${tally.hues.size}종(${list(tally.hues)}) — 잘 만든 서비스의 81%는 UI에 체계 색을 2종 이하로 쓴다`, fix: '무채색 + 강조색 하나(브랜드색) + 오류 빨강. 성공·주의·정보는 글자와 아이콘 모양으로 구분한다. 시세의 상승·하락 색은 --color-rise·--color-fall 변수로 두면 따로 센다 (tone.md)' })
   }
   if (tally.emoji.size > 0) {
     const lines = linesOf(tally.emoji)
